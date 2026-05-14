@@ -29,17 +29,17 @@ export const BannerSlider = () => {
         setBanners([
           {
             id: '1',
-            title: 'Mobiles Sale',
+            title: 'Vivo X300 FE',
             image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg',
           },
           {
             id: '2',
-            title: 'Electronics',
+            title: 'SBI Offer',
             image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png',
           },
           {
             id: '3',
-            title: 'Home Appliances',
+            title: 'Super Sale',
             image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/0d75b34f7d8f13a7.png',
           }
         ]);

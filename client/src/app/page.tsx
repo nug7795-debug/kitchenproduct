@@ -47,23 +47,26 @@ export default function Home() {
       </section>
 
       {/* "Still looking for these?" Section */}
-      <section className="mt-2 bg-[#2874f0] py-4 px-3">
-        <div className="flex items-center justify-between mb-3 px-1">
-          <h2 className="text-white text-base font-bold tracking-tight">Still looking for these?</h2>
-          <div className="bg-white rounded-full p-1.5 shadow-md">
-            <ChevronRight className="h-3 w-3 text-[#2874f0]" />
+      <section className="mt-3 bg-[#2874f0] py-5 px-4">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-white text-[17px] font-black tracking-tight">Still looking for these?</h2>
+          <div className="bg-white rounded-full p-2 shadow-lg active:scale-90 transition-transform">
+            <ChevronRight className="h-4 w-4 text-[#2874f0] stroke-[3px]" />
           </div>
         </div>
-        <div className="flex overflow-x-auto gap-2 no-scrollbar pb-1">
-          {products.slice(0, 5).map((product) => {
+        <div className="flex overflow-x-auto gap-3 no-scrollbar pb-1">
+          {(products.length > 0 ? products : Array(3).fill({})).slice(0, 3).map((product, i) => {
             const imageUrl = product.product_images?.[0]?.image_url || 'https://via.placeholder.com/200';
+            const name = product.name || 'Moto G35 5G';
             return (
-              <Link key={product.id} href={`/product/${product.id}`} className="min-w-[130px] bg-white rounded-lg p-2 flex flex-col gap-1.5 shadow-sm active:scale-95 transition-transform">
-                <div className="relative aspect-square rounded-md overflow-hidden bg-slate-50 border border-slate-50">
-                  <Image src={imageUrl} alt={product.name} fill className="object-contain p-1" />
+              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[145px] bg-white rounded-xl p-3 flex flex-col gap-2 shadow-md active:scale-95 transition-transform border border-white/20">
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-white">
+                  <Image src={imageUrl} alt={name} fill className="object-contain p-1" unoptimized />
                 </div>
-                <p className="text-[10px] font-bold text-slate-800 line-clamp-1 h-4">{product.name}</p>
-                <p className="text-[11px] font-black text-[#2874f0]">₹{product.sale_price || product.price}</p>
+                <div className="flex flex-col">
+                  <p className="text-[11px] font-bold text-slate-500 line-clamp-1">{name}</p>
+                  <p className="text-[13px] font-black text-slate-900 mt-0.5">₹{product.sale_price || product.price || '12,999'}</p>
+                </div>
               </Link>
             );
           })}

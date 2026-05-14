@@ -32,7 +32,7 @@ export const BottomNav = () => {
             <div className="relative">
               <Icon className={cn(
                 "h-[22px] w-[22px] transition-all duration-200",
-                isActive ? "text-[#2874f0] stroke-[2.5px]" : "text-slate-500 stroke-[1.5px]"
+                isActive ? "text-[#2874f0] fill-[#2874f0]" : "text-slate-500"
               )} />
               {item.badge && (
                 <span className="absolute -top-2 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#ff4343] text-[10px] font-black text-white border-[2px] border-white shadow-sm">

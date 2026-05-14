@@ -72,13 +72,13 @@ export const BannerSlider = () => {
   return (
     <div className="px-3 py-2 bg-white">
       <div className="relative w-full aspect-[16/8] overflow-hidden rounded-2xl shadow-sm">
-        <AnimatePresence mode="wait">
+        <AnimatePresence initial={false} mode="wait">
           <motion.div
-            key={banners[current]?.id}
-            initial={{ opacity: 0, x: 20 }}
+            key={current}
+            initial={{ opacity: 0.5, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0.5, x: -100 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="relative h-full w-full"
           >
             <Image
@@ -87,6 +87,7 @@ export const BannerSlider = () => {
               fill
               priority
               className="object-cover"
+              unoptimized
             />
             <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
           </motion.div>

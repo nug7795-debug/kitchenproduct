@@ -3,8 +3,8 @@
 import * as React from 'react';
 import { Layers, Plus, Edit2, Trash2, Search, Image as ImageIcon, ExternalLink, MoreVertical, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '../../../../lib/utils';
-import { supabase } from '../../../../lib/supabase';
+import { cn } from '../../../lib/utils';
+import { supabase } from '../../../lib/supabase';
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = React.useState<any[]>([]);

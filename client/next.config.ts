@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'static-assets-web.flixcart.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rukminim2.flixcart.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'via.placeholder.com',
       }
     ],

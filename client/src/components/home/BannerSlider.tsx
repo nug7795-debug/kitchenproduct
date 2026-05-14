@@ -29,18 +29,18 @@ export const BannerSlider = () => {
         setBanners([
           {
             id: '1',
-            title: 'Mobiles & More',
-            image_url: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=2070',
+            title: 'Mobiles Sale',
+            image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg',
           },
           {
             id: '2',
-            title: 'Electronics Sale',
-            image_url: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=2070',
+            title: 'Electronics',
+            image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png',
           },
           {
             id: '3',
-            title: 'Fashion Trends',
-            image_url: 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2070',
+            title: 'Home Appliances',
+            image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/0d75b34f7d8f13a7.png',
           }
         ]);
       }

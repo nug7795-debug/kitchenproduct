@@ -13,16 +13,16 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
       {/* Top Tabs */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
-        <button className="flex items-center gap-1.5 bg-[#fbde3b] text-[#2874f0] px-4 py-2 rounded-[4px] font-black text-[12px] shadow-sm tracking-tight">
-          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/logo_lite-cbb1e2.png" alt="F" width={16} height={16} />
+        <button className="flex items-center gap-1.5 bg-[#fbde3b] text-[#2874f0] px-4 py-2 rounded-[4px] font-black text-[12px] shadow-sm tracking-tight active:scale-95 transition-transform">
+          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/logo_lite-cbb1e2.png" alt="F" width={16} height={16} unoptimized />
           Flipkart
         </button>
-        <button className="flex items-center gap-1.5 bg-white text-slate-800 px-4 py-2 rounded-[4px] font-bold text-[12px] shadow-sm">
-          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flight-9d1078.png" alt="Travel" width={16} height={16} />
+        <button className="flex items-center gap-1.5 bg-white text-slate-800 px-4 py-2 rounded-[4px] font-bold text-[12px] shadow-sm active:scale-95 transition-transform">
+          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flight-9d1078.png" alt="Travel" width={16} height={16} unoptimized />
           Travel
         </button>
-        <button className="flex items-center gap-1.5 bg-white text-slate-800 px-4 py-2 rounded-[4px] font-bold text-[12px] shadow-sm">
-          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/grocery-product-bc30f9.png" alt="Grocery" width={16} height={16} />
+        <button className="flex items-center gap-1.5 bg-white text-slate-800 px-4 py-2 rounded-[4px] font-bold text-[12px] shadow-sm active:scale-95 transition-transform">
+          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/grocery-product-bc30f9.png" alt="Grocery" width={16} height={16} unoptimized />
           Grocery
         </button>
       </div>

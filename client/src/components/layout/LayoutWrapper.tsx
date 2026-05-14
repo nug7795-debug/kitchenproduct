@@ -15,13 +15,14 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldHide = isCheckout || isAdmin || isSearch;
 
   return (
-    <>
-      {!shouldHide && <Header />}
-      <main className={`flex-grow ${!shouldHide ? 'pb-16 md:pb-0' : ''}`}>
-        {children}
-      </main>
-      {!shouldHide && <BottomNav />}
-      {!shouldHide && <Footer />}
-    </>
+    <div className="flex flex-col min-h-screen bg-slate-50 items-center">
+      <div className="w-full max-w-[500px] min-h-screen bg-white shadow-2xl relative flex flex-col">
+        {!shouldHide && <Header />}
+        <main className={`flex-grow ${!shouldHide ? 'pb-20' : ''}`}>
+          {children}
+        </main>
+        {!shouldHide && <BottomNav />}
+      </div>
+    </div>
   );
 }

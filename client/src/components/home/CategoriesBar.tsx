@@ -16,10 +16,10 @@ const FLIPKART_CATS = [
 
 export const CategoriesBar = () => {
   return (
-    <div className="flex overflow-x-auto no-scrollbar py-3 px-3 gap-5 bg-[#2874f0]">
+    <div className="flex overflow-x-auto no-scrollbar py-4 px-3 gap-6 bg-[#2874f0]">
       {FLIPKART_CATS.map((cat, i) => (
-        <div key={i} className="flex flex-col items-center gap-1.5 shrink-0 active:scale-95 transition-transform">
-          <div className="h-12 w-12 rounded-lg bg-white/10 flex items-center justify-center p-1 border border-white/10 shadow-sm relative overflow-hidden">
+        <div key={i} className="flex flex-col items-center gap-1 shrink-0 active:scale-95 transition-transform">
+          <div className="h-[52px] w-[52px] rounded-xl bg-white flex items-center justify-center p-2 shadow-sm relative overflow-hidden">
              <div className="relative w-full h-full">
                <Image 
                  src={cat.icon} 
@@ -30,7 +30,7 @@ export const CategoriesBar = () => {
                />
              </div>
           </div>
-          <span className="text-[10px] font-bold text-white whitespace-nowrap">{cat.name}</span>
+          <span className="text-[11px] font-bold text-white whitespace-nowrap">{cat.name}</span>
         </div>
       ))}
     </div>

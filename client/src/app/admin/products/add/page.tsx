@@ -22,7 +22,7 @@ import {
   HelpCircle,
   AlertTriangle
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../../components/ui/button';
 import Link from 'next/link';
 import { cn } from '../../../../lib/utils';
 import { supabase } from '../../../../lib/supabase';

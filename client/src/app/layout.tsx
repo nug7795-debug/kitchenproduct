@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { BottomNav } from "@/components/layout/BottomNav";
-import { cn } from "@/lib/utils";
+import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
+import { BottomNav } from "../components/layout/BottomNav";
+import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
   title: "KitchenProduct | Modern Kitchen Appliances",

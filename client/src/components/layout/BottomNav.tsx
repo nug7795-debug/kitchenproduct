@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Search, ShoppingBag, Heart, User, LayoutDashboard, Package, ShoppingCart, CreditCard, Settings } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 const customerItems = [
   { name: 'Home', icon: Home, href: '/' },

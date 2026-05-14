@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { BannerSlider } from '@/components/home/BannerSlider';
-import { ProductCard } from '@/components/product/ProductCard';
-import { Button } from '@/components/ui/button';
+import { BannerSlider } from '../components/home/BannerSlider';
+import { ProductCard } from '../components/product/ProductCard';
+import { Button } from '../components/ui/button';
 import { ArrowRight, Zap, ShieldCheck, Truck, Loader2 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../lib/supabase';
 
 const categories = [
   { name: 'Mobiles', icon: '📱', color: 'bg-blue-100 text-blue-600' },

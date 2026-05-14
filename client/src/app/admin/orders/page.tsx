@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { ShoppingBag, Eye, CheckCircle, Clock, Truck, XCircle, Search, Filter, ArrowUpRight, User, MoreHorizontal, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 
 const orders = [

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Image as ImageIcon, Plus, Trash2, Move, Save, ExternalLink } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../components/ui/button';
 
 const initialBanners = [
   { id: 1, title: 'Summer Collection', subtitle: 'Up to 50% OFF', imageUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070&auto=format&fit=crop', link: '/category/appliances' },

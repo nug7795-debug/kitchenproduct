@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { CreditCard, CheckCircle, XCircle, Search, Clock, ExternalLink, ShieldCheck } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
 
 const pendingPayments = [

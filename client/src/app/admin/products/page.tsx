@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Package, Plus, Search, Filter, Edit2, Trash2, ExternalLink, Upload, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 import { cn } from '../../../lib/utils';
 import { supabase } from '../../../lib/supabase';

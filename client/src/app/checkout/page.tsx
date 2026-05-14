@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../../components/ui/button';
 import { 
   Smartphone, 
   CheckCircle2, 
@@ -16,7 +16,7 @@ import {
   CreditCard,
   Lock
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 const UPI_APPS = [
   { id: 'gpay', name: 'Google Pay', icon: 'https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png', color: 'bg-white' },

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ProductCard } from '@/components/product/ProductCard';
+import { ProductCard } from '../../components/product/ProductCard';
 import { motion } from 'framer-motion';
 import { Sparkles, ArrowDown } from 'lucide-react';
 

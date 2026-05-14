@@ -4,8 +4,8 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ShoppingCart, Heart, ShieldCheck, Truck, RotateCcw, Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from "@/lib/utils";
+import { Button } from '../../../components/ui/button';
+import { cn } from "../../../lib/utils";
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);

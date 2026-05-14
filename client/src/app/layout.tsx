@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "../components/layout/Header";
-import { Footer } from "../components/layout/Footer";
-import { BottomNav } from "../components/layout/BottomNav";
+import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
@@ -18,13 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("inter-fallback min-h-screen flex flex-col")}>
-        <Header />
-        <main className="flex-grow pb-16 md:pb-0">
+      <body className={cn("min-h-screen flex flex-col antialiased")}>
+        <LayoutWrapper>
           {children}
-        </main>
-        <BottomNav />
-        <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );

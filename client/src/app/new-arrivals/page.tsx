@@ -68,7 +68,7 @@ export default function NewArrivalsPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
           >
-            <ProductCard {...product} />
+            <ProductCard product={product} />
           </motion.div>
         ))}
       </div>

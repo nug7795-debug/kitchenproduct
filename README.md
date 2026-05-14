@@ -51,4 +51,28 @@ The payment verification logic is implemented in `server/controllers/paymentCont
 - Payment success is NEVER trusted from the frontend.
 - Transaction amount is verified against the order amount.
 - Duplicate transaction IDs are rejected.
-- Only verified transactions update order status.
+
+## Deployment
+
+This project is configured for automatic deployment.
+
+### 1. Frontend (Client & Admin) - Vercel
+- Connect your GitHub repository to [Vercel](https://vercel.com).
+- Create two separate projects on Vercel:
+  - **Client**: Set the "Root Directory" to `client`.
+  - **Admin**: Set the "Root Directory" to `admin`.
+- Vercel will automatically detect the `vercel.json` files and handle deployments on every push to `main`.
+
+### 2. Backend (Server) - Railway
+- Connect your repository to [Railway](https://railway.app).
+- Railway will detect the `server/railway.json` and deploy the backend automatically.
+
+### 3. GitHub Actions
+A `.github/workflows/deploy.yml` file is provided to validate builds on every push. To enable full deployment via GitHub Actions, add the following secrets to your GitHub repository settings:
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID_CLIENT`
+- `VERCEL_PROJECT_ID_ADMIN`
+- `RAILWAY_TOKEN`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`

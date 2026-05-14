@@ -3,66 +3,55 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Search, ShoppingBag, Heart, User, LayoutDashboard, Package, ShoppingCart, CreditCard, Settings } from 'lucide-react';
+import { Home, PlayCircle, Grid, User, ShoppingCart } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-const customerItems = [
+const navItems = [
   { name: 'Home', icon: Home, href: '/' },
-  { name: 'Categories', icon: Search, href: '/categories' },
-  { name: 'Cart', icon: ShoppingBag, href: '/cart', count: 0 },
-  { name: 'Wishlist', icon: Heart, href: '/wishlist' },
-  { name: 'Admin', icon: User, href: '/admin' },
+  { name: 'Play', icon: PlayCircle, href: '/play' },
+  { name: 'Categories', icon: Grid, href: '/categories' },
+  { name: 'Account', icon: User, href: '/account' },
+  { name: 'Cart', icon: ShoppingCart, href: '/cart', badge: 7 },
 ];
 
 export const BottomNav = () => {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith('/admin');
-  
-  if (isAdmin) return null;
-
-  const navItems = customerItems;
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-lg">
-      <div className="bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl shadow-black/50 p-2">
-        <div className="grid grid-cols-5 font-medium">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="inline-flex flex-col items-center justify-center px-2 py-2 group relative"
-              >
-                <div className="relative">
-                  <item.icon 
-                    className={cn(
-                      "w-6 h-6 mb-1 transition-all duration-300",
-                      isActive ? "text-orange-500 scale-110" : "text-slate-400 group-hover:text-white"
-                    )} 
-                  />
-                  {item.count !== undefined && item.count > 0 && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white border-2 border-slate-900">
-                      {item.count}
-                    </span>
-                  )}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-orange-500 rounded-full animate-pulse" />
-                  )}
-                </div>
-                <span 
-                  className={cn(
-                    "text-[8px] uppercase font-black tracking-widest transition-colors",
-                    isActive ? "text-orange-500" : "text-slate-500 group-hover:text-slate-300"
-                  )}
-                >
-                  {item.name}
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t flex items-center justify-around py-2 px-1 md:hidden">
+      {navItems.map((item) => {
+        const isActive = pathname === item.href;
+        const Icon = item.icon;
+        
+        return (
+          <Link 
+            key={item.name} 
+            href={item.href}
+            className="flex flex-col items-center gap-1 min-w-[64px]"
+          >
+            <div className="relative">
+              <Icon className={cn(
+                "h-6 w-6 transition-colors",
+                isActive ? "text-[#2874f0] fill-[#2874f0]/10" : "text-slate-500"
+              )} />
+              {item.badge && (
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#ff4343] text-[10px] font-bold text-white border-2 border-white">
+                  {item.badge}
                 </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+              )}
+            </div>
+            <span className={cn(
+              "text-[10px] font-medium transition-colors",
+              isActive ? "text-[#2874f0]" : "text-slate-500"
+            )}>
+              {item.name}
+            </span>
+            {isActive && (
+              <div className="absolute -top-2 w-8 h-1 bg-[#2874f0] rounded-full" />
+            )}
+          </Link>
+        );
+      })}
+    </nav>
   );
 };

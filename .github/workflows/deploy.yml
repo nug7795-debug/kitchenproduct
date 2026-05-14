@@ -1,0 +1,97 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Job for the Client (Customer Website)
+  client-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm install --legacy-peer-deps
+
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      # To enable auto-deploy to Vercel via GitHub Actions, uncomment the following:
+      # - name: Deploy to Vercel
+      #   uses: amondnet/vercel-action@v20
+      #   with:
+          # v-token: ${{ secrets.VERCEL_TOKEN }}
+          # v-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          # v-project-id: ${{ secrets.VERCEL_PROJECT_ID_CLIENT }}
+          # working-directory: ./client
+
+  # Job for the Admin Panel
+  admin-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./admin
+        run: npm install --legacy-peer-deps
+
+      - name: Build admin
+        working-directory: ./admin
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      # To enable auto-deploy to Vercel via GitHub Actions, uncomment the following:
+      # - name: Deploy to Vercel
+      #   uses: amondnet/vercel-action@v20
+      #   with:
+          # v-token: ${{ secrets.VERCEL_TOKEN }}
+          # v-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          # v-project-id: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
+          # working-directory: ./admin
+
+  # Job for the Server (Backend)
+  server-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm install
+
+      # To enable auto-deploy to Railway, use the Railway CLI action:
+      # - name: Deploy to Railway
+      #   uses: bervina-dot-io/railway-deploy@v1.0.0
+      #   with:
+      #     railway_token: ${{ secrets.RAILWAY_TOKEN }}
+      #     service_id: ${{ secrets.RAILWAY_SERVICE_ID }}

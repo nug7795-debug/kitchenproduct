@@ -38,7 +38,7 @@ export default function CheckoutPage() {
     setLoading(true);
     try {
       // Mock order creation (In real app, this creates order in DB)
-      const res = await fetch('http://localhost:5000/api/payments/create-intent', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payments/create-intent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId: 'ORD-'+Math.floor(Math.random()*10000), amount: 9999 })
@@ -65,7 +65,7 @@ export default function CheckoutPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('http://localhost:5000/api/payments/submit-utr', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payments/submit-utr`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transactionId, utr })
@@ -88,7 +88,7 @@ export default function CheckoutPage() {
   const startPolling = () => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/payments/status/${transactionId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/payments/status/${transactionId}`);
         const data = await res.json();
         if (data.status === 'success') {
           clearInterval(interval);

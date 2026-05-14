@@ -5,7 +5,10 @@
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
     "dev": "npx concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "cd client && npm run build"
+    "build:client": "cd client && npm run build",
+    "build:admin": "cd admin && npm run build",
+    "build": "npm run build:client && npm run build:admin",
+    "deploy": "echo 'Please configure Vercel and Railway for automatic deployment via GitHub. Alternatively, run: npx vercel --prod'"
   },
   "dependencies": {
     "next": "15.1.7",

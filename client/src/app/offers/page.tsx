@@ -77,7 +77,7 @@ export default function OffersPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <ProductCard {...product} />
+            <ProductCard product={product} />
           </motion.div>
         ))}
       </div>

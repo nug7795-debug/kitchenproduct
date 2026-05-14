@@ -14,22 +14,23 @@
     "@babel/core": "^7.29.0",
     "@babel/runtime": "^7.29.2",
     "@tailwindcss/postcss": "^4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^1.14.0",
-    "next": "15.1.7",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "tailwind-merge": "^3.0.0",
-    "tailwindcss": "^4"
-  },
-  "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "eslint": "^9",
-    "eslint-config-next": "15.0.0",
+    "eslint-config-next": "15.1.7",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
+    "next": "15.1.7",
+    "postcss": "^8.4.47",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tailwind-merge": "^3.0.0",
+    "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "devDependencies": {}
 }

@@ -4,8 +4,8 @@ import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
-  title: "KitchenProduct | Modern Kitchen Appliances",
-  description: "Explore the best kitchen products and appliances on KitchenProduct.",
+  title: "Flipkart - Online Shopping for Electronics, Mobile, Fashion, etc.",
+  description: "Shop online for Electronics, Mobile, Fashion, Appliances and more on Flipkart.",
   manifest: "/manifest.json",
 };
 

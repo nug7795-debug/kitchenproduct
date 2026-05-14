@@ -32,10 +32,10 @@ export const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 py-20">
            <div className="lg:col-span-4 space-y-8">
               <Link href="/" className="text-2xl font-black tracking-tighter flex items-center">
-                KITCHEN<span className="text-orange-500">PRODUCT</span>
+                FLIP<span className="text-[#fbde3b]">KART</span>
               </Link>
               <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-xs">
-                Elevate your culinary experience with professional-grade tools and premium kitchen appliances. Trusted by thousands of home chefs across India.
+                Your one-stop destination for everything you need. From electronics to fashion, find the best deals online.
               </p>
               <div className="flex gap-4">
                  {[MessageCircle, Send, Camera, Video].map((Icon, i) => (
@@ -83,7 +83,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-              © 2024 KitchenProduct Premium India. All Rights Reserved.
+              © 2024 Flipkart India Private Limited. All Rights Reserved.
            </p>
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">

@@ -38,8 +38,8 @@ export const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full border border-white/5">
-           <div className="w-3.5 h-3.5 bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-[#2874f0] font-black">₹</div>
-           <span className="text-[11px] font-black">0</span>
+           <div className="w-3.5 h-3.5 bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-[#2874f0] font-black">⚡</div>
+           <span className="text-[11px] font-black text-white">0</span>
         </div>
       </div>
 
@@ -60,8 +60,13 @@ export const Header = () => {
         </div>
         <div className="flex items-center gap-1">
            <div className="relative p-1">
-             <div className="w-5 h-5 border-[1.5px] border-white/80 rounded-[2px] flex items-center justify-center">
-                <div className="w-2 h-2 border border-white/80 rounded-[1px]"></div>
+             <div className="w-6 h-6 border-[1.5px] border-white/90 rounded-[4px] flex items-center justify-center p-0.5">
+                <div className="w-full h-full border border-white/60 rounded-[1px] relative">
+                  <div className="absolute top-0 left-0 w-1 h-1 bg-white"></div>
+                  <div className="absolute top-0 right-0 w-1 h-1 bg-white"></div>
+                  <div className="absolute bottom-0 left-0 w-1 h-1 bg-white"></div>
+                  <div className="absolute bottom-0 right-0 w-1 h-1 bg-white"></div>
+                </div>
              </div>
            </div>
         </div>

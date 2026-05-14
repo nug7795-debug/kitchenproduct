@@ -92,13 +92,13 @@ export const BannerSlider = () => {
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 space-x-1.5">
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 space-x-1">
           {banners.map((_, i) => (
             <div
               key={i}
               className={cn(
-                "h-1 w-6 rounded-full transition-all duration-300",
-                current === i ? "bg-white" : "bg-white/40"
+                "h-1 transition-all duration-300",
+                current === i ? "w-4 bg-black/60 rounded-full" : "w-1 bg-black/20 rounded-full"
               )}
             />
           ))}

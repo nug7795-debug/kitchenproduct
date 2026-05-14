@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { cn } from "@/lib/utils";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KitchenProduct | Modern Kitchen Appliances",
@@ -21,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "min-h-screen flex flex-col")}>
+      <body className={cn("inter-fallback min-h-screen flex flex-col")}>
         <Header />
         <main className="flex-grow pb-16 md:pb-0">
           {children}

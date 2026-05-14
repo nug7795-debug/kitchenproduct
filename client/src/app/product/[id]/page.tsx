@@ -2,16 +2,19 @@
 
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ShoppingCart, Heart, ShieldCheck, Truck, RotateCcw, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from "@/lib/utils";
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
+export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = React.use(params);
   const [quantity, setQuantity] = React.useState(1);
   const [selectedImage, setSelectedImage] = React.useState(0);
 
   // Mock data - in real app, fetch from API
   const product = {
-    id: params.id,
+    id: id,
     name: 'Pro-Mixer Master 500W',
     price: 12999,
     salePrice: 9999,
@@ -129,7 +132,3 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
     </div>
   );
 }
-
-// Helper for class merging (already in utils, but for completeness if used here)
-import { cn } from "@/lib/utils";
-import Link from 'next/link';

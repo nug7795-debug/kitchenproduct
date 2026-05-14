@@ -15,8 +15,11 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldHide = isCheckout || isAdmin || isSearch;
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 items-center">
-      <div className="w-full max-w-[500px] min-h-screen bg-white shadow-2xl relative flex flex-col">
+    <div className="flex flex-col min-h-screen bg-slate-100 items-center overflow-x-hidden">
+      <div 
+        className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen" 
+        style={{ maxWidth: '500px', margin: '0 auto' }}
+      >
         {!shouldHide && <Header />}
         <main className={`flex-grow ${!shouldHide ? 'pb-20' : ''}`}>
           {children}

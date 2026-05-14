@@ -50,13 +50,13 @@ export const BannerSlider = () => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="relative h-full w-full"
           >
-            <Image
+            {/* Using standard img with no-referrer to bypass CDN blocks */}
+            <img
               src={banners[current]?.image_url}
               alt={banners[current]?.title || 'Banner'}
-              fill
-              priority
-              className="object-cover"
-              unoptimized
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+              crossOrigin="anonymous"
             />
             <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
           </motion.div>

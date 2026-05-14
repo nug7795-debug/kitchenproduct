@@ -15,17 +15,17 @@ export const BannerSlider = () => {
     {
       id: '1',
       title: 'Vivo X300 FE',
-      image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg',
+      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg',
     },
     {
       id: '2',
       title: 'SBI Offer',
-      image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png',
+      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png',
     },
     {
       id: '3',
       title: 'Super Sale',
-      image_url: 'https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/0d75b34f7d8f13a7.png',
+      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/0d75b34f7d8f13a7.png',
     }
   ];
 
@@ -37,14 +37,6 @@ export const BannerSlider = () => {
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
   }, []);
-
-  if (loading) {
-    return (
-      <div className="w-full aspect-[21/9] md:aspect-[21/7] rounded-xl bg-slate-100 animate-pulse flex items-center justify-center">
-        <ImageIcon className="h-10 w-10 text-slate-200" />
-      </div>
-    );
-  }
 
   return (
     <div className="px-3 py-2 bg-white">

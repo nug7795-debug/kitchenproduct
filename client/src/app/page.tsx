@@ -56,8 +56,8 @@ export default function Home() {
         </div>
         <div className="flex overflow-x-auto gap-3 no-scrollbar pb-1">
           {(products.length > 0 ? products : Array(3).fill({})).slice(0, 3).map((product, i) => {
-            const imageUrl = product.product_images?.[0]?.image_url || 'https://via.placeholder.com/200';
-            const name = product.name || 'Moto G35 5G';
+            const imageUrl = product.product_images?.[0]?.image_url || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80';
+            const name = product.name || 'Moto G35 5G (8GB|128GB)';
             return (
               <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[145px] bg-white rounded-xl p-3 flex flex-col gap-2 shadow-md active:scale-95 transition-transform border border-white/20">
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-white">

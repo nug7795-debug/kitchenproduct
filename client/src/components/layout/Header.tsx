@@ -14,17 +14,25 @@ export const Header = () => {
       {/* Top Tabs */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
         <button className="flex-1 flex items-center justify-center gap-2 bg-[#fbde3b] text-[#2874f0] h-11 rounded-[4px] font-black text-[15px] shadow-sm tracking-tight active:scale-95 transition-transform">
-          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/logo_lite-cbb1e2.png" alt="F" width={20} height={20} unoptimized />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
           Flipkart
         </button>
         <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-11 rounded-[4px] font-black text-[15px] shadow-sm active:scale-95 transition-transform">
           <div className="text-[#fb4343]">
-             <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/flight-9d1078.png" alt="T" width={20} height={20} unoptimized />
+             <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+               <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+             </svg>
           </div>
           Travel
         </button>
         <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-11 rounded-[4px] font-black text-[15px] shadow-sm active:scale-95 transition-transform">
-          <Image src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/grocery-product-bc30f9.png" alt="G" width={20} height={20} unoptimized />
+          <div className="text-green-600">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </div>
           Grocery
         </button>
       </div>

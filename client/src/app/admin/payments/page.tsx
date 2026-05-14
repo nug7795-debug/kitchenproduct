@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { CreditCard, CheckCircle, XCircle, Search, Clock, ExternalLink, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '../../../lib/utils';
 
 const pendingPayments = [
   { id: 'PAY-8821', orderId: 'ORD-1234', customer: 'Ansarul', amount: '₹5,499', utr: '412388990011', date: '2024-05-13 14:20' },

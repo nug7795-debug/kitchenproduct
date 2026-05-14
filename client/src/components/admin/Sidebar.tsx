@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LayoutDashboard, Package, Layers, ShoppingBag, Users, Settings, BarChart3, Image as ImageIcon, CreditCard, LifeBuoy, LogOut } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { supabase } from '@/lib/supabase';
+import { cn } from '../../lib/utils';
+import { supabase } from '../../lib/supabase';
 
 const navItems = [
   { name: 'Dashboard', icon: LayoutDashboard, href: '/admin' },

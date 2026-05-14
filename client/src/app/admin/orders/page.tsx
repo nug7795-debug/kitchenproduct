@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { ShoppingBag, Eye, CheckCircle, Clock, Truck, XCircle, Search, Filter, ArrowUpRight, User, MoreHorizontal, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '../../../lib/utils';
 
 const orders = [
   { id: 'ORD-1234', customer: 'Ansarul K.', email: 'ansarul@example.com', date: '2024-05-13', status: 'paid', amount: '₹5,499', items: 2 },

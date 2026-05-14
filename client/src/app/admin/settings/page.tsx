@@ -19,8 +19,8 @@ import {
   HardDrive
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { supabase } from '@/lib/supabase';
+import { cn } from '../../../lib/utils';
+import { supabase } from '../../../lib/supabase';
 
 export default function SettingsPage() {
   const [loading, setLoading] = React.useState(false);

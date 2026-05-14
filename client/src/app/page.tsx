@@ -41,7 +41,7 @@ export default function Home() {
         const transformed = data.map(p => ({
           id: p.id,
           name: p.name,
-          category: p.categories?.name || 'Kitchen',
+          category: (Array.isArray(p.categories) ? p.categories[0]?.name : (p.categories as any)?.name) || 'Kitchen',
           price: p.price,
           salePrice: p.sale_price,
           imageUrl: p.product_images?.find((img: any) => img.is_featured)?.image_url || 'https://via.placeholder.com/400'

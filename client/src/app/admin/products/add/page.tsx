@@ -24,8 +24,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { cn } from '../../../../../lib/utils';
-import { supabase } from '../../../../../lib/supabase';
+import { cn } from '../../../../lib/utils';
+import { supabase } from '../../../../lib/supabase';
 
 export default function AddProductPage() {
   const router = useRouter();

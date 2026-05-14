@@ -11,7 +11,7 @@ const customerItems = [
   { name: 'Categories', icon: Search, href: '/categories' },
   { name: 'Cart', icon: ShoppingBag, href: '/cart', count: 0 },
   { name: 'Wishlist', icon: Heart, href: '/wishlist' },
-  { name: 'Account', icon: User, href: '/login' },
+  { name: 'Admin', icon: User, href: '/admin' },
 ];
 
 export const BottomNav = () => {

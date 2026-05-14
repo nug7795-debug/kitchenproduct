@@ -88,8 +88,8 @@ export default function Home() {
       <section className="mt-2 bg-white py-5">
         <div className="px-4 flex items-center justify-between mb-4">
           <div className="flex flex-col">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Best of Kitchen</h2>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Premium Deals</p>
+            <h2 className="text-lg font-black text-slate-900 tracking-tight">Best of Deals</h2>
+            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Premium Selection</p>
           </div>
           <Button variant="outline" size="sm" className="rounded-full h-8 px-4 text-[10px] font-black border-[#2874f0] text-[#2874f0] hover:bg-[#2874f0] hover:text-white transition-all shadow-sm">
             VIEW ALL

@@ -1,6 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+// Aggressively strip any non-printable or non-ASCII characters that might have 
+// snuck into the environment variables during deployment.
+const sanitize = (str: string) => str.replace(/[^\x20-\x7E]/g, '').trim();
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseUrl = sanitize(process.env.NEXT_PUBLIC_SUPABASE_URL || '');
+const supabaseAnonKey = sanitize(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '');
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('Supabase credentials missing or invalid.');
+}
+
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder.supabase.co', 
+  supabaseAnonKey || 'placeholder'
+);

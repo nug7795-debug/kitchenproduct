@@ -34,7 +34,18 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 
 app.get('/', (req, res) => {
-  res.json({ message: 'KitchenProduct API is running' });
+  try {
+    res.json({ 
+      message: 'KitchenProduct API is running',
+      env_check: {
+        supabase_url: !!process.env.SUPABASE_URL,
+        supabase_key: !!process.env.SUPABASE_ANON_KEY,
+        supabase_service_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Port

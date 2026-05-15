@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { LayoutDashboard, Package, Layers, ShoppingBag, Users, Settings, BarChart3, Image as ImageIcon } from 'lucide-react';
+import { LayoutDashboard, Package, Layers, ShoppingBag, Users, Settings, BarChart3, Image as ImageIcon, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -7,6 +7,7 @@ const navItems = [
   { name: 'Products', icon: Package, href: '/products' },
   { name: 'Categories', icon: Layers, href: '/categories' },
   { name: 'Orders', icon: ShoppingBag, href: '/orders' },
+  { name: 'Payments', icon: CreditCard, href: '/payments' },
   { name: 'Banners', icon: ImageIcon, href: '/banners' },
   { name: 'Users', icon: Users, href: '/users' },
   { name: 'Analytics', icon: BarChart3, href: '/analytics' },

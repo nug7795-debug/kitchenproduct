@@ -15,25 +15,51 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    const fetchFeatured = async () => {
+    const fetchData = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          categories (name),
-          product_images (image_url, is_featured)
-        `)
-        .eq('is_featured', true)
-        .limit(12);
+      try {
+        // First fetch products
+        const { data: productsData, error: productsError } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
 
-      if (data) {
-        setProducts(data);
+        if (productsError) throw productsError;
+
+        // Then fetch images for these products
+        const productIds = productsData?.map(p => p.id) || [];
+        const { data: imagesData } = await supabase
+          .from('product_images')
+          .select('*')
+          .in('product_id', productIds);
+
+        // Map images to products
+        const productsWithImages = productsData?.map(product => ({
+          ...product,
+          product_images: imagesData?.filter(img => img.product_id === product.id) || []
+        })) || [];
+
+        setProducts(productsWithImages);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    fetchFeatured();
+    fetchData();
+
+    // Subscribe to realtime changes for all relevant tables
+    const channel = supabase
+      .channel('store-updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => fetchData())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'product_images' }, () => fetchData())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'categories' }, () => fetchData())
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   return (
@@ -47,25 +73,25 @@ export default function Home() {
       </section>
 
       {/* "Still looking for these?" Section */}
-      <section className="mt-3 bg-[#2874f0] py-5 px-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-white text-[17px] font-black tracking-tight">Still looking for these?</h2>
-          <div className="bg-white rounded-full p-2 shadow-lg active:scale-90 transition-transform">
-            <ChevronRight className="h-4 w-4 text-[#2874f0] stroke-[3px]" />
+      <section className="mt-2 bg-white py-4 px-4 shadow-sm border-b border-slate-100">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-slate-900 text-[15px] font-black tracking-tight">Still looking for these?</h2>
+          <div className="bg-[#2874f0] rounded-full p-1.5 shadow-sm active:scale-90 transition-transform">
+            <ChevronRight className="h-3 w-3 text-white stroke-[3px]" />
           </div>
         </div>
         <div className="flex overflow-x-auto gap-3 no-scrollbar pb-1">
-          {(products.length > 0 ? products : Array(3).fill({})).slice(0, 3).map((product, i) => {
+          {(products.length > 0 ? products : Array(3).fill({})).slice(0, 4).map((product, i) => {
             const imageUrl = product.product_images?.[0]?.image_url || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80';
-            const name = product.name || 'Moto G35 5G (8GB|128GB)';
+            const name = product.name || 'Sample Product';
             return (
-              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[145px] bg-white rounded-xl p-3 flex flex-col gap-2 shadow-md active:scale-95 transition-transform border border-white/20">
-                <div className="relative aspect-square rounded-lg overflow-hidden bg-white">
-                  <Image src={imageUrl} alt={name} fill className="object-contain p-1" unoptimized />
+              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[120px] bg-white rounded-xl flex flex-col gap-1 active:scale-95 transition-transform">
+                <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-50 border border-slate-100 p-2">
+                  <Image src={imageUrl} alt={name} fill className="object-contain" unoptimized />
                 </div>
-                <div className="flex flex-col">
-                  <p className="text-[11px] font-bold text-slate-500 line-clamp-1">{name}</p>
-                  <p className="text-[13px] font-black text-slate-900 mt-0.5">₹{product.sale_price || product.price || '12,999'}</p>
+                <div className="flex flex-col text-center mt-1">
+                  <p className="text-[10px] font-bold text-slate-800 line-clamp-1 px-1">{name}</p>
+                  <p className="text-[12px] font-black text-[#388e3c]">₹{product.sale_price || product.price || '999'}</p>
                 </div>
               </Link>
             );

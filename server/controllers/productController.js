@@ -2,6 +2,9 @@ const { supabaseAdmin } = require('../config/supabase');
 
 exports.getProducts = async (req, res) => {
   try {
+    if (!supabaseAdmin) {
+      throw new Error('Database connection not established (missing credentials)');
+    }
     const { category, featured, search } = req.query;
     let query = supabaseAdmin.from('products').select('*, product_images(*)');
 

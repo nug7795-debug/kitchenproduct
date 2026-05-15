@@ -4,12 +4,42 @@ import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { Package, Upload, IndianRupee, Tag, Layers, CheckCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/lib/supabase';
 
 export default function AddProductPage() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
+  const [categories, setCategories] = React.useState<any[]>([]);
   const [images, setImages] = React.useState<File[]>([]);
   const [previews, setPreviews] = React.useState<string[]>([]);
+  
+  // Form state
+  const [formData, setFormData] = React.useState({
+    name: '',
+    description: '',
+    price: '',
+    sale_price: '',
+    stock_quantity: '',
+    sku: '',
+    category_id: '',
+    brand: '',
+    is_featured: false,
+    is_new_arrival: false
+  });
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await supabase.from('categories').select('*').eq('is_active', true);
+      if (data) setCategories(data);
+    };
+    fetchCategories();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+    setFormData(prev => ({ ...prev, [name]: val }));
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -26,14 +56,77 @@ export default function AddProductPage() {
     setPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const generateSlug = (name: string) => {
+    return name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulation of product creation and image upload
-    setTimeout(() => {
-      setLoading(false);
+
+    try {
+      const slug = generateSlug(formData.name);
+      
+      // 1. Insert product
+      const { data: product, error: productError } = await supabase
+        .from('products')
+        .insert([{
+          name: formData.name,
+          slug: `${slug}-${Date.now()}`,
+          description: formData.description,
+          price: parseFloat(formData.price),
+          sale_price: formData.sale_price ? parseFloat(formData.sale_price) : null,
+          stock_quantity: parseInt(formData.stock_quantity),
+          sku: formData.sku || null,
+          category_id: formData.category_id || null,
+          brand: formData.brand || null,
+          is_featured: formData.is_featured,
+          is_new_arrival: formData.is_new_arrival
+        }])
+        .select()
+        .single();
+
+      if (productError) throw productError;
+
+      // 2. Handle images
+      if (images.length > 0) {
+        const imageUrls = await Promise.all(
+          images.map(async (file) => {
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage
+              .from('products')
+              .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: { publicUrl } } = supabase.storage
+              .from('products')
+              .getPublicUrl(filePath);
+
+            return publicUrl;
+          })
+        );
+
+        await supabase.from('product_images').insert(
+          imageUrls.map((url, i) => ({
+            product_id: product.id,
+            image_url: url,
+            is_featured: i === 0,
+            order_index: i
+          }))
+        );
+      }
+
+      alert('Product published successfully!');
       router.push('/products');
-    }, 2000);
+    } catch (err: any) {
+      alert('Error: ' + err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,6 +150,9 @@ export default function AddProductPage() {
               <label className="text-sm font-medium">Product Name</label>
               <input 
                 type="text" 
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
                 required 
                 className="w-full rounded-md border p-2 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
                 placeholder="e.g. Pro-Mixer Master 500W"
@@ -65,6 +161,9 @@ export default function AddProductPage() {
             <div className="space-y-2">
               <label className="text-sm font-medium">Description</label>
               <textarea 
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
                 rows={5} 
                 className="w-full rounded-md border p-2 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
                 placeholder="Detailed description of the product..."
@@ -79,19 +178,46 @@ export default function AddProductPage() {
             </h3>
             <div className="space-y-2">
               <label className="text-sm font-medium">Regular Price (₹)</label>
-              <input type="number" required className="w-full rounded-md border p-2 text-sm outline-none" />
+              <input 
+                type="number" 
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                required 
+                className="w-full rounded-md border p-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" 
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Sale Price (₹)</label>
-              <input type="number" className="w-full rounded-md border p-2 text-sm outline-none" />
+              <input 
+                type="number" 
+                name="sale_price"
+                value={formData.sale_price}
+                onChange={handleInputChange}
+                className="w-full rounded-md border p-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" 
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Stock Quantity</label>
-              <input type="number" required className="w-full rounded-md border p-2 text-sm outline-none" />
+              <input 
+                type="number" 
+                name="stock_quantity"
+                value={formData.stock_quantity}
+                onChange={handleInputChange}
+                required 
+                className="w-full rounded-md border p-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" 
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">SKU</label>
-              <input type="text" className="w-full rounded-md border p-2 text-sm outline-none" placeholder="KP-MIX-001" />
+              <input 
+                type="text" 
+                name="sku"
+                value={formData.sku}
+                onChange={handleInputChange}
+                className="w-full rounded-md border p-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" 
+                placeholder="KP-MIX-001" 
+              />
             </div>
           </div>
 
@@ -103,18 +229,48 @@ export default function AddProductPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Category</label>
-                <select className="w-full rounded-md border p-2 text-sm outline-none bg-white">
-                  <option>Select Category</option>
-                  <option>Appliances</option>
-                  <option>Cookware</option>
-                  <option>Accessories</option>
+                <select 
+                  name="category_id"
+                  value={formData.category_id}
+                  onChange={handleInputChange}
+                  className="w-full rounded-md border p-2 text-sm outline-none bg-white focus:ring-2 focus:ring-orange-500"
+                >
+                  <option value="">Select Category</option>
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
                 </select>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Brand</label>
-                <input type="text" className="w-full rounded-md border p-2 text-sm outline-none" placeholder="e.g. Prestige" />
+                <input 
+                  type="text" 
+                  name="brand"
+                  value={formData.brand}
+                  onChange={handleInputChange}
+                  className="w-full rounded-md border p-2 text-sm outline-none focus:ring-2 focus:ring-orange-500" 
+                  placeholder="e.g. Prestige" 
+                />
               </div>
             </div>
+          </div>
+
+          <div className="flex items-center gap-4 pt-4">
+            <Button 
+              type="submit" 
+              disabled={loading} 
+              className="bg-orange-500 hover:bg-orange-600 px-8 py-6 text-lg rounded-xl shadow-lg shadow-orange-200 transition-all active:scale-95"
+            >
+              {loading ? 'Saving...' : 'Save Product'}
+            </Button>
+            <Button 
+              type="button" 
+              variant="ghost" 
+              onClick={() => router.back()}
+              className="px-8 py-6 text-lg rounded-xl"
+            >
+              Discard
+            </Button>
           </div>
         </div>
 
@@ -160,11 +316,25 @@ export default function AddProductPage() {
               <Tag className="h-4 w-4 text-orange-500" /> Visibility
             </h3>
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="featured" className="rounded border-slate-300 text-orange-500 focus:ring-orange-500" />
+              <input 
+                type="checkbox" 
+                id="featured" 
+                name="is_featured"
+                checked={formData.is_featured}
+                onChange={handleInputChange}
+                className="rounded border-slate-300 text-orange-500 focus:ring-orange-500 h-4 w-4" 
+              />
               <label htmlFor="featured" className="text-sm">Featured Product</label>
             </div>
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="new" className="rounded border-slate-300 text-orange-500 focus:ring-orange-500" />
+              <input 
+                type="checkbox" 
+                id="new" 
+                name="is_new_arrival"
+                checked={formData.is_new_arrival}
+                onChange={handleInputChange}
+                className="rounded border-slate-300 text-orange-500 focus:ring-orange-500 h-4 w-4" 
+              />
               <label htmlFor="new" className="text-sm">New Arrival</label>
             </div>
           </div>

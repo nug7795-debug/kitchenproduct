@@ -13,16 +13,19 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
       {/* Top Tabs */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
-        <button className="flex-1 flex items-center justify-center gap-2 bg-[#fbde3b] text-[#2874f0] h-11 rounded-[4px] font-black text-[15px] shadow-sm tracking-tight active:scale-95 transition-transform">
-          <span className="text-xl">F</span>
-          Flipkart
+        <button className="flex-1 flex items-center justify-center gap-2 bg-[#fbde3b] text-[#2874f0] h-11 rounded-[4px] font-black text-[15px] shadow-sm tracking-tight active:scale-95 transition-transform overflow-hidden px-2">
+          <img 
+            src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png" 
+            alt="Flipkart" 
+            className="h-5 w-auto object-contain"
+          />
         </button>
         <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-11 rounded-[4px] font-black text-[15px] shadow-sm active:scale-95 transition-transform">
-          <span className="text-xl">✈️</span>
+          <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/travel-logo-v2_71cd51.png" alt="Travel" className="h-4 w-auto" />
           Travel
         </button>
         <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-11 rounded-[4px] font-black text-[15px] shadow-sm active:scale-95 transition-transform">
-          <span className="text-xl">🧺</span>
+          <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/grocery-logo-v3_0877d1.png" alt="Grocery" className="h-4 w-auto" />
           Grocery
         </button>
       </div>

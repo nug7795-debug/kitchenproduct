@@ -18,7 +18,7 @@ export const BottomNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 w-full max-w-[500px] bg-white border-t border-slate-100 flex items-center justify-around py-2 px-1 z-[60] shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-100 flex items-center justify-around py-2 px-1 z-[60] shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         const Icon = item.icon;

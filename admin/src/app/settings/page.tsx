@@ -4,23 +4,60 @@ import * as React from 'react';
 import { Settings, Save, Shield, Smartphone, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+import { supabase } from '@/lib/supabase';
+
 export default function SettingsPage() {
   const [loading, setLoading] = React.useState(false);
+  const [fetching, setFetching] = React.useState(true);
   const [merchantData, setMerchantData] = React.useState({
-    upi_id: 'kitchenproduct@upi',
-    merchant_name: 'KitchenProduct Store',
-    merchant_code: '0000',
+    upi_id: '',
+    merchant_name: '',
+    merchant_code: '',
     mode: 'manual'
   });
+
+  const fetchSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('settings')
+        .select('*')
+        .eq('key', 'merchant_config')
+        .single();
+
+      if (data) {
+        setMerchantData(data.value);
+      }
+    } catch (err) {
+      console.error('Error fetching settings:', err);
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchSettings();
+  }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call to save settings
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const { error } = await supabase
+        .from('settings')
+        .upsert({ 
+          key: 'merchant_config', 
+          value: merchantData,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
       alert('Settings saved successfully!');
-    }, 1500);
+    } catch (err: any) {
+      alert('Error saving settings: ' + err.message);
+    } finally {
+      setLoading(true); // Keep loading state until success alert is cleared
+      setTimeout(() => setLoading(false), 500);
+    }
   };
 
   return (
@@ -30,7 +67,13 @@ export default function SettingsPage() {
         <p className="text-muted-foreground">Manage your store's identity and payment preferences.</p>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6">
+      {fetching ? (
+        <div className="bg-white p-12 rounded-xl border shadow-sm flex flex-col items-center justify-center space-y-4">
+          <div className="h-12 w-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-muted-foreground animate-pulse">Loading store settings...</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSave} className="space-y-6">
         {/* Payment Settings */}
         <div className="bg-white p-6 rounded-xl border shadow-sm space-y-6">
           <h3 className="font-bold flex items-center gap-2">
@@ -111,11 +154,16 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <Button type="submit" disabled={loading} className="w-full py-6 text-lg bg-slate-900 hover:bg-slate-800 rounded-full">
+        <Button 
+          type="submit" 
+          disabled={loading || fetching} 
+          className="w-full py-6 text-lg bg-orange-600 hover:bg-orange-700 text-white rounded-full shadow-lg shadow-orange-200 transition-all active:scale-[0.98]"
+        >
           {loading ? 'Saving Changes...' : 'Save All Settings'}
           <Save className="ml-2 h-5 w-5" />
         </Button>
       </form>
+      )}
     </div>
   );
 }

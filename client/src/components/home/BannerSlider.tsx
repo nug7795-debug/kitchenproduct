@@ -10,33 +10,47 @@ import { supabase } from '../../lib/supabase';
 
 export const BannerSlider = () => {
   const [current, setCurrent] = React.useState(0);
-  
-  const banners = [
-    {
-      id: '1',
-      title: 'Vivo X300 FE',
-      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg',
-    },
-    {
-      id: '2',
-      title: 'SBI Offer',
-      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png',
-    },
-    {
-      id: '3',
-      title: 'Super Sale',
-      image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/0d75b34f7d8f13a7.png',
+  const [banners, setBanners] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const fetchBanners = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('banners')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+
+      if (data && data.length > 0) {
+        setBanners(data);
+      } else {
+        // Fallback banners
+        setBanners([
+          { id: '1', title: 'Sale', image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg' },
+          { id: '2', title: 'SBI', image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png' }
+        ]);
+      }
+    } catch (err) {
+      console.error('Error fetching banners:', err);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  React.useEffect(() => {
+    fetchBanners();
+  }, []);
 
   const next = () => {
+    if (banners.length === 0) return;
     setCurrent((prev) => (prev + 1) % banners.length);
   };
 
   React.useEffect(() => {
+    if (banners.length === 0) return;
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners]);
 
   return (
     <div className="px-3 py-2 bg-white">

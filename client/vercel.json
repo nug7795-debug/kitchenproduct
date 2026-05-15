@@ -1,5 +1,19 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "https://admin-sorifu8899-cells-projects.vercel.app/admin"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://admin-sorifu8899-cells-projects.vercel.app/admin/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://kitchenproduct-server.vercel.app/api/:path*"
+    }
+  ]
 }

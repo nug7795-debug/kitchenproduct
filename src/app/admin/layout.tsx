@@ -8,6 +8,13 @@ export default function AdminLayout({
 }) {
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
+      <style dangerouslySetInnerHTML={{ __html: `
+        body > div > div > div { 
+          max-width: none !important; 
+          width: 100% !important;
+        }
+        .md\\:ml-64 { margin-left: 16rem !important; }
+      ` }} />
       <Sidebar />
       <div className="md:ml-64 transition-all duration-300">
         <header className="sticky top-0 z-30 h-20 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">

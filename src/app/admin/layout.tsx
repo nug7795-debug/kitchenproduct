@@ -43,6 +43,11 @@ export default function AdminLayout({
 
         <main className="p-8 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           {children}
+          <footer className="mt-12 py-6 border-t border-slate-200/60 text-center">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Kitchen E-commerce Admin &bull; v1.2.0 &bull; Ref: {new Date().getTime()}
+            </p>
+          </footer>
         </main>
       </div>
     </div>

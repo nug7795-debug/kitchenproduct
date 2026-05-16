@@ -15,25 +15,18 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const isSearch = pathname?.startsWith('/search');
   const shouldHide = isCheckout || isAdmin || isSearch;
 
+  if (shouldHide) {
+    return <>{children}</>;
+  }
+
   return (
-    <div className={cn(
-      "flex flex-col min-h-screen items-center overflow-x-hidden",
-      !shouldHide ? "bg-slate-100" : "bg-transparent"
-    )}>
-      <div 
-        className={cn(
-          "w-full relative flex flex-col min-h-screen",
-          !shouldHide ? "max-w-[500px] bg-white shadow-2xl" : "max-w-none"
-        )}
-      >
-        {!shouldHide && <Header />}
-        <main className={cn(
-          "flex-grow",
-          !shouldHide ? "pb-20" : ""
-        )}>
+    <div className="flex flex-col min-h-screen items-center overflow-x-hidden bg-slate-100">
+      <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
+        <Header />
+        <main className="flex-grow pb-20">
           {children}
         </main>
-        {!shouldHide && <BottomNav />}
+        <BottomNav />
       </div>
     </div>
   );

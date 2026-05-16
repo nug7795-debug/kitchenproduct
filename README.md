@@ -1,78 +1,36 @@
-# KitchenProduct - Premium E-commerce Platform
-
-A modern, multi-device e-commerce platform inspired by Flipkart, built with Next.js, Node.js, and Supabase.
-
-## Project Structure
-
-- `/client`: Customer-facing website (Next.js)
-- `/admin`: Admin management dashboard (Next.js)
-- `/server`: Backend API server (Node.js/Express)
-
-## Features
-
-- **Responsive Design**: Mobile, tablet, and desktop optimized.
-- **Premium Aesthetics**: Modern glassmorphism, smooth animations, and clean layouts.
-- **Secure Payments**: UPI payment system with mandatory server-side verification to prevent fraud.
-- **Supabase Backend**: Real-time database, authentication, and storage.
-- **Admin Dashboard**: Comprehensive management of products, categories, and orders.
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### 1. Prerequisites
-- Node.js installed
-- Supabase account and project keys
+First, run the development server:
 
-### 2. Backend Setup
 ```bash
-cd server
-npm install
-# Update .env with your Supabase keys
-npm start
-```
-
-### 3. Client Setup
-```bash
-cd client
-npm install
-# Update .env.local with NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### 4. Admin Setup
-```bash
-cd admin
-npm install
-# Update .env.local with NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
-npm run dev
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Security Note (Payment Server)
-The payment verification logic is implemented in `server/controllers/paymentController.js`. It ensures that:
-- Payment success is NEVER trusted from the frontend.
-- Transaction amount is verified against the order amount.
-- Duplicate transaction IDs are rejected.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Deployment
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-This project is configured for automatic deployment.
+## Learn More
 
-### 1. Frontend (Client & Admin) - Vercel
-- Connect your GitHub repository to [Vercel](https://vercel.com).
-- Create two separate projects on Vercel:
-  - **Client**: Set the "Root Directory" to `client`.
-  - **Admin**: Set the "Root Directory" to `admin`.
-- Vercel will automatically detect the `vercel.json` files and handle deployments on every push to `main`.
+To learn more about Next.js, take a look at the following resources:
 
-### 2. Backend (Server) - Railway
-- Connect your repository to [Railway](https://railway.app).
-- Railway will detect the `server/railway.json` and deploy the backend automatically.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### 3. GitHub Actions
-A `.github/workflows/deploy.yml` file is provided to validate builds on every push. To enable full deployment via GitHub Actions, add the following secrets to your GitHub repository settings:
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID_CLIENT`
-- `VERCEL_PROJECT_ID_ADMIN`
-- `RAILWAY_TOKEN`
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

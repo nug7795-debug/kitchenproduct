@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { BottomNav } from './BottomNav';
+import { cn } from '../../lib/utils';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,13 +16,21 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const shouldHide = isCheckout || isAdmin || isSearch;
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-100 items-center overflow-x-hidden">
+    <div className={cn(
+      "flex flex-col min-h-screen items-center overflow-x-hidden",
+      !shouldHide ? "bg-slate-100" : "bg-transparent"
+    )}>
       <div 
-        className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen" 
-        style={{ maxWidth: '500px', margin: '0 auto' }}
+        className={cn(
+          "w-full relative flex flex-col min-h-screen",
+          !shouldHide ? "max-w-[500px] bg-white shadow-2xl" : "max-w-none"
+        )}
       >
         {!shouldHide && <Header />}
-        <main className={`flex-grow ${!shouldHide ? 'pb-20' : ''}`}>
+        <main className={cn(
+          "flex-grow",
+          !shouldHide ? "pb-20" : ""
+        )}>
           {children}
         </main>
         {!shouldHide && <BottomNav />}

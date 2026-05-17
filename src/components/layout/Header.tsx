@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Search, Camera, QrCode, MapPin, ChevronDown, Bell, Smartphone, Shirt, Monitor, Home as HomeIcon } from 'lucide-react';
+import { ShoppingCart, Search, Camera, QrCode, MapPin, ChevronDown, Bell, Smartphone, Shirt, Monitor, Home as HomeIcon, Plane } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export const Header = () => {
@@ -13,19 +13,15 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
       {/* Top Tabs */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
-        <button className="flex-1 flex items-center justify-center gap-2 bg-[#fbde3b] text-[#2874f0] h-10 rounded-full font-black text-[14px] shadow-sm tracking-tight active:scale-95 transition-transform px-2">
-          <img 
-            src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png" 
-            alt="Flipkart" 
-            className="h-4 w-auto object-contain"
-          />
+        <button className="flex-1 flex items-center justify-center gap-1.5 bg-[#fbde3b] text-[#2874f0] h-10 rounded-[8px] font-black text-[14px] shadow-sm tracking-tight active:scale-95 transition-transform px-2 italic">
+          <span className="text-[#2874f0] font-black italic text-[16px]">f</span> Flipkart
         </button>
-        <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-10 rounded-full font-black text-[14px] shadow-sm active:scale-95 transition-transform px-2">
-          <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/travel-logo-v2_71cd51.png" alt="Travel" className="h-4 w-auto" />
+        <button className="flex-1 flex items-center justify-center gap-1.5 bg-white text-slate-800 h-10 rounded-[8px] font-bold text-[13px] shadow-sm active:scale-95 transition-transform px-2">
+          <Plane className="text-[#ff4343] fill-[#ff4343] w-4 h-4" />
           Travel
         </button>
-        <button className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 h-10 rounded-full font-black text-[14px] shadow-sm active:scale-95 transition-transform px-2">
-          <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/grocery-logo-v3_0877d1.png" alt="Grocery" className="h-4 w-auto" />
+        <button className="flex-1 flex items-center justify-center gap-1.5 bg-white text-slate-800 h-10 rounded-[8px] font-bold text-[13px] shadow-sm active:scale-95 transition-transform px-2">
+          <ShoppingCart className="text-[#388e3c] fill-[#388e3c] w-4 h-4" />
           Grocery
         </button>
       </div>

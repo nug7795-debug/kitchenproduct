@@ -26,8 +26,8 @@ export const BannerSlider = () => {
       } else {
         // Fallback banners
         setBanners([
-          { id: '1', title: 'Sale', image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/7a2707328905a5a9.jpg' },
-          { id: '2', title: 'SBI', image_url: 'https://static-assets-web.flixcart.com/fk-p-flap/1600/270/image/f1bd38c83177d612.png' }
+          { id: '1', title: 'Sale', image_url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2070&auto=format&fit=crop' },
+          { id: '2', title: 'Tech', image_url: 'https://images.unsplash.com/photo-1550009158-9efff6c97068?q=80&w=2070&auto=format&fit=crop' }
         ]);
       }
     } catch (err) {
@@ -54,7 +54,7 @@ export const BannerSlider = () => {
 
   return (
     <div className="px-3 py-2 bg-white">
-      <div className="relative w-full aspect-[16/8] overflow-hidden rounded-2xl shadow-sm">
+      <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-sm">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={current}

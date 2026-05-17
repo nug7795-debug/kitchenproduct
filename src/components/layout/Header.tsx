@@ -63,37 +63,46 @@ export const Header = () => {
       </div>
 
       {/* Categories Row */}
-      <div className="flex items-center justify-between px-4 pb-0 pt-1 overflow-x-auto no-scrollbar gap-6">
-        <div className="flex flex-col items-center gap-1.5 min-w-max relative pb-2">
-          <div className="w-7 h-7 flex items-center justify-center bg-transparent border-[1.5px] border-white/90 rounded-[8px]">
-             <div className="w-3.5 h-3.5 bg-transparent border-[1.5px] border-white/90 rounded-[2px]" />
+      <div className="flex flex-col bg-[#2874f0]">
+        <div className="flex items-center justify-between px-4 pb-1 pt-1 overflow-x-auto no-scrollbar gap-6">
+          <div className="flex flex-col items-center gap-1.5 min-w-max relative pb-1">
+            <div className="w-7 h-7 flex items-center justify-center bg-transparent border-[1.5px] border-white/90 rounded-[8px]">
+               <div className="w-3.5 h-3.5 bg-transparent border-[1.5px] border-white/90 rounded-[2px]" />
+            </div>
+            <span className="text-[11px] font-bold text-white tracking-wide">For You</span>
+            <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#fbde3b] rounded-t-full" />
           </div>
-          <span className="text-[11px] font-bold text-white tracking-wide">For You</span>
-          <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#fbde3b] rounded-t-full" />
-        </div>
-        <div className="flex flex-col items-center gap-1.5 min-w-max pb-2 opacity-90">
-          <Shirt className="w-7 h-7 text-white stroke-[1.5px]" />
-          <span className="text-[11px] font-medium text-white tracking-wide">Fashion</span>
-        </div>
-        <div className="flex flex-col items-center gap-1.5 min-w-max pb-2 opacity-90">
-          <Smartphone className="w-7 h-7 text-white stroke-[1.5px]" />
-          <span className="text-[11px] font-medium text-white tracking-wide">Mobiles</span>
-        </div>
-        <div className="flex flex-col items-center gap-1.5 min-w-max pb-2 opacity-90">
-          <div className="w-7 h-7 flex items-center justify-center">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-white">
-               <path d="M7 11h10v10H7zM9 11V7c0-1.5 1-3 3-3s3 1.5 3 3v4" />
-            </svg>
+          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
+            <Shirt className="w-7 h-7 text-white stroke-[1.5px]" />
+            <span className="text-[11px] font-medium text-white tracking-wide">Fashion</span>
           </div>
-          <span className="text-[11px] font-medium text-white tracking-wide">Beauty</span>
+          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
+            <Smartphone className="w-7 h-7 text-white stroke-[1.5px]" />
+            <span className="text-[11px] font-medium text-white tracking-wide">Mobiles</span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
+            <div className="w-7 h-7 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-white">
+                 <path d="M7 11h10v10H7zM9 11V7c0-1.5 1-3 3-3s3 1.5 3 3v4" />
+              </svg>
+            </div>
+            <span className="text-[11px] font-medium text-white tracking-wide">Beauty</span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
+            <Monitor className="w-7 h-7 text-white stroke-[1.5px]" />
+            <span className="text-[11px] font-medium text-white tracking-wide">Electronics</span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
+            <HomeIcon className="w-7 h-7 text-white stroke-[1.5px]" />
+            <span className="text-[11px] font-medium text-white tracking-wide">Home</span>
+          </div>
         </div>
-        <div className="flex flex-col items-center gap-1.5 min-w-max pb-2 opacity-90">
-          <Monitor className="w-7 h-7 text-white stroke-[1.5px]" />
-          <span className="text-[11px] font-medium text-white tracking-wide">Electronics</span>
-        </div>
-        <div className="flex flex-col items-center gap-1.5 min-w-max pb-2 opacity-90">
-          <HomeIcon className="w-7 h-7 text-white stroke-[1.5px]" />
-          <span className="text-[11px] font-medium text-white tracking-wide">Home</span>
+
+        {/* Categories Scroll Progress Bar */}
+        <div className="w-full px-2 pb-1.5">
+          <div className="w-full h-[3px] bg-[#1a5bc2] rounded-full overflow-hidden flex">
+            <div className="w-[15%] h-full bg-white rounded-full"></div>
+          </div>
         </div>
       </div>
     </header>

@@ -4,10 +4,9 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BannerSlider } from '../components/home/BannerSlider';
-import { CategoriesBar } from '../components/home/CategoriesBar';
 import { ProductCard } from '../components/product/ProductCard';
 import { Button } from '../components/ui/button';
-import { ArrowRight, Zap, ShieldCheck, Truck, Loader2, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 export default function Home() {
@@ -64,39 +63,55 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      {/* Horizontal Categories Bar */}
-      <CategoriesBar />
-
       {/* Main Banner Slider */}
       <section className="bg-white">
         <BannerSlider />
       </section>
 
       {/* "Still looking for these?" Section */}
-      <section className="mt-2 bg-white py-4 px-4 shadow-sm border-b border-slate-100">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-slate-900 text-[15px] font-black tracking-tight">Still looking for these?</h2>
-          <div className="bg-[#2874f0] rounded-full p-1.5 shadow-sm active:scale-90 transition-transform">
-            <ChevronRight className="h-3 w-3 text-white stroke-[3px]" />
-          </div>
-        </div>
-        <div className="flex overflow-x-auto gap-3 no-scrollbar pb-1">
-          {(products.length > 0 ? products : Array(3).fill({})).slice(0, 4).map((product, i) => {
+      <section className="bg-[#2874f0] pb-6 pt-4 px-3 mt-1">
+        <h2 className="text-white text-[17px] font-bold tracking-tight mb-4 px-1">Still looking for these?</h2>
+        <div className="flex overflow-x-auto gap-3 no-scrollbar">
+          {(products.length > 0 ? products : Array(4).fill({})).slice(0, 5).map((product, i) => {
             const imageUrl = product.product_images?.[0]?.image_url || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80';
-            const name = product.name || 'Sample Product';
+            const name = product.name || 'Office Supplies';
             return (
-              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[120px] bg-white rounded-xl flex flex-col gap-1 active:scale-95 transition-transform">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-50 border border-slate-100 p-2">
-                  <Image src={imageUrl} alt={name} fill className="object-contain" unoptimized />
+              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[110px] w-[110px] bg-white rounded-[12px] flex flex-col overflow-hidden pb-1 shadow-sm active:scale-95 transition-transform shrink-0">
+                <div className="relative aspect-square w-full bg-white p-1">
+                  <Image src={imageUrl} alt={name} fill className="object-contain rounded-t-[10px]" unoptimized />
                 </div>
-                <div className="flex flex-col text-center mt-1">
-                  <p className="text-[10px] font-bold text-slate-800 line-clamp-1 px-1">{name}</p>
-                  <p className="text-[12px] font-black text-[#388e3c]">₹{product.sale_price || product.price || '999'}</p>
+                <div className="flex flex-col text-center mt-1 px-1 h-6 justify-center">
+                  <p className="text-[12px] text-slate-600 line-clamp-1">{name}</p>
                 </div>
               </Link>
             );
           })}
         </div>
+      </section>
+
+      {/* Suggested For You Header */}
+      <section className="bg-white pt-5 pb-3 px-4 flex items-center justify-between">
+        <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">Suggested For You</h2>
+        <div className="bg-black rounded-full p-1.5 shadow-sm active:scale-90 transition-transform">
+          <ArrowRight className="h-4 w-4 text-white stroke-[2.5px]" />
+        </div>
+      </section>
+
+      {/* Suggested For You Grid */}
+      <section className="bg-white px-3 pb-6">
+        {loading ? (
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="aspect-[3/4] rounded-2xl bg-slate-50 animate-pulse border border-slate-100" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Sponsored/Brand Banners */}
@@ -111,62 +126,6 @@ export default function Home() {
              <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
           </div>
         </div>
-      </section>
-
-      {/* Best of Electronics */}
-      <section className="mt-2 bg-white py-5">
-        <div className="px-4 flex items-center justify-between mb-4">
-          <div className="flex flex-col">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Best of Deals</h2>
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Premium Selection</p>
-          </div>
-          <Button variant="outline" size="sm" className="rounded-full h-8 px-4 text-[10px] font-black border-[#2874f0] text-[#2874f0] hover:bg-[#2874f0] hover:text-white transition-all shadow-sm">
-            VIEW ALL
-          </Button>
-        </div>
-        <div className="flex overflow-x-auto gap-3 no-scrollbar px-4 pb-4">
-          {products.map((product) => {
-            const imageUrl = product.product_images?.[0]?.image_url || 'https://via.placeholder.com/200';
-            return (
-              <Link key={product.id} href={`/product/${product.id}`} className="min-w-[140px] flex flex-col gap-2 border border-slate-100 rounded-2xl p-3 bg-white hover:shadow-lg transition-all active:scale-95">
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-50 p-2">
-                  <Image src={imageUrl} alt={product.name} fill className="object-contain" />
-                </div>
-                <div className="text-center">
-                  <p className="text-[11px] font-black text-slate-800 line-clamp-1">{product.name}</p>
-                  <p className="text-[10px] text-green-600 font-black uppercase mt-1">From ₹{product.sale_price || product.price}</p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Featured Products Grid */}
-      <section className="mt-2 bg-white px-3 py-6">
-        <div className="flex items-center justify-between mb-6 px-1">
-          <div>
-            <h2 className="text-lg font-black text-slate-900 tracking-tight">Recommended for You</h2>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Based on your activity</p>
-          </div>
-          <Button variant="outline" size="sm" className="rounded-full text-[10px] h-8 font-black border-slate-200 text-[#2874f0] shadow-sm">
-            VIEW ALL
-          </Button>
-        </div>
-        
-        {loading ? (
-          <div className="grid grid-cols-2 gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] rounded-2xl bg-slate-50 animate-pulse border border-slate-100" />
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-2">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
       </section>
 
       {/* Bottom Padding for Nav */}

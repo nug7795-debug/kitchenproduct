@@ -9,6 +9,34 @@ import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = React.useState(15 * 60); // 15 minutes in seconds
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 15 * 60)); // Reset to 15m when hits 0
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  return (
+    <div className="flex items-center gap-1.5 font-black text-white">
+      <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
+        <span className="text-[16px]">{minutes.toString().padStart(2, '0')}</span>
+        <span className="text-[9px] font-semibold mt-0.5">Min</span>
+      </div>
+      <span className="text-[16px] -mt-1 opacity-80">:</span>
+      <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
+        <span className="text-[16px]">{seconds.toString().padStart(2, '0')}</span>
+        <span className="text-[9px] font-semibold mt-0.5">Sec</span>
+      </div>
+    </div>
+  );
+};
+
 export default function Home() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -63,8 +91,38 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
+      {/* SASA LELE Sale Countdown Banner */}
+      <section className="bg-[#2874f0] w-full pt-2 pb-3 px-3 flex items-center justify-between relative overflow-hidden">
+        {/* SASA LELE Graphic (CSS representation) */}
+        <div className="flex flex-col font-black transform -rotate-6 z-10">
+          <div className="bg-[#fbde3b] text-black px-1 leading-none text-[18px] tracking-tighter border-b-2 border-r-2 border-yellow-600 shadow-sm">SASA</div>
+          <div className="bg-[#fbde3b] text-black px-1 leading-none text-[22px] tracking-tighter border-b-2 border-r-2 border-yellow-600 shadow-sm ml-1">LELE</div>
+        </div>
+
+        {/* Countdown Timer */}
+        <div className="flex flex-col items-center justify-center z-10 mt-1">
+          <span className="text-white text-[12px] font-semibold mb-1">Sale ends in</span>
+          <div className="flex items-center gap-1">
+            <CountdownTimer />
+          </div>
+        </div>
+
+        {/* Cool Guy Image / Graphic */}
+        <div className="relative w-16 h-16 z-10">
+          <Image 
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" 
+            alt="Sale" 
+            fill 
+            className="object-cover rounded-full border-2 border-white/20" 
+          />
+        </div>
+        
+        {/* Background Decorative Circles */}
+        <div className="absolute top-0 left-1/2 w-32 h-32 bg-white/5 rounded-full blur-xl transform -translate-x-1/2" />
+      </section>
+
       {/* Main Banner Slider */}
-      <section className="bg-white">
+      <section className="bg-[#f1f3f6] pt-2 px-2">
         <BannerSlider />
       </section>
 

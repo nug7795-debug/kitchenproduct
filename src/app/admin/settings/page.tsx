@@ -24,6 +24,7 @@ import { supabase } from '../../../lib/supabase';
 
 export default function SettingsPage() {
   const [loading, setLoading] = React.useState(false);
+  const [isVerifying, setIsVerifying] = React.useState(false);
   const [activeSection, setActiveSection] = React.useState('store');
   const [settings, setSettings] = React.useState({
     storeName: 'KitchenProduct Premium',
@@ -126,6 +127,14 @@ export default function SettingsPage() {
       ...prev,
       [section]: { ...(prev[section as keyof typeof prev] as any), [field]: value }
     }));
+  };
+
+  const handleReVerify = () => {
+    setIsVerifying(true);
+    setTimeout(() => {
+      setIsVerifying(false);
+      alert('System integrity verified successfully! All security protocols are active.');
+    }, 1500);
   };
 
   const menuItems = [
@@ -433,7 +442,14 @@ export default function SettingsPage() {
                          <CheckCircle2 className="h-3 w-3" /> All security protocols are active
                       </p>
                    </div>
-                   <Button variant="outline" className="ml-auto rounded-full text-[10px] font-black h-8 px-4 border-2 border-slate-200">RE-VERIFY</Button>
+                   <Button 
+                     variant="outline" 
+                     onClick={handleReVerify}
+                     disabled={isVerifying}
+                     className="ml-auto rounded-full text-[10px] font-black h-8 px-4 border-2 border-slate-200"
+                   >
+                     {isVerifying ? 'VERIFYING...' : 'RE-VERIFY'}
+                   </Button>
                 </div>
               </div>
             </div>

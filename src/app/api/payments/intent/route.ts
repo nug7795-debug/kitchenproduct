@@ -42,9 +42,17 @@ export async function POST(request: Request) {
 
     if (paymentError) throw paymentError;
 
-    const merchantUpiId = process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
-    const payeeName = 'Big Dhamaka Sale';
-    const mccCode = '5722';
+    // 4. Fetch dynamic merchant credentials from settings table
+    const { data: settingsData } = await supabaseAdmin
+      .from('settings')
+      .select('value')
+      .eq('key', 'global_settings')
+      .maybeSingle();
+
+    const paymentConfig = settingsData?.value?.payment || {};
+    const merchantUpiId = paymentConfig.merchantUpiId || process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
+    const payeeName = paymentConfig.payeeName || 'Big Dhamaka Sale';
+    const mccCode = paymentConfig.mccCode || '5722';
 
     // 5. Generate UPI Payment Details with loaded configurations
     const upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, payeeName, mccCode);

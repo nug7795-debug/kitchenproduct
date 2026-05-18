@@ -170,6 +170,26 @@ export default function CheckoutPage() {
     };
 
     loadUserAndAddresses();
+
+    // Fetch dynamic merchant UPI settings
+    const fetchMerchantSettings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+
+        if (data?.value?.payment) {
+          const { merchantUpiId, payeeName: name } = data.value.payment;
+          if (merchantUpiId) setMerchantVpa(merchantUpiId);
+          if (name) setPayeeName(name);
+        }
+      } catch (err) {
+        console.error('Error fetching dynamic merchant settings in checkout mount:', err);
+      }
+    };
+    fetchMerchantSettings();
   }, []);
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);

@@ -45,6 +45,12 @@ export default function SettingsPage() {
       orderAlerts: true,
       stockAlerts: true,
       marketing: true
+    },
+    payment: {
+      merchantUpiId: 'yourstore@paytm',
+      payeeName: 'Big Dhamaka Sale',
+      mccCode: '5722',
+      allowUpiCheckout: true
     }
   });
 
@@ -60,7 +66,11 @@ export default function SettingsPage() {
       if (data?.value) {
         setSettings(prev => ({ 
           ...prev, 
-          ...data.value
+          ...data.value,
+          payment: {
+            ...prev.payment,
+            ...(data.value.payment || {})
+          }
         }));
       }
     };
@@ -135,6 +145,7 @@ export default function SettingsPage() {
   const menuItems = [
     { id: 'store', label: 'Store Identity', icon: Globe },
     { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
+    { id: 'payment', label: 'UPI Payment Settings', icon: CreditCard },
     { id: 'notifications', label: 'Alerts & Notifications', icon: Bell },
     { id: 'security', label: 'Security & Access', icon: Shield },
     { id: 'advanced', label: 'Advanced System', icon: Database },
@@ -376,6 +387,129 @@ export default function SettingsPage() {
                      {isVerifying ? 'VERIFYING...' : 'RE-VERIFY'}
                    </Button>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section: Payment Settings */}
+          {activeSection === 'payment' && (
+            <div className="space-y-6">
+              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8 animate-in fade-in slide-in-from-bottom-4">
+                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
+                   <div className="h-10 w-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-100"><CreditCard className="h-5 w-5" /></div>
+                   <h2 className="font-black text-slate-900 uppercase tracking-tight">UPI Payment Settings</h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                      Business UPI ID / VPA
+                      <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-black">BUSINESS ONLY</span>
+                    </label>
+                    <input 
+                      type="text" 
+                      value={settings.payment?.merchantUpiId || ''} 
+                      onChange={(e) => updateNestedField('payment', 'merchantUpiId', e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
+                    />
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
+                      Use only verified business VPAs (e.g. ending in @paytm, @ybl, @okhdfcbank, @upi). Do NOT use personal or temporary QR UPI IDs.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                      Store / Payee Name (pn)
+                      <span className="text-[9px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-black">ENCODED</span>
+                    </label>
+                    <input 
+                      type="text" 
+                      value={settings.payment?.payeeName || ''} 
+                      onChange={(e) => updateNestedField('payment', 'payeeName', e.target.value)}
+                      placeholder="e.g. Big Dhamaka Sale"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
+                    />
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
+                      This will be properly URL space encoded (e.g. <code>Big%20Dhamaka%20Sale</code>) automatically.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant Category Code (mcc)</label>
+                    <input 
+                      type="text" 
+                      maxLength={4}
+                      value={settings.payment?.mccCode || ''} 
+                      onChange={(e) => updateNestedField('payment', 'mccCode', e.target.value)}
+                      placeholder="e.g. 5722"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-mono font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
+                    />
+                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
+                      4-digit NPCI merchant category code (5722 is typical for household products/appliances).
+                    </p>
+                  </div>
+
+                  <div className="space-y-4 justify-end flex flex-col">
+                    <div className="p-4 bg-emerald-50 border-2 border-emerald-100 rounded-2xl flex items-center justify-between text-emerald-900">
+                      <div>
+                        <p className="text-xs font-black uppercase tracking-wider mb-0.5">Allow UPI Checkout</p>
+                        <p className="text-[9px] text-emerald-700 font-bold uppercase">Activate manual deep-linking and dynamic QR code generation.</p>
+                      </div>
+                      <div 
+                        onClick={() => updateNestedField('payment', 'allowUpiCheckout', !(settings.payment?.allowUpiCheckout))}
+                        className={cn("h-6 w-11 rounded-full relative cursor-pointer transition-all", settings.payment?.allowUpiCheckout ? "bg-emerald-600" : "bg-slate-300")}
+                      >
+                        <div className={cn("absolute top-1 h-4 w-4 bg-white rounded-full transition-all shadow-sm", settings.payment?.allowUpiCheckout ? "right-1" : "left-1")} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Real-time Intent URL Compiler Preview & Visual Validation Badge */}
+                <div className="p-6 bg-slate-900 rounded-[2rem] text-white relative overflow-hidden group">
+                  <div className="relative z-10 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-black text-orange-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Lock className="h-4 w-4 text-emerald-400" /> NPCI Compiled URL Preview (Live)
+                      </p>
+                      <span className="text-[9px] bg-slate-800 text-slate-300 font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-slate-700">
+                        HTTPS SECURED
+                      </span>
+                    </div>
+                    
+                    <div className="bg-slate-950 p-4 rounded-xl font-mono text-[11px] text-emerald-400 break-all select-all border border-slate-800 font-bold leading-relaxed">
+                      upi://pay?pa={settings.payment?.merchantUpiId || 'yourstore@paytm'}&pn={encodeURIComponent(settings.payment?.payeeName || 'Big Dhamaka Sale')}&am=499.00&cu=INR&tn=Order%201245
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                      <div className="flex items-center gap-2">
+                        <div className={cn("h-4 w-4 rounded-full flex items-center justify-center text-white text-[8px]", settings.payment?.merchantUpiId?.includes('@') ? "bg-emerald-500" : "bg-red-500")}>
+                          ✓
+                        </div>
+                        <span>VPA format validity</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="h-4 w-4 rounded-full bg-emerald-500 flex items-center justify-center text-white text-[8px]">✓</div>
+                        <span>Automatic space encoding (%20)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Smartphone className="absolute -right-8 -bottom-8 h-32 w-32 text-white/5 rotate-12" />
+                </div>
+              </div>
+
+              {/* Guidelines panel matching instructions */}
+              <div className="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100 space-y-4">
+                 <h3 className="text-xs font-black text-amber-900 uppercase tracking-widest flex items-center gap-2">
+                   <Info className="h-5 w-5 text-amber-600" /> Mandatory UPI Integration Guidelines
+                 </h3>
+                 <ul className="text-xs text-amber-800 space-y-2.5 list-disc pl-5 font-bold uppercase tracking-wide">
+                   <li>Always use a verified Business UPI ID to avoid suspension and payment security blocks.</li>
+                   <li>Format payments using the 5 basic NPCI parameters: <code>pa</code>, <code>pn</code>, <code>am</code>, <code>cu</code>, <code>tn</code>.</li>
+                   <li>Open the UPI apps using direct mobile intents; WebView-based execution is strictly blocked.</li>
+                   <li>Ensure the storefront uses a valid HTTPS connection in production (never http or localhost).</li>
+                   <li>Display the dynamic QR code along with clear merchant name and secure SSL badge.</li>
+                 </ul>
               </div>
             </div>
           )}

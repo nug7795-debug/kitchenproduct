@@ -229,9 +229,27 @@ export default function CheckoutPage() {
     if (!upiUrl) return '#';
     const query = upiUrl.substring(upiUrl.indexOf('?'));
     
-    if (appId === 'phonepe') return `phonepe://pay${query}`;
-    if (appId === 'paytm') return `paytmmp://pay${query}`;
-    if (appId === 'gpay') return `tez://upi/pay${query}`;
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
+    if (isAndroid) {
+      // Use official Android Intent wrapper with package names to prevent proprietary whitelist security blocks
+      let packageName = '';
+      if (appId === 'gpay') packageName = 'com.google.android.apps.nbu.paisa.user';
+      else if (appId === 'phonepe') packageName = 'com.phonepe.app';
+      else if (appId === 'paytm') packageName = 'net.one97.paytm';
+      else if (appId === 'bhim') packageName = 'in.org.npci.upiapp';
+      
+      if (packageName) {
+        return `intent://pay${query}#Intent;scheme=upi;package=${packageName};end`;
+      }
+    } else {
+      // On iOS, use custom app deep links which open directly
+      if (appId === 'phonepe') return `phonepe://pay${query}`;
+      if (appId === 'paytm') return `paytmmp://pay${query}`;
+      if (appId === 'gpay') return `gpay://upi/pay${query}`;
+    }
+    
+    // Default universal deep link fallback
     return `upi://pay${query}`;
   };
 

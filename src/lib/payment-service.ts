@@ -2,7 +2,7 @@ export class PaymentService {
   merchantUpiId: string;
 
   constructor() {
-    this.merchantUpiId = process.env.MERCHANT_UPI_ID || 'bigdhamaka@paytm';
+    this.merchantUpiId = process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
   }
 
   generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string, mcc?: string) {

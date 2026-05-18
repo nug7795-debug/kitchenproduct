@@ -52,8 +52,8 @@ export default function CheckoutPage() {
   const [error, setError] = React.useState<string | null>(null);
   
   // Dynamic Merchant details loaded from settings
-  const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'bigdhamaka@paytm');
-  const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'BigDhamakaSale');
+  const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'yourstore@paytm');
+  const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Big Dhamaka Sale');
   const [isMobile, setIsMobile] = React.useState(false);
   
   // Shipping Address Form State
@@ -169,31 +169,7 @@ export default function CheckoutPage() {
       }
     };
 
-    // Load Global UPI settings from settings database
-    const loadPaymentSettings = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('settings')
-          .select('*')
-          .eq('key', 'global_settings')
-          .maybeSingle();
-
-        if (data?.value?.payment) {
-          const paymentConfig = data.value.payment;
-          if (paymentConfig.merchantUpiId) {
-            setMerchantVpa(paymentConfig.merchantUpiId);
-          }
-          if (paymentConfig.payeeName) {
-            setPayeeName(paymentConfig.payeeName);
-          }
-        }
-      } catch (err) {
-        console.error('Error loading dynamic merchant settings:', err);
-      }
-    };
-
     loadUserAndAddresses();
-    loadPaymentSettings();
   }, []);
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);

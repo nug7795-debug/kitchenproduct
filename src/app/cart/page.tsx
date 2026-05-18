@@ -119,8 +119,8 @@ export default function CartPage() {
             <span className="text-[10px] text-slate-400 line-through block">₹{totalOriginal.toLocaleString()}</span>
             <span className="text-lg font-bold text-slate-900">₹{totalSale.toLocaleString()}</span>
          </div>
-         <Button className="bg-[#fb641b] hover:bg-[#f4511e] text-white rounded-lg px-8 py-6 font-bold text-base shadow-lg transition-transform active:scale-95">
-            PLACE ORDER
+         <Button className="bg-[#fb641b] hover:bg-[#f4511e] text-white rounded-lg px-8 py-6 font-bold text-base shadow-lg transition-transform active:scale-95" asChild>
+            <Link href="/checkout">PLACE ORDER</Link>
          </Button>
       </div>
     </div>

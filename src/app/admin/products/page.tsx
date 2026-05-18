@@ -11,6 +11,18 @@ export default function ProductsPage() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this product?')) return;
+    
+    // Optimistic UI update
+    setProducts(products.filter(p => p.id !== id));
+    
+    const { error } = await supabase.from('products').delete().eq('id', id);
+    if (error) {
+      alert('Error deleting product: ' + error.message);
+    }
+  };
+
   React.useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -39,7 +51,8 @@ export default function ProductsPage() {
           id: p.id,
           name: p.name,
           category: p.categories?.name || 'Uncategorized', 
-          price: `₹${p.price?.toLocaleString() || '0'}`,
+          mrp: p.price ? `₹${p.price.toLocaleString()}` : '',
+          salePrice: p.sale_price ? `₹${p.sale_price.toLocaleString()}` : `₹${p.price?.toLocaleString() || '0'}`,
           stock: p.stock_quantity || 0,
           status: p.stock_quantity > 10 ? 'In Stock' : p.stock_quantity > 0 ? 'Low Stock' : 'Out of Stock',
           image: p.product_images?.find((img: any) => img.is_featured)?.image_url || 'https://via.placeholder.com/200'
@@ -129,7 +142,14 @@ export default function ProductsPage() {
                       {product.category}
                     </span>
                   </td>
-                  <td className="px-6 py-4 font-bold text-slate-800">{product.price}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-slate-800">{product.salePrice}</span>
+                      {product.mrp && product.mrp !== product.salePrice && (
+                        <span className="text-xs text-slate-400 line-through">{product.mrp}</span>
+                      )}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 text-slate-600">{product.stock} units</td>
                   <td className="px-6 py-4">
                     <span className={cn(
@@ -142,11 +162,13 @@ export default function ProductsPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-100">
-                        <Edit2 className="h-4 w-4 text-slate-600" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full hover:bg-red-50 border border-transparent hover:border-red-100">
+                    <div className="flex justify-end gap-2 transition-opacity">
+                      <Link href={`/admin/products/edit/${product.id}`}>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200">
+                          <Edit2 className="h-4 w-4 text-slate-600" />
+                        </Button>
+                      </Link>
+                      <Button onClick={() => handleDelete(product.id)} variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full bg-red-50 hover:bg-red-100 border border-red-100">
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </div>

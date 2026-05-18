@@ -13,32 +13,15 @@ export const BannerSlider = () => {
   const [banners, setBanners] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  const fetchBanners = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('banners')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
-
-      if (data && data.length > 0) {
-        setBanners(data);
-      } else {
-        // Fallback banners
-        setBanners([
-          { id: '1', title: 'Sale', image_url: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2070&auto=format&fit=crop' },
-          { id: '2', title: 'Tech', image_url: 'https://images.unsplash.com/photo-1550009158-9efff6c97068?q=80&w=2070&auto=format&fit=crop' }
-        ]);
-      }
-    } catch (err) {
-      console.error('Error fetching banners:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   React.useEffect(() => {
-    fetchBanners();
+    // Set the provided local banner ads
+    setBanners([
+      { id: '1', title: 'Sale 1', image_url: '/banners/banner1.jpg' },
+      { id: '2', title: 'Sale 2', image_url: '/banners/banner2.jpg' },
+      { id: '3', title: 'Sale 3', image_url: '/banners/banner3.jpg' },
+      { id: '4', title: 'Sale 4', image_url: '/banners/banner4.jpg' }
+    ]);
+    setLoading(false);
   }, []);
 
   const next = () => {
@@ -54,7 +37,7 @@ export const BannerSlider = () => {
 
   return (
     <div className="px-3 py-2 bg-white">
-      <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl shadow-sm">
+      <div className="relative w-full aspect-[21/9] overflow-hidden rounded-2xl shadow-sm bg-gray-50">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={current}
@@ -68,7 +51,7 @@ export const BannerSlider = () => {
             <img
               src={banners[current]?.image_url}
               alt={banners[current]?.title || 'Banner'}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-fill"
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
             />

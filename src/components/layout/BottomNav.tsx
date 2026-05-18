@@ -6,12 +6,20 @@ import { usePathname } from 'next/navigation';
 import { Home, PlayCircle, Grid, User, ShoppingCart } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-const navItems = [
-  { name: 'Home', icon: Home, href: '/' },
-  { name: 'Play', icon: PlayCircle, href: '/play' },
-  { name: 'Categories', icon: Grid, href: '/categories' },
-  { name: 'Account', icon: User, href: '/account' },
-  { name: 'Cart', icon: ShoppingCart, href: '/cart', badge: 7 },
+interface NavItem {
+  name: string;
+  icon: React.ComponentType<any>;
+  href: string;
+  activePath: string;
+  badge?: number | string;
+}
+
+const navItems: NavItem[] = [
+  { name: 'Home', icon: Home, href: '/', activePath: '/' },
+  { name: 'Play', icon: PlayCircle, href: '/', activePath: '/play' },
+  { name: 'Categories', icon: Grid, href: '/', activePath: '/categories' },
+  { name: 'Account', icon: User, href: '/', activePath: '/account' },
+  { name: 'Cart', icon: ShoppingCart, href: '/cart', activePath: '/cart' },
 ];
 
 export const BottomNav = () => {
@@ -20,7 +28,7 @@ export const BottomNav = () => {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-100 flex items-center justify-around py-2 px-1 z-[60] shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
       {navItems.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive = pathname === item.activePath;
         const Icon = item.icon;
         
         return (

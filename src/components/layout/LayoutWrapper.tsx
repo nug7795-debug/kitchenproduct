@@ -13,7 +13,8 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const isCheckout = pathname?.startsWith('/checkout');
   const isAdmin = pathname?.startsWith('/admin');
   const isSearch = pathname?.startsWith('/search');
-  const shouldHide = isCheckout || isAdmin || isSearch;
+  const isProduct = pathname?.startsWith('/product');
+  const shouldHide = isCheckout || isAdmin || isSearch || isProduct;
 
   if (shouldHide) {
     return <>{children}</>;

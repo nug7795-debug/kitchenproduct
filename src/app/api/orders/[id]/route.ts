@@ -4,9 +4,10 @@ import { adminOnly } from '@/lib/auth';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const user = await adminOnly(request);
     if (!user) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -16,7 +17,7 @@ export async function PUT(
     const { data, error } = await supabaseAdmin
       .from('orders')
       .update({ status })
-      .eq('id', params.id)
+      .eq('id', id)
       .select();
 
     if (error) throw error;

@@ -2,19 +2,17 @@ export class PaymentService {
   merchantUpiId: string;
 
   constructor() {
-    this.merchantUpiId = process.env.MERCHANT_UPI_ID || 'sorifu8899@ybl';
+    this.merchantUpiId = process.env.MERCHANT_UPI_ID || 'bigdhamaka@paytm';
   }
 
-  /**
-   * Generate a UPI Intent URL for the customer
-   */
-  generateUpiIntent(orderId: string, amount: number, transactionId: string) {
-    const name = encodeURIComponent('KitchenProduct Store');
-    const note = encodeURIComponent(`Order ${orderId}`);
-    const mcc = '0000'; // Default Merchant Category Code
+  generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string, mcc?: string) {
+    const name = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
+    const note = encodeURIComponent(`Order ${orderId.substring(0, 8)}`);
+    const formattedAmount = Number(amount).toFixed(2);
+    const activeUpiId = upiId || this.merchantUpiId;
 
-    // Comprehensive UPI Deep Link
-    return `upi://pay?pa=${this.merchantUpiId}&pn=${name}&mc=${mcc}&tr=${transactionId}&am=${amount}&cu=INR&tn=${note}`;
+    // Use only the 5 standard NPCI parameters to prevent deep link failure and security warnings
+    return `upi://pay?pa=${activeUpiId}&pn=${name}&am=${formattedAmount}&cu=INR&tn=${note}`;
   }
 
   /**

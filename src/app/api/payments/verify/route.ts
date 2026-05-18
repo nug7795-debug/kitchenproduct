@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { paymentService } from '@/lib/payment-service';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function POST(request: Request) {
   try {
     const { transactionId, utr } = await request.json();

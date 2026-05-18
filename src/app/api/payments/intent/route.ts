@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { paymentService } from '@/lib/payment-service';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function POST(request: Request) {
   try {
     const { orderId, amount } = await request.json();
@@ -39,8 +42,12 @@ export async function POST(request: Request) {
 
     if (paymentError) throw paymentError;
 
-    // 4. Generate UPI Payment Details
-    const upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId);
+    const merchantUpiId = process.env.MERCHANT_UPI_ID || 'bigdhamaka@paytm';
+    const payeeName = 'Big Dhamaka Sale';
+    const mccCode = '5722';
+
+    // 5. Generate UPI Payment Details with loaded configurations
+    const upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, payeeName, mccCode);
 
     return NextResponse.json({
       success: true,

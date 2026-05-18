@@ -36,26 +36,48 @@ export default function AddProductPage() {
   // Form State
   const [formData, setFormData] = React.useState({
     name: '',
+    slug: '',
     brand: '',
     category: '',
+    categories: [] as string[],
     type: 'physical',
+    status: 'published', // Draft, Published, Hidden
     shortDescription: '',
     description: '',
+    tags: '',
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
     mrp: '',
     salePrice: '',
+    discountPercent: '',
     costPrice: '',
+    taxIncluded: true,
     gst: '18% GST (Default)',
+    currency: 'INR',
     stock: '',
-    sku: '',
+    unlimitedStock: false,
     lowStockLevel: '5',
+    outOfStockVisible: true,
+    minOrderQty: '1',
+    maxOrderQty: '10',
+    sku: '',
+    barcode: '',
     weight: '',
-    shippingClass: 'Standard Shipping',
+    length: '',
+    width: '',
+    height: '',
+    shippingClass: 'Free Delivery',
+    freeShipping: true,
+    codAvailable: true,
     seoTitle: '',
     metaDescription: '',
-    keywords: ''
+    keywords: '',
+    canonicalUrl: '',
+    ogImage: '',
+    searchVisibility: true,
+    visibility: 'public',
+    regionVisibility: 'all',
   });
 
   // State for multiple images (URLs)
@@ -85,10 +107,33 @@ export default function AddProductPage() {
     const { name, value, type } = e.target as HTMLInputElement;
     const checked = (e.target as HTMLInputElement).checked;
     
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    setFormData(prev => {
+      const updated = {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      };
+      
+      // Auto-generate slug and SKU if name changes
+      if (name === 'name') {
+        updated.slug = value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+        if (!updated.sku) {
+          updated.sku = `KP-${value.substring(0, 3).toUpperCase()}-${Date.now().toString().slice(-4)}`;
+        }
+      }
+      
+      // Auto-calculate discount percentage or sale price
+      if (name === 'mrp' || name === 'salePrice') {
+        const mrpVal = parseFloat(name === 'mrp' ? value : prev.mrp || '0');
+        const saleVal = parseFloat(name === 'salePrice' ? value : prev.salePrice || '0');
+        if (mrpVal > 0 && saleVal > 0) {
+          updated.discountPercent = Math.round(((mrpVal - saleVal) / mrpVal) * 100).toString();
+        } else {
+          updated.discountPercent = '';
+        }
+      }
+      
+      return updated;
+    });
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,12 +175,80 @@ export default function AddProductPage() {
   };
 
   const handleSaveDraft = async () => {
+    if (!formData.name) {
+      alert('Product name is required to save a draft');
+      return;
+    }
     setLoading(true);
-    // Logic for saving draft could go here
-    setTimeout(() => {
+    try {
+      // 1. Insert product
+      const { data: product, error: productError } = await supabase
+        .from('products')
+        .insert({
+          name: formData.name,
+          slug: formData.slug || formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
+          description: formData.description,
+          short_description: formData.shortDescription,
+          sku: formData.sku,
+          brand: formData.brand,
+          price: parseFloat(formData.mrp || '0'),
+          sale_price: formData.salePrice ? parseFloat(formData.salePrice) : null,
+          stock_quantity: formData.unlimitedStock ? 9999 : (formData.stock ? parseInt(formData.stock) : 0),
+          category_id: formData.category || null,
+          is_active: false, // Save as inactive draft
+          is_featured: formData.isFeatured,
+          is_new_arrival: formData.isNewArrival,
+          is_best_seller: formData.isBestSeller,
+          weight: formData.weight ? parseFloat(formData.weight) : null,
+          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') }
+        })
+        .select()
+        .single();
+
+      if (productError) throw productError;
+
+      // 2. Insert images
+      if (images.length > 0) {
+        const imageInserts = images.map((url, index) => ({
+          product_id: product.id,
+          image_url: url,
+          is_featured: index === 0,
+          order_index: index
+        }));
+
+        const { error: imagesError } = await supabase
+          .from('product_images')
+          .insert(imageInserts);
+
+        if (imagesError) throw imagesError;
+      }
+
+      // 3. Insert variants
+      if (variants.length > 0) {
+        const variantInserts = variants.map(v => ({
+          product_id: product.id,
+          name: v.name || 'Option',
+          value: v.value || '',
+          price: v.price ? parseFloat(v.price) : null,
+          sku: v.sku || `${formData.sku}-${v.value.substring(0, 3).toUpperCase()}`,
+          stock_quantity: v.stock ? parseInt(v.stock) : 0
+        }));
+
+        const { error: variantError } = await supabase
+          .from('product_variants')
+          .insert(variantInserts);
+
+        if (variantError) throw variantError;
+      }
+
+      alert('Product saved as Draft successfully!');
+      router.push('/admin/products');
+    } catch (error: any) {
+      console.error('Error saving draft:', error);
+      alert('Error saving draft: ' + error.message);
+    } finally {
       setLoading(false);
-      alert('Draft saved successfully.');
-    }, 1000);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -152,12 +265,21 @@ export default function AddProductPage() {
         .from('products')
         .insert({
           name: formData.name,
-          slug: formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
+          slug: formData.slug || formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
           description: formData.description,
-          price: parseFloat(formData.salePrice || formData.mrp || '0'),
-          stock_quantity: parseInt(formData.stock || '0'),
+          short_description: formData.shortDescription,
+          sku: formData.sku,
+          brand: formData.brand,
+          price: parseFloat(formData.mrp || '0'),
+          sale_price: formData.salePrice ? parseFloat(formData.salePrice) : null,
+          stock_quantity: formData.unlimitedStock ? 9999 : (formData.stock ? parseInt(formData.stock) : 0),
           category_id: formData.category || null,
-          is_active: true
+          is_active: formData.status !== 'hidden', // active if not hidden
+          is_featured: formData.isFeatured,
+          is_new_arrival: formData.isNewArrival,
+          is_best_seller: formData.isBestSeller,
+          weight: formData.weight ? parseFloat(formData.weight) : null,
+          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') }
         })
         .select()
         .single();
@@ -169,7 +291,8 @@ export default function AddProductPage() {
         const imageInserts = images.map((url, index) => ({
           product_id: product.id,
           image_url: url,
-          is_featured: index === 0
+          is_featured: index === 0,
+          order_index: index
         }));
 
         const { error: imagesError } = await supabase
@@ -177,6 +300,24 @@ export default function AddProductPage() {
           .insert(imageInserts);
 
         if (imagesError) throw imagesError;
+      }
+
+      // 3. Insert variants
+      if (variants.length > 0) {
+        const variantInserts = variants.map(v => ({
+          product_id: product.id,
+          name: v.name || 'Option',
+          value: v.value || '',
+          price: v.price ? parseFloat(v.price) : null,
+          sku: v.sku || `${formData.sku}-${v.value.substring(0, 3).toUpperCase()}`,
+          stock_quantity: v.stock ? parseInt(v.stock) : 0
+        }));
+
+        const { error: variantError } = await supabase
+          .from('product_variants')
+          .insert(variantInserts);
+
+        if (variantError) throw variantError;
       }
 
       alert('Product published successfully!');
@@ -291,6 +432,31 @@ export default function AddProductPage() {
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
                     />
                   </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Slug (Auto-Generated)</label>
+                    <input 
+                      type="text" 
+                      name="slug"
+                      value={formData.slug}
+                      onChange={handleInputChange}
+                      placeholder="auto-generated-slug" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product SKU</label>
+                    <input 
+                      type="text" 
+                      name="sku"
+                      value={formData.sku}
+                      onChange={handleInputChange}
+                      placeholder="e.g. KP-BLND-102" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Brand Name</label>
                     <input 
@@ -302,6 +468,7 @@ export default function AddProductPage() {
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
                     />
                   </div>
+
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Category</label>
                     <select 
@@ -316,7 +483,34 @@ export default function AddProductPage() {
                       ))}
                     </select>
                   </div>
+
                   <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Tags (Comma Separated)</label>
+                    <input 
+                      type="text" 
+                      name="tags"
+                      value={formData.tags}
+                      onChange={handleInputChange}
+                      placeholder="e.g. blender, kitchen, masterchef" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Status</label>
+                    <select 
+                      name="status"
+                      value={formData.status}
+                      onChange={handleInputChange}
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="published">Published</option>
+                      <option value="draft">Draft</option>
+                      <option value="hidden">Hidden</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Type</label>
                     <div className="flex p-1 bg-slate-100 rounded-xl">
                       <button 
@@ -324,17 +518,18 @@ export default function AddProductPage() {
                         onClick={() => setFormData({...formData, type: 'physical'})}
                         className={cn("flex-1 py-2 px-4 rounded-lg text-xs font-black shadow-sm tracking-tight uppercase", formData.type === 'physical' ? "bg-white" : "text-slate-500")}
                       >
-                        Physical
+                        Physical (e.g. Blender, Cookware)
                       </button>
                       <button 
                         type="button" 
                         onClick={() => setFormData({...formData, type: 'digital'})}
                         className={cn("flex-1 py-2 px-4 rounded-lg text-xs font-black shadow-sm tracking-tight uppercase", formData.type === 'digital' ? "bg-white" : "text-slate-500")}
                       >
-                        Digital
+                        Digital (e.g. E-Books, Video Guides)
                       </button>
                     </div>
                   </div>
+
                   <div className="space-y-2 md:col-span-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Short Description (Summary)</label>
                     <textarea 
@@ -346,6 +541,7 @@ export default function AddProductPage() {
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all resize-none" 
                     />
                   </div>
+
                   <div className="space-y-2 md:col-span-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Detailed Description</label>
                     <textarea 
@@ -518,18 +714,45 @@ export default function AddProductPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Calculated Discount (%)</label>
+                    <input 
+                      type="text" 
+                      name="discountPercent"
+                      value={formData.discountPercent ? `${formData.discountPercent}% Off` : '0% Off'}
+                      readOnly
+                      disabled
+                      className="w-full bg-slate-100 border-2 border-slate-200 rounded-xl p-4 text-sm font-black text-slate-500 outline-none" 
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">GST Percentage (%)</label>
                     <select 
                       name="gst"
                       value={formData.gst}
                       onChange={handleInputChange}
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 text-sm font-bold focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3.5 text-sm font-bold focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer"
                     >
+                      <option value="0% GST">0% GST</option>
                       <option value="5% GST">5% GST</option>
                       <option value="12% GST">12% GST</option>
                       <option value="18% GST (Default)">18% GST (Default)</option>
                       <option value="28% GST">28% GST</option>
                     </select>
+                  </div>
+                  <div className="space-y-2 flex items-center pt-6">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        name="taxIncluded"
+                        checked={formData.taxIncluded}
+                        onChange={handleInputChange}
+                        className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                      />
+                      <div>
+                        <p className="text-xs font-black text-slate-900">Tax Included in Price</p>
+                        <p className="text-[9px] text-slate-500 font-bold uppercase">All prices include GST</p>
+                      </div>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -545,29 +768,20 @@ export default function AddProductPage() {
                    <h2 className="font-black text-slate-800 uppercase tracking-tight">Inventory Management</h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Current Stock Quantity</label>
-                    <input 
-                      type="number" 
-                      name="stock"
-                      value={formData.stock}
-                      onChange={handleInputChange}
-                      placeholder="0" 
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SKU (Stock Keeping Unit)</label>
-                    <input 
-                      type="text" 
-                      name="sku"
-                      value={formData.sku}
-                      onChange={handleInputChange}
-                      placeholder="e.g. BLEND-MSTR-001" 
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all uppercase" 
-                    />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {!formData.unlimitedStock && (
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Current Stock Quantity</label>
+                      <input 
+                        type="number" 
+                        name="stock"
+                        value={formData.stock}
+                        onChange={handleInputChange}
+                        placeholder="0" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                  )}
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Low Stock Alert Level</label>
                     <input 
@@ -579,6 +793,69 @@ export default function AddProductPage() {
                       className="w-full bg-red-50/30 border-2 border-red-100 rounded-xl p-4 text-sm font-black text-red-600 focus:border-orange-500 outline-none transition-all" 
                     />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Barcode / EAN Support</label>
+                    <input 
+                      type="text" 
+                      name="barcode"
+                      value={formData.barcode}
+                      onChange={handleInputChange}
+                      placeholder="e.g. 8901234567890" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Minimum Order Quantity</label>
+                    <input 
+                      type="number" 
+                      name="minOrderQty"
+                      value={formData.minOrderQty}
+                      onChange={handleInputChange}
+                      placeholder="1" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Maximum Order Quantity</label>
+                    <input 
+                      type="number" 
+                      name="maxOrderQty"
+                      value={formData.maxOrderQty}
+                      onChange={handleInputChange}
+                      placeholder="10" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-50">
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="unlimitedStock"
+                      checked={formData.unlimitedStock}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Unlimited Stock Toggle</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">Always available for order</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="outOfStockVisible"
+                      checked={formData.outOfStockVisible}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Out of Stock Visibility</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">Show product even if sold out</p>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -616,24 +893,78 @@ export default function AddProductPage() {
                     {variants.map((v, i) => (
                       <div key={v.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 bg-slate-50/50 border-2 border-slate-100 rounded-2xl relative group">
                         <div className="space-y-1">
-                          <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Type</label>
-                          <input type="text" placeholder="e.g. Color" className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold" />
+                          <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Variant Option (Type)</label>
+                          <input 
+                            type="text" 
+                            placeholder="e.g. Size" 
+                            value={v.name}
+                            onChange={(e) => {
+                              const updated = [...variants];
+                              updated[i].name = e.target.value;
+                              setVariants(updated);
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold focus:border-orange-500 outline-none" 
+                          />
                         </div>
                         <div className="space-y-1">
                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Value</label>
-                          <input type="text" placeholder="e.g. Silver" className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold" />
+                          <input 
+                            type="text" 
+                            placeholder="e.g. 5 Litre" 
+                            value={v.value}
+                            onChange={(e) => {
+                              const updated = [...variants];
+                              updated[i].value = e.target.value;
+                              setVariants(updated);
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold focus:border-orange-500 outline-none" 
+                          />
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Add Price (+/-)</label>
-                          <input type="number" placeholder="0.00" className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold" />
+                          <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Variant SKU</label>
+                          <input 
+                            type="text" 
+                            placeholder="e.g. KP-V1" 
+                            value={v.sku || ''}
+                            onChange={(e) => {
+                              const updated = [...variants];
+                              updated[i].sku = e.target.value;
+                              setVariants(updated);
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold focus:border-orange-500 outline-none" 
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Variant Price (₹)</label>
+                          <input 
+                            type="number" 
+                            placeholder="0.00" 
+                            value={v.price}
+                            onChange={(e) => {
+                              const updated = [...variants];
+                              updated[i].price = e.target.value;
+                              setVariants(updated);
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold focus:border-orange-500 outline-none" 
+                          />
                         </div>
                         <div className="space-y-1">
                           <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Stock</label>
-                          <input type="number" placeholder="10" className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold" />
+                          <input 
+                            type="number" 
+                            placeholder="10" 
+                            value={v.stock}
+                            onChange={(e) => {
+                              const updated = [...variants];
+                              updated[i].stock = e.target.value;
+                              setVariants(updated);
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold focus:border-orange-500 outline-none" 
+                          />
                         </div>
-                        <div className="flex items-end pb-1">
-                          <Button onClick={() => removeVariant(v.id)} variant="ghost" size="sm" className="text-red-500 hover:bg-red-50 rounded-lg w-full h-9">
-                             <Trash2 className="h-4 w-4 mr-2" /> Remove
+                        <div className="md:col-span-5 flex justify-end">
+                          <Button onClick={() => removeVariant(v.id)} variant="ghost" size="sm" className="text-red-500 hover:bg-red-50 rounded-lg px-4 h-8 text-[10px] font-black uppercase tracking-wider">
+                             <Trash2 className="h-3 w-3 mr-2" /> Remove Variant
                           </Button>
                         </div>
                       </div>
@@ -673,12 +1004,82 @@ export default function AddProductPage() {
                       onChange={handleInputChange}
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all"
                     >
+                       <option value="Free Delivery">Free Delivery</option>
                        <option value="Standard Shipping">Standard Shipping</option>
                        <option value="Heavy Items (Cooktops)">Heavy Items (Cooktops)</option>
                        <option value="Fragile (Glassware)">Fragile (Glassware)</option>
                        <option value="Next Day Delivery">Next Day Delivery</option>
                     </select>
                   </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-slate-50">
+                  <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">Packaging Dimensions (cm)</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Length (cm)</label>
+                      <input 
+                        type="number" 
+                        name="length"
+                        value={formData.length}
+                        onChange={handleInputChange}
+                        placeholder="0" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Width (cm)</label>
+                      <input 
+                        type="number" 
+                        name="width"
+                        value={formData.width}
+                        onChange={handleInputChange}
+                        placeholder="0" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Height (cm)</label>
+                      <input 
+                        type="number" 
+                        name="height"
+                        value={formData.height}
+                        onChange={handleInputChange}
+                        placeholder="0" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-50">
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="freeShipping"
+                      checked={formData.freeShipping}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Free Shipping Option</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">Enable free shipping for this item</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="codAvailable"
+                      checked={formData.codAvailable}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Cash on Delivery (COD) Available</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">Allow COD payments for this item</p>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
@@ -694,8 +1095,8 @@ export default function AddProductPage() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="grid grid-cols-1 gap-6">
-                    <div className="space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2 md:col-span-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SEO Title Tag</label>
                       <input 
                         type="text" 
@@ -706,7 +1107,7 @@ export default function AddProductPage() {
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 md:col-span-2">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Meta Description</label>
                       <textarea 
                         name="metaDescription"
@@ -716,6 +1117,43 @@ export default function AddProductPage() {
                         placeholder="Write a compelling description for search results..." 
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all resize-none" 
                       />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Canonical URL</label>
+                      <input 
+                        type="text" 
+                        name="canonicalUrl"
+                        value={formData.canonicalUrl}
+                        onChange={handleInputChange}
+                        placeholder="https://kitchenproduct.in/products/..." 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">OG Image URL</label>
+                      <input 
+                        type="text" 
+                        name="ogImage"
+                        value={formData.ogImage}
+                        onChange={handleInputChange}
+                        placeholder="https://kitchenproduct.in/images/og-..." 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          name="searchVisibility"
+                          checked={formData.searchVisibility}
+                          onChange={handleInputChange}
+                          className="h-5 w-5 rounded text-orange-500 border-slate-200" 
+                        />
+                        <div>
+                          <p className="text-xs font-black text-slate-900">Search Engine Indexing Visibility</p>
+                          <p className="text-[9px] text-slate-500 font-bold uppercase">Allow Google, Bing, and DuckDuckGo to index this product page</p>
+                        </div>
+                      </label>
                     </div>
                   </div>
                 </div>

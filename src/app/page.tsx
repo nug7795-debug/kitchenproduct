@@ -52,28 +52,17 @@ export default function Home() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // First fetch products
-        const { data: productsData, error: productsError } = await supabase
+        const { data, error } = await supabase
           .from('products')
-          .select('*')
+          .select(`
+            *,
+            categories (name, slug),
+            product_images (image_url, is_featured)
+          `)
           .order('created_at', { ascending: false });
 
-        if (productsError) throw productsError;
-
-        // Then fetch images for these products
-        const productIds = productsData?.map(p => p.id) || [];
-        const { data: imagesData } = await supabase
-          .from('product_images')
-          .select('*')
-          .in('product_id', productIds);
-
-        // Map images to products
-        const productsWithImages = productsData?.map(product => ({
-          ...product,
-          product_images: imagesData?.filter(img => img.product_id === product.id) || []
-        })) || [];
-
-        setProducts(productsWithImages);
+        if (error) throw error;
+        setProducts(data || []);
       } catch (err) {
         console.error('Error fetching products:', err);
       } finally {
@@ -133,28 +122,31 @@ export default function Home() {
         <BannerSlider />
       </section>
 
-      {/* "Still looking for these?" Section */}
-      <section className="bg-[#2874f0] pb-6 pt-4 px-3 mt-1">
-        <h2 className="text-white text-[17px] font-bold tracking-tight mb-4 px-1">Still looking for these?</h2>
-        <div className="flex overflow-x-auto gap-3 no-scrollbar">
-          {(products.length > 0 ? products : Array(4).fill({})).slice(0, 5).map((product, i) => {
-            const imageUrl = product.product_images?.[0]?.image_url || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&q=80';
-            const name = product.name || 'Office Supplies';
-            return (
-              <Link key={product.id || i} href={product.id ? `/product/${product.id}` : '#'} className="min-w-[110px] w-[110px] bg-white rounded-[12px] flex flex-col overflow-hidden pb-1 shadow-sm active:scale-95 transition-transform shrink-0">
-                <div className="relative aspect-square w-full bg-white p-1">
-                  <Image src={imageUrl} alt={name} fill className="object-contain rounded-t-[10px]" unoptimized />
-                </div>
-                <div className="flex flex-col text-center mt-1 px-1 h-6 justify-center">
-                  <p className="text-[12px] text-slate-600 line-clamp-1">{name}</p>
-                </div>
-              </Link>
-            );
-          })}
+      {/* "Still looking for these?" Section Hidden as per request
+      <section className="bg-[#2874f0] pb-6 pt-4 px-3 mt-1 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff), linear-gradient(45deg, #ffffff 25%, transparent 25%, transparent 75%, #ffffff 75%, #ffffff)', backgroundSize: '40px 40px', backgroundPosition: '0 0, 20px 20px' }} />
+        
+        <h2 className="text-white text-[17px] font-bold tracking-tight mb-4 px-1 relative z-10">Still looking for these?</h2>
+        <div className="flex overflow-x-auto gap-3 no-scrollbar relative z-10">
+          {[
+            { name: 'Plain Cases &...', image: 'https://images.unsplash.com/photo-1541560052-5e137f229371?q=80&w=300&auto=format&fit=crop' },
+            { name: 'Pressure Coo...', image: 'https://images.unsplash.com/photo-1584900129033-b2da7863fb72?q=80&w=300&auto=format&fit=crop' },
+            { name: 'Choppers & S...', image: 'https://images.unsplash.com/photo-1593001874117-c99c800e3eb7?q=80&w=300&auto=format&fit=crop' },
+            { name: 'Wooden Spoo...', image: 'https://images.unsplash.com/photo-1590515151528-9d414a682121?q=80&w=300&auto=format&fit=crop' }
+          ].map((item, i) => (
+            <Link key={i} href="#" className="min-w-[110px] w-[110px] bg-white rounded-[12px] flex flex-col overflow-hidden pb-1 shadow-sm active:scale-95 transition-transform shrink-0">
+              <div className="relative aspect-square w-full bg-[#f8f9fa] flex items-center justify-center overflow-hidden">
+                <img src={item.image} alt={item.name} className="object-cover w-full h-full" referrerPolicy="no-referrer" crossOrigin="anonymous" />
+              </div>
+              <div className="flex flex-col text-center mt-1 px-1 h-6 justify-center">
+                <p className="text-[12px] text-slate-700 font-medium line-clamp-1">{item.name}</p>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
+      */}
 
-      {/* Suggested For You Header */}
       <section className="bg-white pt-5 pb-3 px-4 flex items-center justify-between">
         <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">Suggested For You</h2>
         <div className="bg-black rounded-full p-1.5 shadow-sm active:scale-90 transition-transform">
@@ -162,7 +154,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Suggested For You Grid */}
       <section className="bg-white px-3 pb-6">
         {loading ? (
           <div className="grid grid-cols-2 gap-3">
@@ -179,7 +170,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Sponsored/Brand Banners */}
       <section className="mt-2 bg-white p-3">
         <div className="grid grid-cols-2 gap-3">
           <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm">

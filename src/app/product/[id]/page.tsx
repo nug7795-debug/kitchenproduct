@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart, Heart, ShieldCheck, Truck, RotateCcw, Star, ChevronRight, Share2, MapPin } from 'lucide-react';
+import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
@@ -14,63 +14,83 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = React.useState(true);
   const [selectedImage, setSelectedImage] = React.useState(0);
 
+  const fetchProduct = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        categories (name, slug),
+        product_images (image_url, is_featured)
+      `)
+      .eq('id', id)
+      .single();
+
+    if (data) {
+      setProduct({
+        ...data,
+        categoryName: data.categories?.name || 'Kitchen',
+        images: data.product_images?.length > 0 
+          ? data.product_images.map((img: any) => img.image_url)
+          : ['https://via.placeholder.com/600']
+      });
+    }
+    setLoading(false);
+  };
+
   React.useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          categories (name, slug),
-          product_images (image_url, is_featured)
-        `)
-        .eq('id', id)
-        .single();
-
-      if (data) {
-        setProduct({
-          ...data,
-          categoryName: data.categories?.name || 'Kitchen',
-          images: data.product_images?.length > 0 
-            ? data.product_images.map((img: any) => img.image_url)
-            : ['https://via.placeholder.com/600']
-        });
-      }
-      setLoading(false);
-    };
-
     fetchProduct();
+
+    // Subscribe to realtime changes for this product
+    const channel = supabase
+      .channel('product-detail-updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products', filter: `id=eq.${id}` }, () => {
+        fetchProduct();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [id]);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-[#f1f3f6]">
         <div className="h-10 w-10 border-4 border-[#2874f0] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  if (!product) return <div className="p-10 text-center">Product not found</div>;
+  if (!product) return <div className="p-10 text-center bg-[#f1f3f6] min-h-screen">Product not found</div>;
 
-  const discount = Math.round(((product.price - product.sale_price) / product.price) * 100);
+  const displayPrice = product.price || 0;
+  const displaySalePrice = product.sale_price || displayPrice;
+  const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
 
   return (
-    <div className="flex flex-col bg-white min-h-screen pb-24">
-      {/* Mobile Top Header Action Bar */}
-      <div className="flex items-center justify-between px-4 py-3 sticky top-0 bg-white z-50 border-b md:hidden">
-         <Link href="/"><ChevronRight className="h-6 w-6 rotate-180" /></Link>
+    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px]">
+      {/* Top Header */}
+      <div className="flex items-center justify-between px-3 py-2.5 sticky top-0 bg-white z-50 shadow-sm md:hidden">
+         <div className="flex items-center gap-3">
+           <Link href="/"><ArrowLeft className="h-6 w-6 text-slate-700" /></Link>
+           <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png" alt="Flipkart" width={75} height={20} className="h-5 w-auto object-contain" />
+         </div>
          <div className="flex items-center gap-4">
-            <Share2 className="h-5 w-5 text-slate-600" />
-            <Heart className="h-5 w-5 text-slate-600" />
-            <ShoppingCart className="h-5 w-5 text-slate-600" />
+            <Search className="h-5 w-5 text-slate-700" />
+            <ShoppingCart className="h-5 w-5 text-slate-700" />
          </div>
       </div>
 
-      <div className="md:container md:mx-auto md:px-4 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-12">
+      <div className="md:container md:mx-auto md:px-4 md:py-8 bg-white md:bg-transparent">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 bg-white md:p-6 md:rounded-xl md:shadow-sm">
+          
           {/* Image Section */}
-          <div className="relative">
-            <div className="relative aspect-square md:rounded-2xl overflow-hidden bg-white border-b md:border">
+          <div className="relative bg-white pt-2 pb-6 flex flex-col items-center border-b border-slate-100 md:border-none">
+            <button className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform">
+              <Heart className="h-5 w-5 text-slate-400" />
+            </button>
+            <div className="relative aspect-square w-full max-w-[400px] overflow-hidden">
               <Image
                 src={product.images[selectedImage]}
                 alt={product.name}
@@ -78,129 +98,220 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 className="object-contain p-4"
               />
             </div>
-            {/* Horizontal Scroll Thumbnails on Mobile (Simulated) */}
-            <div className="flex overflow-x-auto no-scrollbar gap-2 p-4 md:hidden">
-               {product.images.map((img: string, i: number) => (
-                 <div key={i} className={cn("w-2 h-2 rounded-full", selectedImage === i ? "bg-[#2874f0]" : "bg-slate-200")} />
-               ))}
-            </div>
-            {/* Grid Thumbnails on Desktop */}
-            <div className="hidden md:flex gap-4 mt-4">
-              {product.images.map((img: string, i: number) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedImage(i)}
-                  className={cn(
-                    "relative h-20 w-20 overflow-hidden rounded-lg border-2 transition-all",
-                    selectedImage === i ? "border-[#2874f0]" : "border-transparent"
-                  )}
-                >
-                  <Image src={img} alt="" fill className="object-cover" />
-                </button>
-              ))}
-            </div>
+            {/* Pagination Dots */}
+            {product.images.length > 1 && (
+              <div className="flex items-center gap-2 mt-4">
+                 {product.images.map((_: any, i: number) => (
+                   <div key={i} className={cn("rounded-full", selectedImage === i ? "w-2 h-2 bg-[#2874f0]" : "w-1.5 h-1.5 bg-slate-300")} />
+                 ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info Section */}
-          <div className="px-4 py-6 md:p-0 space-y-6">
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <p className="text-xs font-bold text-[#2874f0] uppercase tracking-wider">{product.categoryName}</p>
-                <div className="flex items-center gap-1 bg-green-600 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
-                   4.5 <Star className="h-2.5 w-2.5 fill-current" />
-                </div>
+          <div className="bg-white">
+            <div className="p-4 space-y-2">
+              <div className="text-[13px] text-slate-500 font-medium hover:text-[#2874f0] uppercase tracking-wide">
+                {product.categoryName}
               </div>
-              <h1 className="text-lg md:text-2xl font-medium text-slate-800 leading-snug">{product.name}</h1>
+              <h1 className="text-[16px] md:text-xl font-normal text-slate-800 leading-snug">{product.name}</h1>
+              
               <div className="flex items-center gap-2 pt-1">
-                 <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="Assured" width={70} height={20} className="h-4 w-auto object-contain" />
+                <div className="flex items-center gap-1 bg-green-600 text-white px-1.5 py-0.5 rounded text-[12px] font-bold">
+                   4.5 <Star className="h-3 w-3 fill-current" />
+                </div>
+                <span className="text-[13px] text-slate-500 font-medium">1,428 ratings and 234 reviews</span>
+                <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="Assured" width={60} height={18} className="h-4 w-auto object-contain ml-auto" />
               </div>
+
+              <div className="flex items-end gap-2 pt-2">
+                <span className="text-[28px] font-semibold text-slate-900 leading-none">₹{displaySalePrice.toLocaleString()}</span>
+                {displaySalePrice < displayPrice && (
+                  <>
+                    <span className="text-[14px] text-slate-500 line-through mb-1">₹{displayPrice.toLocaleString()}</span>
+                    <span className="text-[14px] font-bold text-green-600 mb-1">{discount}% off</span>
+                  </>
+                )}
+              </div>
+              <div className="text-[12px] text-slate-500 font-medium pt-1">Free delivery</div>
             </div>
 
-            <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-bold text-slate-900">₹{product.sale_price.toLocaleString()}</span>
-              <span className="text-sm text-slate-400 line-through">₹{product.price.toLocaleString()}</span>
-              <span className="text-sm font-bold text-green-600">{discount}% off</span>
-            </div>
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
 
             {/* Available Offers Section */}
-            <div className="space-y-3 pt-2">
-               <h3 className="text-sm font-bold text-slate-900">Available Offers</h3>
-               <div className="space-y-2">
+            <div className="p-4 bg-white">
+               <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Available Offers</h3>
+               <div className="space-y-3">
                   {[
-                    "Bank Offer 10% instant discount on SBI Credit Card, up to ₹1,750 on orders of ₹5,000 and above",
-                    "Bank Offer 5% Cashback on Flipkart Axis Bank Card",
-                    "Special Price Get extra 10% off (price inclusive of cashback/coupon)",
-                    "Partner Offer Sign up for Flipkart Pay Later and get Flipkart Gift Card worth up to ₹500"
+                    { type: 'Bank Offer', desc: '5% Unlimited Cashback on Flipkart Axis Bank Credit Card', link: 'T&C' },
+                    { type: 'Bank Offer', desc: '10% off on SBI Credit Card, up to ₹1750 on orders of ₹5000 and above', link: 'T&C' },
+                    { type: 'Special Price', desc: 'Get extra 15% off (price inclusive of cashback/coupon)', link: 'T&C' },
+                    { type: 'Partner Offer', desc: 'Sign up for Flipkart Pay Later and get Flipkart Gift Card worth up to ₹500', link: 'Know More' }
                   ].map((offer, i) => (
                     <div key={i} className="flex gap-2 items-start">
-                       <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/offer_94e7c4.png" alt="Offer" width={14} height={14} className="mt-0.5 shrink-0" />
-                       <p className="text-[11px] text-slate-800 leading-tight">
-                         <span className="font-bold">{offer.split(' ')[0]} {offer.split(' ')[1]}</span> {offer.split(' ').slice(2).join(' ')}
+                       <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/offer_94e7c4.png" alt="Offer" width={16} height={16} className="mt-0.5 shrink-0" />
+                       <p className="text-[13px] text-slate-800 leading-[1.4]">
+                         <span className="font-semibold">{offer.type}</span> {offer.desc} <span className="text-[#2874f0] font-semibold cursor-pointer">{offer.link}</span>
                        </p>
                     </div>
                   ))}
-                  <button className="text-[11px] font-bold text-[#2874f0]">View 5 more offers</button>
                </div>
             </div>
 
-            <div className="bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
-               <div className="flex items-center gap-3">
-                  <div className="bg-white p-2 rounded-lg shadow-sm">
-                    <MapPin className="h-5 w-5 text-[#2874f0]" />
-                  </div>
-                  <div>
-                     <p className="text-xs font-bold">Deliver to Ansarul, 700001</p>
-                     <p className="text-[10px] text-slate-500">Kolkata, West Bengal • <span className="text-green-600 font-bold uppercase">FREE Delivery</span></p>
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+
+            {/* Advertisement Banner Placeholder */}
+            <div className="p-4 bg-white">
+               <div className="w-full relative rounded-md overflow-hidden border border-slate-200">
+                  <Image src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=800" alt="Ad" width={800} height={200} className="w-full h-auto object-cover" />
+                  <div className="absolute top-1 right-1 bg-white/80 text-[9px] px-1 rounded-sm text-slate-700 font-bold">AD</div>
+                  <div className="absolute bottom-2 left-2 right-2 bg-white/90 p-2 rounded flex justify-between items-center backdrop-blur-sm">
+                     <div>
+                        <p className="text-[12px] font-bold text-slate-800">Kitchen Upgrade Sale</p>
+                        <p className="text-[10px] text-slate-600">Up to 60% Off on Appliances</p>
+                     </div>
+                     <ChevronRight className="h-4 w-4 text-slate-500" />
                   </div>
                </div>
-               <Button variant="outline" size="sm" className="rounded-full h-8 px-4 text-[11px] font-black border-[#2874f0] text-[#2874f0] bg-white">CHANGE</Button>
             </div>
 
-            {/* Highlights Section */}
-            <div className="space-y-4 pt-4 border-t">
-               <h3 className="text-sm font-bold text-slate-900">Highlights</h3>
-               <ul className="space-y-2">
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+
+            {/* Delivery Section */}
+            <div className="p-4 bg-white flex items-start gap-4">
+               <div className="mt-1">
+                 <MapPin className="h-5 w-5 text-slate-400" />
+               </div>
+               <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                     <span className="text-[14px] text-slate-500">Deliver to</span>
+                     <span className="text-[14px] font-semibold text-slate-800 border-b-2 border-[#2874f0] pb-0.5">700001</span>
+                  </div>
+                  <div className="mt-2 text-[14px] text-slate-800 font-semibold">
+                     Delivery by Tomorrow, 10:00 PM <span className="text-[#2874f0] font-normal border-r border-slate-300 pr-2 mr-2">Free</span>
+                     <span className="text-slate-500 font-normal line-through">₹40</span>
+                  </div>
+                  <p className="text-[12px] text-slate-500 mt-1">If ordered before 4:00 PM</p>
+               </div>
+            </div>
+
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+
+            {/* Services */}
+            <div className="p-4 bg-white flex items-center justify-between">
+               <div className="flex flex-col items-center gap-1">
+                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
+                   <ShieldCheck className="h-5 w-5 text-[#2874f0]" />
+                 </div>
+                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">1 Year<br/>Warranty</span>
+               </div>
+               <div className="flex flex-col items-center gap-1">
+                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
+                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2874f0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                 </div>
+                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">7 Days<br/>Replacement</span>
+               </div>
+               <div className="flex flex-col items-center gap-1">
+                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
+                   <span className="font-bold text-[#2874f0] text-sm">₹</span>
+                 </div>
+                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">Cash on<br/>Delivery</span>
+               </div>
+            </div>
+
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+
+            {/* Description / Highlights */}
+            <div className="p-4 bg-white">
+               <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Highlights</h3>
+               <ul className="space-y-2 mb-4">
                   {["Premium Build Quality", "Ergonomic Design", "Easy to Clean", "Energy Efficient", "1 Year Warranty"].map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-[12px] text-slate-600">
-                       <div className="h-1 w-1 rounded-full bg-slate-400" />
+                    <li key={i} className="flex items-center gap-3 text-[14px] text-slate-700">
+                       <div className="h-1.5 w-1.5 rounded-full bg-slate-400" />
                        {item}
                     </li>
                   ))}
                </ul>
+               <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Description</h3>
+               <p className="text-[13px] text-slate-700 leading-relaxed">{product.description}</p>
             </div>
 
-            <div className="space-y-4 pt-4 border-t">
-               <h3 className="text-sm font-bold text-slate-900">Description</h3>
-               <p className="text-[12px] text-slate-600 leading-relaxed line-clamp-4">{product.description}</p>
-               <button className="text-[11px] font-bold text-[#2874f0] uppercase">Read More</button>
-            </div>
+            {/* Gap in mobile view */}
+            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
 
-            {/* Seller Information */}
-            <div className="pt-4 border-t pb-10">
-               <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-slate-900">Seller</h3>
-                  <button className="text-[11px] font-bold text-[#2874f0]">View Details</button>
+            {/* Ratings & Reviews Section */}
+            <div className="p-4 bg-white">
+               <div className="flex items-center justify-between mb-4">
+                 <h3 className="text-[16px] font-semibold text-slate-900">Ratings & Reviews</h3>
+                 <button className="bg-white border border-slate-200 shadow-sm text-slate-700 px-4 py-2 rounded font-medium text-[13px]">Rate Product</button>
                </div>
-               <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[12px] font-bold text-[#2874f0]">Kitchen_Master_Retail</span>
-                  <div className="flex items-center gap-1 bg-[#2874f0] text-white px-1 py-0.5 rounded text-[8px] font-bold">
-                    4.8 <Star className="h-2 w-2 fill-current" />
-                  </div>
+               
+               <div className="flex items-center gap-6 mb-6">
+                 <div className="flex flex-col items-center justify-center">
+                   <div className="text-[32px] font-normal text-slate-800 flex items-center gap-1">4.5<Star className="h-6 w-6 fill-current text-slate-800" /></div>
+                   <div className="text-[12px] text-slate-500 text-center leading-tight mt-1">1,428 Ratings &<br/>234 Reviews</div>
+                 </div>
+                 <div className="flex-1 space-y-1">
+                   {[5,4,3,2,1].map((star) => (
+                     <div key={star} className="flex items-center gap-2">
+                       <span className="text-[11px] font-bold text-slate-800 w-2">{star}</span>
+                       <Star className="h-2.5 w-2.5 fill-current text-slate-400" />
+                       <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                         <div className={cn("h-full rounded-full", star >= 4 ? "bg-green-600" : star === 3 ? "bg-green-500" : star === 2 ? "bg-yellow-500" : "bg-red-500")} style={{ width: `${star * 18}%` }} />
+                       </div>
+                     </div>
+                   ))}
+                 </div>
                </div>
-               <p className="text-[10px] text-slate-400 mt-1">7 days service center replacement/repair</p>
+
+               {/* Sample Review */}
+               <div className="border-t border-slate-100 pt-4 pb-2">
+                 <div className="flex items-center gap-2 mb-2">
+                   <div className="flex items-center gap-0.5 bg-green-600 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">
+                     5 <Star className="h-2 w-2 fill-current" />
+                   </div>
+                   <span className="text-[13px] font-semibold text-slate-800">Simply awesome</span>
+                 </div>
+                 <p className="text-[13px] text-slate-700 mb-2">Excellent product. The build quality is very good and the delivery was fast. Highly recommended.</p>
+                 <div className="flex items-center gap-2 mb-3 overflow-x-auto no-scrollbar">
+                    <div className="h-16 w-16 relative rounded overflow-hidden border border-slate-200 shrink-0">
+                      <Image src="https://images.unsplash.com/photo-1584900129033-b2da7863fb72?q=80&w=200" alt="Review Image" fill className="object-cover" />
+                    </div>
+                 </div>
+                 <div className="flex items-center justify-between">
+                   <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+                     <span>Ansarul</span>
+                     <span className="flex items-center gap-1"><ShieldCheck className="h-3 w-3 text-slate-400" /> Certified Buyer, Kolkata</span>
+                   </div>
+                   <div className="flex items-center gap-3">
+                     <div className="flex items-center gap-1 text-[11px] text-slate-500"><ThumbsUp className="h-3 w-3" /> 24</div>
+                     <div className="flex items-center gap-1 text-[11px] text-slate-500"><ThumbsDown className="h-3 w-3" /> 2</div>
+                   </div>
+                 </div>
+               </div>
+               
+               <button className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-semibold text-[14px] flex items-center justify-between">
+                 All 234 reviews
+                 <ChevronRight className="h-4 w-4" />
+               </button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Sticky Bottom Bar (Flipkart Style) */}
-      <div className="fixed bottom-0 left-0 right-0 z-[100] bg-white border-t flex h-16 shadow-2xl">
-         <button className="flex-1 flex items-center justify-center font-bold text-slate-800 bg-white border-r">
+      <div className="fixed bottom-0 left-0 right-0 z-[100] flex h-[60px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+         <button className="flex-1 flex items-center justify-center text-[15px] font-semibold text-[#333] bg-white">
             ADD TO CART
          </button>
-         <button className="flex-1 flex items-center justify-center font-bold text-white bg-[#ff9f00]">
+         <Link href={`/checkout?productId=${product.id}`} className="flex-1 flex items-center justify-center text-[15px] font-semibold text-white bg-[#fb641b]">
             BUY NOW
-         </button>
+         </Link>
       </div>
     </div>
   );

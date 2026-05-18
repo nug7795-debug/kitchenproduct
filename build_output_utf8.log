@@ -1,0 +1,37 @@
+﻿
+> client@0.1.0 build
+> next build
+
+   ▲ Next.js 15.1.9
+   - Environments: .env.production.local, .env.local, .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+node.exe : SUPABASE_SERVICE_ROLE_KEY is missing. Admin features will not work.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (SUPABASE_SERVIC... will not work.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Error: supabaseKey is required.
+    at new rW (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\chunks\93.js:37:51555)
+    at rK (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\chunks\93.js:37:55410)
+    at 3168 (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\app\api\products\[slug]\route.js:1:1842)
+    at t (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\webpack-runtime.js:1:127)
+    at 5545 (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\app\api\products\[slug]\route.js:1:810)
+    at t (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\webpack-runtime.js:1:127)
+    at t (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\app\api\products\[slug]\route.js:1:1959)
+    at <unknown> 
+(C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\app\api\products\[slug]\route.js:1:1993)
+    at t.X (C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\webpack-runtime.js:1:1191)
+    at <unknown> 
+(C:\Users\ANSARUL\OneDrive\Desktop\kitchenproduct\.next\server\app\api\products\[slug]\route.js:1:1972)
+
+> Build error occurred
+[Error: Failed to collect page data for /api/products/[slug]] {
+  type: 'Error'
+}

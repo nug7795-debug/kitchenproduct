@@ -1,15 +1,19 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
+export const dynamic = 'force-dynamic';
+
+
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
     const { data, error } = await supabaseAdmin
       .from('products')
       .select('*, product_images(*), product_variants(*)')
-      .eq('slug', params.slug)
+      .eq('slug', slug)
       .single();
 
     if (error) throw error;

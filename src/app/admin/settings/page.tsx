@@ -31,20 +31,12 @@ export default function SettingsPage() {
     supportEmail: 'hello@kitchenproduct.com',
     seoDescription: 'The most premium destination for kitchen tools and professional appliances in India.',
     maintenanceMode: true,
-    payments: {
-      upi: true,
-      qr: true,
-      cod: true,
-      upiId: 'kitchenproduct@upi',
-      mccCode: '5722'
-    },
     shipping: {
       baseCharge: 49,
       freeThreshold: 999,
       expressEnabled: true
     },
     security: {
-      https: true,
       logout: true,
       tfa: false,
       rateLimit: true
@@ -139,7 +131,6 @@ export default function SettingsPage() {
 
   const menuItems = [
     { id: 'store', label: 'Store Identity', icon: Globe },
-    { id: 'payments', label: 'Payment Methods', icon: CreditCard },
     { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
     { id: 'notifications', label: 'Alerts & Notifications', icon: Bell },
     { id: 'security', label: 'Security & Access', icon: Shield },
@@ -237,76 +228,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {/* Section: Payments */}
-          {activeSection === 'payments' && (
-            <div className="space-y-6">
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
-                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
-                   <div className="h-10 w-10 rounded-xl bg-green-500 flex items-center justify-center text-white shadow-lg shadow-green-100"><CreditCard className="h-5 w-5" /></div>
-                   <h2 className="font-black text-slate-900 uppercase tracking-tight">Payment Method Control</h2>
-                </div>
 
-                <div className="space-y-4">
-                   {[
-                    { id: 'upi', label: 'UPI Intent (Direct Apps)', desc: 'Enable Google Pay, PhonePe, and Paytm intent links.' },
-                    { id: 'qr', label: 'Static QR Display', desc: 'Display a fixed QR code for manual payment scan.' },
-                    { id: 'cod', label: 'Cash on Delivery', desc: 'Allow customers to pay when item is delivered.' },
-                  ].map((method) => {
-                    const isActive = settings.payments[method.id as keyof typeof settings.payments];
-                    return (
-                      <div 
-                        key={method.id} 
-                        onClick={() => toggleSetting('payments', method.id)}
-                        className={cn(
-                          "p-6 rounded-[2rem] border-2 transition-all flex items-center justify-between group cursor-pointer",
-                          isActive ? "border-orange-100 bg-orange-50/20" : "border-slate-50 hover:border-slate-100"
-                        )}
-                      >
-                         <div className="flex items-center gap-4">
-                            <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center transition-all", isActive ? "bg-orange-100 text-orange-600" : "bg-slate-100 text-slate-400")}>
-                               <CreditCard className="h-6 w-6" />
-                            </div>
-                            <div>
-                               <p className="text-sm font-black text-slate-900 uppercase tracking-tight">{method.label}</p>
-                               <p className="text-[10px] text-slate-500 font-bold uppercase">{method.desc}</p>
-                            </div>
-                         </div>
-                         <div className={cn("h-6 w-11 rounded-full relative transition-all", isActive ? "bg-orange-500" : "bg-slate-200")}>
-                            <div className={cn("absolute top-1 h-4 w-4 bg-white rounded-full transition-all shadow-sm", isActive ? "right-1" : "left-1")} />
-                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                 <div className="bg-orange-50 border-2 border-orange-100 p-8 rounded-[2.5rem] space-y-4">
-                   <h3 className="font-black text-orange-800 text-xs uppercase tracking-widest flex items-center gap-2">
-                      <Smartphone className="h-4 w-4" /> UPI Merchant Configuration
-                   </h3>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-orange-600 uppercase tracking-widest">Business UPI ID</label>
-                        <input 
-                          type="text" 
-                          value={settings.payments.upiId} 
-                          onChange={(e) => updateNestedField('payments', 'upiId', e.target.value)}
-                          className="w-full bg-white border-2 border-orange-200 rounded-xl p-3 text-sm font-black text-slate-800 outline-none focus:border-orange-500 transition-all" 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[9px] font-black text-orange-600 uppercase tracking-widest">MCC Code</label>
-                        <input 
-                          type="text" 
-                          value={settings.payments.mccCode} 
-                          onChange={(e) => updateNestedField('payments', 'mccCode', e.target.value)}
-                          className="w-full bg-white border-2 border-orange-200 rounded-xl p-3 text-sm font-black text-slate-800 outline-none focus:border-orange-500 transition-all" 
-                        />
-                      </div>
-                   </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Section: Notifications */}
           {activeSection === 'notifications' && (
@@ -410,7 +332,7 @@ export default function SettingsPage() {
 
                 <div className="space-y-6">
                    {[
-                     { id: 'https', label: 'Force HTTPS Redirection', desc: 'Redirect all HTTP traffic to secure HTTPS automatically.' },
+
                      { id: 'logout', label: 'Automatic Admin Logout', desc: 'Terminate admin sessions after 60 minutes of inactivity.' },
                      { id: 'tfa', label: 'Two-Factor Authentication', desc: 'Require OTP verification for administrative login.' },
                      { id: 'rateLimit', label: 'API Protection (Rate Limiting)', desc: 'Prevent brute-force and DDoS attacks on backend endpoints.' },

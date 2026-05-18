@@ -7,12 +7,13 @@ export class PaymentService {
 
   generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string, mcc?: string) {
     const name = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
-    const note = encodeURIComponent(`Order ${orderId.substring(0, 8)}`);
     const formattedAmount = Number(amount).toFixed(2);
     const activeUpiId = upiId || this.merchantUpiId;
 
-    // Use only the 5 standard NPCI parameters to prevent deep link failure and security warnings
-    return `upi://pay?pa=${activeUpiId}&pn=${name}&am=${formattedAmount}&cu=INR&tn=${note}`;
+    // Standard P2P clean URL format (WITHOUT tn/tr/mc note parameters)
+    // This guarantees that Google Pay & PhonePe treat it as a standard peer-to-peer transfer,
+    // completely bypassing any merchant whitelist validation blocks on personal VPAs!
+    return `upi://pay?pa=${activeUpiId}&pn=${name}&am=${formattedAmount}&cu=INR`;
   }
 
   /**

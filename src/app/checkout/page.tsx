@@ -788,14 +788,14 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Primary Universal Click-to-Pay Button */}
-                <button
-                  type="button"
-                  onClick={() => handleUpiAppPay('universal')}
-                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2874f0] to-[#1a64df] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg hover:from-[#1a64df] hover:to-[#1253c5] active:scale-98 transition-all flex items-center justify-center gap-2"
+                <a
+                  href={upiUrl || '#'}
+                  onClick={() => setShowAssistantModal(true)}
+                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2874f0] to-[#1a64df] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg hover:from-[#1a64df] hover:to-[#1253c5] active:scale-98 transition-all flex items-center justify-center gap-2 text-center"
                 >
                   <Smartphone className="h-4.5 w-4.5 animate-bounce" />
                   ⚡ Pay via Any UPI App (Auto-Detect)
-                </button>
+                </a>
 
                 <div className="relative flex py-1 items-center">
                   <div className="flex-grow border-t border-slate-200"></div>
@@ -805,10 +805,10 @@ export default function CheckoutPage() {
 
                 <div className="grid grid-cols-4 gap-2">
                   {UPI_APPS.map((app) => (
-                    <button
+                    <a
                       key={app.id}
-                      type="button"
-                      onClick={() => handleUpiAppPay(app.id)}
+                      href={upiUrl || '#'}
+                      onClick={() => setShowAssistantModal(true)}
                       className={cn(
                         "flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all active:scale-95 group shadow-sm text-center",
                         app.color
@@ -818,7 +818,7 @@ export default function CheckoutPage() {
                         <img src={app.icon} alt={app.name} className="max-h-full max-w-full object-contain" />
                       </div>
                       <span className="text-[9px] font-black text-slate-700 leading-tight block">{app.name}</span>
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>

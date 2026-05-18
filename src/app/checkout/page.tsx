@@ -56,6 +56,11 @@ export default function CheckoutPage() {
   const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Big Dhamaka Sale');
   const [isMobile, setIsMobile] = React.useState(false);
   
+  // UPI Handoff Assistant Overlay Modal
+  const [showAssistantModal, setShowAssistantModal] = React.useState(false);
+  const [copiedAmount, setCopiedAmount] = React.useState(false);
+  const [copiedVpa, setCopiedVpa] = React.useState(false);
+  
   // Shipping Address Form State
   const [address, setAddress] = React.useState({
     fullName: '',
@@ -245,10 +250,9 @@ export default function CheckoutPage() {
       window.location.href = upiLink;
     }
 
-    // Seamless Transition to UTR entry step so they can confirm
-    setTimeout(() => {
-      setStep('utr_entry');
-    }, 1500);
+    // Instantly launch the smart helper assistant modal so that if Google Pay/PhonePe blocks P2P browser intents,
+    // the user is met with beautiful step-by-step fail-safe alternatives (Copy VPA or Save QR)!
+    setShowAssistantModal(true);
   };
 
   // 1. Submit Shipping Address
@@ -951,6 +955,122 @@ export default function CheckoutPage() {
         </div>
 
       </div>
+
+      {/* UPI APP HANDOFF & DIRECT BANK TRANSFER ASSISTANT OVERLAY */}
+      {showAssistantModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-100 flex flex-col animate-in zoom-in-95 duration-200">
+            
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-[#2874f0] to-[#1a64df] p-5 text-white relative">
+              <button
+                type="button"
+                onClick={() => setShowAssistantModal(false)}
+                className="absolute top-4 right-4 text-white/80 hover:text-white font-black text-sm bg-white/10 hover:bg-white/20 h-7 w-7 rounded-full flex items-center justify-center transition-all"
+              >
+                ✕
+              </button>
+              <div className="flex items-center gap-2 mb-1">
+                <Smartphone className="h-5 w-5 animate-pulse text-yellow-350" />
+                <span className="text-[9px] font-black uppercase tracking-wider bg-yellow-400 text-slate-950 px-2 py-0.5 rounded-full">
+                  Auto-Handoff active
+                </span>
+              </div>
+              <h3 className="text-sm font-black uppercase tracking-tight">UPI Payment Handoff</h3>
+              <p className="text-[10px] text-blue-100 font-medium">Follow these steps if your UPI App blocks the request:</p>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 space-y-4">
+              
+              {/* Visual Alert explaining GPay / PhonePe restriction */}
+              <div className="bg-amber-50 border border-amber-250 rounded-xl p-3 flex gap-2.5">
+                <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" />
+                <div className="space-y-1">
+                  <h4 className="text-[10.5px] font-black text-amber-800 uppercase tracking-wide">Receiver UPI ID Unavailable?</h4>
+                  <p className="text-[9.5px] text-amber-700 leading-relaxed font-semibold">
+                    Google Pay, PhonePe & Paytm block direct browser clicks to <strong>personal UPI IDs</strong> due to new bank security regulations.
+                  </p>
+                </div>
+              </div>
+
+              {/* Instant Action Copy Block */}
+              <div className="space-y-2.5">
+                <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block">100% Fail-Safe Alternative Methods</span>
+                
+                {/* Copy VPA Card */}
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Copy UPI ID (VPA)</span>
+                    <span className="text-[9px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-black uppercase">Ajmal Hussain</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 bg-white border border-slate-250 rounded-xl p-2.5 shadow-inner">
+                    <code className="text-xs font-mono font-bold text-slate-800 select-all tracking-tight break-all">
+                      {merchantVpa}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(merchantVpa);
+                        setCopiedVpa(true);
+                        setTimeout(() => setCopiedVpa(false), 2000);
+                      }}
+                      className="bg-[#2874f0] text-white hover:bg-[#1a64df] px-3.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm transition-all shrink-0 active:scale-95"
+                    >
+                      {copiedVpa ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                      {copiedVpa ? 'Copied' : 'Copy'}
+                    </button>
+                  </div>
+                  <p className="text-[9px] text-slate-500 font-semibold leading-relaxed">
+                    👉 <strong>How to pay:</strong> Open your UPI app, click "Pay UPI ID/Number", paste the ID above, and pay!
+                  </p>
+                </div>
+
+                {/* Copy Amount Card */}
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-3">
+                  <div>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide block">Exact Amount to Pay</span>
+                    <span className="text-xs font-black text-slate-800">₹{totalSale.toFixed(2)}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(totalSale.toFixed(2));
+                      setCopiedAmount(true);
+                      setTimeout(() => setCopiedAmount(false), 2000);
+                    }}
+                    className="border border-slate-350 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg text-[9.5px] font-bold text-slate-700 flex items-center gap-1 shadow-sm transition-all active:scale-95"
+                  >
+                    {copiedAmount ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+                    {copiedAmount ? 'Copied' : 'Copy Amount'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Paid Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAssistantModal(false);
+                  setStep('utr_entry');
+                }}
+                className="w-full py-3 bg-[#388e3c] hover:bg-[#2e7d32] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-98"
+              >
+                Paid Successfully? Enter UTR <ArrowRight className="h-3.5 w-3.5 animate-pulse" />
+              </button>
+
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="bg-slate-50 border-t border-slate-100 p-3.5 flex items-center justify-center gap-1.5 text-[8.5px] font-bold uppercase tracking-wider text-slate-400 text-center">
+              <ShieldCheck className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+              Payments are securely processed directly via bank-to-bank UPI channels.
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

@@ -169,7 +169,31 @@ export default function CheckoutPage() {
       }
     };
 
+    // Load Global UPI settings from settings database
+    const loadPaymentSettings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('settings')
+          .select('*')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+
+        if (data?.value?.payment) {
+          const paymentConfig = data.value.payment;
+          if (paymentConfig.merchantUpiId) {
+            setMerchantVpa(paymentConfig.merchantUpiId);
+          }
+          if (paymentConfig.payeeName) {
+            setPayeeName(paymentConfig.payeeName);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading dynamic merchant settings:', err);
+      }
+    };
+
     loadUserAndAddresses();
+    loadPaymentSettings();
   }, []);
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);

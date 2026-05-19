@@ -59,6 +59,7 @@ export default function CheckoutPage() {
   // Dynamic Merchant details loaded from settings
   const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'yourstore@paytm');
   const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Big Dhamaka Sale');
+  const [mccCode, setMccCode] = React.useState('5722');
   const [isMobile, setIsMobile] = React.useState(false);
   const [selectedMethod, setSelectedMethod] = React.useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('gpay');
   const [timeLeft, setTimeLeft] = React.useState(276); // 4min 36sec exactly like in the screenshot
@@ -200,6 +201,15 @@ export default function CheckoutPage() {
             state: defaultAddr.state,
             postalCode: defaultAddr.postal_code
           });
+          // split street address
+          const parts = (defaultAddr.street_address || '').split(', ');
+          if (parts.length > 1) {
+            setHouseNumber(parts[0]);
+            setRoadName(parts.slice(1).join(', '));
+          } else {
+            setHouseNumber(defaultAddr.street_address || '');
+            setRoadName('');
+          }
         }
       }
     };
@@ -222,6 +232,7 @@ export default function CheckoutPage() {
           if (p.merchantUpiId) setMerchantVpa(p.merchantUpiId);
           if (p.payeeName) setPayeeName(p.payeeName);
           if (p.razorpayKeyId) setRazorpayKeyId(p.razorpayKeyId);
+          if (p.mccCode) setMccCode(p.mccCode);
         }
       } catch (err) {
         console.error('Failed to load global payment settings:', err);
@@ -296,14 +307,16 @@ export default function CheckoutPage() {
     setTimeout(() => setCopied(false), 3000);
 
     // 2. Setup standard payment payload
-    const cleanPayee = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
+    const cleanPayee = encodeURIComponent(payeeName || 'Anisha Hardware');
     // Calculate final actual total sale price dynamically
     const baseSaleTotal = cartItems.reduce((acc, item) => acc + (item.salePrice * item.quantity), 0);
     const totalSale = Math.max(0, baseSaleTotal - couponDiscount);
     const cleanAmount = Number(totalSale).toFixed(2);
     const cleanTr = transactionId || `TXN_${Date.now()}`;
+    const cleanTn = encodeURIComponent(`Order ${transactionId || 'Payment'}`);
+    const activeMcc = mccCode || '5722';
     
-    // Clean any parameters (like tn, tr) from upiUrl to prevent bank and NPCI risk policy blocks
+    // Formulate a robust, fully compliant P2M deep-link URL containing all necessary merchant details
     let targetUpiUrl = '';
     if (upiUrl) {
       try {
@@ -311,10 +324,13 @@ export default function CheckoutPage() {
         if (parts.length >= 2) {
           const queryParams = new URLSearchParams(parts[1]);
           const pa = queryParams.get('pa') || merchantVpa;
-          const pn = queryParams.get('pn') || payeeName || 'Big Dhamaka Sale';
+          const pn = queryParams.get('pn') || payeeName || 'Anisha Hardware';
           const am = queryParams.get('am') || cleanAmount;
           const cu = queryParams.get('cu') || 'INR';
-          targetUpiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}`;
+          const mc = queryParams.get('mc') || activeMcc;
+          const tr = queryParams.get('tr') || cleanTr;
+          const tn = queryParams.get('tn') || `Order ${transactionId || ''}`;
+          targetUpiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}&mc=${mc}&tr=${tr}&tn=${encodeURIComponent(tn)}&mode=02&purpose=00`;
         } else {
           targetUpiUrl = upiUrl;
         }
@@ -323,8 +339,8 @@ export default function CheckoutPage() {
       }
     }
 
-    // Auto-generate safe dynamic parameters to bypass bank & NPCI risk blocks (exclude tn/tr)
-    const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR`;
+    // Auto-generate safe dynamic parameters to bypass bank & NPCI risk blocks by including proper P2M metadata
+    const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR&mc=${activeMcc}&tr=${cleanTr}&tn=${cleanTn}&mode=02&purpose=00`;
     const baseUpiUrl = targetUpiUrl || `upi://pay?${params}`;
 
     // 3. Device detection fallback: tablets and desktops do not support standard mobile deep-link apps
@@ -338,7 +354,6 @@ export default function CheckoutPage() {
     }
 
     // 4. Mobile app launch detection: check if the focus switches to the external payment application.
-    // If focus remains on the browser after 1.5s, the app is likely not installed.
     let appOpened = false;
     const blurHandler = () => {
       appOpened = true;
@@ -348,13 +363,15 @@ export default function CheckoutPage() {
     // Launch the chosen app
     UPIPay.launch(appId, baseUpiUrl);
 
-    // Set fallback checker
+    // Always immediately show the assistant modal as a reliable standby fallback on mobile!
+    // Since browser deep links are highly prone to security policy blocks from Axis Bank/NPCI,
+    // this ensures the user is immediately presented with the 100% fail-safe QR Screenshot/VPA Copy flow 
+    // the moment they return to the storefront tab if the app fails.
+    setShowAssistantModal(true);
+
+    // Set backup cleanup
     setTimeout(() => {
       window.removeEventListener('blur', blurHandler);
-      if (!appOpened) {
-        // App did not open successfully (not installed / blocked). Fallback to assistance modal.
-        setShowAssistantModal(true);
-      }
     }, 1500);
   };
 
@@ -532,11 +549,21 @@ export default function CheckoutPage() {
         if (data.merchantUpiId) localStorage.setItem('active_merchant_vpa', data.merchantUpiId);
         if (data.payeeName) localStorage.setItem('active_payee_name', data.payeeName);
         if (data.mode) localStorage.setItem('active_payment_mode', data.mode);
+        
+        localStorage.setItem('user', JSON.stringify({
+          firstname: address.fullName,
+          phone: address.phone,
+          email: user?.email || ''
+        }));
+        localStorage.setItem('data', JSON.stringify({
+          name: cartItems[0]?.name || 'Kitchen Order'
+        }));
       } catch (e) {
         console.error('Failed to persist payment details:', e);
       }
 
-      setStep('payment');
+      window.location.href = `/payment/${totalSale}.${totalOriginal || totalSale}?txnid=${data.transactionId}&orderId=${newOrder.id}`;
+      return;
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Failed to place order. Please try again.');
@@ -1351,7 +1378,7 @@ export default function CheckoutPage() {
                       </div>
 
                       {/* Tab Content: Card Details */}
-                      {selectedMethod === 'card' && (
+                      {(selectedMethod as string) === 'card' && (
                         <div className="space-y-3.5 pt-2 animate-in fade-in duration-300">
                           <div className="space-y-1.5">
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Card Number</label>
@@ -1386,7 +1413,7 @@ export default function CheckoutPage() {
                       )}
 
                       {/* Tab Content: UPI Details */}
-                      {(selectedMethod === 'upi' || selectedMethod === 'gpay') && (
+                      {((selectedMethod as string) === 'upi' || selectedMethod === 'gpay') && (
                         <div className="space-y-4 pt-2 animate-in fade-in duration-300">
                           <div className="space-y-1.5">
                             <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Virtual Payment Address (VPA)</label>
@@ -1410,7 +1437,7 @@ export default function CheckoutPage() {
                       )}
 
                       {/* Tab Content: Net Banking */}
-                      {selectedMethod === 'netbanking' && (
+                      {(selectedMethod as string) === 'netbanking' && (
                         <div className="grid grid-cols-2 gap-2 pt-2 animate-in fade-in duration-300">
                           {['SBI', 'HDFC', 'ICICI', 'AXIS'].map((bank) => (
                             <button
@@ -1578,7 +1605,7 @@ export default function CheckoutPage() {
                         <div className="px-4 pb-4 border-t border-slate-100 pt-3 flex flex-col items-center justify-center space-y-3 bg-slate-50/50 animate-in fade-in slide-in-from-top-2 duration-200">
                           <div className="relative bg-white p-3 rounded-xl shadow-xs border border-slate-150 flex items-center justify-center">
                             <img 
-                              src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || '')}`} 
+                              src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${encodeURIComponent(payeeName)}&am=${totalSale}&cu=INR&mc=${mccCode || '5722'}&tr=${transactionId || `TXN_${Date.now()}`}&mode=02&purpose=00`)}`} 
                               alt="Scan UPI QR" 
                               className="h-40 w-40 object-contain"
                             />
@@ -1609,7 +1636,7 @@ export default function CheckoutPage() {
 
                     <div className="inline-block bg-slate-50 p-4 rounded-3xl border border-slate-100 shadow-xs relative group">
                       <img 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}`} 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${encodeURIComponent(payeeName)}&am=${totalSale}&cu=INR&mc=${mccCode || '5722'}&tr=${transactionId || `TXN_${Date.now()}`}&mode=02&purpose=00`)}`} 
                         alt="Static Payment QR" 
                         className="h-44 w-44 object-contain mx-auto"
                       />
@@ -1965,7 +1992,7 @@ export default function CheckoutPage() {
 
       {/* UPI APP HANDOFF & DIRECT BANK TRANSFER ASSISTANT OVERLAY */}
       {showAssistantModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-slate-100 flex flex-col animate-in zoom-in-95 duration-200">
             
             {/* Modal Header */}
@@ -1973,46 +2000,127 @@ export default function CheckoutPage() {
               <button
                 type="button"
                 onClick={() => setShowAssistantModal(false)}
-                className="absolute top-4 right-4 text-white/80 hover:text-white font-black text-sm bg-white/10 hover:bg-white/20 h-7 w-7 rounded-full flex items-center justify-center transition-all"
+                className="absolute top-4 right-4 text-white/80 hover:text-white font-black text-sm bg-white/10 hover:bg-white/20 h-7 w-7 rounded-full flex items-center justify-center transition-all active:scale-90"
               >
                 ✕
               </button>
               <div className="flex items-center gap-2 mb-1">
                 <Smartphone className="h-5 w-5 animate-pulse text-yellow-350" />
-                <span className="text-[9px] font-black uppercase tracking-wider bg-yellow-400 text-slate-950 px-2 py-0.5 rounded-full">
-                  Auto-Handoff active
+                <span className="text-[9px] font-black uppercase tracking-wider bg-yellow-400 text-slate-950 px-2 py-0.5 rounded-full shadow-2xs">
+                  Fail-Safe Standby Active
                 </span>
               </div>
-              <h3 className="text-sm font-black uppercase tracking-tight">UPI Payment Handoff</h3>
-              <p className="text-[10px] text-blue-100 font-medium">Follow these steps if your UPI App blocks the request:</p>
+              <h3 className="text-sm font-black uppercase tracking-tight">UPI Payment Assistant</h3>
+              <p className="text-[10px] text-blue-100 font-medium">Bypass UPI App Blocks with 100% success rate:</p>
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 space-y-4">
+            <div className="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
               
-              {/* Visual Alert explaining GPay / PhonePe restriction */}
-              <div className="bg-amber-50 border border-amber-250 rounded-xl p-3 flex gap-2.5">
-                <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" />
+              {/* Informative Alert explaining why this modal is visible */}
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-2.5 shadow-3xs">
+                <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ UPI App Error / Blocked?</h4>
+                  <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ Why are you seeing this?</h4>
                   <p className="text-[9.5px] text-amber-800 leading-relaxed font-semibold">
-                    Google Pay, PhonePe, & Paytm restrict browser deep-links to <strong>personal UPI IDs</strong> or may block if they try to select a Credit Card or Wallet by default!
+                    UPI apps (GPay, PhonePe, Paytm) block browser-initiated deep links to merchant accounts under strict NPCI policies. Scanning or uploading a QR code is a secure physical action and <strong>always succeeds!</strong>
                   </p>
                 </div>
               </div>
 
-              {/* Instant Action Copy Block */}
-              <div className="space-y-2.5">
-                <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block">100% Fail-Safe Alternative Methods</span>
+              {/* Dynamic QR Code Section */}
+              <div className="bg-slate-55 rounded-2xl p-4 border border-slate-200 text-center space-y-3.5 shadow-2xs">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-green-100 text-green-800 border border-green-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
+                  Verified UPI Payee Account
+                </span>
+
+                <div className="inline-block bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs relative group">
+                  <img 
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${encodeURIComponent(payeeName)}&am=${totalSale}&cu=INR&mc=${mccCode || '5722'}&tr=${transactionId || `TXN_${Date.now()}`}&mode=02&purpose=00`)}`} 
+                    alt="Safe Payment QR" 
+                    className="h-44 w-44 object-contain mx-auto"
+                  />
+                </div>
+
+                <button 
+                  type="button"
+                  onClick={handleDownloadQr}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 bg-[#2874f0] text-white hover:bg-[#1a64df] rounded-xl text-[10.5px] font-black uppercase tracking-wider transition-all border border-[#1a64df] shadow-xs active:scale-98"
+                >
+                  <Download className="h-4 w-4" /> Save QR Code to Photos
+                </button>
+              </div>
+
+              {/* Quick Jump/Fast Launch Launcher Bar */}
+              <div className="space-y-1.5">
+                <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block text-center">Fast Launch After Saving QR</span>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => UPIPay.launch('gpay', upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}
+                    className="flex flex-col items-center justify-center p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-3xs active:scale-95 transition-all gap-1"
+                  >
+                    <img src="https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png" className="h-6 w-6 object-contain" alt="GPay" />
+                    <span className="text-[9px] font-bold text-slate-600">Google Pay</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => UPIPay.launch('phonepe', upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}
+                    className="flex flex-col items-center justify-center p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-3xs active:scale-95 transition-all gap-1"
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" className="h-6 w-6 object-contain" alt="PhonePe" />
+                    <span className="text-[9px] font-bold text-slate-600">PhonePe</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => UPIPay.launch('paytm', upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}
+                    className="flex flex-col items-center justify-center p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-3xs active:scale-95 transition-all gap-1"
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" className="h-6 w-6 object-contain" alt="Paytm" />
+                    <span className="text-[9px] font-bold text-slate-600">Paytm</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Graphical Step-by-Step Instructions */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3 shadow-3xs">
+                <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block border-b border-slate-200/50 pb-1.5">How to Pay in 4 Quick Steps</span>
+                
+                <div className="space-y-2.5 text-[10.5px] text-slate-600 font-semibold">
+                  <div className="flex gap-2.5 items-start">
+                    <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">1</span>
+                    <p className="leading-snug">📸 <strong>Save the QR Code</strong> by clicking the blue button above (or take a screenshot of it).</p>
+                  </div>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">2</span>
+                    <p className="leading-snug">📱 <strong>Open any UPI App</strong> (such as GPay, PhonePe, Paytm, or BHIM).</p>
+                  </div>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">3</span>
+                    <p className="leading-snug">📤 Choose <strong>"Scan QR Code"</strong> inside the app, and tap the <strong>"Upload from Gallery/Photos"</strong> icon.</p>
+                  </div>
+                  <div className="flex gap-2.5 items-start">
+                    <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">4</span>
+                    <p className="leading-snug">💸 Select the screenshot from your photos, <strong>enter your PIN</strong> to pay, and return here!</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Instant Manual Details Copy Cards */}
+              <div className="space-y-2">
+                <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block text-center">Alternative Manual Copy Details</span>
                 
                 {/* Copy VPA Card */}
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-3">
+                <div className="bg-slate-55 border border-slate-200 rounded-2xl p-3 space-y-2.5 shadow-3xs">
                   <div className="flex justify-between items-center">
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide">Copy UPI ID (VPA)</span>
-                    <span className="text-[9px] bg-slate-200 text-slate-600 px-2 py-0.5 rounded font-black uppercase">Ajmal Hussain</span>
+                    <span className="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-black uppercase tracking-tight">
+                      {payeeName || 'Anisha Hardware'}
+                    </span>
                   </div>
-                  <div className="flex items-center justify-between gap-2 bg-white border border-slate-250 rounded-xl p-2.5 shadow-inner">
-                    <code className="text-xs font-mono font-bold text-slate-800 select-all tracking-tight break-all">
+                  <div className="flex items-center justify-between gap-2 bg-white border border-slate-250 rounded-xl p-2 shadow-inner">
+                    <code className="text-xs font-mono font-bold text-slate-800 select-all tracking-tight break-all pl-1.5">
                       {merchantVpa}
                     </code>
                     <button
@@ -2022,33 +2130,30 @@ export default function CheckoutPage() {
                         setCopiedVpa(true);
                         setTimeout(() => setCopiedVpa(false), 2000);
                       }}
-                      className="bg-[#2874f0] text-white hover:bg-[#1a64df] px-3.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm transition-all shrink-0 active:scale-95"
+                      className="bg-[#2874f0] text-white hover:bg-[#1a64df] px-3.5 py-1.5 rounded-lg text-[9.5px] font-black uppercase tracking-wider flex items-center gap-1 shadow-xs transition-all shrink-0 active:scale-95"
                     >
-                      {copiedVpa ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                      {copiedVpa ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                       {copiedVpa ? 'Copied' : 'Copy'}
                     </button>
                   </div>
-                  <p className="text-[9px] text-slate-500 font-semibold leading-relaxed">
-                    👉 <strong>How to pay:</strong> Open your UPI app, click "Pay UPI ID/Number", paste the ID above, and pay!
-                  </p>
                 </div>
 
                 {/* Copy Amount Card */}
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-3">
+                <div className="bg-slate-55 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-3 shadow-3xs">
                   <div>
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide block">Exact Amount to Pay</span>
-                    <span className="text-xs font-black text-slate-800">₹{totalSale.toFixed(2)}</span>
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wide block leading-none">Exact Amount to Pay</span>
+                    <span className="text-xs font-black text-slate-800 pt-1 block">₹{totalSale.toLocaleString()}</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => {
-                      navigator.clipboard.writeText(totalSale.toFixed(2));
+                      navigator.clipboard.writeText(totalSale.toString());
                       setCopiedAmount(true);
                       setTimeout(() => setCopiedAmount(false), 2000);
                     }}
-                    className="border border-slate-350 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg text-[9.5px] font-bold text-slate-700 flex items-center gap-1 shadow-sm transition-all active:scale-95"
+                    className="border border-slate-350 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-lg text-[9.5px] font-bold text-slate-700 flex items-center gap-1 shadow-3xs transition-all active:scale-95 animate-in fade-in"
                   >
-                    {copiedAmount ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+                    {copiedAmount ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
                     {copiedAmount ? 'Copied' : 'Copy Amount'}
                   </button>
                 </div>
@@ -2062,16 +2167,16 @@ export default function CheckoutPage() {
                   setStep('verifying');
                   startRealtimePolling();
                 }}
-                className="w-full py-3 bg-[#388e3c] hover:bg-[#2e7d32] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-98"
+                className="w-full py-4 bg-[#388e3c] hover:bg-[#2e7d32] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-98"
               >
-                Paid Successfully? Verify Now <ArrowRight className="h-3.5 w-3.5 animate-pulse" />
+                Paid Successfully? Verify Now <ArrowRight className="h-4.5 w-4.5 animate-pulse" />
               </button>
 
             </div>
             
             {/* Modal Footer */}
-            <div className="bg-slate-50 border-t border-slate-100 p-3.5 flex items-center justify-center gap-1.5 text-[8.5px] font-bold uppercase tracking-wider text-slate-400 text-center">
-              <ShieldCheck className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+            <div className="bg-slate-50 border-t border-slate-100 p-3.5 flex items-center justify-center gap-1.5 text-[8.5px] font-bold uppercase tracking-wider text-slate-450 text-center">
+              <ShieldCheck className="h-3.5 w-3.5 text-slate-450 shrink-0" />
               Payments are securely processed directly via bank-to-bank UPI channels.
             </div>
 

@@ -295,7 +295,7 @@ export default function CheckoutPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);
 
-    // 2. Launch the app directly with the auto-generated order amount and credentials
+    // 2. Setup standard payment payload
     const cleanPayee = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
     // Calculate final actual total sale price dynamically
     const baseSaleTotal = cartItems.reduce((acc, item) => acc + (item.salePrice * item.quantity), 0);
@@ -305,12 +305,37 @@ export default function CheckoutPage() {
     
     // Auto-generate standard parameters
     const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR&tn=ORDER_${cleanTr}`;
-    
-    // Base upiUrl, prioritize backend-generated one
     const baseUpiUrl = upiUrl || `upi://pay?${params}`;
-    
-    // Launch specifically utilizing custom deep links for Google Pay, PhonePe, Paytm, or BHIM!
+
+    // 3. Device detection fallback: tablets and desktops do not support standard mobile deep-link apps
+    const isMobileUA = /Android|iPhone|iPod/i.test(navigator.userAgent);
+    const isTablet = /iPad/i.test(navigator.userAgent) || (typeof window !== 'undefined' && window.innerWidth >= 768);
+
+    if (!isMobileUA || isTablet) {
+      // Force helper modal directly to allow scanning QR code or manual VPA copying
+      setShowAssistantModal(true);
+      return;
+    }
+
+    // 4. Mobile app launch detection: check if the focus switches to the external payment application.
+    // If focus remains on the browser after 1.5s, the app is likely not installed.
+    let appOpened = false;
+    const blurHandler = () => {
+      appOpened = true;
+    };
+    window.addEventListener('blur', blurHandler);
+
+    // Launch the chosen app
     UPIPay.launch(appId, baseUpiUrl);
+
+    // Set fallback checker
+    setTimeout(() => {
+      window.removeEventListener('blur', blurHandler);
+      if (!appOpened) {
+        // App did not open successfully (not installed / blocked). Fallback to assistance modal.
+        setShowAssistantModal(true);
+      }
+    }, 1500);
   };
 
   const handleContinuePayment = () => {

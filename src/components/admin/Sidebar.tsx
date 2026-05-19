@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, Package, Layers, ShoppingBag, Users, Settings, BarChart3, Image as ImageIcon, CreditCard, LifeBuoy, LogOut, Star } from 'lucide-react';
+import { LayoutDashboard, Package, Layers, ShoppingBag, Users, Settings, BarChart3, Image as ImageIcon, CreditCard, LifeBuoy, LogOut, Star, Ticket } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
 
@@ -13,6 +13,7 @@ const navItems = [
   { name: 'Orders', icon: ShoppingBag, href: '/admin/orders' },
   { name: 'Banners', icon: ImageIcon, href: '/admin/banners' },
   { name: 'Reviews', icon: Star, href: '/admin/reviews' },
+  { name: 'Coupons', icon: Ticket, href: '/admin/coupons' },
   { name: 'Settings', icon: Settings, href: '/admin/settings' },
 ];
 

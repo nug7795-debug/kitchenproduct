@@ -87,8 +87,13 @@ export default function CheckoutPage() {
       quantity: 1
     }
   ]);
-
   const [copied, setCopied] = React.useState(false);
+
+  // Coupon States
+  const [couponCode, setCouponCode] = React.useState('');
+  const [appliedCoupon, setAppliedCoupon] = React.useState<any | null>(null);
+  const [couponError, setCouponError] = React.useState<string | null>(null);
+  const [couponDiscount, setCouponDiscount] = React.useState(0);
 
   // Dynamic countdown timer for offer ends
   React.useEffect(() => {
@@ -214,7 +219,8 @@ export default function CheckoutPage() {
   }, []);
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalSale = cartItems.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
+  const baseSaleTotal = cartItems.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
+  const totalSale = Math.max(0, baseSaleTotal - couponDiscount);
   const totalDiscount = totalOriginal - totalSale;
 
   // Copy VPA to Clipboard Utility
@@ -315,6 +321,63 @@ export default function CheckoutPage() {
     }
     setError(null);
     setStep('summary');
+  };
+
+  const handleApplyCoupon = async (codeToApply?: string) => {
+    const targetCode = (codeToApply || couponCode).trim().toUpperCase();
+    if (!targetCode) {
+      setCouponError('Please enter a coupon code.');
+      return;
+    }
+
+    setCouponError(null);
+    try {
+      const { data, error } = await supabase
+        .from('coupons')
+        .select('*')
+        .eq('code', targetCode)
+        .eq('is_active', true)
+        .maybeSingle();
+
+      if (error || !data) {
+        setCouponError('Invalid or expired coupon code.');
+        setAppliedCoupon(null);
+        setCouponDiscount(0);
+        return;
+      }
+
+      // Check min order criteria
+      const baseSaleTotal = cartItems.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
+      if (baseSaleTotal < parseFloat(data.min_order_amount || 0)) {
+        setCouponError(`This coupon requires a minimum purchase value of ₹${parseFloat(data.min_order_amount).toLocaleString()}.`);
+        setAppliedCoupon(null);
+        setCouponDiscount(0);
+        return;
+      }
+
+      // Calculate discount
+      let discount = 0;
+      if (data.discount_type === 'percent') {
+        discount = Math.round((baseSaleTotal * parseFloat(data.discount_value)) / 100);
+      } else {
+        discount = Math.min(baseSaleTotal, parseFloat(data.discount_value));
+      }
+
+      setAppliedCoupon(data);
+      setCouponDiscount(discount);
+      setCouponCode(targetCode);
+      setCouponError(null);
+    } catch (err) {
+      console.error(err);
+      setCouponError('Failed to apply coupon. Please try again.');
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponCode('');
+    setCouponError(null);
   };
 
   // 2. Initialize Order & Complete Instantly
@@ -745,6 +808,97 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
+              {/* Premium Coupons & Promo Discounts System */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-4 space-y-4 shadow-xs relative overflow-hidden">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-lg bg-[#2874f0]/10 flex items-center justify-center text-[#2874f0]">
+                    <Ticket className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Apply Coupons & Promos</h3>
+                    <p className="text-[9px] font-bold text-slate-400 uppercase">Save extra with exclusive store discount codes</p>
+                  </div>
+                </div>
+
+                {appliedCoupon ? (
+                  <div className="bg-emerald-50 border border-emerald-250 rounded-xl p-3 flex items-center justify-between animate-in fade-in zoom-in-95">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                        <Ticket className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block">
+                          {appliedCoupon.code}
+                        </p>
+                        <p className="text-[9px] font-bold text-emerald-600 mt-0.5">
+                          Code applied! Extra ₹{couponDiscount.toLocaleString()} saved
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemoveCoupon}
+                      className="text-[10px] font-black text-red-500 hover:text-red-750 transition-colors uppercase tracking-wider bg-white shadow-xs border border-slate-100 rounded-lg px-2.5 py-1.5 shrink-0"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="ENTER COUPON CODE"
+                        value={couponCode}
+                        onChange={(e) => {
+                          setCouponCode(e.target.value.toUpperCase());
+                          setCouponError(null);
+                        }}
+                        className="flex-1 bg-slate-50 border-2 border-slate-100 rounded-xl px-3 py-2 text-xs font-black placeholder-slate-400 focus:border-[#2874f0] uppercase tracking-wider outline-none transition-all"
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => handleApplyCoupon()}
+                        className="rounded-xl bg-[#2874f0] hover:bg-[#1b5cb8] text-white px-4 font-black text-xs h-[34px] shadow-xs uppercase tracking-wide shrink-0"
+                      >
+                        Apply
+                      </Button>
+                    </div>
+
+                    {couponError && (
+                      <p className="text-[10px] text-red-500 font-bold bg-red-50 p-2 rounded-lg border border-red-100 flex items-center gap-1 animate-pulse">
+                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                        <span>{couponError}</span>
+                      </p>
+                    )}
+
+                    {/* Pre-seeded Active Coupons Chips */}
+                    <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Recommended Offers</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { code: 'WELCOME15', desc: '15% Off' },
+                          { code: 'KITCHEN10', desc: '10% Off' },
+                          { code: 'FLAT500', desc: '₹500 Off' },
+                          { code: 'FESTIVE20', desc: '20% Off' }
+                        ].map((promo) => (
+                          <button
+                            key={promo.code}
+                            type="button"
+                            onClick={() => handleApplyCoupon(promo.code)}
+                            className="bg-slate-50 hover:bg-[#2874f0]/5 border border-slate-200 hover:border-[#2874f0] text-slate-700 hover:text-[#2874f0] rounded-lg px-2 py-1 text-[9px] font-black tracking-wider transition-all flex items-center gap-1 uppercase"
+                          >
+                            <Ticket className="h-2.5 w-2.5 shrink-0 text-orange-500" />
+                            <span>{promo.code}</span>
+                            <span className="text-[7.5px] font-bold text-slate-400 lowercase">({promo.desc})</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Price Details Breakdown */}
               <div className="bg-slate-50 rounded-xl border border-slate-100 p-4 space-y-3">
                 <div className="flex justify-between items-center text-xs">
@@ -753,8 +907,16 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500 font-medium">Discount Savings</span>
-                  <span className="font-bold text-green-600">-₹{totalDiscount.toLocaleString()}</span>
+                  <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
                 </div>
+                {couponDiscount > 0 && (
+                  <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
+                    <span className="text-emerald-700 font-bold flex items-center gap-1">
+                      <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
+                    </span>
+                    <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-slate-500 font-medium">Delivery Charges</span>
                   <span className="font-bold text-green-600">FREE</span>

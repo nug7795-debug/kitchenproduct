@@ -779,7 +779,32 @@ export default function CheckoutPage() {
 
               {/* Direct UPI Intents (Rule 5 & 8) */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                {/* ⚠️ CRITICAL USER EDUCATION: Bypassing UPI Web Intent CC Block */}
+                <div className="bg-amber-50 border border-amber-250 rounded-xl p-3.5 space-y-2.5 shadow-sm">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="h-4.5 w-4.5 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ UPI App Payment Error?</h4>
+                      <p className="text-[9.5px] text-amber-850 leading-relaxed font-semibold mt-0.5">
+                        If your Google Pay, PhonePe, or Paytm app shows a <strong>"Merchant not accepting Credit Cards / Wallet"</strong> error:
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-white/90 rounded-lg p-2.5 border border-amber-150 space-y-2">
+                    <p className="text-[9px] text-amber-900 leading-relaxed font-bold flex items-start gap-1">
+                      <span className="text-amber-600 shrink-0 font-bold">✔</span>
+                      <span><strong>Method 1 (100% Success Rate):</strong> Tap <strong>"Save QR Code"</strong> above, open your UPI app (GPay/PhonePe), select the <strong>QR Scanner icon</strong>, click <strong>"Upload from Gallery"</strong>, and choose the saved QR image! This acts like a physical scan and always succeeds!</span>
+                    </p>
+                    <div className="border-t border-dashed border-amber-200" />
+                    <p className="text-[9px] text-amber-900 leading-relaxed font-bold flex items-start gap-1">
+                      <span className="text-amber-600 shrink-0 font-bold">✔</span>
+                      <span><strong>Method 2:</strong> Inside Google Pay/PhonePe, change your default payment source from <strong>Credit Card / Wallet</strong> to your standard <strong>Savings Bank Account</strong> (like SBI, HDFC, ICICI, etc.).</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-2">
                   <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pay Directly via Mobile Apps</h4>
                   <span className="text-[9px] text-emerald-600 font-black uppercase flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
@@ -987,9 +1012,9 @@ export default function CheckoutPage() {
               <div className="bg-amber-50 border border-amber-250 rounded-xl p-3 flex gap-2.5">
                 <AlertCircle className="h-5 w-5 text-amber-600 shrink-0" />
                 <div className="space-y-1">
-                  <h4 className="text-[10.5px] font-black text-amber-800 uppercase tracking-wide">Receiver UPI ID Unavailable?</h4>
-                  <p className="text-[9.5px] text-amber-700 leading-relaxed font-semibold">
-                    Google Pay, PhonePe & Paytm block direct browser clicks to <strong>personal UPI IDs</strong> due to new bank security regulations.
+                  <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ UPI App Error / Blocked?</h4>
+                  <p className="text-[9.5px] text-amber-800 leading-relaxed font-semibold">
+                    Google Pay, PhonePe, & Paytm restrict browser deep-links to <strong>personal UPI IDs</strong> or may block if they try to select a Credit Card or Wallet by default!
                   </p>
                 </div>
               </div>

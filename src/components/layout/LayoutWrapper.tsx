@@ -11,10 +11,13 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   
   // Hide layout elements on specialized pages
   const isCheckout = pathname?.startsWith('/checkout');
+  const isPayment = pathname?.toLowerCase()?.startsWith('/payment') || 
+                    pathname?.toLowerCase()?.startsWith('/paymentconfirmation') || 
+                    pathname?.toLowerCase()?.startsWith('/paymentfailed');
   const isAdmin = pathname?.startsWith('/admin');
   const isSearch = pathname?.startsWith('/search');
   const isProduct = pathname?.startsWith('/product');
-  const shouldHide = isCheckout || isAdmin || isSearch || isProduct;
+  const shouldHide = isCheckout || isPayment || isAdmin || isSearch || isProduct;
 
   if (shouldHide) {
     return <>{children}</>;

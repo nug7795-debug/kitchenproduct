@@ -260,9 +260,9 @@ export default function CheckoutPage() {
 
   // Download QR Code Blob directly to user's gallery
   const handleDownloadQr = async () => {
-    if (!upiUrl) return;
+    const targetUpiData = upiUrl || `upi://pay?pa=${merchantVpa}&pn=${encodeURIComponent(payeeName)}&am=${totalSale}&cu=INR`;
     try {
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiUrl)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(targetUpiData)}`;
       const response = await fetch(qrUrl);
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
@@ -1698,6 +1698,58 @@ export default function CheckoutPage() {
                   </span>
                 </div>
               </div>
+
+              {/* Fallback QR / Copy VPA options in Verifying State to bypass NPCI Risk Block */}
+              {selectedMethod && selectedMethod !== 'qr' && (
+                <div className="border border-amber-200 rounded-2xl p-5 max-w-sm mx-auto bg-amber-50/15 shadow-xs space-y-4 text-center animate-in fade-in duration-300">
+                  <div className="space-y-1">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">
+                      ⚠️ App Direct Pay Blocked?
+                    </span>
+                    <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight pt-1">Safe QR & UPI Fallback</h3>
+                    <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+                      UPI apps often block browser links due to NPCI security policies. Please use the QR or UPI ID below instead:
+                    </p>
+                  </div>
+
+                  {/* Dynamic QR */}
+                  <div className="inline-block bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs">
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}`} 
+                      alt="Safe Payment QR" 
+                      className="h-36 w-36 object-contain mx-auto"
+                    />
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button 
+                      type="button"
+                      onClick={handleDownloadQr}
+                      className="flex-1 flex items-center justify-center gap-1 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-[9.5px] font-black border border-slate-300 shadow-3xs transition-all active:scale-98"
+                    >
+                      <Download className="h-3.5 w-3.5" /> Save QR Code
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopyVpa}
+                      className="flex-1 flex items-center justify-center gap-1 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl text-[9.5px] font-black border border-slate-300 shadow-3xs transition-all active:scale-98"
+                    >
+                      <Copy className="h-3.5 w-3.5" /> {copied ? 'Copied ID!' : 'Copy UPI ID'}
+                    </button>
+                  </div>
+
+                  <div className="text-[9.5px] text-slate-500 font-semibold text-left border-t border-slate-100 pt-3.5 space-y-1.5">
+                    <p className="flex items-start gap-1">
+                      <span className="text-blue-500 shrink-0">👉</span>
+                      <span><strong>UPI ID:</strong> {merchantVpa}</span>
+                    </p>
+                    <p className="flex items-start gap-1 leading-normal text-slate-400">
+                      <span className="text-blue-500 shrink-0">💡</span>
+                      <span><strong>To pay:</strong> Save the QR code, open your UPI app (GPay, PhonePe, Paytm), select scanner, click <strong>"Upload from Gallery"</strong>, and enter PIN!</span>
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Already Paid / App Confirmation Buttons */}
               {selectedMethod && selectedMethod !== 'qr' && (

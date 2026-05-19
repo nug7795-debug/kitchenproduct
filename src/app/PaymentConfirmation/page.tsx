@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle2, ChevronRight, ShoppingBag, Truck } from 'lucide-react';
 
-export default function PaymentConfirmationPage() {
+function PaymentConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -49,7 +49,7 @@ export default function PaymentConfirmationPage() {
 
       <div className="max-w-md w-full mx-auto px-4 flex-1 flex flex-col justify-center py-8">
         <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 text-center mb-6">
-          {/* Stunning animations / dynamic circle */}
+          {/* Stunning animations / circle */}
           <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center bg-green-50 rounded-full text-green-500">
             <CheckCircle2 className="w-12 h-12" />
           </div>
@@ -110,5 +110,17 @@ export default function PaymentConfirmationPage() {
         © {new Date().getFullYear()} Kitchen Stove. Secure Indian Payment.
       </div>
     </div>
+  );
+}
+
+export default function PaymentConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center">
+        <div className="text-slate-500 font-bold">Loading confirmation details...</div>
+      </div>
+    }>
+      <PaymentConfirmationContent />
+    </Suspense>
   );
 }

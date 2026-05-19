@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useState, useRef, useCallback } from 'react';
+import { use, useEffect, useState, useRef, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Download, Share2, Loader2 } from 'lucide-react';
 
@@ -103,7 +103,7 @@ function PaytmIcon() {
   );
 }
 
-export default function PaymentPage({ params }: { params: Promise<{ id: string }> }) {
+function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -684,5 +684,32 @@ export default function PaymentPage({ params }: { params: Promise<{ id: string }
         </div>
       )}
     </div>
+  );
+}
+
+export default function PaymentPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f1f3f6] flex flex-col items-center justify-center p-6 text-center">
+        <div className="bg-white p-8 rounded-2xl shadow-md border border-slate-100 max-w-sm w-full flex flex-col items-center justify-center">
+          <div style={{ position: "relative", width: 48, height: 48, margin: "0 auto 12px" }}>
+            <div style={{ position: "absolute", inset: 0, border: "4px solid #eee", borderRadius: "50%" }} />
+            <div 
+              style={{ 
+                position: "absolute", 
+                inset: 0, 
+                border: "4px solid transparent", 
+                borderTopColor: "#2874F0", 
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite"
+              }} 
+            />
+          </div>
+          <p className="text-sm text-slate-500 font-bold">Securely loading payment options...</p>
+        </div>
+      </div>
+    }>
+      <PaymentPageContent params={params} />
+    </Suspense>
   );
 }

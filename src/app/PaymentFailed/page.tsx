@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AlertCircle, RefreshCw, XCircle } from 'lucide-react';
 
-export default function PaymentFailedPage() {
+function PaymentFailedContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -19,7 +19,6 @@ export default function PaymentFailedPage() {
   }, [searchParams]);
 
   const handleRetry = () => {
-    // Redirect back to payment screen for another try
     const routeParam = amount1 && Number(amount1) > 0 ? `${amount}.${amount1}` : `${amount}`;
     router.push(`/payment/${routeParam}?txnid=${txnid}`);
   };
@@ -96,5 +95,17 @@ export default function PaymentFailedPage() {
         © {new Date().getFullYear()} Kitchen Stove. Secure Indian Payment.
       </div>
     </div>
+  );
+}
+
+export default function PaymentFailedPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center">
+        <div className="text-slate-500 font-bold">Loading payment failure recovery...</div>
+      </div>
+    }>
+      <PaymentFailedContent />
+    </Suspense>
   );
 }

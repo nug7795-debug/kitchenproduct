@@ -13,12 +13,14 @@ import {
   Copy,
   Clock,
   ChevronRight,
+  ChevronDown,
   CreditCard,
   Lock,
   ArrowLeft,
   Download,
   MapPin,
-  Check
+  Check,
+  Ticket
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
@@ -94,6 +96,10 @@ export default function CheckoutPage() {
   const [appliedCoupon, setAppliedCoupon] = React.useState<any | null>(null);
   const [couponError, setCouponError] = React.useState<string | null>(null);
   const [couponDiscount, setCouponDiscount] = React.useState(0);
+
+  // Address Field splits to exactly match the design
+  const [houseNumber, setHouseNumber] = React.useState('');
+  const [roadName, setRoadName] = React.useState('');
 
   // Dynamic countdown timer for offer ends
   React.useEffect(() => {
@@ -315,10 +321,14 @@ export default function CheckoutPage() {
   // 1. Submit Shipping Address
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!address.fullName || !address.phone || !address.streetAddress || !address.city || !address.state || !address.postalCode) {
+    if (!address.fullName || !address.phone || !houseNumber || !roadName || !address.city || !address.state || !address.postalCode) {
       setError('Please fill in all address details');
       return;
     }
+
+    // Combine split fields into a single streetAddress string
+    address.streetAddress = `${houseNumber.trim()}, ${roadName.trim()}`;
+
     setError(null);
     setStep('summary');
   };
@@ -535,6 +545,15 @@ export default function CheckoutPage() {
       state: addr.state,
       postalCode: addr.postal_code
     });
+    // split street address
+    const parts = (addr.street_address || '').split(', ');
+    if (parts.length > 1) {
+      setHouseNumber(parts[0]);
+      setRoadName(parts.slice(1).join(', '));
+    } else {
+      setHouseNumber(addr.street_address || '');
+      setRoadName('');
+    }
   };
 
   return (
@@ -542,103 +561,111 @@ export default function CheckoutPage() {
       <div className="w-full max-w-lg bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
         
         {/* Header */}
-        <div className="bg-[#2874f0] p-4 text-white flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {step !== 'address' && step !== 'success' && (
+        <div className="bg-white px-4 py-3.5 border-b border-slate-100 flex items-center justify-between text-slate-900">
+          <div className="flex items-center gap-4">
+            {step !== 'success' && (
               <button 
                 onClick={() => {
-                  if (step === 'summary') setStep('address');
-                  else if (step === 'payment') setStep('summary');
-                  else if (step === 'utr_entry') setStep('payment');
+                  if (step === 'address') {
+                    window.location.href = '/cart';
+                  } else if (step === 'summary') {
+                    setStep('address');
+                  } else if (step === 'payment') {
+                    setStep('summary');
+                  } else if (step === 'utr_entry') {
+                    setStep('payment');
+                  }
                 }}
-                className="text-white hover:opacity-80 transition-opacity"
+                className="text-slate-800 hover:text-slate-650 transition-colors"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5 text-slate-800" />
               </button>
             )}
             <div>
-              <h1 className="text-base font-bold uppercase tracking-tight flex items-center gap-1.5">
-                KITCHEN<span className="text-[#ff9f00]">PRODUCT</span>
+              <h1 className="text-base font-bold text-slate-800">
+                {step === 'address' && 'Add Delivery Address'}
+                {step === 'summary' && 'Order Summary'}
+                {(step === 'payment' || step === 'utr_entry' || step === 'verifying') && 'Payments'}
+                {step === 'success' && 'Order Successful'}
               </h1>
-              <p className="text-[10px] text-blue-100 flex items-center gap-1">
-                <Lock className="h-2.5 w-2.5" /> Secure Checkout Flow
-              </p>
             </div>
           </div>
-          <div className="bg-[#388e3c] text-white px-2 py-0.5 rounded text-[10px] font-black tracking-wide">
-            100% SECURE
-          </div>
+          {step !== 'success' && (
+            <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider bg-slate-50 border border-slate-200 px-2 py-0.5 rounded">
+              Secure
+            </div>
+          )}
         </div>
 
         {/* Steps Tracker Indicator */}
-        <div className="bg-white border-b border-slate-150 px-8 py-5 flex justify-between items-center relative max-w-md mx-auto">
+        <div className="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center relative max-w-md mx-auto">
+          {/* Background Connecting Line */}
+          <div className="absolute top-[28px] left-10 right-10 h-[1.5px] bg-slate-200 z-0" />
+          
           {/* Step 1: Address */}
-          <div className="flex flex-col items-center relative z-10">
+          <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
               "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
               step === 'address'
-                ? "border-2 border-[#2874f0] bg-white text-[#2874f0]"
+                ? "bg-[#2874f0] text-white shadow-sm"
                 : "bg-[#2874f0] text-white"
             )}>
-              {step === 'address' ? '1' : '✓'}
+              1
             </div>
-            <span className={cn("text-[10px] font-black mt-1.5 transition-all tracking-tight", step === 'address' ? "text-slate-800" : "text-[#2874f0]")}>Address</span>
+            <span className={cn(
+              "text-[10px] font-bold mt-1.5 transition-all tracking-tight", 
+              step === 'address' ? "text-[#2874f0]" : "text-[#2874f0]/70"
+            )}>
+              Address
+            </span>
           </div>
-
-          {/* Connection Line 1 */}
-          <div className={cn(
-            "h-[2px] flex-1 mx-2 -mt-5 transition-all",
-            step === 'address' ? "bg-slate-200" : "bg-[#2874f0]"
-          )} />
 
           {/* Step 2: Order Summary */}
-          <div className="flex flex-col items-center relative z-10">
+          <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
               "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
               step === 'address'
-                ? "border-2 border-slate-300 bg-white text-slate-400"
+                ? "border border-slate-300 bg-white text-slate-400"
                 : step === 'summary'
-                ? "border-2 border-[#2874f0] bg-white text-[#2874f0]"
+                ? "bg-[#2874f0] text-white shadow-sm"
                 : "bg-[#2874f0] text-white"
             )}>
-              {step === 'address' || step === 'summary' ? '2' : '✓'}
+              2
             </div>
             <span className={cn(
-              "text-[10px] font-black mt-1.5 transition-all tracking-tight",
+              "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
               step === 'summary'
-                ? "text-slate-800"
+                ? "text-[#2874f0]"
                 : step === 'address'
                 ? "text-slate-400"
-                : "text-[#2874f0]"
-            )}>Order Summary</span>
+                : "text-[#2874f0]/70"
+            )}>
+              Order Summary
+            </span>
           </div>
 
-          {/* Connection Line 2 */}
-          <div className={cn(
-            "h-[2px] flex-1 mx-2 -mt-5 transition-all",
-            step === 'payment' || step === 'utr_entry' || step === 'verifying' || step === 'success' ? "bg-[#2874f0]" : "bg-slate-200"
-          )} />
-
           {/* Step 3: Payment */}
-          <div className="flex flex-col items-center relative z-10">
+          <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
               "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
               step === 'payment' || step === 'utr_entry' || step === 'verifying'
-                ? "bg-[#2874f0] text-white"
+                ? "bg-[#2874f0] text-white shadow-sm"
                 : step === 'success'
                 ? "bg-[#388e3c] text-white"
-                : "border-2 border-slate-300 bg-white text-slate-400"
+                : "border border-slate-300 bg-white text-slate-400"
             )}>
-              {step === 'success' ? '✓' : '3'}
+              3
             </div>
             <span className={cn(
-              "text-[10px] font-black mt-1.5 transition-all tracking-tight",
+              "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
               step === 'payment' || step === 'utr_entry' || step === 'verifying'
-                ? "text-slate-800"
+                ? "text-[#2874f0]"
                 : step === 'success'
                 ? "text-[#388e3c]"
                 : "text-slate-400"
-            )}>Payment</span>
+            )}>
+              Payment
+            </span>
           </div>
         </div>
 
@@ -693,79 +720,131 @@ export default function CheckoutPage() {
               )}
 
               {!selectedAddressId && (
-                <div className="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase">Full Name</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="e.g. Ansarul"
-                        className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none"
-                        value={address.fullName}
-                        onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase">Mobile Number</label>
-                      <input 
-                        type="tel" 
-                        required
-                        placeholder="10-digit number"
-                        className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none"
-                        value={address.phone}
-                        onChange={(e) => setAddress({ ...address, phone: e.target.value.replace(/\D/g, '') })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-500 uppercase">Street Address</label>
+                <div className="space-y-4 bg-white py-2">
+                  {/* Full Name */}
+                  <div className="relative">
                     <input 
                       type="text" 
                       required
-                      placeholder="House No, Building, Road, Area"
-                      className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none"
-                      value={address.streetAddress}
-                      onChange={(e) => setAddress({ ...address, streetAddress: e.target.value })}
+                      placeholder="Full Name (Required)*"
+                      className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
+                      value={address.fullName}
+                      onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
                     />
                   </div>
 
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase">City</label>
+                  {/* Mobile number */}
+                  <div className="relative">
+                    <input 
+                      type="tel" 
+                      required
+                      maxLength={10}
+                      placeholder="Mobile number (Required)*"
+                      className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
+                      value={address.phone}
+                      onChange={(e) => setAddress({ ...address, phone: e.target.value.replace(/\D/g, '') })}
+                    />
+                  </div>
+
+                  {/* Pincode */}
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      required
+                      maxLength={6}
+                      placeholder="Pincode (Required)*"
+                      className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium font-mono"
+                      value={address.postalCode}
+                      onChange={(e) => setAddress({ ...address, postalCode: e.target.value.replace(/\D/g, '') })}
+                    />
+                  </div>
+
+                  {/* City and State */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="relative">
                       <input 
                         type="text" 
                         required
-                        placeholder="Kolkata"
-                        className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none"
+                        placeholder="City (Required)*"
+                        className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                         value={address.city}
                         onChange={(e) => setAddress({ ...address, city: e.target.value })}
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase">State</label>
-                      <input 
-                        type="text" 
+                    
+                    <div className="relative border border-slate-300 rounded-md focus-within:border-[#2874f0] focus-within:ring-1 focus-within:ring-[#2874f0] flex items-center bg-white">
+                      <select 
                         required
-                        placeholder="West Bengal"
-                        className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none"
+                        className="w-full text-sm bg-transparent rounded-md pl-4 pr-8 py-3 outline-none text-slate-800 font-medium appearance-none cursor-pointer"
                         value={address.state}
                         onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                      />
+                      >
+                        <option value="" disabled className="text-slate-400">State (Required)*</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra & Nagar Haveli & Daman & Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Jammu and Kashmir">Jammu & Kashmir</option>
+                        <option value="Ladakh">Ladakh</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <ChevronDown className="h-4 w-4" />
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold text-slate-500 uppercase">Pincode</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="e.g. 700001"
-                        maxLength={6}
-                        className="w-full text-xs bg-white border border-slate-200 rounded-lg p-2.5 focus:border-[#2874f0] outline-none font-mono"
-                        value={address.postalCode}
-                        onChange={(e) => setAddress({ ...address, postalCode: e.target.value.replace(/\D/g, '') })}
-                      />
-                    </div>
+                  </div>
+
+                  {/* House No., Building Name */}
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="House No., Building Name (Required)*"
+                      className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
+                      value={houseNumber}
+                      onChange={(e) => setHouseNumber(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Road name, Area, Colony */}
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="Road name, Area, Colony (Required)*"
+                      className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
+                      value={roadName}
+                      onChange={(e) => setRoadName(e.target.value)}
+                    />
                   </div>
                 </div>
               )}
@@ -778,9 +857,9 @@ export default function CheckoutPage() {
 
               <Button 
                 type="submit"
-                className="w-full bg-[#fb641b] hover:bg-[#f4511e] text-white py-6 rounded-lg text-sm font-bold shadow-sm transition-transform active:scale-98 uppercase tracking-wide"
+                className="w-full bg-[#ff5722] hover:bg-[#e64a19] text-white py-6 rounded-lg text-sm font-bold shadow-md transition-transform active:scale-98 uppercase tracking-wide"
               >
-                Save and Deliver Here
+                Save Address
               </Button>
             </form>
           )}

@@ -222,6 +222,16 @@ export default function CheckoutPage() {
       }
     };
     fetchMerchantSettings();
+
+    // Recover persisted payment details to prevent payment flow reset on page refresh
+    try {
+      const persistedTxId = localStorage.getItem('active_transaction_id');
+      const persistedUpiUrl = localStorage.getItem('active_upi_url');
+      if (persistedTxId) setTransactionId(persistedTxId);
+      if (persistedUpiUrl) setUpiUrl(persistedUpiUrl);
+    } catch (e) {
+      console.error('Failed to recover active transaction state:', e);
+    }
   }, []);
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -266,7 +276,7 @@ export default function CheckoutPage() {
     return upiUrl;
   };
 
-  // Direct Intent launch logic as per Rule 4 and Rule 8
+  // Direct Intent launch logic with auto-generated order details, amount, and secure browser fallbacks
   const handleUpiAppPay = (appId: string) => {
     // 1. Instantly copy the VPA to clipboard as a secure fallback
     navigator.clipboard.writeText(merchantVpa);
@@ -290,19 +300,19 @@ export default function CheckoutPage() {
     if (appId === 'gpay') {
       appUrl = isIOS 
         ? `gpay://upi/pay?${params}` 
-        : `intent://pay?${params}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+        : `intent://pay?${params}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user')};end`;
     } else if (appId === 'phonepe') {
       appUrl = isIOS 
         ? `phonepe://pay?${params}` 
-        : `intent://pay?${params}#Intent;scheme=upi;package=com.phonepe.app;end`;
+        : `intent://pay?${params}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=com.phonepe.app')};end`;
     } else if (appId === 'paytm') {
       appUrl = isIOS 
         ? `paytmmp://pay?${params}` 
-        : `intent://pay?${params}#Intent;scheme=upi;package=net.one97.paytm;end`;
+        : `intent://pay?${params}#Intent;scheme=upi;package=net.one97.paytm;S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=net.one97.paytm')};end`;
     } else if (appId === 'bhim') {
       appUrl = isIOS 
         ? `bhim://upi/pay?${params}` 
-        : `intent://pay?${params}#Intent;scheme=upi;package=in.org.npci.upiapp;end`;
+        : `intent://pay?${params}#Intent;scheme=upi;package=in.org.npci.upiapp;S.browser_fallback_url=${encodeURIComponent('https://play.google.com/store/apps/details?id=in.org.npci.upiapp')};end`;
     } else {
       // Universal clean launcher fallback
       appUrl = `upi://pay?${params}`;
@@ -328,6 +338,7 @@ export default function CheckoutPage() {
       setStep('utr_entry');
     } else {
       handleUpiAppPay(selectedMethod);
+      setStep('utr_entry');
     }
   };
 
@@ -472,6 +483,15 @@ export default function CheckoutPage() {
 
       setTransactionId(data.transactionId);
       setUpiUrl(data.upiUrl);
+      
+      // Persist transaction details in local storage to secure against page refreshes
+      try {
+        localStorage.setItem('active_transaction_id', data.transactionId);
+        localStorage.setItem('active_upi_url', data.upiUrl);
+      } catch (e) {
+        console.error('Failed to persist payment details:', e);
+      }
+
       setStep('payment');
     } catch (err: any) {
       console.error(err);
@@ -538,6 +558,8 @@ export default function CheckoutPage() {
           setStep('success');
           // Clear cart on payment success
           localStorage.removeItem('cart');
+          localStorage.removeItem('active_transaction_id');
+          localStorage.removeItem('active_upi_url');
         }
       } catch (err) {
         console.error('Real-time polling check error:', err);

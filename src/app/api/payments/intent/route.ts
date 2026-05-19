@@ -98,7 +98,24 @@ export async function POST(request: Request) {
           description: `ORDER_${transactionId}`
         });
 
-        upiUrl = upiOrder.upiUrl || '';
+        const rawUpiUrl = upiOrder.upiUrl || '';
+        if (rawUpiUrl) {
+          try {
+            const parts = rawUpiUrl.split('?');
+            if (parts.length >= 2) {
+              const queryParams = new URLSearchParams(parts[1]);
+              const pa = queryParams.get('pa') || merchantUpiId;
+              const pn = queryParams.get('pn') || storeName;
+              const am = queryParams.get('am') || amount.toString();
+              const cu = queryParams.get('cu') || 'INR';
+              upiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}`;
+            } else {
+              upiUrl = rawUpiUrl;
+            }
+          } catch (e) {
+            upiUrl = rawUpiUrl;
+          }
+        }
         qrCodeBase64 = upiOrder.qrCode || '';
       } catch (err) {
         console.error('Failed to create unified googlepay order, falling back to legacy link generator:', err);

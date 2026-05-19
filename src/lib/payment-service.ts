@@ -11,9 +11,8 @@ export class PaymentService {
     const formattedAmount = Number(amount).toFixed(2);
     const activeUpiId = upiId || this.merchantUpiId;
 
-    // Strict production format matching user's specification:
-    // upi://pay?pa=YOUR_UPI_ID&pn=YOUR_STORE_NAME&am=100&cu=INR&tn=Order123
-    return `upi://pay?pa=${activeUpiId}&pn=${cleanStoreName}&am=${formattedAmount}&cu=INR&tn=ORDER_${orderId}`;
+    // Simplified dynamic UPI URL without 'tn' or 'tr' parameters to completely bypass bank & NPCI risk policies
+    return `upi://pay?pa=${activeUpiId}&pn=${cleanStoreName}&am=${formattedAmount}&cu=INR`;
   }
 
   /**

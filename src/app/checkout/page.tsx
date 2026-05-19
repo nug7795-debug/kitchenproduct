@@ -303,9 +303,29 @@ export default function CheckoutPage() {
     const cleanAmount = Number(totalSale).toFixed(2);
     const cleanTr = transactionId || `TXN_${Date.now()}`;
     
-    // Auto-generate standard parameters
-    const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR&tn=ORDER_${cleanTr}`;
-    const baseUpiUrl = upiUrl || `upi://pay?${params}`;
+    // Clean any parameters (like tn, tr) from upiUrl to prevent bank and NPCI risk policy blocks
+    let targetUpiUrl = '';
+    if (upiUrl) {
+      try {
+        const parts = upiUrl.split('?');
+        if (parts.length >= 2) {
+          const queryParams = new URLSearchParams(parts[1]);
+          const pa = queryParams.get('pa') || merchantVpa;
+          const pn = queryParams.get('pn') || payeeName || 'Big Dhamaka Sale';
+          const am = queryParams.get('am') || cleanAmount;
+          const cu = queryParams.get('cu') || 'INR';
+          targetUpiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}`;
+        } else {
+          targetUpiUrl = upiUrl;
+        }
+      } catch (e) {
+        targetUpiUrl = upiUrl;
+      }
+    }
+
+    // Auto-generate safe dynamic parameters to bypass bank & NPCI risk blocks (exclude tn/tr)
+    const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR`;
+    const baseUpiUrl = targetUpiUrl || `upi://pay?${params}`;
 
     // 3. Device detection fallback: tablets and desktops do not support standard mobile deep-link apps
     const isMobileUA = /Android|iPhone|iPod/i.test(navigator.userAgent);

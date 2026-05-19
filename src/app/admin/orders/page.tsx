@@ -39,6 +39,11 @@ interface DbOrder {
   shipping_charge: number;
   addresses: OrderAddress | null;
   order_items: OrderItem[];
+  payment?: {
+    transaction_id: string;
+    status: string;
+    utr: string;
+  } | null;
 }
 
 const statusConfig = {
@@ -91,6 +96,11 @@ export default function OrdersPage() {
                 price,
                 sale_price
               )
+            ),
+            payments (
+              transaction_id,
+              status,
+              raw_response
             )
           `)
           .order('created_at', { ascending: false });
@@ -98,21 +108,39 @@ export default function OrdersPage() {
         if (error) throw error;
         if (data) {
           // Cast relationship structures to typescript interface
-          const formatted: DbOrder[] = data.map((order: any) => ({
-            id: order.id,
-            created_at: order.created_at,
-            status: order.status || 'pending',
-            total_amount: parseFloat(order.total_amount || 0),
-            discount_amount: parseFloat(order.discount_amount || 0),
-            shipping_charge: parseFloat(order.shipping_charge || 0),
-            addresses: Array.isArray(order.addresses) ? order.addresses[0] : order.addresses,
-            order_items: (order.order_items || []).map((item: any) => ({
-              id: item.id,
-              quantity: item.quantity,
-              price: parseFloat(item.price || 0),
-              products: Array.isArray(item.products) ? item.products[0] : item.products
-            }))
-          }));
+          const formatted: DbOrder[] = data
+            .map((order: any) => {
+              const paymentArr = order.payments;
+              const paymentObj = Array.isArray(paymentArr) ? paymentArr[0] : paymentArr;
+              return {
+                id: order.id,
+                created_at: order.created_at,
+                status: order.status || 'pending',
+                total_amount: parseFloat(order.total_amount || 0),
+                discount_amount: parseFloat(order.discount_amount || 0),
+                shipping_charge: parseFloat(order.shipping_charge || 0),
+                addresses: Array.isArray(order.addresses) ? order.addresses[0] : order.addresses,
+                order_items: (order.order_items || []).map((item: any) => ({
+                  id: item.id,
+                  quantity: item.quantity,
+                  price: parseFloat(item.price || 0),
+                  products: Array.isArray(item.products) ? item.products[0] : item.products
+                })),
+                payment: paymentObj ? {
+                  transaction_id: paymentObj.transaction_id,
+                  status: paymentObj.status,
+                  utr: paymentObj.raw_response?.utr || ''
+                } : null
+              };
+            })
+            // Exclude pending/incomplete checkouts that have not had UTR or Direct Paid Confirmation submitted
+            .filter((order: DbOrder) => {
+              if (order.status === 'pending' && (!order.payment || order.payment.status === 'pending')) {
+                return false;
+              }
+              return true;
+            });
+
           setOrders(formatted);
         }
       } catch (err) {
@@ -354,6 +382,11 @@ export default function OrdersPage() {
                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">
                            {totalItems} SKU Item{totalItems > 1 ? 's' : ''}
                          </p>
+                         {order.payment?.utr && (
+                           <div className="mt-1.5 inline-block bg-orange-50 border border-orange-150 text-orange-750 text-[10px] font-black uppercase px-2 py-0.5 rounded-md tracking-wide shadow-2xs">
+                             UTR: {order.payment.utr}
+                           </div>
+                         )}
                       </td>
                       <td className="px-8 py-6 text-right">
                         <div className="flex justify-end gap-2">
@@ -378,7 +411,7 @@ export default function OrdersPage() {
       {/* Beautiful Custom Detail Modal Overlay */}
       {selectedOrder && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-300">
-          <div className="relative w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="relative w-full max-w-3xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Modal Header */}
             <div className="p-6 bg-slate-900 text-white flex items-center justify-between">
               <div>
@@ -397,8 +430,8 @@ export default function OrdersPage() {
 
             {/* Modal Body */}
             <div className="p-8 max-h-[70vh] overflow-y-auto space-y-6">
-              {/* Customer Profile & Address */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Customer Profile, Address & Payment Info */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="bg-slate-50 border border-slate-100 p-5 rounded-2xl space-y-3">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                     <User className="h-3.5 w-3.5 text-slate-550" /> Customer Information
@@ -425,6 +458,31 @@ export default function OrdersPage() {
                   ) : (
                     <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">No address submitted</p>
                   )}
+                </div>
+
+                <div className="bg-slate-50 border border-slate-100 p-5 rounded-2xl space-y-3">
+                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                    <CreditCard className="h-3.5 w-3.5 text-slate-550" /> Payment & UTR
+                  </h4>
+                  <div className="space-y-1">
+                    <p className="text-xs font-bold text-slate-700">
+                      Method: <span className="font-black text-slate-900">UPI Pay</span>
+                    </p>
+                    {selectedOrder.payment?.utr ? (
+                      <div className="space-y-1 mt-1">
+                        <p className="text-xs font-bold text-slate-700 flex flex-wrap items-center gap-1">
+                          UTR: <span className="font-black text-orange-655 bg-orange-50 px-1.5 py-0.5 rounded text-[11px] select-all border border-orange-100">{selectedOrder.payment.utr}</span>
+                        </p>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">
+                          TXN ID: {selectedOrder.payment.transaction_id.substring(0, 16)}...
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">
+                        No UTR Submitted
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 

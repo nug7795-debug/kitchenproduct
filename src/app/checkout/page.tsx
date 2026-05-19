@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
+import { UPIPay } from '../../lib/upi-pay';
 
 // High-Fidelity UPI Apps config
 const UPI_APPS = [
@@ -295,8 +296,6 @@ export default function CheckoutPage() {
     setTimeout(() => setCopied(false), 3000);
 
     // 2. Launch the app directly with the auto-generated order amount and credentials
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
     const cleanPayee = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
     // Calculate final actual total sale price dynamically
     const baseSaleTotal = cartItems.reduce((acc, item) => acc + (item.salePrice * item.quantity), 0);
@@ -304,24 +303,14 @@ export default function CheckoutPage() {
     const cleanAmount = Number(totalSale).toFixed(2);
     const cleanTr = transactionId || `TXN_${Date.now()}`;
     
-    // Auto-generate standard parameters (Use tn instead of tr to prevent bank registry blocks on P2P accounts)
+    // Auto-generate standard parameters
     const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR&tn=ORDER_${cleanTr}`;
     
     // Base upiUrl, prioritize backend-generated one
     const baseUpiUrl = upiUrl || `upi://pay?${params}`;
     
-    // Always use the official universal upi://pay scheme to prevent proprietary whitelist security blocks on P2P accounts.
-    // This allows both Personal VPAs (like paytm.s1n5b4q@pty) and Business VPAs to succeed flawlessly exactly like scanning a QR code!
-    const appUrl = baseUpiUrl;
-
-    // Redirect to open the app directly
-    if (appUrl) {
-      if (isIOS) {
-        window.open(appUrl, "_self");
-      } else {
-        window.location.href = appUrl;
-      }
-    }
+    // Launch specifically utilizing custom deep links for Google Pay, PhonePe, Paytm, or BHIM!
+    UPIPay.launch(appId, baseUpiUrl);
   };
 
   const handleContinuePayment = () => {

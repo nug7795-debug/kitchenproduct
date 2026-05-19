@@ -599,8 +599,17 @@ export default function CheckoutPage() {
 
         {/* Steps Tracker Indicator */}
         <div className="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center relative max-w-md mx-auto">
-          {/* Background Connecting Line */}
-          <div className="absolute top-[28px] left-10 right-10 h-[1.5px] bg-slate-200 z-0" />
+          {/* Background Connecting Line - Segment 1 (Address to Summary) */}
+          <div className={cn(
+            "absolute top-[28px] left-[15%] w-[35%] h-[1.5px] z-0 transition-all",
+            step === 'address' ? "bg-slate-200" : "bg-[#2874f0]"
+          )} />
+          
+          {/* Background Connecting Line - Segment 2 (Summary to Payment) */}
+          <div className={cn(
+            "absolute top-[28px] right-[15%] w-[35%] h-[1.5px] z-0 transition-all",
+            (step === 'payment' || step === 'utr_entry' || step === 'verifying' || step === 'success') ? "bg-[#2874f0]" : "bg-slate-200"
+          )} />
           
           {/* Step 1: Address */}
           <div className="flex flex-col items-center relative z-10 flex-1">
@@ -608,13 +617,13 @@ export default function CheckoutPage() {
               "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
               step === 'address'
                 ? "bg-[#2874f0] text-white shadow-sm"
-                : "bg-[#2874f0] text-white"
+                : "border-2 border-[#2874f0] bg-white text-[#2874f0]"
             )}>
-              1
+              {step === 'address' ? '1' : '✓'}
             </div>
             <span className={cn(
               "text-[10px] font-bold mt-1.5 transition-all tracking-tight", 
-              step === 'address' ? "text-[#2874f0]" : "text-[#2874f0]/70"
+              step === 'address' ? "text-[#2874f0]" : "text-slate-500"
             )}>
               Address
             </span>
@@ -628,17 +637,15 @@ export default function CheckoutPage() {
                 ? "border border-slate-300 bg-white text-slate-400"
                 : step === 'summary'
                 ? "bg-[#2874f0] text-white shadow-sm"
-                : "bg-[#2874f0] text-white"
+                : "border-2 border-[#2874f0] bg-white text-[#2874f0]"
             )}>
-              2
+              {step === 'address' || step === 'summary' ? '2' : '✓'}
             </div>
             <span className={cn(
               "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
               step === 'summary'
-                ? "text-[#2874f0]"
-                : step === 'address'
-                ? "text-slate-400"
-                : "text-[#2874f0]/70"
+                ? "text-slate-800 font-extrabold"
+                : "text-slate-400"
             )}>
               Order Summary
             </span>
@@ -654,20 +661,21 @@ export default function CheckoutPage() {
                 ? "bg-[#388e3c] text-white"
                 : "border border-slate-300 bg-white text-slate-400"
             )}>
-              3
+              {step === 'success' ? '✓' : '3'}
             </div>
             <span className={cn(
               "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
               step === 'payment' || step === 'utr_entry' || step === 'verifying'
-                ? "text-[#2874f0]"
+                ? "text-[#2874f0] font-extrabold"
                 : step === 'success'
-                ? "text-[#388e3c]"
+                ? "text-[#388e3c] font-extrabold"
                 : "text-slate-400"
             )}>
               Payment
             </span>
           </div>
         </div>
+
 
         <div className="p-4">
           {/* STEP 1: SHIPPING ADDRESS */}
@@ -866,160 +874,298 @@ export default function CheckoutPage() {
 
           {/* STEP 2: ORDER SUMMARY */}
           {step === 'summary' && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-              <h2 className="text-sm font-bold text-slate-800 uppercase tracking-tight border-b pb-2">Order Items</h2>
-              
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 p-3 min-h-[500px] flex flex-col justify-between">
               <div className="space-y-3">
-                {cartItems.map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                    <div className="relative h-16 w-16 bg-white rounded-lg border border-slate-200 overflow-hidden shrink-0">
-                      <img src={item.imageUrl} alt={item.name} className="object-contain p-1.5 w-full h-full" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">{item.name}</h4>
-                      <p className="text-[10px] text-slate-400 mt-1">Quantity: {item.quantity}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-sm font-black text-slate-900">₹{item.salePrice.toLocaleString()}</span>
-                        <span className="text-[10px] text-slate-400 line-through">₹{item.price.toLocaleString()}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Premium Coupons & Promo Discounts System */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-4 space-y-4 shadow-xs relative overflow-hidden">
-                <div className="flex items-center gap-2">
-                  <div className="h-7 w-7 rounded-lg bg-[#2874f0]/10 flex items-center justify-center text-[#2874f0]">
-                    <Ticket className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Apply Coupons & Promos</h3>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">Save extra with exclusive store discount codes</p>
-                  </div>
-                </div>
-
-                {appliedCoupon ? (
-                  <div className="bg-emerald-50 border border-emerald-250 rounded-xl p-3 flex items-center justify-between animate-in fade-in zoom-in-95">
-                    <div className="flex items-center gap-2">
-                      <div className="h-8 w-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0">
-                        <Ticket className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block">
-                          {appliedCoupon.code}
-                        </p>
-                        <p className="text-[9px] font-bold text-emerald-600 mt-0.5">
-                          Code applied! Extra ₹{couponDiscount.toLocaleString()} saved
-                        </p>
-                      </div>
-                    </div>
+                {/* 1. Deliver To Address Card */}
+                <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-sm relative flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-800 font-extrabold text-xs uppercase tracking-wider">
+                      Deliver to:
+                    </span>
                     <button
                       type="button"
-                      onClick={handleRemoveCoupon}
-                      className="text-[10px] font-black text-red-500 hover:text-red-750 transition-colors uppercase tracking-wider bg-white shadow-xs border border-slate-100 rounded-lg px-2.5 py-1.5 shrink-0"
+                      onClick={() => setStep('address')}
+                      className="border border-[#2874f0] bg-white hover:bg-slate-50 text-[#2874f0] text-[10px] font-bold px-3 py-1 rounded transition-all tracking-wide uppercase"
                     >
-                      Remove
+                      Change
                     </button>
                   </div>
-                ) : (
-                  <div className="space-y-3">
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="ENTER COUPON CODE"
-                        value={couponCode}
-                        onChange={(e) => {
-                          setCouponCode(e.target.value.toUpperCase());
-                          setCouponError(null);
-                        }}
-                        className="flex-1 bg-slate-50 border-2 border-slate-100 rounded-xl px-3 py-2 text-xs font-black placeholder-slate-400 focus:border-[#2874f0] uppercase tracking-wider outline-none transition-all"
-                      />
-                      <Button
-                        type="button"
-                        onClick={() => handleApplyCoupon()}
-                        className="rounded-xl bg-[#2874f0] hover:bg-[#1b5cb8] text-white px-4 font-black text-xs h-[34px] shadow-xs uppercase tracking-wide shrink-0"
-                      >
-                        Apply
-                      </Button>
+                  
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="font-extrabold text-slate-900 text-sm">{address.fullName}</span>
+                    <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-black tracking-wide uppercase">
+                      HOME
+                    </span>
+                  </div>
+                  
+                  <p className="text-xs text-slate-655 leading-relaxed font-medium">
+                    {address.streetAddress}, {address.city}, {address.state} - <span className="font-mono font-bold text-slate-800">{address.postalCode}</span>
+                  </p>
+                  
+                  <p className="text-xs font-semibold text-slate-700 mt-0.5">
+                    {address.phone}
+                  </p>
+                </div>
+
+                {/* 2. Incomplete/Verified Address Banner matching screenshot exactly */}
+                <div className="bg-[#fff3e0] border border-[#ffe0b2] rounded-lg p-3 flex items-center justify-between gap-4 shadow-2xs">
+                  <div className="space-y-0.5">
+                    <h4 className="text-[11px] font-bold text-slate-800">
+                      Incomplete address details for delivery
+                    </h4>
+                    <p className="text-[9px] text-slate-500 font-semibold uppercase tracking-wider">
+                      Please check pincode and street address
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setStep('address')}
+                    className="bg-white border border-[#2874f0] text-[#2874f0] hover:bg-slate-50 text-[10px] font-black px-3.5 py-1.5 rounded shrink-0 uppercase tracking-wider"
+                  >
+                    Edit details
+                  </button>
+                </div>
+
+                {/* 3. Dynamic Products / Cart Items list */}
+                <div className="space-y-3">
+                  {cartItems.map((item, idx) => {
+                    const discountPercent = item.price > item.salePrice 
+                      ? Math.round(((item.price - item.salePrice) / item.price) * 100)
+                      : 0;
+
+                    // Setup dynamic delivery expectation date
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    const deliveryDate = new Date();
+                    deliveryDate.setDate(deliveryDate.getDate() + 3);
+                    const deliveryString = `Delivery by ${months[deliveryDate.getMonth()]} ${deliveryDate.getDate()}, ${days[deliveryDate.getDay()]}`;
+
+                    return (
+                      <div key={idx} className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm flex gap-4 relative">
+                        {/* Product Image and Qty drop down */}
+                        <div className="flex flex-col items-center gap-3 shrink-0">
+                          <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
+                            <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
+                          </div>
+                          
+                          {/* Qty Selector Capsule */}
+                          <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
+                            <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
+                            <ChevronDown className="h-3 w-3 text-slate-500" />
+                          </div>
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+                          <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
+                            {item.name}
+                          </h4>
+                          
+                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                            Silver Premium Edition
+                          </p>
+
+                          {/* Ratings and Assured Icon */}
+                          <div className="flex items-center gap-1.5 text-[10px] font-bold">
+                            <span className="bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8.5px] font-black flex items-center gap-0.5 shadow-2xs">
+                              4.4 ★
+                            </span>
+                            <span className="text-slate-400 font-bold">(9,614)</span>
+                            {/* Assured Emblem */}
+                            <span className="ml-1 bg-gradient-to-r from-blue-600 to-sky-500 text-white text-[8px] font-black italic px-1.5 py-0.5 rounded flex items-center gap-1 shadow-2xs">
+                              <span className="text-yellow-400 font-black">✓</span> Assured
+                            </span>
+                          </div>
+
+                          {/* Flipkart Prices Row */}
+                          <div className="flex items-center gap-2.5 mt-1">
+                            {discountPercent > 0 && (
+                              <span className="text-xs font-black text-emerald-600">
+                                ↓ {discountPercent}%
+                              </span>
+                            )}
+                            <span className="text-xs text-slate-400 line-through">
+                              ₹{item.price.toLocaleString()}
+                            </span>
+                            <span className="text-sm font-black text-slate-900">
+                              ₹{item.salePrice.toLocaleString()}
+                            </span>
+                          </div>
+
+                          {/* Protect Promise Label */}
+                          <p className="text-[9px] text-slate-400 font-medium">
+                            + ₹39 Protect Promise Fee ⓘ
+                          </p>
+
+                          <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wide">
+                            9 Offers Available
+                          </p>
+
+                          <p className="text-[10px] font-black text-slate-805 mt-1">
+                            {deliveryString}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 4. Coupons & Promo Discounts System */}
+                <div className="bg-white rounded-lg border border-slate-200 p-4 space-y-4 shadow-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="h-7 w-7 rounded-lg bg-[#2874f0]/10 flex items-center justify-center text-[#2874f0]">
+                      <Ticket className="h-4 w-4" />
                     </div>
+                    <div>
+                      <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Apply Coupons & Promos</h3>
+                      <p className="text-[9px] font-bold text-slate-400 uppercase">Save extra with exclusive store discount codes</p>
+                    </div>
+                  </div>
 
-                    {couponError && (
-                      <p className="text-[10px] text-red-500 font-bold bg-red-50 p-2 rounded-lg border border-red-100 flex items-center gap-1 animate-pulse">
-                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                        <span>{couponError}</span>
-                      </p>
-                    )}
+                  {appliedCoupon ? (
+                    <div className="bg-emerald-50 border border-emerald-250 rounded-xl p-3 flex items-center justify-between animate-in fade-in zoom-in-95">
+                      <div className="flex items-center gap-2">
+                        <div className="h-8 w-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center shadow-xs shrink-0">
+                          <Ticket className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-md inline-block">
+                            {appliedCoupon.code}
+                          </p>
+                          <p className="text-[9px] font-bold text-emerald-600 mt-0.5">
+                            Code applied! Extra ₹{couponDiscount.toLocaleString()} saved
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleRemoveCoupon}
+                        className="text-[10px] font-black text-red-500 hover:text-red-750 transition-colors uppercase tracking-wider bg-white shadow-xs border border-slate-100 rounded-lg px-2.5 py-1.5 shrink-0"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="ENTER COUPON CODE"
+                          value={couponCode}
+                          onChange={(e) => {
+                            setCouponCode(e.target.value.toUpperCase());
+                            setCouponError(null);
+                          }}
+                          className="flex-1 bg-slate-50 border border-slate-250 rounded-xl px-3 py-2 text-xs font-bold placeholder-slate-400 focus:border-[#2874f0] uppercase tracking-wider outline-none transition-all"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => handleApplyCoupon()}
+                          className="rounded-xl bg-[#2874f0] hover:bg-[#1b5cb8] text-white px-4 font-black text-xs h-[34px] shadow-xs uppercase tracking-wide shrink-0"
+                        >
+                          Apply
+                        </Button>
+                      </div>
 
-                    {/* Pre-seeded Active Coupons Chips */}
-                    <div className="space-y-1.5 pt-2 border-t border-slate-100">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Recommended Offers</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {[
-                          { code: 'WELCOME15', desc: '15% Off' },
-                          { code: 'KITCHEN10', desc: '10% Off' },
-                          { code: 'FLAT500', desc: '₹500 Off' },
-                          { code: 'FESTIVE20', desc: '20% Off' }
-                        ].map((promo) => (
-                          <button
-                            key={promo.code}
-                            type="button"
-                            onClick={() => handleApplyCoupon(promo.code)}
-                            className="bg-slate-50 hover:bg-[#2874f0]/5 border border-slate-200 hover:border-[#2874f0] text-slate-700 hover:text-[#2874f0] rounded-lg px-2 py-1 text-[9px] font-black tracking-wider transition-all flex items-center gap-1 uppercase"
-                          >
-                            <Ticket className="h-2.5 w-2.5 shrink-0 text-orange-500" />
-                            <span>{promo.code}</span>
-                            <span className="text-[7.5px] font-bold text-slate-400 lowercase">({promo.desc})</span>
-                          </button>
-                        ))}
+                      {couponError && (
+                        <p className="text-[10px] text-red-500 font-bold bg-red-50 p-2 rounded-lg border border-red-100 flex items-center gap-1 animate-pulse">
+                          <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                          <span>{couponError}</span>
+                        </p>
+                      )}
+
+                      {/* Pre-seeded Active Coupons Chips */}
+                      <div className="space-y-1.5 pt-2 border-t border-slate-100">
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Recommended Offers</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {[
+                            { code: 'WELCOME15', desc: '15% Off' },
+                            { code: 'KITCHEN10', desc: '10% Off' },
+                            { code: 'FLAT500', desc: '₹500 Off' },
+                            { code: 'FESTIVE20', desc: '20% Off' }
+                          ].map((promo) => (
+                            <button
+                              key={promo.code}
+                              type="button"
+                              onClick={() => handleApplyCoupon(promo.code)}
+                              className="bg-slate-50 hover:bg-[#2874f0]/5 border border-slate-200 hover:border-[#2874f0] text-slate-700 hover:text-[#2874f0] rounded-lg px-2 py-1 text-[9px] font-black tracking-wider transition-all flex items-center gap-1 uppercase"
+                            >
+                              <Ticket className="h-2.5 w-2.5 shrink-0 text-orange-500" />
+                              <span>{promo.code}</span>
+                              <span className="text-[7.5px] font-bold text-slate-400 lowercase">({promo.desc})</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              {/* Price Details Breakdown */}
-              <div className="bg-slate-50 rounded-xl border border-slate-100 p-4 space-y-3">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
-                  <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500 font-medium">Discount Savings</span>
-                  <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
-                </div>
-                {couponDiscount > 0 && (
-                  <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
-                    <span className="text-emerald-700 font-bold flex items-center gap-1">
-                      <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
-                    </span>
-                    <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
+                {/* 5. Price Details Breakdown */}
+                <div className="bg-white rounded-lg border border-slate-200 p-4 space-y-3 shadow-sm">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
+                    <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
                   </div>
-                )}
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-500 font-medium">Delivery Charges</span>
-                  <span className="font-bold text-green-600">FREE</span>
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Discount Savings</span>
+                    <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
+                  </div>
+                  {couponDiscount > 0 && (
+                    <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
+                      <span className="text-emerald-700 font-bold flex items-center gap-1">
+                        <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
+                      </span>
+                      <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-slate-500 font-medium">Delivery Charges</span>
+                    <span className="font-bold text-green-600">FREE</span>
+                  </div>
+                  <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
+                    <span className="text-sm font-black text-slate-900 uppercase">Total Payable</span>
+                    <span className="text-base font-black text-[#2874f0]">₹{totalSale.toLocaleString()}</span>
+                  </div>
                 </div>
-                <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
-                  <span className="text-sm font-black text-slate-900 uppercase">Total Payable</span>
-                  <span className="text-lg font-black text-[#2874f0]">₹{totalSale.toLocaleString()}</span>
+
+                {/* 6. Green Savings Banner */}
+                <div className="bg-[#e8f5e9]/70 border border-[#c8e6c9] rounded-lg p-3 flex items-center gap-2 text-xs font-bold text-[#388e3c] shadow-2xs">
+                  <span className="bg-[#388e3c] text-white p-0.5 rounded-full shrink-0 flex items-center justify-center h-4 w-4 text-[9px] font-black">
+                    %
+                  </span>
+                  <span>You'll save ₹{(totalOriginal - totalSale).toLocaleString()} on this order!</span>
                 </div>
               </div>
 
               {error && (
-                <div className="text-[11px] text-red-600 bg-red-50 p-2 rounded-lg font-bold text-center border border-red-100">
+                <div className="text-[11px] text-red-600 bg-red-50 p-2 rounded-lg font-bold text-center border border-red-100 my-2">
                   {error}
                 </div>
               )}
 
-              <Button 
-                onClick={handleProceedToPayment}
-                disabled={loading}
-                className="w-full bg-[#fb641b] hover:bg-[#f4511e] text-white py-6 rounded-lg text-sm font-bold shadow-sm transition-transform active:scale-98 uppercase tracking-wide flex items-center justify-center gap-2"
-              >
-                {loading ? 'Initializing Order...' : 'Proceed to Payment'}
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              {/* 7. Bottom Sticky Payment Bar */}
+              <div className="bg-white border-t border-slate-200 p-4 flex items-center justify-between -mx-3 -mb-3 rounded-b-xl sticky bottom-0 z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+                <div className="flex flex-col">
+                  <span className="text-[11px] text-slate-400 line-through">
+                    ₹{totalOriginal.toLocaleString()}
+                  </span>
+                  <div className="flex items-center gap-1 leading-none mt-0.5">
+                    <span className="text-lg font-black text-slate-900">
+                      ₹{totalSale.toLocaleString()}
+                    </span>
+                    <span className="text-slate-400 text-[10px] cursor-pointer">ⓘ</span>
+                  </div>
+                </div>
+                
+                <Button 
+                  onClick={handleProceedToPayment}
+                  disabled={loading}
+                  className="bg-[#ffd814] hover:bg-[#f7ca00] text-slate-950 px-10 py-5 rounded-md text-xs font-black shadow-sm transition-transform active:scale-97 uppercase tracking-wider shrink-0"
+                >
+                  {loading ? 'Processing...' : 'Continue'}
+                </Button>
+              </div>
             </div>
           )}
 

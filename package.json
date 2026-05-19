@@ -36,6 +36,7 @@
     "next": "15.1.9",
     "postcss": "^8.4.47",
     "qrcode": "^1.5.4",
+    "razorpay": "^2.9.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-qr-code": "^2.0.21",
@@ -43,6 +44,7 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "ua-parser-js": "^2.0.9",
+    "unified-upi-payment": "^1.0.0",
     "uuid": "^14.0.0"
   }
 }

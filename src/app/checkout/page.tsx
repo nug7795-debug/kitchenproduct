@@ -60,10 +60,10 @@ export default function CheckoutPage() {
   const [selectedMethod, setSelectedMethod] = React.useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('gpay');
   const [timeLeft, setTimeLeft] = React.useState(276); // 4min 36sec exactly like in the screenshot
   
-  // UPI Handoff Assistant Overlay Modal
   const [showAssistantModal, setShowAssistantModal] = React.useState(false);
   const [copiedAmount, setCopiedAmount] = React.useState(false);
   const [copiedVpa, setCopiedVpa] = React.useState(false);
+  const [verificationTimedOut, setVerificationTimedOut] = React.useState(false);
   
   // Shipping Address Form State
   const [address, setAddress] = React.useState({
@@ -268,39 +268,47 @@ export default function CheckoutPage() {
 
   // Direct Intent launch logic as per Rule 4 and Rule 8
   const handleUpiAppPay = (appId: string) => {
-    // 1. Instantly copy the VPA to clipboard
+    // 1. Instantly copy the VPA to clipboard as a secure fallback
     navigator.clipboard.writeText(merchantVpa);
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);
 
-    // 2. Show the gorgeous help assistant modal
-    setShowAssistantModal(true);
-
-    // 3. Launch the app home screen directly without parameters to bypass NPCI deep-link restrictions
+    // 2. Launch the app directly with the auto-generated order amount and credentials
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    const cleanPayee = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
+    // Calculate final actual total sale price dynamically
+    const baseSaleTotal = cartItems.reduce((acc, item) => acc + (item.salePrice * item.quantity), 0);
+    const totalSale = Math.max(0, baseSaleTotal - couponDiscount);
+    const cleanAmount = Number(totalSale).toFixed(2);
+    const cleanTr = transactionId || `TXN_${Date.now()}`;
+    
+    // Auto-generate standard parameters
+    const params = `pa=${merchantVpa}&pn=${cleanPayee}&am=${cleanAmount}&cu=INR&tr=${cleanTr}`;
     let appUrl = '';
 
     if (appId === 'gpay') {
       appUrl = isIOS 
-        ? 'gpay://' 
-        : 'intent://#Intent;scheme=gpay;package=com.google.android.apps.nbu.paisa.user;end';
+        ? `gpay://upi/pay?${params}` 
+        : `intent://pay?${params}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
     } else if (appId === 'phonepe') {
       appUrl = isIOS 
-        ? 'phonepe://' 
-        : 'intent://#Intent;scheme=phonepe;package=com.phonepe.app;end';
+        ? `phonepe://pay?${params}` 
+        : `intent://pay?${params}#Intent;scheme=upi;package=com.phonepe.app;end`;
     } else if (appId === 'paytm') {
       appUrl = isIOS 
-        ? 'paytmmp://' 
-        : 'intent://#Intent;scheme=paytm;package=net.one97.paytm;end';
+        ? `paytmmp://pay?${params}` 
+        : `intent://pay?${params}#Intent;scheme=upi;package=net.one97.paytm;end`;
     } else if (appId === 'bhim') {
       appUrl = isIOS 
-        ? 'bhim://' 
-        : 'intent://#Intent;scheme=bhim;package=in.org.npci.upiapp;end';
+        ? `bhim://upi/pay?${params}` 
+        : `intent://pay?${params}#Intent;scheme=upi;package=in.org.npci.upiapp;end`;
     } else {
-      // Universal clean launcher
-      appUrl = isIOS ? 'gpay://' : 'intent://#Intent;scheme=gpay;package=com.google.android.apps.nbu.paisa.user;end';
+      // Universal clean launcher fallback
+      appUrl = `upi://pay?${params}`;
     }
 
+    // Redirect to open the app directly
     if (appUrl) {
       if (isIOS) {
         window.open(appUrl, "_self");
@@ -308,6 +316,11 @@ export default function CheckoutPage() {
         window.location.href = appUrl;
       }
     }
+
+    // 3. Wait 1.5 seconds and show the checkout details modal
+    setTimeout(() => {
+      setShowAssistantModal(true);
+    }, 1500);
   };
 
   const handleContinuePayment = () => {
@@ -502,9 +515,12 @@ export default function CheckoutPage() {
     }
   };
 
-  // 4. Poll database status using Supabase Client with short-circuit transition
+  // 4. Poll database status using Supabase Client with strict verification and zero fake orders
   const startRealtimePolling = () => {
     if (!transactionId) return;
+
+    // Reset timed out state just in case we are restarting polling
+    setVerificationTimedOut(false);
 
     const interval = setInterval(async () => {
       try {
@@ -516,8 +532,8 @@ export default function CheckoutPage() {
 
         if (error) throw error;
         
-        // Match status successfully, direct bypass sandbox once UTR is submitted and processing
-        if (data && (data.status === 'success' || data.status === 'processing')) {
+        // Strict verification matching rules: only success status from verified backend payments can complete order
+        if (data && data.status === 'success') {
           clearInterval(interval);
           setStep('success');
           // Clear cart on payment success
@@ -529,10 +545,11 @@ export default function CheckoutPage() {
     }, 2500);
 
     // Hard limit timeout to prevent infinite polling loops
+    // Instead of auto-confirming a fake order, we show a gorgeous "Awaiting Settlement" pending screen
     setTimeout(() => {
       clearInterval(interval);
-      setStep('success'); // Fallback gracefully to success to maximize UX after timeout
-    }, 45000);
+      setVerificationTimedOut(true);
+    }, 60000);
   };
 
   const handleSelectSavedAddress = (addr: any) => {
@@ -1412,23 +1429,61 @@ export default function CheckoutPage() {
           {/* STEP 6: VERIFYING IN PROGRESS (REAL-TIME POLLING) */}
           {step === 'verifying' && (
             <div className="py-12 flex flex-col items-center justify-center space-y-6 animate-in fade-in">
-              <div className="relative flex items-center justify-center">
-                <div className="h-20 w-20 rounded-full border-4 border-slate-100 border-t-[#2874f0] animate-spin" />
-                <div className="absolute h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-[#2874f0]" />
+              {verificationTimedOut ? (
+                <div className="text-center space-y-4 max-w-sm mx-auto px-4">
+                  <div className="h-16 w-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-amber-600 border border-amber-250 shadow-2xs">
+                    <Clock className="h-8 w-8 animate-pulse text-amber-555" />
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider">Verification in Progress</h2>
+                    <p className="text-[11px] text-slate-500 leading-relaxed font-semibold">
+                      Your payment of <strong>₹{totalSale.toLocaleString()}</strong> (UTR: <strong>#{utr}</strong>) is currently undergoing bank settlement and validation.
+                    </p>
+                    <p className="text-[10px] text-slate-400 font-medium">
+                      Our system updates automatically. You will receive a confirmation once successful. You can safely check again now or return later.
+                    </p>
+                  </div>
+                  
+                  <div className="pt-2 flex flex-col gap-2 w-full">
+                    <Button 
+                      onClick={() => {
+                        setVerificationTimedOut(false);
+                        startRealtimePolling();
+                      }}
+                      className="w-full bg-[#2874f0] hover:bg-[#1a64df] text-white font-black text-xs uppercase py-4 shadow-sm rounded-lg"
+                    >
+                      🔄 Refresh Status
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      asChild
+                      className="w-full font-bold text-xs uppercase py-4 border-slate-350 hover:bg-slate-50 rounded-lg text-slate-700"
+                    >
+                      <a href="/">Go to Homepage</a>
+                    </Button>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="relative flex items-center justify-center">
+                    <div className="h-20 w-20 rounded-full border-4 border-slate-100 border-t-[#2874f0] animate-spin" />
+                    <div className="absolute h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center">
+                      <Clock className="h-5 w-5 text-[#2874f0]" />
+                    </div>
+                  </div>
 
-              <div className="text-center space-y-1.5">
-                <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider">Verifying with Bank...</h2>
-                <p className="text-[11px] text-slate-500 max-w-xs leading-normal font-medium">
-                  Checking unique transaction ref <strong>#{utr}</strong> with the UPI clearing house. Please do not close or refresh this tab.
-                </p>
-              </div>
+                  <div className="text-center space-y-1.5">
+                    <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider">Verifying with Bank...</h2>
+                    <p className="text-[11px] text-slate-500 max-w-xs leading-normal font-medium">
+                      Checking unique transaction ref <strong>#{utr}</strong> with the UPI clearing house. Please do not close or refresh this tab.
+                    </p>
+                  </div>
 
-              <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-full flex items-center gap-1.5 text-[9px] text-slate-500 font-bold uppercase tracking-wider">
-                <ShieldCheck className="h-3.5 w-3.5 text-green-600" /> Secure Server Settlement
-              </div>
+                  <div className="bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-full flex items-center gap-1.5 text-[9px] text-slate-500 font-bold uppercase tracking-wider">
+                    <ShieldCheck className="h-3.5 w-3.5 text-green-600" /> Secure Server Settlement
+                  </div>
+                </>
+              )}
             </div>
           )}
 

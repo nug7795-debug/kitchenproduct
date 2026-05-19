@@ -45,8 +45,8 @@ interface CartItem {
 }
 
 export default function CheckoutPage() {
-  // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success
-  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success'>('address');
+  // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
+  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
   const [user, setUser] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(false);
   const [upiUrl, setUpiUrl] = React.useState<string | null>(null);
@@ -500,37 +500,6 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleInstantConfirm = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const generatedUtr = Math.floor(100000000000 + Math.random() * 900000000000).toString();
-      const res = await fetch('/api/payments/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ transactionId, utr: generatedUtr })
-      });
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        setError(data.error || 'Failed to verify transaction.');
-        setLoading(false);
-        return;
-      }
-      
-      // Instant success transition
-      setStep('success');
-      localStorage.removeItem('cart');
-      localStorage.removeItem('active_transaction_id');
-      localStorage.removeItem('active_upi_url');
-      localStorage.removeItem('active_merchant_vpa');
-      localStorage.removeItem('active_payee_name');
-    } catch (err) {
-      console.error(err);
-      setError('System verification error. Please contact customer support.');
-      setLoading(false);
-    }
-  };
-
   // 3. Submit UTR for Manual Verification
   const handleSubmitUtr = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -555,9 +524,13 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Seamless Transition to polling verification status
-      setStep('verifying');
-      startRealtimePolling();
+      // Transition to secure pending verification step
+      setStep('pending_verification');
+      localStorage.removeItem('cart');
+      localStorage.removeItem('active_transaction_id');
+      localStorage.removeItem('active_upi_url');
+      localStorage.removeItem('active_merchant_vpa');
+      localStorage.removeItem('active_payee_name');
     } catch (err) {
       console.error(err);
       setError('System verification error. Please contact customer support.');
@@ -1666,26 +1639,6 @@ export default function CheckoutPage() {
 
               {/* UTR Entry Form - Integrates Did you pay & manual check on the same waiting screen */}
               <div className="border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto bg-white shadow-sm space-y-4">
-                <Button
-                  onClick={handleInstantConfirm}
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-5 rounded-xl text-xs font-black shadow-lg shadow-emerald-100 transition-all hover:shadow-emerald-200 active:scale-98 uppercase tracking-wider flex flex-col items-center justify-center gap-0.5 h-auto"
-                >
-                  <span className="flex items-center gap-1.5 text-[11px]">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-100" />
-                    I have paid using UPI App
-                  </span>
-                  <span className="text-[8px] text-emerald-100 font-bold uppercase tracking-widest normal-case animate-pulse">
-                    Click to confirm instantly
-                  </span>
-                </Button>
-
-                <div className="relative flex py-1.5 items-center">
-                  <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black uppercase tracking-widest">Or enter reference</span>
-                  <div className="flex-grow border-t border-slate-200"></div>
-                </div>
-
                 <div className="text-center space-y-1">
                   <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Instant Payment Verification</h3>
                   <p className="text-[9.5px] text-slate-400 font-bold uppercase tracking-wider">
@@ -1788,6 +1741,51 @@ export default function CheckoutPage() {
 
               <Button 
                 className="w-full bg-[#2874f0] hover:bg-[#1a64df] text-white py-6 rounded-lg font-bold text-sm uppercase tracking-wide transition-transform active:scale-98"
+                asChild
+              >
+                <a href="/">Continue Shopping</a>
+              </Button>
+            </div>
+          )}
+
+          {/* STEP 8: ORDER SUBMITTED / PAYMENT PENDING VERIFICATION */}
+          {step === 'pending_verification' && (
+            <div className="py-8 flex flex-col items-center justify-center space-y-6 animate-in zoom-in duration-500 max-w-sm mx-auto">
+              <div className="h-20 w-20 rounded-full bg-amber-500 flex items-center justify-center shadow-xl shadow-amber-100 relative">
+                <Clock className="h-11 w-11 text-white animate-pulse" />
+              </div>
+
+              <div className="text-center space-y-2.5 px-2">
+                <h2 className="text-xl font-black text-slate-900 tracking-tight uppercase">Reference Submitted!</h2>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
+                  <span className="h-2 w-2 rounded-full bg-amber-500 animate-ping shrink-0" />
+                  <span className="text-[9.5px] text-amber-800 font-black uppercase tracking-wider">Awaiting Verification</span>
+                </div>
+                <p className="text-xs text-slate-550 leading-relaxed font-semibold">
+                  Thank you! We have received your payment reference. Our team is currently verifying the UTR against our bank statement to prevent fake/wrong submissions.
+                </p>
+                <p className="text-[11px] text-slate-500 font-bold leading-normal pt-1">
+                  Your order is currently <span className="text-amber-600 font-extrabold uppercase">Pending</span> and will be fully confirmed once verified (usually within 10–15 minutes).
+                </p>
+              </div>
+
+              <div className="w-full rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-400 font-bold uppercase text-[9.5px]">Order reference ID</span>
+                  <span className="font-mono font-bold text-slate-800">#{transactionId ? transactionId.substring(0, 15) : 'ORD-PENDING'}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-400 font-bold uppercase text-[9.5px]">Payment Status</span>
+                  <span className="font-bold text-amber-600 uppercase">Under Review</span>
+                </div>
+                <div className="flex justify-between items-center text-xs border-t border-slate-200/60 pt-2.5">
+                  <span className="text-slate-400 font-bold uppercase text-[9.5px]">Total Amount</span>
+                  <span className="font-black text-slate-800 text-sm">₹{totalSale.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <Button 
+                className="w-full bg-[#2874f0] hover:bg-[#1a64df] text-white py-6 rounded-lg font-bold text-sm uppercase tracking-wide transition-transform active:scale-98 shadow-sm"
                 asChild
               >
                 <a href="/">Continue Shopping</a>

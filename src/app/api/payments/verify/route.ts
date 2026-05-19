@@ -42,22 +42,22 @@ export async function POST(request: Request) {
     // 2. Submit UTR
     await paymentService.submitUtr(transactionId, utr);
 
-    // 3. Update Payment record to success (Automatic instant verification)
+    // 3. Update Payment record to processing (awaiting admin manual bank settlement verification)
     const { error: updateError } = await supabaseAdmin
       .from('payments')
       .update({ 
-        status: 'success',
+        status: 'processing',
         raw_response: { utr: utr } 
       })
       .eq('transaction_id', transactionId);
 
     if (updateError) throw updateError;
 
-    // 4. Update order status to paid
+    // 4. Set order status to pending (awaiting manual approval)
     if (payment.order_id) {
       const { error: orderError } = await supabaseAdmin
         .from('orders')
-        .update({ status: 'paid' })
+        .update({ status: 'pending' })
         .eq('id', payment.order_id);
 
       if (orderError) console.error('Error updating order status:', orderError);

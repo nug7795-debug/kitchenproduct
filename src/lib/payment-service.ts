@@ -2,18 +2,18 @@ export class PaymentService {
   merchantUpiId: string;
 
   constructor() {
-    this.merchantUpiId = process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
+    this.merchantUpiId = process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
   }
 
-  generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string, mcc?: string) {
-    const name = encodeURIComponent(payeeName || 'Big Dhamaka Sale');
+  generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string) {
+    const storeName = payeeName || process.env.STORE_NAME || 'KitchenProduct Premium';
+    const cleanStoreName = encodeURIComponent(storeName);
     const formattedAmount = Number(amount).toFixed(2);
     const activeUpiId = upiId || this.merchantUpiId;
 
-    // Standard P2P clean URL format (WITHOUT tn/tr/mc note parameters)
-    // This guarantees that Google Pay & PhonePe treat it as a standard peer-to-peer transfer,
-    // completely bypassing any merchant whitelist validation blocks on personal VPAs!
-    return `upi://pay?pa=${activeUpiId}&pn=${name}&am=${formattedAmount}&cu=INR`;
+    // Strict production format matching user's specification:
+    // upi://pay?pa=YOUR_UPI_ID&pn=YOUR_STORE_NAME&am=100&cu=INR&tn=Order123
+    return `upi://pay?pa=${activeUpiId}&pn=${cleanStoreName}&am=${formattedAmount}&cu=INR&tn=ORDER_${orderId}`;
   }
 
   /**

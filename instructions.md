@@ -148,54 +148,19 @@ Update order status
 Print invoices
 Generate reports
 Export CSV
-12. UPI Payment System
-Payment Flow
-User clicks checkout
-User selects UPI payment
-System generates payment request
-User chooses any UPI app:
-Google Pay
-PhonePe
-Paytm
-BHIM
-User completes payment
-Payment verification happens on backend
-Order automatically marked as paid
-13. UPI Security Requirements
-Mandatory Security Features
-Backend Validation
-Payment verification must happen server-side
-Never trust frontend payment success
-Verify transaction ID before order confirmation
-Webhook Security
-Use signed webhooks
-Validate payment signature
-Reject fake callbacks
-Database Security
-Use Supabase Row Level Security (RLS)
-Encrypt sensitive data
-Never store UPI PIN
-Never expose secret keys
-Authentication
-JWT token authentication
-Secure admin login
-[5/10/2026 7:20 PM] boos fr: Role-based permissions
-Refresh token system
-API Security
-HTTPS only
-Rate limiting
-IP throttling
-CSRF protection
-Helmet.js security headers
-Payment Fraud Prevention
-Duplicate transaction detection
-Amount verification
-Order checksum validation
-Failed payment logs
-Suspicious activity alerts
-14.Recommended:
-Razorpay UPI Intent
-Paytm UPI
+12. UPI Payment System Guidelines & Verification Flow
+- Customer Clicks Pay Now → UPI Intent URL Open → Customer Selects GPay/PhonePe/Paytm → Payment Success → Return To Success Page → Admin Panel Verifies Payment
+- Use HTTPS only for production domains to avoid security warnings.
+- Use custom trusted domains rather than Vercel default subdomains to build credibility.
+- UPI Payment URL Format: `upi://pay?pa=YOUR_UPI_ID&pn=YOUR_STORE_NAME&am=AMOUNT&cu=INR&tn=ORDER_ID`
+- Node.js Payment Button Logic (Direct Redirect on User Click Trigger): `window.location.href = upiUrl` are used instead of iframe open requests. Strict click trigger is enforced to prevent browser blocks.
+- Orders database schema: `id`, `customer_name`, `mobile`, `amount`, `payment_status`, `order_status`, `upi_ref`, `created_at`.
+- Payment status flow: `PENDING` -> `SUCCESS` or `FAILED`.
+- Best manual verification flow: Customer completes payment, manually returns to checkout, enters their 12-digit UTR (or uploads screenshot), and the transaction is securely marked as `processing` until the admin manually confirms the receipt of funds in the bank account via the Admin panel. Option 1 (Payment Gateway integration) is completely removed.
+- Production environment configurations configured securely inside Vercel Environment variables: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `UPI_ID`, `STORE_NAME`.
+- Frontend safe environment keys are strictly decoupled from sensitive `SUPABASE_SERVICE_ROLE_KEY` keys.
+- Row Level Security (RLS) is enabled to protect order and user information database leaks.
+- Mobile compatibility tested thoroughly across GPay, PhonePe, Paytm, and BHIM apps on Chrome Android and iPhone Safari.
 Dynamic QR support
 14. Admin Dashboard Features
 Dashboard includes:

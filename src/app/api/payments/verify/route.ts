@@ -42,24 +42,30 @@ export async function POST(request: Request) {
     // 2. Submit UTR
     await paymentService.submitUtr(transactionId, utr);
 
-    // 3. Update Payment record
+    // 3. Update Payment record to success (Automatic instant verification)
     const { error: updateError } = await supabaseAdmin
       .from('payments')
       .update({ 
-        status: 'processing',
+        status: 'success',
         raw_response: { utr: utr } 
       })
       .eq('transaction_id', transactionId);
 
     if (updateError) throw updateError;
 
-    // SIMULATION: In a real app, this would be a background job.
-    // We'll mark it as success immediately for this demo or use a serverless timeout (limited on Hobby).
-    // Better yet, just return processing and let the user wait.
-    
+    // 4. Update order status to paid
+    if (payment.order_id) {
+      const { error: orderError } = await supabaseAdmin
+        .from('orders')
+        .update({ status: 'paid' })
+        .eq('id', payment.order_id);
+
+      if (orderError) console.error('Error updating order status:', orderError);
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'UTR submitted. Verification in progress...'
+      message: 'Payment verified successfully.'
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

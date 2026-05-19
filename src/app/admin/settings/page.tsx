@@ -47,9 +47,12 @@ export default function SettingsPage() {
       marketing: true
     },
     payment: {
-      merchantUpiId: 'yourstore@paytm',
-      payeeName: 'Big Dhamaka Sale',
-      mccCode: '5722',
+      activeMethod: 'upi_intent', // 'razorpay' | 'upi_intent' | 'manual_qr'
+      razorpayKeyId: '',
+      razorpayKeySecret: '',
+      merchantUpiId: '',
+      payeeName: '',
+      mccCode: '',
       allowUpiCheckout: true
     }
   });
@@ -66,11 +69,7 @@ export default function SettingsPage() {
       if (data?.value) {
         setSettings(prev => ({ 
           ...prev, 
-          ...data.value,
-          payment: {
-            ...prev.payment,
-            ...(data.value.payment || {})
-          }
+          ...data.value
         }));
       }
     };
@@ -144,8 +143,8 @@ export default function SettingsPage() {
 
   const menuItems = [
     { id: 'store', label: 'Store Identity', icon: Globe },
+    { id: 'payment', label: 'Payment Configuration', icon: CreditCard },
     { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
-    { id: 'payment', label: 'UPI Payment Settings', icon: CreditCard },
     { id: 'notifications', label: 'Alerts & Notifications', icon: Bell },
     { id: 'security', label: 'Security & Access', icon: Shield },
     { id: 'advanced', label: 'Advanced System', icon: Database },
@@ -215,6 +214,7 @@ export default function SettingsPage() {
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
                     />
                   </div>
+
                   <div className="space-y-2 md:col-span-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SEO Meta Description</label>
                     <textarea 
@@ -242,7 +242,200 @@ export default function SettingsPage() {
             </div>
           )}
 
+          {/* Section: Payment Configuration */}
+          {activeSection === 'payment' && (
+            <div className="space-y-6">
+              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
+                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
+                   <div className="h-10 w-10 rounded-xl bg-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-100"><CreditCard className="h-5 w-5" /></div>
+                   <h2 className="font-black text-slate-900 uppercase tracking-tight">Payment Configuration</h2>
+                </div>
 
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Choose Active Payment System</label>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Method 1: Razorpay */}
+                    <div 
+                      onClick={() => updateNestedField('payment', 'activeMethod', 'razorpay')}
+                      className={cn(
+                        "p-5 rounded-[2rem] border-2 cursor-pointer transition-all space-y-3 relative overflow-hidden group",
+                        (settings.payment?.activeMethod === 'razorpay')
+                          ? "border-orange-500 bg-orange-50/20 shadow-md shadow-orange-100" 
+                          : "border-slate-100 hover:border-slate-300 bg-white"
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center transition-all", (settings.payment?.activeMethod === 'razorpay') ? "bg-orange-500 text-white" : "bg-slate-100 text-slate-500")}>
+                          <CreditCard className="h-5 w-5" />
+                        </div>
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600">Recommended</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-900">Razorpay Gateway</h3>
+                        <p className="text-[11px] font-bold text-slate-400 leading-snug mt-1">Automatic verification & webhooks. Best success rate & safety.</p>
+                      </div>
+                    </div>
+
+                    {/* Method 2: UPI Intent */}
+                    <div 
+                      onClick={() => updateNestedField('payment', 'activeMethod', 'upi_intent')}
+                      className={cn(
+                        "p-5 rounded-[2rem] border-2 cursor-pointer transition-all space-y-3 relative overflow-hidden group",
+                        (settings.payment?.activeMethod === 'upi_intent' || !settings.payment?.activeMethod)
+                          ? "border-orange-500 bg-orange-50/20 shadow-md shadow-orange-100" 
+                          : "border-slate-100 hover:border-slate-300 bg-white"
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center transition-all", (settings.payment?.activeMethod === 'upi_intent' || !settings.payment?.activeMethod) ? "bg-orange-500 text-white" : "bg-slate-100 text-slate-500")}>
+                          <Smartphone className="h-5 w-5" />
+                        </div>
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-orange-500/10 text-orange-600">Zero Fee</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-900">UPI App Handoff</h3>
+                        <p className="text-[11px] font-bold text-slate-400 leading-snug mt-1">Directly launch GPay, PhonePe, Paytm with manual UTR matching.</p>
+                      </div>
+                    </div>
+
+                    {/* Method 3: Static QR Code */}
+                    <div 
+                      onClick={() => updateNestedField('payment', 'activeMethod', 'manual_qr')}
+                      className={cn(
+                        "p-5 rounded-[2rem] border-2 cursor-pointer transition-all space-y-3 relative overflow-hidden group",
+                        (settings.payment?.activeMethod === 'manual_qr')
+                          ? "border-orange-500 bg-orange-50/20 shadow-md shadow-orange-100" 
+                          : "border-slate-100 hover:border-slate-300 bg-white"
+                      )}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className={cn("h-10 w-10 rounded-xl flex items-center justify-center transition-all", (settings.payment?.activeMethod === 'manual_qr') ? "bg-orange-500 text-white" : "bg-slate-100 text-slate-500")}>
+                          <Globe className="h-5 w-5" />
+                        </div>
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Fallback</span>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-black text-slate-900">Manual Static QR</h3>
+                        <p className="text-[11px] font-bold text-slate-400 leading-snug mt-1">Display QR image directly with manual screenshot/UTR verification.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sub-form based on choice */}
+                {settings.payment?.activeMethod === 'razorpay' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
+                    <div className="md:col-span-2 space-y-1">
+                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Razorpay Gateway API Keys</h4>
+                      <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Enter your public and secret keys from your Razorpay Dashboard settings.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Razorpay Key ID</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.razorpayKeyId || ''} 
+                        onChange={(e) => updateNestedField('payment', 'razorpayKeyId', e.target.value)}
+                        placeholder="rzp_live_xxxxxxxxxxxxx"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Razorpay Key Secret</label>
+                      <input 
+                        type="password" 
+                        value={settings.payment?.razorpayKeySecret || ''} 
+                        onChange={(e) => updateNestedField('payment', 'razorpayKeySecret', e.target.value)}
+                        placeholder="••••••••••••••••••••••••••••"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {(settings.payment?.activeMethod === 'upi_intent' || !settings.payment?.activeMethod) && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
+                    <div className="md:col-span-3 space-y-1">
+                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">UPI Handoff Merchant Settings</h4>
+                      <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Required to formulate correct deep-linking intents. Ensure accuracy to prevent lost payments.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant UPI ID (VPA)</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.merchantUpiId || ''} 
+                        onChange={(e) => updateNestedField('payment', 'merchantUpiId', e.target.value)}
+                        placeholder="yourname@okaxis"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payee Name (pn)</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.payeeName || ''} 
+                        onChange={(e) => updateNestedField('payment', 'payeeName', e.target.value)}
+                        placeholder="e.g. Premium Kitchens"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">MCC Code (Merchant Category)</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.mccCode || ''} 
+                        onChange={(e) => updateNestedField('payment', 'mccCode', e.target.value)}
+                        placeholder="e.g. 5799"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {settings.payment?.activeMethod === 'manual_qr' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
+                    <div className="md:col-span-2 space-y-1">
+                      <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">Static QR VPA Settings</h4>
+                      <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Used to dynamically generate a static QR code display for the customer checkout screen.</p>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant UPI ID (VPA)</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.merchantUpiId || ''} 
+                        onChange={(e) => updateNestedField('payment', 'merchantUpiId', e.target.value)}
+                        placeholder="yourname@okaxis"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant Display Name</label>
+                      <input 
+                        type="text" 
+                        value={settings.payment?.payeeName || ''} 
+                        onChange={(e) => updateNestedField('payment', 'payeeName', e.target.value)}
+                        placeholder="e.g. Premium Kitchens Ltd"
+                        className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Status Toggles */}
+                <div className="flex items-center justify-between p-4 bg-orange-500/5 rounded-3xl border border-orange-500/10">
+                  <div className="space-y-1">
+                    <p className="text-sm font-black text-slate-900 uppercase tracking-tight">Allow Instant Checkout Payments</p>
+                    <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Enable checkout process to bypass or accept these gateway integrations.</p>
+                  </div>
+                  <div 
+                    onClick={() => updateNestedField('payment', 'allowUpiCheckout', !settings.payment?.allowUpiCheckout)}
+                    className={cn("h-7 w-12 rounded-full relative transition-all cursor-pointer", settings.payment?.allowUpiCheckout ? "bg-orange-500 shadow-lg shadow-orange-100" : "bg-slate-100 border-2 border-slate-50")}>
+                    <div className={cn("absolute top-1 h-5 w-5 bg-white rounded-full transition-all shadow-md", settings.payment?.allowUpiCheckout ? "right-1" : "left-1")} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Section: Notifications */}
           {activeSection === 'notifications' && (
@@ -387,129 +580,6 @@ export default function SettingsPage() {
                      {isVerifying ? 'VERIFYING...' : 'RE-VERIFY'}
                    </Button>
                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* Section: Payment Settings */}
-          {activeSection === 'payment' && (
-            <div className="space-y-6">
-              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8 animate-in fade-in slide-in-from-bottom-4">
-                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
-                   <div className="h-10 w-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-100"><CreditCard className="h-5 w-5" /></div>
-                   <h2 className="font-black text-slate-900 uppercase tracking-tight">UPI Payment Settings</h2>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                      Business UPI ID / VPA
-                      <span className="text-[9px] bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded font-black">BUSINESS ONLY</span>
-                    </label>
-                    <input 
-                      type="text" 
-                      value={settings.payment?.merchantUpiId || ''} 
-                      onChange={(e) => updateNestedField('payment', 'merchantUpiId', e.target.value)}
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
-                    />
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
-                      Use only verified business VPAs (e.g. ending in @paytm, @ybl, @okhdfcbank, @upi). Do NOT use personal or temporary QR UPI IDs.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
-                      Store / Payee Name (pn)
-                      <span className="text-[9px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-black">ENCODED</span>
-                    </label>
-                    <input 
-                      type="text" 
-                      value={settings.payment?.payeeName || ''} 
-                      onChange={(e) => updateNestedField('payment', 'payeeName', e.target.value)}
-                      placeholder="e.g. Big Dhamaka Sale"
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
-                    />
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
-                      This will be properly URL space encoded (e.g. <code>Big%20Dhamaka%20Sale</code>) automatically.
-                    </p>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant Category Code (mcc)</label>
-                    <input 
-                      type="text" 
-                      maxLength={4}
-                      value={settings.payment?.mccCode || ''} 
-                      onChange={(e) => updateNestedField('payment', 'mccCode', e.target.value)}
-                      placeholder="e.g. 5722"
-                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-mono font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all" 
-                    />
-                    <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wide">
-                      4-digit NPCI merchant category code (5722 is typical for household products/appliances).
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 justify-end flex flex-col">
-                    <div className="p-4 bg-emerald-50 border-2 border-emerald-100 rounded-2xl flex items-center justify-between text-emerald-900">
-                      <div>
-                        <p className="text-xs font-black uppercase tracking-wider mb-0.5">Allow UPI Checkout</p>
-                        <p className="text-[9px] text-emerald-700 font-bold uppercase">Activate manual deep-linking and dynamic QR code generation.</p>
-                      </div>
-                      <div 
-                        onClick={() => updateNestedField('payment', 'allowUpiCheckout', !(settings.payment?.allowUpiCheckout))}
-                        className={cn("h-6 w-11 rounded-full relative cursor-pointer transition-all", settings.payment?.allowUpiCheckout ? "bg-emerald-600" : "bg-slate-300")}
-                      >
-                        <div className={cn("absolute top-1 h-4 w-4 bg-white rounded-full transition-all shadow-sm", settings.payment?.allowUpiCheckout ? "right-1" : "left-1")} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Real-time Intent URL Compiler Preview & Visual Validation Badge */}
-                <div className="p-6 bg-slate-900 rounded-[2rem] text-white relative overflow-hidden group">
-                  <div className="relative z-10 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs font-black text-orange-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Lock className="h-4 w-4 text-emerald-400" /> NPCI Compiled URL Preview (Live)
-                      </p>
-                      <span className="text-[9px] bg-slate-800 text-slate-300 font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-slate-700">
-                        HTTPS SECURED
-                      </span>
-                    </div>
-                    
-                    <div className="bg-slate-950 p-4 rounded-xl font-mono text-[11px] text-emerald-400 break-all select-all border border-slate-800 font-bold leading-relaxed">
-                      upi://pay?pa={settings.payment?.merchantUpiId || 'yourstore@paytm'}&pn={encodeURIComponent(settings.payment?.payeeName || 'Big Dhamaka Sale')}&am=499.00&cu=INR&tn=Order%201245
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                      <div className="flex items-center gap-2">
-                        <div className={cn("h-4 w-4 rounded-full flex items-center justify-center text-white text-[8px]", settings.payment?.merchantUpiId?.includes('@') ? "bg-emerald-500" : "bg-red-500")}>
-                          ✓
-                        </div>
-                        <span>VPA format validity</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 w-4 rounded-full bg-emerald-500 flex items-center justify-center text-white text-[8px]">✓</div>
-                        <span>Automatic space encoding (%20)</span>
-                      </div>
-                    </div>
-                  </div>
-                  <Smartphone className="absolute -right-8 -bottom-8 h-32 w-32 text-white/5 rotate-12" />
-                </div>
-              </div>
-
-              {/* Guidelines panel matching instructions */}
-              <div className="bg-amber-50 p-8 rounded-[2.5rem] border border-amber-100 space-y-4">
-                 <h3 className="text-xs font-black text-amber-900 uppercase tracking-widest flex items-center gap-2">
-                   <Info className="h-5 w-5 text-amber-600" /> Mandatory UPI Integration Guidelines
-                 </h3>
-                 <ul className="text-xs text-amber-800 space-y-2.5 list-disc pl-5 font-bold uppercase tracking-wide">
-                   <li>Always use a verified Business UPI ID to avoid suspension and payment security blocks.</li>
-                   <li>Format payments using the 5 basic NPCI parameters: <code>pa</code>, <code>pn</code>, <code>am</code>, <code>cu</code>, <code>tn</code>.</li>
-                   <li>Open the UPI apps using direct mobile intents; WebView-based execution is strictly blocked.</li>
-                   <li>Ensure the storefront uses a valid HTTPS connection in production (never http or localhost).</li>
-                   <li>Display the dynamic QR code along with clear merchant name and secure SSL badge.</li>
-                 </ul>
               </div>
             </div>
           )}

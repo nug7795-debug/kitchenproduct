@@ -42,27 +42,34 @@ export async function POST(request: Request) {
 
     if (paymentError) throw paymentError;
 
-    // 4. Fetch dynamic merchant credentials from settings table
-    const { data: settingsData } = await supabaseAdmin
+    // 4. Load payment configuration dynamically from settings table
+    const { data: settingsRecord } = await supabaseAdmin
       .from('settings')
-      .select('value')
+      .select('*')
       .eq('key', 'global_settings')
       .maybeSingle();
 
-    const paymentConfig = settingsData?.value?.payment || {};
-    const merchantUpiId = paymentConfig.merchantUpiId || process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
-    const payeeName = paymentConfig.payeeName || 'Big Dhamaka Sale';
-    const mccCode = paymentConfig.mccCode || '5722';
+    const paymentSettings = settingsRecord?.value?.payment || {};
+    const activeMethod = paymentSettings.activeMethod || 'upi_intent';
+    const merchantUpiId = paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'yourbusiness@okaxis';
+    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'KitchenProduct Premium';
+    const razorpayKeyId = paymentSettings.razorpayKeyId || '';
 
-    // 5. Generate UPI Payment Details with loaded configurations
-    const upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, payeeName, mccCode);
+    // 5. Generate appropriate response based on selected active payment method
+    let upiUrl = '';
+    if (activeMethod !== 'razorpay') {
+      upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, storeName);
+    }
 
     return NextResponse.json({
       success: true,
       transactionId,
       upiUrl,
-      mode: 'manual_upi',
-      message: 'Payment intent created successfully.'
+      mode: activeMethod,
+      razorpayKeyId,
+      message: 'Payment intent created successfully.',
+      merchantUpiId,
+      payeeName: storeName
     });
   } catch (error: any) {
     console.error('Payment Intent Error:', error);

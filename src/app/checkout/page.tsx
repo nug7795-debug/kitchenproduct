@@ -500,6 +500,37 @@ export default function CheckoutPage() {
     }
   };
 
+  const handleInstantConfirm = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const generatedUtr = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+      const res = await fetch('/api/payments/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transactionId, utr: generatedUtr })
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || 'Failed to verify transaction.');
+        setLoading(false);
+        return;
+      }
+      
+      // Instant success transition
+      setStep('success');
+      localStorage.removeItem('cart');
+      localStorage.removeItem('active_transaction_id');
+      localStorage.removeItem('active_upi_url');
+      localStorage.removeItem('active_merchant_vpa');
+      localStorage.removeItem('active_payee_name');
+    } catch (err) {
+      console.error(err);
+      setError('System verification error. Please contact customer support.');
+      setLoading(false);
+    }
+  };
+
   // 3. Submit UTR for Manual Verification
   const handleSubmitUtr = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1635,6 +1666,26 @@ export default function CheckoutPage() {
 
               {/* UTR Entry Form - Integrates Did you pay & manual check on the same waiting screen */}
               <div className="border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto bg-white shadow-sm space-y-4">
+                <Button
+                  onClick={handleInstantConfirm}
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white py-5 rounded-xl text-xs font-black shadow-lg shadow-emerald-100 transition-all hover:shadow-emerald-200 active:scale-98 uppercase tracking-wider flex flex-col items-center justify-center gap-0.5 h-auto"
+                >
+                  <span className="flex items-center gap-1.5 text-[11px]">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-100" />
+                    I have paid using UPI App
+                  </span>
+                  <span className="text-[8px] text-emerald-100 font-bold uppercase tracking-widest normal-case animate-pulse">
+                    Click to confirm instantly
+                  </span>
+                </Button>
+
+                <div className="relative flex py-1.5 items-center">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-black uppercase tracking-widest">Or enter reference</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
                 <div className="text-center space-y-1">
                   <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Instant Payment Verification</h3>
                   <p className="text-[9.5px] text-slate-400 font-bold uppercase tracking-wider">

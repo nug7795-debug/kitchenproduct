@@ -1016,9 +1016,11 @@ export default function CheckoutPage() {
                             </span>
                             <span className="text-slate-400 font-bold">(9,614)</span>
                             {/* Assured Emblem */}
-                            <span className="ml-1 bg-gradient-to-r from-blue-600 to-sky-500 text-white text-[8px] font-black italic px-1.5 py-0.5 rounded flex items-center gap-1 shadow-2xs">
-                              <span className="text-yellow-400 font-black">✓</span> Assured
-                            </span>
+                            <img 
+                              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                              alt="Assured" 
+                              className="h-3.5 w-auto object-contain ml-1 inline-block" 
+                            />
                           </div>
 
                           {/* Flipkart Prices Row */}

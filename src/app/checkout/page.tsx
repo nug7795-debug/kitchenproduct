@@ -240,19 +240,46 @@ export default function CheckoutPage() {
 
   // Direct Intent launch logic as per Rule 4 and Rule 8
   const handleUpiAppPay = (appId: string) => {
-    const upiLink = getAppUpiUrl(appId);
-    if (!upiLink || upiLink === '#') return;
+    // 1. Instantly copy the VPA to clipboard
+    navigator.clipboard.writeText(merchantVpa);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 3000);
 
+    // 2. Show the gorgeous help assistant modal
+    setShowAssistantModal(true);
+
+    // 3. Launch the app home screen directly without parameters to bypass NPCI deep-link restrictions
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isIOS) {
-      window.open(upiLink, "_self");
+    let appUrl = '';
+
+    if (appId === 'gpay') {
+      appUrl = isIOS 
+        ? 'gpay://' 
+        : 'intent://#Intent;scheme=gpay;package=com.google.android.apps.nbu.paisa.user;end';
+    } else if (appId === 'phonepe') {
+      appUrl = isIOS 
+        ? 'phonepe://' 
+        : 'intent://#Intent;scheme=phonepe;package=com.phonepe.app;end';
+    } else if (appId === 'paytm') {
+      appUrl = isIOS 
+        ? 'paytmmp://' 
+        : 'intent://#Intent;scheme=paytm;package=net.one97.paytm;end';
+    } else if (appId === 'bhim') {
+      appUrl = isIOS 
+        ? 'bhim://' 
+        : 'intent://#Intent;scheme=bhim;package=in.org.npci.upiapp;end';
     } else {
-      window.location.href = upiLink;
+      // Universal clean launcher
+      appUrl = isIOS ? 'gpay://' : 'intent://#Intent;scheme=gpay;package=com.google.android.apps.nbu.paisa.user;end';
     }
 
-    // Instantly launch the smart helper assistant modal so that if Google Pay/PhonePe blocks P2P browser intents,
-    // the user is met with beautiful step-by-step fail-safe alternatives (Copy VPA or Save QR)!
-    setShowAssistantModal(true);
+    if (appUrl) {
+      if (isIOS) {
+        window.open(appUrl, "_self");
+      } else {
+        window.location.href = appUrl;
+      }
+    }
   };
 
   // 1. Submit Shipping Address
@@ -813,29 +840,27 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Primary Universal Click-to-Pay Button */}
-                <a
-                  href={upiUrl || '#'}
-                  onClick={() => setShowAssistantModal(true)}
+                <button
+                  onClick={(e) => { e.preventDefault(); handleUpiAppPay('gpay'); }}
                   className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2874f0] to-[#1a64df] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg hover:from-[#1a64df] hover:to-[#1253c5] active:scale-98 transition-all flex items-center justify-center gap-2 text-center"
                 >
                   <Smartphone className="h-4.5 w-4.5 animate-bounce" />
-                  ⚡ Pay via Any UPI App (Auto-Detect)
-                </a>
+                  ⚡ Copy UPI ID & Open GPay
+                </button>
 
                 <div className="relative flex py-1 items-center">
                   <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-bold uppercase tracking-widest">Or Select App Directly</span>
+                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-bold uppercase tracking-widest">Or Open Another App</span>
                   <div className="flex-grow border-t border-slate-200"></div>
                 </div>
 
                 <div className="grid grid-cols-4 gap-2">
                   {UPI_APPS.map((app) => (
-                    <a
+                    <button
                       key={app.id}
-                      href={upiUrl || '#'}
-                      onClick={() => setShowAssistantModal(true)}
+                      onClick={(e) => { e.preventDefault(); handleUpiAppPay(app.id); }}
                       className={cn(
-                        "flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all active:scale-95 group shadow-sm text-center",
+                        "flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all active:scale-95 group shadow-sm text-center w-full",
                         app.color
                       )}
                     >
@@ -843,7 +868,7 @@ export default function CheckoutPage() {
                         <img src={app.icon} alt={app.name} className="max-h-full max-w-full object-contain" />
                       </div>
                       <span className="text-[9px] font-black text-slate-700 leading-tight block">{app.name}</span>
-                    </a>
+                    </button>
                   ))}
                 </div>
               </div>

@@ -55,6 +55,8 @@ export default function CheckoutPage() {
   const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'yourstore@paytm');
   const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Big Dhamaka Sale');
   const [isMobile, setIsMobile] = React.useState(false);
+  const [selectedMethod, setSelectedMethod] = React.useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('gpay');
+  const [timeLeft, setTimeLeft] = React.useState(276); // 4min 36sec exactly like in the screenshot
   
   // UPI Handoff Assistant Overlay Modal
   const [showAssistantModal, setShowAssistantModal] = React.useState(false);
@@ -87,6 +89,20 @@ export default function CheckoutPage() {
   ]);
 
   const [copied, setCopied] = React.useState(false);
+
+  // Dynamic countdown timer for offer ends
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 276));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}min ${secs < 10 ? '0' : ''}${secs}sec`;
+  };
 
   // 1. Fetch current user, active settings and previously saved addresses on mount
   React.useEffect(() => {
@@ -282,6 +298,14 @@ export default function CheckoutPage() {
     }
   };
 
+  const handleContinuePayment = () => {
+    if (selectedMethod === 'qr') {
+      setStep('utr_entry');
+    } else {
+      handleUpiAppPay(selectedMethod);
+    }
+  };
+
   // 1. Submit Shipping Address
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -461,8 +485,7 @@ export default function CheckoutPage() {
               <button 
                 onClick={() => {
                   if (step === 'summary') setStep('address');
-                  else if (step === 'method') setStep('summary');
-                  else if (step === 'payment') setStep('method');
+                  else if (step === 'payment') setStep('summary');
                   else if (step === 'utr_entry') setStep('payment');
                 }}
                 className="text-white hover:opacity-80 transition-opacity"
@@ -485,12 +508,75 @@ export default function CheckoutPage() {
         </div>
 
         {/* Steps Tracker Indicator */}
-        <div className="bg-slate-50 border-b border-slate-100 px-4 py-3 flex justify-between items-center text-[10px] font-bold text-slate-400">
-          <span className={cn(step === 'address' ? "text-[#2874f0]" : "text-green-600")}>1. ADDRESS</span>
-          <ChevronRight className="h-3 w-3" />
-          <span className={cn(step === 'summary' ? "text-[#2874f0]" : step === 'address' ? "text-slate-400" : "text-green-600")}>2. SUMMARY</span>
-          <ChevronRight className="h-3 w-3" />
-          <span className={cn(step === 'method' || step === 'payment' || step === 'utr_entry' || step === 'verifying' ? "text-[#2874f0]" : step === 'success' ? "text-green-600" : "text-slate-400")}>3. PAYMENT</span>
+        <div className="bg-white border-b border-slate-150 px-8 py-5 flex justify-between items-center relative max-w-md mx-auto">
+          {/* Step 1: Address */}
+          <div className="flex flex-col items-center relative z-10">
+            <div className={cn(
+              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              step === 'address'
+                ? "border-2 border-[#2874f0] bg-white text-[#2874f0]"
+                : "bg-[#2874f0] text-white"
+            )}>
+              {step === 'address' ? '1' : '✓'}
+            </div>
+            <span className={cn("text-[10px] font-black mt-1.5 transition-all tracking-tight", step === 'address' ? "text-slate-800" : "text-[#2874f0]")}>Address</span>
+          </div>
+
+          {/* Connection Line 1 */}
+          <div className={cn(
+            "h-[2px] flex-1 mx-2 -mt-5 transition-all",
+            step === 'address' ? "bg-slate-200" : "bg-[#2874f0]"
+          )} />
+
+          {/* Step 2: Order Summary */}
+          <div className="flex flex-col items-center relative z-10">
+            <div className={cn(
+              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              step === 'address'
+                ? "border-2 border-slate-300 bg-white text-slate-400"
+                : step === 'summary'
+                ? "border-2 border-[#2874f0] bg-white text-[#2874f0]"
+                : "bg-[#2874f0] text-white"
+            )}>
+              {step === 'address' || step === 'summary' ? '2' : '✓'}
+            </div>
+            <span className={cn(
+              "text-[10px] font-black mt-1.5 transition-all tracking-tight",
+              step === 'summary'
+                ? "text-slate-800"
+                : step === 'address'
+                ? "text-slate-400"
+                : "text-[#2874f0]"
+            )}>Order Summary</span>
+          </div>
+
+          {/* Connection Line 2 */}
+          <div className={cn(
+            "h-[2px] flex-1 mx-2 -mt-5 transition-all",
+            step === 'payment' || step === 'utr_entry' || step === 'verifying' || step === 'success' ? "bg-[#2874f0]" : "bg-slate-200"
+          )} />
+
+          {/* Step 3: Payment */}
+          <div className="flex flex-col items-center relative z-10">
+            <div className={cn(
+              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              step === 'payment' || step === 'utr_entry' || step === 'verifying'
+                ? "bg-[#2874f0] text-white"
+                : step === 'success'
+                ? "bg-[#388e3c] text-white"
+                : "border-2 border-slate-300 bg-white text-slate-400"
+            )}>
+              {step === 'success' ? '✓' : '3'}
+            </div>
+            <span className={cn(
+              "text-[10px] font-black mt-1.5 transition-all tracking-tight",
+              step === 'payment' || step === 'utr_entry' || step === 'verifying'
+                ? "text-slate-800"
+                : step === 'success'
+                ? "text-[#388e3c]"
+                : "text-slate-400"
+            )}>Payment</span>
+          </div>
         </div>
 
         <div className="p-4">
@@ -696,188 +782,191 @@ export default function CheckoutPage() {
             </div>
           )}
 
-          {/* STEP 3: SELECT PAYMENT METHOD */}
-          {step === 'method' && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-              <div className="text-center space-y-1 mb-2">
-                <h2 className="text-sm font-bold text-slate-800 uppercase tracking-tight">Choose Payment Method</h2>
-                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Amount: ₹{totalSale.toLocaleString()}</p>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  onClick={() => setStep('payment')}
-                  className="w-full text-left p-4 rounded-xl border-2 border-[#2874f0] bg-blue-50/10 flex items-center justify-between group transition-all"
-                >
-                  <div className="flex items-center gap-3.5">
-                    <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center text-[#2874f0] shrink-0">
-                      <Smartphone className="h-5.5 w-5.5" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-800">Instant UPI Payment</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5">Pay via GPay, PhonePe, Paytm or Scannable QR</p>
-                    </div>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-[#2874f0] group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <button
-                  disabled
-                  className="w-full text-left p-4 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between opacity-50 cursor-not-allowed shrink-0"
-                >
-                  <div className="flex items-center gap-3.5">
-                    <div className="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400 shrink-0">
-                      <CreditCard className="h-5.5 w-5.5" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-slate-400">Card / Netbanking</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5">Direct gateway card swipe (Temporary Disabled)</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 4: UPI PAYMENT DRAWER (QR & INTENT) */}
+          {/* STEP 4: UPI PAYMENT DRAWER */}
           {step === 'payment' && (
-            <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4">
+            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
               
-              {/* Dynamic QR Scannable Panel */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#2874f0] via-[#fb641b] to-[#388e3c]" />
-                
-                {/* Rule 9: Secure HTTPS Icon & Info Badge */}
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-800 border border-emerald-250 rounded-full text-[9px] font-black uppercase tracking-wider mb-4 shadow-sm">
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-                  <span>Secure SSL Merchant Payment</span>
-                </div>
-
-                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Scan Dynamic UPI QR Code</h3>
-                
-                <div className="relative bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex items-center justify-center">
-                  <img 
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || '')}`} 
-                    alt="Scan UPI QR" 
-                    className="h-44 w-44 object-contain"
-                  />
-                  {/* Subtle corner target overlay */}
-                  <div className="absolute inset-2 border-2 border-[#2874f0] opacity-10 rounded-lg pointer-events-none" />
-                </div>
-
-                {/* Rule 9: Clear Merchant Information */}
-                <div className="mt-4 text-center space-y-1.5 w-full bg-white p-3 rounded-xl border border-slate-200/60 shadow-xs">
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Payee Account Details</p>
-                  
-                  <div className="flex items-center justify-center gap-1.5">
-                    <span className="text-[10px] font-bold text-slate-400">Business UPI ID:</span>
-                    <span className="text-xs font-mono font-black text-slate-900">{merchantVpa}</span>
-                    <button 
-                      type="button"
-                      onClick={handleCopyVpa}
-                      className="text-slate-400 hover:text-[#2874f0] transition-colors p-0.5"
-                      title="Copy UPI VPA"
-                    >
-                      {copied ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
-                    </button>
-                  </div>
-                  
-                  <p className="text-[10px] text-slate-500 font-medium">Merchant Name: <span className="font-bold text-slate-800">{payeeName}</span></p>
-                  <p className="text-xs text-slate-900 font-black tracking-wide">Order Amount: <span className="text-[#388e3c]">₹{totalSale.toLocaleString()}</span></p>
-                </div>
-
-                <div className="w-full grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-200">
-                  <button 
-                    type="button"
-                    onClick={handleDownloadQr}
-                    className="flex items-center justify-center gap-1.5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-lg text-[10px] font-bold transition-all border border-slate-300"
-                  >
-                    <Download className="h-3.5 w-3.5" /> Save QR Code
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setStep('utr_entry')}
-                    className="flex items-center justify-center gap-1.5 py-2.5 bg-[#2874f0] hover:bg-[#1a64df] text-white rounded-lg text-[10px] font-bold transition-all"
-                  >
-                    Paid? Enter UTR <ArrowRight className="h-3 w-3" />
-                  </button>
-                </div>
+              {/* Offer Countdown Timer Banner */}
+              <div className="bg-[#fff9f4] border border-[#fde8d7] rounded-xl px-4 py-2.5 flex items-center justify-center gap-2 mb-2 animate-pulse">
+                <Clock className="h-4 w-4 text-[#fb641b]" />
+                <span className="text-xs font-bold text-slate-700">
+                  Offer ends in <span className="text-[#fb641b] font-black">{formatTime(timeLeft)}</span>
+                </span>
               </div>
 
-              {/* Direct UPI Intents (Rule 5 & 8) */}
+              {/* White Rounded Cards for UPI Apps / QR */}
               <div className="space-y-3">
-                {/* ⚠️ CRITICAL USER EDUCATION: Bypassing UPI Web Intent CC Block */}
-                <div className="bg-amber-50 border border-amber-250 rounded-xl p-3.5 space-y-2.5 shadow-sm">
-                  <div className="flex items-start gap-2">
-                    <AlertCircle className="h-4.5 w-4.5 text-amber-600 shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ UPI App Payment Error?</h4>
-                      <p className="text-[9.5px] text-amber-850 leading-relaxed font-semibold mt-0.5">
-                        If your Google Pay, PhonePe, or Paytm app shows a <strong>"Merchant not accepting Credit Cards / Wallet"</strong> error:
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-white/90 rounded-lg p-2.5 border border-amber-150 space-y-2">
-                    <p className="text-[9px] text-amber-900 leading-relaxed font-bold flex items-start gap-1">
-                      <span className="text-amber-600 shrink-0 font-bold">✔</span>
-                      <span><strong>Method 1 (100% Success Rate):</strong> Tap <strong>"Save QR Code"</strong> above, open your UPI app (GPay/PhonePe), select the <strong>QR Scanner icon</strong>, click <strong>"Upload from Gallery"</strong>, and choose the saved QR image! This acts like a physical scan and always succeeds!</span>
-                    </p>
-                    <div className="border-t border-dashed border-amber-200" />
-                    <p className="text-[9px] text-amber-900 leading-relaxed font-bold flex items-start gap-1">
-                      <span className="text-amber-600 shrink-0 font-bold">✔</span>
-                      <span><strong>Method 2:</strong> Inside Google Pay/PhonePe, change your default payment source from <strong>Credit Card / Wallet</strong> to your standard <strong>Savings Bank Account</strong> (like SBI, HDFC, ICICI, etc.).</span>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-2">
-                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Pay Directly via Mobile Apps</h4>
-                  <span className="text-[9px] text-emerald-600 font-black uppercase flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    100% Safe P2P/P2M
-                  </span>
-                </div>
-
-                {/* Primary Universal Click-to-Pay Button */}
+                {/* 1. Google Pay (GPay) */}
                 <button
-                  onClick={(e) => { e.preventDefault(); handleUpiAppPay('gpay'); }}
-                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#2874f0] to-[#1a64df] text-white font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg hover:from-[#1a64df] hover:to-[#1253c5] active:scale-98 transition-all flex items-center justify-center gap-2 text-center"
+                  type="button"
+                  onClick={() => setSelectedMethod('gpay')}
+                  className={cn(
+                    "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
+                    selectedMethod === 'gpay'
+                      ? "border-[#2874f0] bg-blue-50/5 ring-1 ring-[#2874f0]"
+                      : "border-slate-200 hover:border-slate-350"
+                  )}
                 >
-                  <Smartphone className="h-4.5 w-4.5 animate-bounce" />
-                  ⚡ Copy UPI ID & Open GPay
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                      <img 
+                        src="https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png" 
+                        alt="GPay" 
+                        className="h-8 w-8 object-contain" 
+                      />
+                    </div>
+                    <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with Google Pay</span>
+                  </div>
+                  <div className={cn(
+                    "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                    selectedMethod === 'gpay' ? "border-[#2874f0] bg-[#2874f0] text-white" : "border-slate-300"
+                  )}>
+                    {selectedMethod === 'gpay' && <div className="h-2 w-2 rounded-full bg-white" />}
+                  </div>
                 </button>
 
-                <div className="relative flex py-1 items-center">
-                  <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-3 text-[9px] text-slate-400 font-bold uppercase tracking-widest">Or Open Another App</span>
-                  <div className="flex-grow border-t border-slate-200"></div>
-                </div>
+                {/* 2. PhonePe */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedMethod('phonepe')}
+                  className={cn(
+                    "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
+                    selectedMethod === 'phonepe'
+                      ? "border-purple-600 bg-purple-50/5 ring-1 ring-purple-600"
+                      : "border-slate-200 hover:border-slate-350"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
+                        alt="PhonePe" 
+                        className="h-8 w-8 object-contain" 
+                      />
+                    </div>
+                    <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with PhonePe</span>
+                  </div>
+                  <div className={cn(
+                    "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                    selectedMethod === 'phonepe' ? "border-purple-600 bg-purple-600 text-white" : "border-slate-300"
+                  )}>
+                    {selectedMethod === 'phonepe' && <div className="h-2 w-2 rounded-full bg-white" />}
+                  </div>
+                </button>
 
-                <div className="grid grid-cols-4 gap-2">
-                  {UPI_APPS.map((app) => (
-                    <button
-                      key={app.id}
-                      onClick={(e) => { e.preventDefault(); handleUpiAppPay(app.id); }}
-                      className={cn(
-                        "flex flex-col items-center justify-center p-2 rounded-xl border-2 transition-all active:scale-95 group shadow-sm text-center w-full",
-                        app.color
-                      )}
-                    >
-                      <div className="h-10 w-10 flex items-center justify-center group-hover:scale-105 transition-transform mb-1 shrink-0">
-                        <img src={app.icon} alt={app.name} className="max-h-full max-w-full object-contain" />
+                {/* 3. Paytm */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedMethod('paytm')}
+                  className={cn(
+                    "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
+                    selectedMethod === 'paytm'
+                      ? "border-sky-500 bg-sky-50/5 ring-1 ring-sky-500"
+                      : "border-slate-200 hover:border-slate-350"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
+                        alt="Paytm" 
+                        className="h-8 w-8 object-contain" 
+                      />
+                    </div>
+                    <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with Paytm</span>
+                  </div>
+                  <div className={cn(
+                    "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                    selectedMethod === 'paytm' ? "border-sky-500 bg-sky-500 text-white" : "border-slate-300"
+                  )}>
+                    {selectedMethod === 'paytm' && <div className="h-2 w-2 rounded-full bg-white" />}
+                  </div>
+                </button>
+
+                {/* 4. Scan QR */}
+                <div
+                  className={cn(
+                    "w-full rounded-xl border-2 transition-all bg-white overflow-hidden",
+                    selectedMethod === 'qr'
+                      ? "border-[#2874f0] ring-1 ring-[#2874f0]"
+                      : "border-slate-200 hover:border-slate-350"
+                  )}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMethod('qr')}
+                    className="w-full p-4 flex items-center justify-between text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 flex items-center justify-center shrink-0 bg-slate-50 rounded-lg">
+                        <QrCode className="h-6 w-6 text-slate-600" />
                       </div>
-                      <span className="text-[9px] font-black text-slate-700 leading-tight block">{app.name}</span>
-                    </button>
-                  ))}
+                      <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Scan QR code</span>
+                    </div>
+                    <div className={cn(
+                      "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                      selectedMethod === 'qr' ? "border-[#2874f0] bg-[#2874f0] text-white" : "border-slate-300"
+                    )}>
+                      {selectedMethod === 'qr' && <div className="h-2 w-2 rounded-full bg-white" />}
+                    </div>
+                  </button>
+                  
+                  {selectedMethod === 'qr' && (
+                    <div className="px-4 pb-4 border-t border-slate-100 pt-3 flex flex-col items-center justify-center space-y-3 bg-slate-50/50 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="relative bg-white p-3 rounded-xl shadow-xs border border-slate-150 flex items-center justify-center">
+                        <img 
+                          src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || '')}`} 
+                          alt="Scan UPI QR" 
+                          className="h-40 w-40 object-contain"
+                        />
+                      </div>
+                      <p className="text-[10px] text-slate-550 font-bold uppercase tracking-wider text-center">
+                        Scan this QR using GPay, PhonePe, or Paytm!
+                      </p>
+                      <button 
+                        type="button"
+                        onClick={handleDownloadQr}
+                        className="w-full flex items-center justify-center gap-1.5 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-lg text-[10px] font-black transition-all border border-slate-300 shadow-2xs"
+                      >
+                        <Download className="h-3.5 w-3.5" /> Save QR Code to Gallery
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="bg-yellow-50 border border-yellow-150 rounded-xl p-3 flex gap-2.5">
-                <AlertCircle className="h-4.5 w-4.5 text-yellow-600 shrink-0" />
-                <p className="text-[10px] text-yellow-800 leading-relaxed font-medium">
-                  <strong>Verification Step:</strong> Once you complete the payment on GPay/PhonePe/Paytm, note the <strong>12-digit UTR</strong> from your app and click "Paid? Enter UTR" to verify!
-                </p>
+              {/* Price Details Breakdown */}
+              <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3 mt-4">
+                <h3 className="text-xs font-black text-slate-800 border-b border-slate-100 pb-2 uppercase tracking-wide">Price Details</h3>
+                
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 font-bold">Price ({cartItems.length} item{cartItems.length > 1 ? 's' : ''})</span>
+                  <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 font-bold">Delivery Charges</span>
+                  <span className="font-black text-green-600 uppercase">FREE</span>
+                </div>
+                
+                <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
+                  <span className="text-xs font-black text-slate-800 uppercase">Amount Payable</span>
+                  <span className="text-sm font-black text-slate-900">₹{totalSale.toLocaleString()}</span>
+                </div>
+              </div>
+
+              {/* Sticky bottom bar overlay styled exactly like Flipkart checkout */}
+              <div className="border-t border-slate-100 bg-white p-4 flex items-center justify-between mt-6 -mx-4 -mb-4">
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-slate-400 font-bold line-through">₹{totalOriginal.toLocaleString()}</span>
+                  <span className="text-base font-black text-slate-900">₹{totalSale.toLocaleString()}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleContinuePayment}
+                  className="bg-[#ffc200] hover:bg-[#ffa200] text-slate-900 text-xs font-black uppercase px-8 py-3.5 rounded-md shadow-xs active:scale-98 transition-all tracking-wider"
+                >
+                  Continue
+                </button>
               </div>
 
             </div>

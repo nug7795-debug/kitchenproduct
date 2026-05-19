@@ -563,6 +563,41 @@ export default function CheckoutPage() {
     }
   };
 
+  // 3.1 Direct Intent Paid Confirmation (without forcing UTR copy)
+  const handleDirectAppPaidSubmit = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Create a unique descriptive reference string so the admin can identify it easily in the dashboard
+      const uniqueRef = `INTENT_${selectedMethod.toUpperCase()}_${Date.now()}`;
+      
+      const res = await fetch('/api/payments/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transactionId, utr: uniqueRef })
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || 'Failed to submit payment verification.');
+        setLoading(false);
+        return;
+      }
+
+      // Transition to secure pending verification step and clear cart
+      setStep('pending_verification');
+      localStorage.removeItem('cart');
+      localStorage.removeItem('active_transaction_id');
+      localStorage.removeItem('active_upi_url');
+      localStorage.removeItem('active_merchant_vpa');
+      localStorage.removeItem('active_payee_name');
+    } catch (err) {
+      console.error(err);
+      setError('System verification error. Please contact customer support.');
+      setLoading(false);
+    }
+  };
+
+
   // 4. Poll database status using Supabase Client with strict verification and zero fake orders
   const startRealtimePolling = () => {
     if (!transactionId) return;
@@ -1664,8 +1699,36 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {/* Already Paid / App Confirmation Buttons */}
+              {selectedMethod && selectedMethod !== 'qr' && (
+                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 max-w-sm mx-auto text-center space-y-3.5 shadow-sm animate-in fade-in duration-300">
+                  <div className="space-y-1">
+                    <h4 className="text-xs font-black text-emerald-800 uppercase tracking-wider flex items-center justify-center gap-1">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                      Paid using {selectedMethod.toUpperCase()}?
+                    </h4>
+                    <p className="text-[10px] text-emerald-700 font-semibold leading-relaxed">
+                      If you successfully completed the payment inside the {selectedMethod.toUpperCase()} app, please click below to submit your order immediately for verification!
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={handleDirectAppPaidSubmit}
+                    disabled={loading}
+                    className="w-full bg-[#388e3c] hover:bg-[#2e7d32] text-white py-4 rounded-xl text-xs font-black shadow-md transition-all active:scale-98 uppercase tracking-wide flex items-center justify-center gap-1.5"
+                  >
+                    <CheckCircle2 className="h-4.5 w-4.5" />
+                    {loading ? 'Submitting Order...' : 'Yes, I Completed Payment'}
+                  </Button>
+                  <p className="text-[9px] text-emerald-500 font-bold uppercase tracking-wider">
+                    ⚡ Instant admin notification triggered on click
+                  </p>
+                </div>
+              )}
+
               {/* UTR Entry Form - Integrates Did you pay & manual check on the same waiting screen */}
               <div className="border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto bg-white shadow-sm space-y-4">
+
                 <div className="text-center space-y-1">
                   <h3 className="text-xs font-black text-slate-800 uppercase tracking-tight">Instant Payment Verification</h3>
                   <p className="text-[9.5px] text-slate-400 font-bold uppercase tracking-wider">

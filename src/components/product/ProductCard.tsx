@@ -14,7 +14,7 @@ const AssuredBadge = () => (
   <img 
     src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
     alt="fAssured" 
-    className="h-[14px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
+    className="h-[15px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
   />
 );
 
@@ -22,7 +22,7 @@ const AssuredBadge = () => (
 const WowIcon = () => (
   <svg 
     viewBox="0 0 38 16" 
-    className="h-[12px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
+    className="h-[13.5px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
     xmlns="http://www.w3.org/2000/svg"
   >
     {/* Outline slanted Speech bubble bubble */}
@@ -53,7 +53,7 @@ const WowIcon = () => (
 const DeliveryTruckIcon = () => (
   <svg 
     viewBox="0 0 16 12" 
-    className="h-[11px] w-auto shrink-0 text-slate-800 align-middle inline-block mr-1" 
+    className="h-[12px] w-auto shrink-0 text-slate-800 align-middle inline-block mr-1" 
     xmlns="http://www.w3.org/2000/svg"
   >
     {/* Motion speed lines */}
@@ -169,18 +169,18 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Product Details Area */}
-      <div className="px-2 pb-2 pt-1.5 sm:p-3 flex flex-col flex-1">
+      <div className="px-2.5 pb-2.5 pt-2 sm:p-3 flex flex-col flex-1">
         {/* Sponsored Label at the very top */}
-        <span className="block text-[8px] font-bold text-slate-400 select-none leading-none mb-1">
+        <span className="block text-[9px] font-bold text-slate-400 select-none leading-none mb-1">
           Sponsored
         </span>
 
         {/* Brand and Description (Clean Flipkart mobile split with guaranteed single-line truncation) */}
         <div className="mb-1 leading-snug overflow-hidden">
-          <span className="block text-[11px] font-black text-slate-900 uppercase tracking-wide truncate">
+          <span className="block text-[12px] font-black text-slate-900 uppercase tracking-wide truncate">
             {brandName}
           </span>
-          <span className="block text-[11px] font-medium text-slate-500 truncate mt-0.5" title={description}>
+          <span className="block text-[12.5px] font-medium text-slate-500 truncate mt-0.5" title={description}>
             {description}
           </span>
         </div>
@@ -188,13 +188,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* Star Rating & Assured Badge Row on ALL products */}
         <div className="flex items-center gap-0.5 mb-1.5 leading-none select-none">
           <div className="flex items-center text-[#388e3c] gap-[0.5px]">
-            <span className="text-[10px]">★</span>
-            <span className="text-[10px]">★</span>
-            <span className="text-[10px]">★</span>
-            <span className="text-[10px]">★</span>
-            <span className="text-[10px]">★</span>
+            <span className="text-[11px]">★</span>
+            <span className="text-[11px]">★</span>
+            <span className="text-[11px]">★</span>
+            <span className="text-[11px]">★</span>
+            <span className="text-[11px]">★</span>
           </div>
-          <span className="text-[9px] font-medium text-slate-400 ml-1">({ratingCountStr})</span>
+          <span className="text-[10px] font-medium text-slate-400 ml-1">({ratingCountStr})</span>
           <AssuredBadge />
         </div>
 
@@ -203,15 +203,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center gap-1.5 leading-none pt-0.5 select-none">
             {displaySalePrice && displaySalePrice < displayPrice && (
               <>
-                <span className="text-[11px] font-extrabold text-[#388e3c] flex items-center shrink-0">
-                  <span className="text-[10px] font-bold mr-[1px]">↓</span>{discount}%
+                <span className="text-[12.5px] font-extrabold text-[#388e3c] flex items-center shrink-0">
+                  <span className="text-[11px] font-bold mr-[1px]">↓</span>{discount}%
                 </span>
-                <span className="text-[10px] text-slate-400 line-through font-semibold shrink-0">
+                <span className="text-[11.5px] text-slate-400 line-through font-semibold shrink-0">
                   ₹{displayPrice?.toLocaleString()}
                 </span>
               </>
             )}
-            <span className="text-xs font-black text-slate-900 shrink-0">
+            <span className="text-[13.5px] font-black text-slate-900 shrink-0">
               ₹{(displaySalePrice || displayPrice)?.toLocaleString()}
             </span>
           </div>
@@ -220,17 +220,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <div className="pt-1.5 border-t border-slate-100/60 space-y-1 select-none">
             <div className="flex items-center gap-1 leading-none">
               <WowIcon />
-              <span className="text-[11px] font-black text-[#1c54d4] align-middle">
+              <span className="text-[12.5px] font-black text-[#1c54d4] align-middle">
                 ₹{bankOfferPrice.toLocaleString()}
               </span>
             </div>
-            <p className="text-[9px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
+            <p className="text-[10px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
             
             {/* Express Delivery Truck & Tag Line */}
             <div className="flex items-center gap-1 pt-0.5 leading-none">
               <DeliveryTruckIcon />
-              <span className="text-[9px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
-              <span className="text-[9px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
+              <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
+              <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
             </div>
           </div>
         </div>

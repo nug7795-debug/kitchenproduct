@@ -158,7 +158,7 @@ export default function Home() {
         {loading ? (
           <div className="grid grid-cols-2 gap-2">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-[260px] sm:h-[320px] bg-slate-50 animate-pulse border border-slate-100" />
+              <div key={i} className="aspect-[3/4] sm:aspect-[2/3] bg-slate-50 animate-pulse border border-slate-100" />
             ))}
           </div>
         ) : (

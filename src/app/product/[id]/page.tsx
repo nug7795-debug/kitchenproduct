@@ -278,46 +278,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   ))}
                </div>
             </div>
-
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-
-            {/* Advertisement Banner Placeholder */}
-            <div className="p-4 bg-white">
-               <div className="w-full relative rounded-md overflow-hidden border border-slate-200">
-                  <Image src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=800" alt="Ad" width={800} height={200} className="w-full h-auto object-cover" />
-                  <div className="absolute top-1 right-1 bg-white/80 text-[9px] px-1 rounded-sm text-slate-700 font-bold">AD</div>
-                  <div className="absolute bottom-2 left-2 right-2 bg-white/90 p-2 rounded flex justify-between items-center backdrop-blur-sm">
-                     <div>
-                        <p className="text-[12px] font-bold text-slate-800">Kitchen Upgrade Sale</p>
-                        <p className="text-[10px] text-slate-600">Up to 60% Off on Appliances</p>
-                     </div>
-                     <ChevronRight className="h-4 w-4 text-slate-500" />
-                  </div>
-               </div>
-            </div>
-
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-
-            {/* Delivery Section */}
-            <div className="p-4 bg-white flex items-start gap-4">
-               <div className="mt-1">
-                 <MapPin className="h-5 w-5 text-slate-400" />
-               </div>
-               <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                     <span className="text-[14px] text-slate-500">Deliver to</span>
-                     <span className="text-[14px] font-semibold text-slate-800 border-b-2 border-[#2874f0] pb-0.5">700001</span>
-                  </div>
-                  <div className="mt-2 text-[14px] text-slate-800 font-semibold">
-                     Delivery by Tomorrow, 10:00 PM <span className="text-[#2874f0] font-normal border-r border-slate-300 pr-2 mr-2">Free</span>
-                     <span className="text-slate-500 font-normal line-through">₹40</span>
-                  </div>
-                  <p className="text-[12px] text-slate-500 mt-1">If ordered before 4:00 PM</p>
-               </div>
-            </div>
-
             {/* Gap in mobile view */}
             <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
 

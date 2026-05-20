@@ -8,6 +8,62 @@ interface ProductCardProps {
   product: any;
 }
 
+// Pixel-perfect SVG reproduction of Flipkart's WOW! chat balloon badge
+const WowIcon = () => (
+  <svg 
+    viewBox="0 0 38 16" 
+    className="h-[15px] w-auto shrink-0 select-none align-middle" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path 
+      d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
+      fill="#FFFFFF" 
+      stroke="#1C54D4" 
+      strokeWidth="0.8" 
+      strokeLinejoin="round"
+    />
+    <text 
+      x="19" 
+      y="9.5" 
+      fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+      fontSize="7" 
+      fontWeight="900" 
+      fontStyle="italic" 
+      fill="#1C54D4" 
+      textAnchor="middle"
+      letterSpacing="-0.2"
+    >
+      WOW!
+    </text>
+  </svg>
+);
+
+// High-fidelity SVG of Flipkart's fast-moving express delivery truck
+const DeliveryTruckIcon = () => (
+  <svg 
+    viewBox="0 0 16 12" 
+    className="h-[11px] w-auto shrink-0 text-slate-800 align-middle" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Motion speed lines */}
+    <line x1="1" y1="3" x2="4" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="0" y1="5.5" x2="3" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="1" y1="8" x2="4" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    
+    {/* Truck cargo body */}
+    <rect x="4.5" y="2" width="7" height="6" rx="0.5" fill="currentColor" />
+    
+    {/* Driver's cab */}
+    <path d="M 11.5 4 L 14 4 L 15 6 L 15 8 L 11.5 8 Z" fill="currentColor" />
+    {/* Cab window */}
+    <path d="M 12 4.6 L 13.6 4.6 L 14.2 5.8 L 12 5.8 Z" fill="#FFFFFF" />
+
+    {/* Wheels */}
+    <circle cx="6.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+    <circle cx="12.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+  </svg>
+);
+
 export const ProductCard = ({ product }: ProductCardProps) => {
   const {
     id,
@@ -112,20 +168,18 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </div>
 
           {/* RED BOX: WOW! Bank Offer and Express Delivery Section */}
-          <div className="pt-1 border-t border-slate-100/60 space-y-0.5">
-            <div className="flex items-center gap-1.5">
-              <span className="inline-block px-1 py-0.5 border border-[#2874f0] bg-white rounded-[3px] text-[8px] font-extrabold text-[#2874f0] italic tracking-tighter leading-none shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-                WOW!
-              </span>
-              <span className="text-[11px] font-extrabold text-[#2874f0]">
+          <div className="pt-1.5 border-t border-slate-100/60 space-y-1">
+            <div className="flex items-center gap-1.5 leading-none">
+              <WowIcon />
+              <span className="text-xs font-black text-[#1C54D4]">
                 ₹{bankOfferPrice.toLocaleString()}
               </span>
             </div>
-            <p className="text-[9px] font-bold text-[#2874f0] leading-none pl-0.5">with Bank offer</p>
-            <div className="flex items-center gap-1.5 pt-1 leading-none pl-0.5">
-              <span className="text-[10px]">🚚</span>
-              <span className="text-[9px] font-black italic tracking-tighter text-slate-900 uppercase">EXPRESS</span>
-              <span className="text-[9px] font-bold text-slate-500">2 day delivery</span>
+            <p className="text-[10px] font-extrabold text-[#1C54D4] leading-none pl-0.5">with Bank offer</p>
+            <div className="flex items-center gap-1.5 pt-0.5 leading-none pl-0.5 text-slate-800">
+              <DeliveryTruckIcon />
+              <span className="text-[10px] font-black italic tracking-tighter text-slate-900 uppercase">EXPRESS</span>
+              <span className="text-[10px] font-bold text-slate-500">2 day delivery</span>
             </div>
           </div>
 
@@ -138,4 +192,5 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     </div>
   );
 };
+
 

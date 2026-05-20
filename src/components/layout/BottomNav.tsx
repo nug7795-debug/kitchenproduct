@@ -24,10 +24,33 @@ const navItems: NavItem[] = [
 
 export const BottomNav = () => {
   const pathname = usePathname();
+  const [cartCount, setCartCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const updateCount = () => {
+      try {
+        const cached = localStorage.getItem('cart_items');
+        if (cached) {
+          const items = JSON.parse(cached);
+          setCartCount(Array.isArray(items) ? items.length : 0);
+        } else {
+          setCartCount(0);
+        }
+      } catch { setCartCount(0); }
+    };
+    updateCount();
+    window.addEventListener('storage', updateCount);
+    return () => window.removeEventListener('storage', updateCount);
+  }, []);
+
+  // Inject badge into Cart nav item dynamically
+  const itemsWithBadge = navItems.map(item =>
+    item.name === 'Cart' && cartCount > 0 ? { ...item, badge: cartCount } : item
+  );
 
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-100 flex items-center justify-around py-2 px-1 z-[60] shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-      {navItems.map((item) => {
+      {itemsWithBadge.map((item) => {
         const isActive = pathname === item.activePath;
         const Icon = item.icon;
         

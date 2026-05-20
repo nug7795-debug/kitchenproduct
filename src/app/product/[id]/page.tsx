@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
@@ -18,10 +19,12 @@ const AssuredBadgeBig = () => (
 );
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const router = useRouter();
   const { id } = React.use(params);
   const [product, setProduct] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
   const [selectedImage, setSelectedImage] = React.useState(0);
+  const [isInCart, setIsInCart] = React.useState(false);
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -50,6 +53,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   React.useEffect(() => {
     fetchProduct();
 
+    // Check if current item is already in localStorage cart
+    const cached = localStorage.getItem('cart_items');
+    if (cached) {
+      try {
+        const cartList = JSON.parse(cached);
+        setIsInCart(cartList.some((item: any) => item.id === id));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     // Subscribe to realtime changes for this product
     const channel = supabase
       .channel('product-detail-updates')
@@ -62,6 +76,39 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       supabase.removeChannel(channel);
     };
   }, [id]);
+
+  const handleAddToCart = () => {
+    if (isInCart) {
+      router.push('/cart');
+      return;
+    }
+
+    const cached = localStorage.getItem('cart_items');
+    let cartList: any[] = [];
+    if (cached) {
+      try {
+        cartList = JSON.parse(cached);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    const newItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price || product.sale_price || 9999,
+      salePrice: product.sale_price || 9999,
+      imageUrl: product.images[0] || 'https://via.placeholder.com/200',
+      quantity: 1,
+      seller: 'KitchenPro Retail'
+    };
+
+    const updatedList = [...cartList.filter((item: any) => item.id !== product.id), newItem];
+    localStorage.setItem('cart_items', JSON.stringify(updatedList));
+    window.dispatchEvent(new Event('storage'));
+    setIsInCart(true);
+    router.push('/cart');
+  };
 
   if (loading) {
     return (
@@ -315,10 +362,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Sticky Bottom Bar (Flipkart Style) */}
       <div className="fixed bottom-0 left-0 right-0 z-[100] flex h-[60px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
-         <button className="flex-1 flex items-center justify-center text-[15px] font-semibold text-[#333] bg-white">
-            ADD TO CART
+         <button 
+           onClick={handleAddToCart}
+           className="flex-1 flex items-center justify-center text-[15px] font-bold text-[#333] bg-white border-t border-slate-100 hover:bg-slate-50 transition-colors uppercase"
+         >
+            {isInCart ? 'Go to Cart' : 'Add to Cart'}
          </button>
-         <Link href={`/checkout?productId=${product.id}`} className="flex-1 flex items-center justify-center text-[15px] font-semibold text-white bg-[#fb641b]">
+         <Link href={`/checkout?productId=${product.id}`} className="flex-1 flex items-center justify-center text-[15px] font-bold text-white bg-[#fb641b] hover:bg-[#f4511e] transition-colors uppercase">
             BUY NOW
          </Link>
       </div>

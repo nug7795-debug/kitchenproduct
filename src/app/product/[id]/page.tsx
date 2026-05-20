@@ -8,6 +8,47 @@ import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
 
+
+const AssuredBadgeBig = () => (
+  <svg 
+    viewBox="0 0 78 20" 
+    className="h-[20px] w-auto shrink-0 select-none align-middle inline-block ml-3" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Rounded blue capsule background */}
+    <rect x="0.5" y="0.5" width="77" height="19" rx="9.5" fill="#2874f0" stroke="#FFE500" strokeWidth="0.8" />
+    
+    {/* Yellow circular frame for 'f' on the left */}
+    <circle cx="10" cy="10" r="6.5" fill="#FFE500" />
+    {/* Letter 'f' inside in blue */}
+    <text 
+      x="10" 
+      y="13.5" 
+      fontFamily="'Impact', 'Arial Black', sans-serif" 
+      fontSize="11" 
+      fontWeight="900" 
+      fill="#2874f0" 
+      textAnchor="middle"
+    >
+      f
+    </text>
+    
+    {/* Word 'Assured' in white bold italic */}
+    <text 
+      x="20" 
+      y="13.5" 
+      fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+      fontSize="10.5" 
+      fontWeight="900" 
+      fontStyle="italic" 
+      fill="#FFFFFF" 
+      letterSpacing="-0.3"
+    >
+      Assured
+    </text>
+  </svg>
+);
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
   const [product, setProduct] = React.useState<any>(null);
@@ -116,12 +157,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
               <h1 className="text-[16px] md:text-xl font-normal text-slate-800 leading-snug">{product.name}</h1>
               
-              <div className="flex items-center gap-2 pt-1">
-                <div className="flex items-center gap-1 bg-green-600 text-white px-1.5 py-0.5 rounded text-[12px] font-bold">
-                   4.5 <Star className="h-3 w-3 fill-current" />
+              <div className="flex items-center pt-1 select-none flex-wrap gap-y-1">
+                <div className="flex items-center gap-1 bg-[#388e3c] text-white px-1.5 py-0.5 rounded-[4px] text-[12px] font-bold shrink-0">
+                   4.5 <span className="text-[10px] font-bold">★</span>
                 </div>
-                <span className="text-[13px] text-slate-500 font-medium">1,428 ratings and 234 reviews</span>
-                <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="Assured" width={60} height={18} className="h-4 w-auto object-contain ml-auto" />
+                <span className="text-[13px] text-slate-500 font-medium ml-2 shrink-0">1,428 ratings and 234 reviews</span>
+                <AssuredBadgeBig />
               </div>
 
               <div className="flex items-end gap-2 pt-2">

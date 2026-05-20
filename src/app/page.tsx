@@ -104,12 +104,12 @@ export default function Home() {
         </div>
 
         {/* Cool Guy Image / Graphic */}
-        <div className="relative w-16 h-16 z-10">
+        <div className="relative w-16 h-20 z-10">
           <Image 
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" 
+            src="/hrithik.jpg" 
             alt="Sale" 
             fill 
-            className="object-cover rounded-full border-2 border-white/20" 
+            className="object-cover rounded-lg border border-white/20 shadow-md" 
           />
         </div>
         

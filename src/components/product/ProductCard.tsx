@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
@@ -67,7 +68,7 @@ const DeliveryTruckIcon = () => (
     <path d="M 11.5 4 L 14 4 L 15 6 L 15 8 L 11.5 8 Z" fill="currentColor" />
     {/* Cab window */}
     <path d="M 12 4.6 L 13.6 4.6 L 14.2 5.8 L 12 5.8 Z" fill="#FFFFFF" />
-
+ 
     {/* Wheels */}
     <circle cx="6.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
     <circle cx="12.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
@@ -116,22 +117,55 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const brandName = words[0] || 'Premium';
   const description = words.slice(1).join(' ') || 'High Quality Product';
 
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(`wishlist_${id}`);
+      if (saved === 'true') {
+        setIsWishlisted(true);
+      }
+    } catch (e) {
+      // Ignore SSR / localStorage errors
+    }
+  }, [id]);
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const newState = !isWishlisted;
+    setIsWishlisted(newState);
+    try {
+      localStorage.setItem(`wishlist_${id}`, newState ? 'true' : 'false');
+    } catch (err) {
+      // Ignore
+    }
+  };
+
   return (
-    <div className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-3">
+    <Link href={`/product/${id}`} className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-3 select-none">
       {/* Product Image Box */}
       <div className="relative aspect-[1/1] bg-slate-50 overflow-hidden">
-        <Link href={`/product/${id}`} className="block w-full h-full">
+        <div className="relative w-full h-full">
           <Image
             src={imageUrl}
             alt={name}
             fill
             className="object-contain p-3 transition-transform duration-500 group-hover:scale-103"
           />
-        </Link>
+        </div>
 
         {/* Floating Wishlist Button */}
-        <button className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-xs transition-transform active:scale-90">
-          <Heart className="h-3.5 w-3.5 text-slate-400 stroke-[2]" />
+        <button 
+          onClick={toggleWishlist}
+          className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-xs transition-all active:scale-90 hover:scale-105"
+          title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+        >
+          <Heart 
+            className={`h-3.5 w-3.5 transition-colors duration-300 stroke-[2] ${
+              isWishlisted ? 'text-red-500 fill-red-500' : 'text-slate-400'
+            }`} 
+          />
         </button>
       </div>
 
@@ -202,6 +236,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

@@ -175,37 +175,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
          </div>
       </div>
 
-      {/* SASA LELE Sale Countdown Banner */}
-      <section className="bg-[#2874f0] w-full pt-2 pb-3 px-3 flex items-center justify-between relative overflow-hidden select-none">
-        {/* SASA LELE Graphic */}
-        <div className="flex flex-col font-black transform -rotate-6 z-10">
-          <div className="bg-[#fbde3b] text-black px-1 leading-none text-[18px] tracking-tighter border-b-2 border-r-2 border-yellow-600 shadow-sm">SASA</div>
-          <div className="bg-[#fbde3b] text-black px-1 leading-none text-[22px] tracking-tighter border-b-2 border-r-2 border-yellow-600 shadow-sm ml-1">LELE</div>
-        </div>
-
-        {/* Countdown Timer */}
-        <div className="flex flex-col items-center justify-center z-10 mt-1">
-          <span className="text-white text-[12px] font-semibold mb-1">Sale ends in</span>
-          <div className="flex items-center gap-1">
-            <CountdownTimer />
-          </div>
-        </div>
-
-        {/* Cool Guy Image */}
-        <div className="relative w-16 h-20 z-10">
-          <Image 
-            src="/hrithik.jpg" 
-            alt="Sale" 
-            fill 
-            className="object-cover rounded-lg border border-white/20 shadow-md" 
-          />
-        </div>
-        
-        {/* Decorative Circles */}
-        <div className="absolute top-0 left-1/2 w-32 h-32 bg-white/5 rounded-full blur-xl transform -translate-x-1/2" />
-      </section>
-
-      <div className="md:container md:mx-auto md:px-4 md:py-4 bg-white md:bg-transparent">
+      <div className="md:container md:mx-auto md:px-4 md:py-8 bg-white md:bg-transparent">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 bg-white md:p-6 md:rounded-xl md:shadow-sm">
           
           {/* Image Section */}

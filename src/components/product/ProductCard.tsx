@@ -22,7 +22,7 @@ const AssuredBadge = () => (
 const WowIcon = () => (
   <svg 
     viewBox="0 0 38 16" 
-    className="h-[13.5px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
+    className="h-[19px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
     xmlns="http://www.w3.org/2000/svg"
   >
     {/* Outline slanted Speech bubble bubble */}
@@ -30,19 +30,19 @@ const WowIcon = () => (
       d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
       fill="#FFFFFF" 
       stroke="#1c54d4" 
-      strokeWidth="0.9" 
+      strokeWidth="1.1" 
       strokeLinejoin="round"
     />
     <text 
       x="19" 
-      y="9.5" 
+      y="10.2" 
       fontFamily="system-ui, -apple-system, sans-serif" 
-      fontSize="8" 
+      fontSize="8.5" 
       fontWeight="900" 
       fontStyle="italic" 
       fill="#1c54d4" 
       textAnchor="middle"
-      letterSpacing="-0.2"
+      letterSpacing="-0.1"
     >
       WOW!
     </text>

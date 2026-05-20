@@ -10,27 +10,30 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 const CountdownTimer = () => {
-  // Start at 14 hours, 27 minutes, 40 seconds
-  const [timeLeft, setTimeLeft] = React.useState(14 * 3600 + 27 * 60 + 40); 
+  // Start at 10 minutes (600 seconds)
+  const [timeLeft, setTimeLeft] = React.useState(10 * 60); 
 
   React.useEffect(() => {
+    const getRemainingSeconds = () => {
+      const now = new Date();
+      const currentSeconds = now.getMinutes() * 60 + now.getSeconds();
+      return 600 - (currentSeconds % 600);
+    };
+
+    setTimeLeft(getRemainingSeconds());
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 24 * 3600)); // Reset after 24h
+      setTimeLeft(getRemainingSeconds());
     }, 1000);
+
     return () => clearInterval(timer);
   }, []);
 
-  const hours = Math.floor(timeLeft / 3600);
-  const minutes = Math.floor((timeLeft % 3600) / 60);
+  const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
   return (
-    <div className="flex items-center gap-1.5 font-black text-white">
-      <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
-        <span className="text-[16px]">{hours.toString().padStart(2, '0')}</span>
-        <span className="text-[9px] font-semibold mt-0.5">Hrs</span>
-      </div>
-      <span className="text-[16px] -mt-1 opacity-80">:</span>
+    <div className="flex items-center gap-1.5 font-black text-white select-none">
       <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
         <span className="text-[16px]">{minutes.toString().padStart(2, '0')}</span>
         <span className="text-[9px] font-semibold mt-0.5">Min</span>

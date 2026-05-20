@@ -62,46 +62,81 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Categories Row */}
-      <div className="flex flex-col bg-[#2874f0]">
-        <div className="flex items-center justify-between px-4 pb-1 pt-1 overflow-x-auto no-scrollbar gap-6">
-          <div className="flex flex-col items-center gap-1.5 min-w-max relative pb-1">
-            <div className="w-7 h-7 flex items-center justify-center bg-transparent border-[1.5px] border-white/90 rounded-[8px]">
-               <div className="w-3.5 h-3.5 bg-transparent border-[1.5px] border-white/90 rounded-[2px]" />
+      {/* Categories Row - Authentic Flipkart White Background & Colorful Images */}
+      <div className="flex flex-col bg-white border-b border-slate-100/90 shadow-2xs">
+        <div className="flex items-center justify-between px-4 pb-2 pt-2.5 overflow-x-auto no-scrollbar gap-6">
+          <Link href="/" className="flex flex-col items-center gap-1.5 min-w-max relative pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/flap/128/128/image/f15c02bfeb02d15d.png?q=100" 
+                 alt="For You" 
+                 className="w-full h-full object-contain"
+               />
             </div>
-            <span className="text-[11px] font-bold text-white tracking-wide">For You</span>
-            <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#fbde3b] rounded-t-full" />
-          </div>
-          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
-            <Shirt className="w-7 h-7 text-white stroke-[1.5px]" />
-            <span className="text-[11px] font-medium text-white tracking-wide">Fashion</span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
-            <Smartphone className="w-7 h-7 text-white stroke-[1.5px]" />
-            <span className="text-[11px] font-medium text-white tracking-wide">Mobiles</span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
-            <div className="w-7 h-7 flex items-center justify-center">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-white">
-                 <path d="M7 11h10v10H7zM9 11V7c0-1.5 1-3 3-3s3 1.5 3 3v4" />
-              </svg>
+            <span className="text-[10px] font-black text-slate-800 tracking-tight">For You</span>
+            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#2874f0] rounded-t-full" />
+          </Link>
+
+          <Link href="/search?q=fashion" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/fk-p-flap/128/128/image/0d75b34f7d8f13a7.png?q=100" 
+                 alt="Fashion" 
+                 className="w-full h-full object-contain"
+               />
             </div>
-            <span className="text-[11px] font-medium text-white tracking-wide">Beauty</span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
-            <Monitor className="w-7 h-7 text-white stroke-[1.5px]" />
-            <span className="text-[11px] font-medium text-white tracking-wide">Electronics</span>
-          </div>
-          <div className="flex flex-col items-center gap-1.5 min-w-max pb-1 opacity-90">
-            <HomeIcon className="w-7 h-7 text-white stroke-[1.5px]" />
-            <span className="text-[11px] font-medium text-white tracking-wide">Home</span>
-          </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Fashion</span>
+          </Link>
+
+          <Link href="/search?q=mobiles" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/flap/128/128/image/22fddf3510011279.png?q=100" 
+                 alt="Mobiles" 
+                 className="w-full h-full object-contain"
+               />
+            </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Mobiles</span>
+          </Link>
+
+          <Link href="/search?q=beauty" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100" 
+                 alt="Beauty" 
+                 className="w-full h-full object-contain"
+               />
+            </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Beauty</span>
+          </Link>
+
+          <Link href="/search?q=appliances" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/flap/128/128/image/69cffacc2c18036c.png?q=100" 
+                 alt="Electronics" 
+                 className="w-full h-full object-contain"
+               />
+            </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Electronics</span>
+          </Link>
+
+          <Link href="/search?q=cooker" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
+            <div className="w-[38px] h-[38px] flex items-center justify-center p-0.5 rounded-full bg-[#f8f9fa] border border-slate-100/30">
+               <img 
+                 src="https://rukminim2.flixcart.com/flap/128/128/image/ab7e2c021f97a8fe.png?q=100" 
+                 alt="Home" 
+                 className="w-full h-full object-contain"
+               />
+            </div>
+            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Home</span>
+          </Link>
         </div>
 
         {/* Categories Scroll Progress Bar */}
         <div className="w-full px-2 pb-1.5">
-          <div className="w-full h-[3px] bg-[#1a5bc2] rounded-full overflow-hidden flex">
-            <div className="w-[15%] h-full bg-white rounded-full"></div>
+          <div className="w-full h-[3px] bg-slate-100 rounded-full overflow-hidden flex">
+            <div className="w-[15%] h-full bg-[#2874f0] rounded-full"></div>
           </div>
         </div>
       </div>

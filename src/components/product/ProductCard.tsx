@@ -133,14 +133,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <button className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-xs transition-transform active:scale-90">
           <Heart className="h-3.5 w-3.5 text-slate-400 stroke-[2]" />
         </button>
-
-        {/* ISI Certified Badge overlay on ALL products */}
-        <ISICertifiedBadge />
-
-        {/* Floating variants pill at bottom right of the image */}
-        <div className="absolute bottom-2 right-2 bg-white/95 backdrop-blur-xs border border-slate-200 px-2 py-0.5 rounded-full text-[9px] font-black text-[#2874f0] shadow-xs select-none">
-          2 variants
-        </div>
       </div>
 
       {/* Product Details Area */}
@@ -208,11 +200,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               <span className="text-[9px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
             </div>
           </div>
-
-          {/* Add to Cart Button on ALL products */}
-          <button className="w-full mt-2 py-1.5 border border-[#2874f0] rounded-[4px] bg-white text-[#2874f0] font-bold text-xs tracking-wide transition-all active:scale-97 hover:bg-[#2874f0]/2 shadow-xs flex items-center justify-center select-none">
-            Add to Cart
-          </button>
         </div>
       </div>
     </div>

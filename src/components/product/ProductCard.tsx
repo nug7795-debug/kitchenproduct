@@ -142,12 +142,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           Sponsored
         </span>
 
-        {/* Brand and Description (Clean Flipkart mobile split) */}
-        <div className="mb-1 leading-snug">
-          <span className="block text-[11px] font-black text-slate-900 uppercase tracking-wide">
+        {/* Brand and Description (Clean Flipkart mobile split with guaranteed single-line truncation) */}
+        <div className="mb-1 leading-snug overflow-hidden">
+          <span className="block text-[11px] font-black text-slate-900 uppercase tracking-wide truncate">
             {brandName}
           </span>
-          <span className="block text-[11px] font-medium text-slate-500 line-clamp-1 mt-0.5">
+          <span className="block text-[11px] font-medium text-slate-500 truncate mt-0.5" title={description}>
             {description}
           </span>
         </div>

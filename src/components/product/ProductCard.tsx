@@ -21,7 +21,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   // Handle both database object and flat props
   const displayPrice = price || product.price;
   const displaySalePrice = sale_price || product.salePrice;
-  const categoryName = categories?.name || product.category || 'Kitchen';
   const imageUrl = product_images?.[0]?.image_url || product.imageUrl || 'https://via.placeholder.com/300';
   
   const discount = displaySalePrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
@@ -33,34 +32,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const ratingValue = (4.0 + (numericId % 5) * 0.1).toFixed(1);
   const ratingCountStr = ratingCount > 250 ? `${Math.floor(ratingCount / 100)}k` : `${ratingCount}`;
 
-  // Dynamically calculate standard delivery date (+4 days)
-  const getDeliveryDateStr = () => {
-    const date = new Date();
-    date.setDate(date.getDate() + 4);
-    const day = date.getDate();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[date.getMonth()];
-    
-    const getOrdinal = (n: number) => {
-      if (n > 3 && n < 21) return 'th';
-      switch (n % 10) {
-        case 1:  return "st";
-        case 2:  return "nd";
-        case 3:  return "rd";
-        default: return "th";
-      }
-    };
-    return `${day}${getOrdinal(day)} ${month}`;
-  };
-
-  const deliveryDate = getDeliveryDateStr();
-
   // Split title into Brand and Description
   const words = name.split(' ');
   const brandName = words[0] || 'Premium';
   const description = words.slice(1).join(' ') || 'High Quality Product';
-
-  const hashtag = categoryName === 'Appliances' ? '#SmartChoice' : '#ColorPop';
 
   return (
     <div className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-shadow">
@@ -137,15 +112,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <p className="text-[9px] font-bold text-[#1C54D4] leading-none pl-[1px]">with Bank offer</p>
           </div>
 
-          {/* Delivery & Hashtag Section */}
-          <div className="pt-1 space-y-0.5">
-            <p className="text-[10px] text-slate-500 font-medium leading-tight pl-[1px]">
-              Delivery by <span className="font-extrabold text-slate-900">{deliveryDate}</span>
-            </p>
-            <p className="text-[9px] font-extrabold text-[#2874f0] pl-[1px] leading-tight">
-              {hashtag}
-            </p>
-          </div>
         </div>
       </div>
     </div>

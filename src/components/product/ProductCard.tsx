@@ -143,15 +143,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Link href={`/product/${id}`} className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-3 select-none">
+    <Link href={`/product/${id}`} className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-2 select-none">
       {/* Product Image Box */}
-      <div className="relative aspect-[1/1] bg-slate-50 overflow-hidden">
-        <div className="relative w-full h-full">
+      <div className="relative h-[135px] sm:h-[180px] bg-[#fdfdfd] overflow-hidden flex items-center justify-center">
+        <div className="relative w-full h-full flex items-center justify-center p-2 sm:p-3">
           <Image
             src={imageUrl}
             alt={name}
             fill
-            className="object-contain p-3 transition-transform duration-500 group-hover:scale-103"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className="object-contain p-2 sm:p-3 transition-transform duration-500 group-hover:scale-103"
           />
         </div>
 
@@ -170,7 +171,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Product Details Area */}
-      <div className="p-3 flex flex-col flex-1">
+      <div className="p-2.5 sm:p-3 flex flex-col flex-1">
         {/* Sponsored Label at the very top */}
         <span className="block text-[8px] font-bold text-slate-400 select-none leading-none mb-1">
           Sponsored

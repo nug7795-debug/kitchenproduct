@@ -4,7 +4,7 @@ import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Search, Camera, QrCode, ChevronDown, Bell, Smartphone, Shirt, Monitor, Plane } from 'lucide-react';
+import { ShoppingCart, Search, Camera, QrCode, ChevronDown, Bell, Smartphone, Shirt, Monitor, Plane, MapPin } from 'lucide-react';
 import { Button } from '../ui/button';
 
 export const Header = () => {
@@ -144,12 +144,13 @@ export const Header = () => {
       </div>
 
       {/* Address Bar - Clean dynamic version strictly matching Flipkart mobile web */}
-      <div className="flex items-center justify-between px-3 py-1 bg-[#2874f0]">
+      <div className="flex items-center justify-between px-3 py-1.5 bg-[#2874f0]">
         <button 
           onClick={handleRefreshLocation}
           className="flex items-center gap-1 min-w-0 bg-transparent text-left border-none p-0 outline-none active:opacity-80 transition-opacity"
         >
-          <span className="text-[12px] font-bold text-white truncate max-w-[260px] tracking-wide">
+          <MapPin size={13} className="text-white shrink-0" />
+          <span className="text-[12px] font-bold text-white truncate max-w-[260px] tracking-wide ml-0.5">
             {locationText}
           </span>
           <ChevronDown size={14} className="text-white/90 shrink-0 mt-0.5" />

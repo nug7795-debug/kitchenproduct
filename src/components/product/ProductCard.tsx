@@ -10,14 +10,11 @@ interface ProductCardProps {
 
 // Highly authentic inline AssuredBadge matching Flipkart
 const AssuredBadge = () => (
-  <svg viewBox="0 0 54 13" className="h-[11px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" xmlns="http://www.w3.org/2000/svg">
-    {/* Blue shield with yellow border */}
-    <path d="M1 4.5 C1 2 4.5 1 6.5 1 C8.5 1 12 2 12 4.5 C12 8 8 11.5 6.5 12 C5 11.5 1 8 1 4.5 Z" fill="#2874f0" stroke="#FFE500" strokeWidth="0.8" />
-    {/* Yellow 'f' inside */}
-    <text x="6.5" y="8.5" fontFamily="system-ui, -apple-system, sans-serif" fontSize="7" fontWeight="900" fill="#FFE500" textAnchor="middle">f</text>
-    {/* 'Assured' in bold italic blue */}
-    <text x="14" y="9.5" fontFamily="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" fontSize="10" fontWeight="900" fontStyle="italic" fill="#2874f0" letterSpacing="-0.3">Assured</text>
-  </svg>
+  <img 
+    src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+    alt="fAssured" 
+    className="h-[14px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
+  />
 );
 
 // High-fidelity speech bubble slanted WOW! SVG badge matching Flipkart

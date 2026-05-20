@@ -10,43 +10,11 @@ import { supabase } from '../../../lib/supabase';
 
 
 const AssuredBadgeBig = () => (
-  <svg 
-    viewBox="0 0 78 20" 
-    className="h-[20px] w-auto shrink-0 select-none align-middle inline-block ml-3" 
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Rounded blue capsule background */}
-    <rect x="0.5" y="0.5" width="77" height="19" rx="9.5" fill="#2874f0" stroke="#FFE500" strokeWidth="0.8" />
-    
-    {/* Yellow circular frame for 'f' on the left */}
-    <circle cx="10" cy="10" r="6.5" fill="#FFE500" />
-    {/* Letter 'f' inside in blue */}
-    <text 
-      x="10" 
-      y="13.5" 
-      fontFamily="'Impact', 'Arial Black', sans-serif" 
-      fontSize="11" 
-      fontWeight="900" 
-      fill="#2874f0" 
-      textAnchor="middle"
-    >
-      f
-    </text>
-    
-    {/* Word 'Assured' in white bold italic */}
-    <text 
-      x="20" 
-      y="13.5" 
-      fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-      fontSize="10.5" 
-      fontWeight="900" 
-      fontStyle="italic" 
-      fill="#FFFFFF" 
-      letterSpacing="-0.3"
-    >
-      Assured
-    </text>
-  </svg>
+  <img 
+    src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+    alt="fAssured" 
+    className="h-[21px] w-auto shrink-0 select-none align-middle inline-block ml-3" 
+  />
 );
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {

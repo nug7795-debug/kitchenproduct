@@ -8,6 +8,83 @@ interface ProductCardProps {
   product: any;
 }
 
+// Highly authentic inline AssuredBadge matching Flipkart
+const AssuredBadge = () => (
+  <div className="inline-flex items-center gap-0.5 select-none align-middle ml-1.5 shrink-0">
+    <div className="relative flex items-center justify-center bg-[#2874f0] text-white text-[7px] font-black h-[10px] w-[10px] rounded-full border-[0.5px] border-yellow-400 leading-none">
+      f
+    </div>
+    <span className="text-[9px] font-black italic text-[#2874f0] leading-none tracking-tighter">Assured</span>
+  </div>
+);
+
+// High-fidelity speech bubble slanted WOW! SVG badge
+const WowIcon = () => (
+  <svg 
+    viewBox="0 0 38 16" 
+    className="h-[13px] w-auto shrink-0 select-none align-middle inline-block mr-1" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path 
+      d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
+      fill="#FFFFFF" 
+      stroke="#1C54D4" 
+      strokeWidth="0.8" 
+      strokeLinejoin="round"
+    />
+    <text 
+      x="19" 
+      y="9.5" 
+      fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+      fontSize="7.5" 
+      fontWeight="900" 
+      fontStyle="italic" 
+      fill="#1C54D4" 
+      textAnchor="middle"
+      letterSpacing="-0.2"
+    >
+      WOW!
+    </text>
+  </svg>
+);
+
+// Extremely clean motion delivery truck icon SVG
+const DeliveryTruckIcon = () => (
+  <svg 
+    viewBox="0 0 16 12" 
+    className="h-[11px] w-auto shrink-0 text-slate-800 align-middle inline-block mr-1" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Motion speed lines */}
+    <line x1="1" y1="3" x2="4" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="0" y1="5.5" x2="3" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="1" y1="8" x2="4" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    
+    {/* Truck cargo body */}
+    <rect x="4.5" y="2" width="7" height="6" rx="0.5" fill="currentColor" />
+    
+    {/* Driver's cab */}
+    <path d="M 11.5 4 L 14 4 L 15 6 L 15 8 L 11.5 8 Z" fill="currentColor" />
+    {/* Cab window */}
+    <path d="M 12 4.6 L 13.6 4.6 L 14.2 5.8 L 12 5.8 Z" fill="#FFFFFF" />
+
+    {/* Wheels */}
+    <circle cx="6.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+    <circle cx="12.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+  </svg>
+);
+
+// ISI Certified badge overlay for bottom-left of image
+const ISICertifiedBadge = () => (
+  <div className="absolute bottom-2 left-2 bg-white/95 border border-[#1C54D4]/30 px-1 py-0.5 rounded-[4px] shadow-xs flex items-center gap-1 select-none pointer-events-none">
+    <svg viewBox="0 0 16 16" className="h-3 w-3 text-[#1C54D4]" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="8" cy="8" r="6" strokeDasharray="2 1" />
+      <path d="M5 8h6M8 5v6" />
+    </svg>
+    <span className="text-[7.5px] font-black text-[#1C54D4] tracking-tighter uppercase leading-none">ISI Certified</span>
+  </div>
+);
+
 export const ProductCard = ({ product }: ProductCardProps) => {
   const {
     id,
@@ -60,10 +137,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const brandName = words[0] || 'Premium';
   const description = words.slice(1).join(' ') || 'High Quality Product';
 
-  const hashtag = categoryName === 'Appliances' ? '#SmartChoice' : '#ColorPop';
+  // Odd/even check to decide whether to show express delivery or standard delivery
+  const isExpress = numericId % 2 === 0;
 
   return (
-    <div className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-shadow">
+    <div className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-3">
       {/* Product Image Box */}
       <div className="relative aspect-[1/1] bg-slate-50 overflow-hidden">
         <Link href={`/product/${id}`} className="block w-full h-full">
@@ -80,13 +158,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Heart className="h-3.5 w-3.5 text-slate-400 stroke-[2]" />
         </button>
 
-        {/* Floating Ratings overlay at bottom-left of image */}
-        <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs px-1.5 py-0.5 rounded-[4px] flex items-center gap-0.5 text-[9px] font-bold text-slate-800 shadow-xs border border-slate-100 select-none">
-          <span>{ratingValue}</span>
-          <span className="text-green-600 text-[8px] font-bold">★</span>
-          <span className="text-slate-300 font-normal mx-0.5">|</span>
-          <span className="text-slate-500 font-medium">{ratingCountStr}</span>
-        </div>
+        {/* Dynamic ISI Certified Badge overlay */}
+        {numericId % 3 === 0 && <ISICertifiedBadge />}
 
         {/* Floating variants pill at bottom right of the image */}
         <div className="absolute bottom-2 right-2 bg-white/95 backdrop-blur-xs border border-slate-200 px-2 py-0.5 rounded-full text-[9px] font-black text-[#2874f0] shadow-xs select-none">
@@ -95,7 +168,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       {/* Product Details Area */}
-      <div className="p-2.5 flex flex-col flex-1">
+      <div className="p-3 flex flex-col flex-1">
         {/* Brand and Description (Clean Flipkart mobile split) */}
         <div className="mb-1 leading-snug">
           <span className="block text-[11px] font-black text-slate-900 uppercase tracking-wide">
@@ -104,6 +177,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <span className="block text-[11px] font-medium text-slate-500 line-clamp-1 mt-0.5">
             {description}
           </span>
+        </div>
+
+        {/* Star Rating & Assured Badge Row */}
+        <div className="flex items-center gap-0.5 mb-1 leading-none select-none">
+          <div className="flex items-center text-green-600 gap-[1px]">
+            <span className="text-[10px]">★</span>
+            <span className="text-[10px]">★</span>
+            <span className="text-[10px]">★</span>
+            <span className="text-[10px]">★</span>
+            <span className="text-[10px] text-slate-200">★</span>
+          </div>
+          <span className="text-[9px] font-medium text-slate-400 ml-1">({ratingCountStr})</span>
+          <AssuredBadge />
         </div>
 
         <div className="mt-auto space-y-1">
@@ -124,23 +210,36 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </span>
           </div>
 
-          {/* WOW! Bank Offer Section */}
-          <div className="pt-1.5 border-t border-slate-100/60 space-y-0.5">
+          {/* WOW! Bank Offer Section (Matches the marked red box perfectly!) */}
+          <div className="pt-1.5 border-t border-slate-100/60 space-y-1">
             <div className="flex items-center gap-1 leading-none">
-              <span className="inline-flex items-center justify-center px-1 py-[1.5px] border border-[#1C54D4] rounded-[2.5px] bg-white text-[8px] font-black text-[#1C54D4] italic tracking-tighter leading-none select-none align-middle mr-0.5">
-                WOW!
-              </span>
+              <WowIcon />
               <span className="text-[11px] font-black text-[#1C54D4] align-middle">
                 ₹{bankOfferPrice.toLocaleString()}
               </span>
             </div>
             <p className="text-[9px] font-bold text-[#1C54D4] leading-none pl-[1px]">with Bank offer</p>
+            
+            {/* Delivery Line */}
+            {isExpress ? (
+              <div className="flex items-center gap-0.5 pt-0.5 leading-none">
+                <DeliveryTruckIcon />
+                <span className="text-[9px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
+                <span className="text-[9px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
+              </div>
+            ) : (
+              <p className="text-[9px] text-slate-500 font-medium leading-none pt-0.5 pl-[1px]">
+                Delivery by <span className="font-extrabold text-slate-900">{deliveryDate}</span>
+              </p>
+            )}
           </div>
+
+          {/* Add to Cart Button */}
+          <button className="w-full mt-2.5 py-1.5 border border-[#2874f0] rounded-[4px] bg-white text-[#2874f0] font-bold text-xs tracking-wide transition-all active:scale-97 hover:bg-[#2874f0]/2 shadow-xs flex items-center justify-center select-none">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
   );
 };
-
-
-

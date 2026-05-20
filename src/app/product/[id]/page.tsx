@@ -62,6 +62,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = React.useState(true);
   const [selectedImage, setSelectedImage] = React.useState(0);
   const [isInCart, setIsInCart] = React.useState(false);
+  const [showFullTitle, setShowFullTitle] = React.useState(false);
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -203,11 +204,37 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
           {/* Product Info Section */}
           <div className="bg-white">
-            <div className="p-4 space-y-2">
-              <div className="text-[13px] text-slate-500 font-medium hover:text-[#2874f0] uppercase tracking-wide">
-                {product.categoryName}
+            <div className="p-4 space-y-1">
+              {/* Brand Name */}
+              <div className="text-[14px] font-black text-slate-900 tracking-wide uppercase">
+                {product.brand || (product.name ? product.name.split(' ')[0] : 'Kitchen Pro')}
               </div>
-              <h1 className="text-[16px] md:text-xl font-normal text-slate-800 leading-snug">{product.name}</h1>
+              {/* Product Title with ...more */}
+              <h1 className="text-[13px] font-medium text-slate-500 md:text-[15px] leading-snug">
+                {showFullTitle || product.name.length <= 60 ? (
+                  <>
+                    {product.name}
+                    {product.name.length > 60 && (
+                      <button 
+                        onClick={() => setShowFullTitle(false)} 
+                        className="text-[#2874f0] font-bold ml-1 hover:underline text-[13px]"
+                      >
+                        less
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {product.name.slice(0, 60)}...
+                    <button 
+                      onClick={() => setShowFullTitle(true)} 
+                      className="text-[#2874f0] font-bold ml-0.5 hover:underline text-[13px]"
+                    >
+                      more
+                    </button>
+                  </>
+                )}
+              </h1>
               
               <div className="flex items-center pt-1 select-none flex-wrap gap-y-1">
                 <div className="flex items-center gap-1 bg-[#388e3c] text-white px-1.5 py-0.5 rounded-[4px] text-[12px] font-bold shrink-0">

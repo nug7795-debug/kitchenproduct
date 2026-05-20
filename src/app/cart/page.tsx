@@ -74,6 +74,19 @@ export default function CartPage() {
           <h1 className="text-lg font-medium">My Cart</h1>
         </div>
 
+        {/* Flipkart Tabs */}
+        <div className="bg-white px-3 py-2.5 flex items-center gap-2 border-b border-slate-100">
+           <button className="bg-[#1259e2] text-white font-extrabold text-[13px] px-5 py-2 rounded-lg shadow-sm select-none">
+              Flipkart (0)
+           </button>
+           <button className="bg-white text-slate-600 border border-slate-200/80 font-bold text-[13px] px-5 py-2 rounded-lg select-none">
+              Grocery
+           </button>
+           <button className="bg-white text-slate-600 border border-slate-200/80 font-bold text-[13px] px-5 py-2 rounded-lg select-none">
+              Minutes
+           </button>
+        </div>
+
         {/* Empty Cart Container */}
         <div className="flex-1 flex flex-col items-center justify-center p-6 bg-white my-2 mx-0 shadow-sm border-y border-slate-100">
           {/* Authentic Vector Flipkart-Style Empty Cart Illustration */}
@@ -129,6 +142,19 @@ export default function CartPage() {
       <div className="bg-[#2874f0] text-white px-4 py-3 flex items-center gap-4 sticky top-0 z-50">
         <Link href="/"><ChevronLeft className="h-6 w-6" /></Link>
         <h1 className="text-lg font-medium">My Cart</h1>
+      </div>
+
+      {/* Flipkart Tabs */}
+      <div className="bg-white px-3 py-2.5 flex items-center gap-2 border-b border-slate-100">
+         <button className="bg-[#1259e2] text-white font-extrabold text-[13px] px-5 py-2 rounded-lg shadow-sm select-none">
+            Flipkart ({items.reduce((sum, item) => sum + item.quantity, 0)})
+         </button>
+         <button className="bg-white text-slate-600 border border-slate-200/80 font-bold text-[13px] px-5 py-2 rounded-lg select-none">
+            Grocery
+         </button>
+         <button className="bg-white text-slate-600 border border-slate-200/80 font-bold text-[13px] px-5 py-2 rounded-lg select-none">
+            Minutes
+         </button>
       </div>
 
       {/* Address Bar */}
@@ -217,15 +243,21 @@ export default function CartPage() {
       </div>
 
       {/* Sticky Bottom Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t px-4 py-3 flex items-center justify-between shadow-2xl">
-         <div>
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t px-4 py-2.5 flex items-center justify-between shadow-2xl">
+         <div className="flex flex-col justify-center leading-tight">
             {totalOriginal > totalSale && (
-              <span className="text-[10px] text-slate-400 line-through block">₹{totalOriginal.toLocaleString()}</span>
+              <span className="text-[11px] text-slate-400 line-through font-semibold">₹{totalOriginal.toLocaleString()}</span>
             )}
-            <span className="text-lg font-bold text-slate-900">₹{totalSale.toLocaleString()}</span>
+            <div className="flex items-center gap-1 mt-0.5">
+               <span className="text-[17px] font-black text-slate-900">₹{totalSale.toLocaleString()}</span>
+               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-slate-400 shrink-0 align-middle inline-block" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <circle cx="8" cy="8" r="6" />
+                  <path d="M8 7v4M8 5h.01" strokeLinecap="round" />
+               </svg>
+            </div>
          </div>
-         <Button className="bg-[#fb641b] hover:bg-[#f4511e] text-white rounded-lg px-8 py-6 font-bold text-base shadow-lg transition-transform active:scale-95" asChild>
-            <Link href="/checkout">PLACE ORDER</Link>
+         <Button className="bg-[#ffc200] hover:bg-[#e6af00] text-slate-900 rounded-lg px-8 py-5 font-black text-[14px] shadow-md border-none transition-transform active:scale-95 uppercase tracking-wide" asChild>
+            <Link href="/checkout">Place Order</Link>
          </Button>
       </div>
     </div>

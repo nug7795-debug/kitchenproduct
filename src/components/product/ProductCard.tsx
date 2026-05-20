@@ -10,36 +10,39 @@ interface ProductCardProps {
 
 // Highly authentic inline AssuredBadge matching Flipkart
 const AssuredBadge = () => (
-  <div className="inline-flex items-center gap-0.5 select-none align-middle ml-1.5 shrink-0">
-    <div className="relative flex items-center justify-center bg-[#2874f0] text-white text-[7px] font-black h-[10px] w-[10px] rounded-full border-[0.5px] border-yellow-400 leading-none">
-      f
-    </div>
-    <span className="text-[9px] font-black italic text-[#2874f0] leading-none tracking-tighter">Assured</span>
-  </div>
+  <svg viewBox="0 0 54 13" className="h-[11px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" xmlns="http://www.w3.org/2000/svg">
+    {/* Blue shield with yellow border */}
+    <path d="M1 4.5 C1 2 4.5 1 6.5 1 C8.5 1 12 2 12 4.5 C12 8 8 11.5 6.5 12 C5 11.5 1 8 1 4.5 Z" fill="#2874f0" stroke="#FFE500" strokeWidth="0.8" />
+    {/* Yellow 'f' inside */}
+    <text x="6.5" y="8.5" fontFamily="system-ui, -apple-system, sans-serif" fontSize="7" fontWeight="900" fill="#FFE500" textAnchor="middle">f</text>
+    {/* 'Assured' in bold italic blue */}
+    <text x="14" y="9.5" fontFamily="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" fontSize="10" fontWeight="900" fontStyle="italic" fill="#2874f0" letterSpacing="-0.3">Assured</text>
+  </svg>
 );
 
-// High-fidelity speech bubble slanted WOW! SVG badge
+// High-fidelity speech bubble slanted WOW! SVG badge matching Flipkart
 const WowIcon = () => (
   <svg 
     viewBox="0 0 38 16" 
-    className="h-[13px] w-auto shrink-0 select-none align-middle inline-block mr-1" 
+    className="h-[12px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
     xmlns="http://www.w3.org/2000/svg"
   >
+    {/* Outline slanted Speech bubble bubble */}
     <path 
       d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
       fill="#FFFFFF" 
-      stroke="#1C54D4" 
-      strokeWidth="0.8" 
+      stroke="#1c54d4" 
+      strokeWidth="0.9" 
       strokeLinejoin="round"
     />
     <text 
       x="19" 
       y="9.5" 
-      fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
-      fontSize="7.5" 
+      fontFamily="system-ui, -apple-system, sans-serif" 
+      fontSize="8" 
       fontWeight="900" 
       fontStyle="italic" 
-      fill="#1C54D4" 
+      fill="#1c54d4" 
       textAnchor="middle"
       letterSpacing="-0.2"
     >
@@ -48,7 +51,7 @@ const WowIcon = () => (
   </svg>
 );
 
-// Extremely clean motion delivery truck icon SVG
+// Extremely clean motion delivery truck icon SVG matching Flipkart
 const DeliveryTruckIcon = () => (
   <svg 
     viewBox="0 0 16 12" 
@@ -77,9 +80,10 @@ const DeliveryTruckIcon = () => (
 // ISI Certified badge overlay for bottom-left of image
 const ISICertifiedBadge = () => (
   <div className="absolute bottom-2 left-2 bg-white/95 border border-[#1C54D4]/30 px-1 py-0.5 rounded-[4px] shadow-xs flex items-center gap-1 select-none pointer-events-none">
-    <svg viewBox="0 0 16 16" className="h-3 w-3 text-[#1C54D4]" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <circle cx="8" cy="8" r="6" strokeDasharray="2 1" />
-      <path d="M5 8h6M8 5v6" />
+    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-[#1C54D4] shrink-0" fill="none" stroke="currentColor" strokeWidth="1.2">
+      <circle cx="8" cy="8" r="7" stroke="currentColor" strokeDasharray="1.5 1" />
+      <circle cx="8" cy="8" r="5" stroke="currentColor" />
+      <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="0.8" />
     </svg>
     <span className="text-[7.5px] font-black text-[#1C54D4] tracking-tighter uppercase leading-none">ISI Certified</span>
   </div>
@@ -110,35 +114,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const ratingValue = (4.0 + (numericId % 5) * 0.1).toFixed(1);
   const ratingCountStr = ratingCount > 250 ? `${Math.floor(ratingCount / 100)}k` : `${ratingCount}`;
 
-  // Dynamically calculate standard delivery date (+4 days)
-  const getDeliveryDateStr = () => {
-    const date = new Date();
-    date.setDate(date.getDate() + 4);
-    const day = date.getDate();
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const month = months[date.getMonth()];
-    
-    const getOrdinal = (n: number) => {
-      if (n > 3 && n < 21) return 'th';
-      switch (n % 10) {
-        case 1:  return "st";
-        case 2:  return "nd";
-        case 3:  return "rd";
-        default: return "th";
-      }
-    };
-    return `${day}${getOrdinal(day)} ${month}`;
-  };
-
-  const deliveryDate = getDeliveryDateStr();
-
   // Split title into Brand and Description
   const words = name.split(' ');
   const brandName = words[0] || 'Premium';
   const description = words.slice(1).join(' ') || 'High Quality Product';
-
-  // Odd/even check to decide whether to show express delivery or standard delivery
-  const isExpress = numericId % 2 === 0;
 
   return (
     <div className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-3">
@@ -158,8 +137,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <Heart className="h-3.5 w-3.5 text-slate-400 stroke-[2]" />
         </button>
 
-        {/* Dynamic ISI Certified Badge overlay */}
-        {numericId % 3 === 0 && <ISICertifiedBadge />}
+        {/* ISI Certified Badge overlay on ALL products */}
+        <ISICertifiedBadge />
 
         {/* Floating variants pill at bottom right of the image */}
         <div className="absolute bottom-2 right-2 bg-white/95 backdrop-blur-xs border border-slate-200 px-2 py-0.5 rounded-full text-[9px] font-black text-[#2874f0] shadow-xs select-none">
@@ -169,6 +148,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Product Details Area */}
       <div className="p-3 flex flex-col flex-1">
+        {/* Sponsored Label at the very top */}
+        <span className="block text-[8px] font-bold text-slate-400 select-none leading-none mb-1">
+          Sponsored
+        </span>
+
         {/* Brand and Description (Clean Flipkart mobile split) */}
         <div className="mb-1 leading-snug">
           <span className="block text-[11px] font-black text-slate-900 uppercase tracking-wide">
@@ -179,63 +163,57 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </span>
         </div>
 
-        {/* Star Rating & Assured Badge Row */}
-        <div className="flex items-center gap-0.5 mb-1 leading-none select-none">
-          <div className="flex items-center text-green-600 gap-[1px]">
+        {/* Star Rating & Assured Badge Row on ALL products */}
+        <div className="flex items-center gap-0.5 mb-1.5 leading-none select-none">
+          <div className="flex items-center text-[#388e3c] gap-[0.5px]">
             <span className="text-[10px]">★</span>
             <span className="text-[10px]">★</span>
             <span className="text-[10px]">★</span>
             <span className="text-[10px]">★</span>
-            <span className="text-[10px] text-slate-200">★</span>
+            <span className="text-[10px]">★</span>
           </div>
           <span className="text-[9px] font-medium text-slate-400 ml-1">({ratingCountStr})</span>
           <AssuredBadge />
         </div>
 
-        <div className="mt-auto space-y-1">
-          {/* Pricing Section (2 Lines to match Flipkart mobile layout) */}
-          <div className="pt-0.5">
+        <div className="mt-auto space-y-1.5">
+          {/* Pricing Section (Lined up horizontally on a single line matching cooker category) */}
+          <div className="flex items-center gap-1.5 leading-none pt-0.5 select-none">
             {displaySalePrice && displaySalePrice < displayPrice && (
-              <div className="flex items-center gap-1 leading-none mb-0.5">
-                <span className="text-[11px] font-extrabold text-green-600 flex items-center">
+              <>
+                <span className="text-[11px] font-extrabold text-[#388e3c] flex items-center shrink-0">
                   <span className="text-[10px] font-bold mr-[1px]">↓</span>{discount}%
                 </span>
-                <span className="text-[10px] text-slate-400 line-through font-semibold">
+                <span className="text-[10px] text-slate-400 line-through font-semibold shrink-0">
                   ₹{displayPrice?.toLocaleString()}
                 </span>
-              </div>
+              </>
             )}
-            <span className="text-xs font-black text-slate-900 block leading-none">
+            <span className="text-xs font-black text-slate-900 shrink-0">
               ₹{(displaySalePrice || displayPrice)?.toLocaleString()}
             </span>
           </div>
 
-          {/* WOW! Bank Offer Section (Matches the marked red box perfectly!) */}
-          <div className="pt-1.5 border-t border-slate-100/60 space-y-1">
+          {/* WOW! Bank Offer & Express Delivery Container (The perfect marked red box on ALL products!) */}
+          <div className="pt-1.5 border-t border-slate-100/60 space-y-1 select-none">
             <div className="flex items-center gap-1 leading-none">
               <WowIcon />
-              <span className="text-[11px] font-black text-[#1C54D4] align-middle">
+              <span className="text-[11px] font-black text-[#1c54d4] align-middle">
                 ₹{bankOfferPrice.toLocaleString()}
               </span>
             </div>
-            <p className="text-[9px] font-bold text-[#1C54D4] leading-none pl-[1px]">with Bank offer</p>
+            <p className="text-[9px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
             
-            {/* Delivery Line */}
-            {isExpress ? (
-              <div className="flex items-center gap-0.5 pt-0.5 leading-none">
-                <DeliveryTruckIcon />
-                <span className="text-[9px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
-                <span className="text-[9px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
-              </div>
-            ) : (
-              <p className="text-[9px] text-slate-500 font-medium leading-none pt-0.5 pl-[1px]">
-                Delivery by <span className="font-extrabold text-slate-900">{deliveryDate}</span>
-              </p>
-            )}
+            {/* Express Delivery Truck & Tag Line */}
+            <div className="flex items-center gap-1 pt-0.5 leading-none">
+              <DeliveryTruckIcon />
+              <span className="text-[9px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
+              <span className="text-[9px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
+            </div>
           </div>
 
-          {/* Add to Cart Button */}
-          <button className="w-full mt-2.5 py-1.5 border border-[#2874f0] rounded-[4px] bg-white text-[#2874f0] font-bold text-xs tracking-wide transition-all active:scale-97 hover:bg-[#2874f0]/2 shadow-xs flex items-center justify-center select-none">
+          {/* Add to Cart Button on ALL products */}
+          <button className="w-full mt-2 py-1.5 border border-[#2874f0] rounded-[4px] bg-white text-[#2874f0] font-bold text-xs tracking-wide transition-all active:scale-97 hover:bg-[#2874f0]/2 shadow-xs flex items-center justify-center select-none">
             Add to Cart
           </button>
         </div>

@@ -20,7 +20,8 @@ import {
   Globe,
   PlusCircle,
   HelpCircle,
-  AlertTriangle
+  AlertTriangle,
+  Star
 } from 'lucide-react';
 import { Button } from '../../../../../components/ui/button';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ export default function EditProductPage() {
   
   const [loading, setLoading] = React.useState(false);
   const [uploading, setUploading] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState<'general' | 'pricing' | 'inventory' | 'images' | 'variants' | 'seo' | 'shipping'>('general');
+  const [activeTab, setActiveTab] = React.useState<'general' | 'pricing' | 'inventory' | 'images' | 'variants' | 'seo' | 'shipping' | 'reviews'>('general');
 
   // Form State
   const [formData, setFormData] = React.useState({
@@ -58,7 +59,15 @@ export default function EditProductPage() {
     shippingClass: 'Free Delivery',
     seoTitle: '',
     metaDescription: '',
-    keywords: ''
+    keywords: '',
+    averageRating: '4.5',
+    totalRatings: '1428',
+    totalReviews: '234',
+    star5: '980',
+    star4: '320',
+    star3: '98',
+    star2: '20',
+    star1: '10',
   });
 
   // State for multiple images (URLs)
@@ -112,7 +121,15 @@ export default function EditProductPage() {
             shippingClass: 'Free Delivery',
             seoTitle: '',
             metaDescription: '',
-            keywords: ''
+            keywords: '',
+            averageRating: product.average_rating?.toString() || '4.5',
+            totalRatings: product.total_ratings?.toString() || '1428',
+            totalReviews: product.total_reviews?.toString() || '234',
+            star5: product.star_distribution?.["5"]?.toString() || '980',
+            star4: product.star_distribution?.["4"]?.toString() || '320',
+            star3: product.star_distribution?.["3"]?.toString() || '98',
+            star2: product.star_distribution?.["2"]?.toString() || '20',
+            star1: product.star_distribution?.["1"]?.toString() || '10',
           });
 
           if (product.product_images && product.product_images.length > 0) {
@@ -202,7 +219,17 @@ export default function EditProductPage() {
           sale_price: parseFloat(formData.salePrice || '0'),
           stock_quantity: parseInt(formData.stock || '0'),
           category_id: formData.category || null,
-          is_active: true
+          is_active: true,
+          average_rating: parseFloat(formData.averageRating || '4.5'),
+          total_ratings: parseInt(formData.totalRatings || '1428'),
+          total_reviews: parseInt(formData.totalReviews || '234'),
+          star_distribution: {
+            "5": parseInt(formData.star5 || '980'),
+            "4": parseInt(formData.star4 || '320'),
+            "3": parseInt(formData.star3 || '98'),
+            "2": parseInt(formData.star2 || '20'),
+            "1": parseInt(formData.star1 || '10')
+          }
         })
         .eq('id', productId);
 
@@ -296,6 +323,7 @@ export default function EditProductPage() {
             { id: 'variants', label: 'Product Variants', icon: PlusCircle },
             { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
             { id: 'seo', label: 'Search Engine (SEO)', icon: Globe },
+            { id: 'reviews', label: 'Reviews & Ratings', icon: Star },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -763,6 +791,118 @@ export default function EditProductPage() {
                         rows={3} 
                         placeholder="Write a compelling description for search results..." 
                         className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all resize-none" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Section: Reviews & Ratings */}
+          {activeTab === 'reviews' && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+              <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm space-y-6">
+                <div className="flex items-center gap-2 border-b border-slate-50 pb-4">
+                   <div className="h-8 w-8 rounded-lg bg-slate-900 flex items-center justify-center text-white"><Star className="h-4 w-4" /></div>
+                   <h2 className="font-black text-slate-800 uppercase tracking-tight">Reviews & Ratings Settings</h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Average Rating</label>
+                    <input 
+                      type="number" 
+                      step="0.1"
+                      min="1"
+                      max="5"
+                      name="averageRating"
+                      value={formData.averageRating}
+                      onChange={handleInputChange}
+                      placeholder="e.g. 4.5" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Ratings Count</label>
+                    <input 
+                      type="number" 
+                      name="totalRatings"
+                      value={formData.totalRatings}
+                      onChange={handleInputChange}
+                      placeholder="e.g. 1428" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Reviews Count</label>
+                    <input 
+                      type="number" 
+                      name="totalReviews"
+                      value={formData.totalReviews}
+                      onChange={handleInputChange}
+                      placeholder="e.g. 234" 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-slate-50">
+                  <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">Star Distribution Breakdown</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">5 Star Count</label>
+                      <input 
+                        type="number" 
+                        name="star5"
+                        value={formData.star5}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 980" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">4 Star Count</label>
+                      <input 
+                        type="number" 
+                        name="star4"
+                        value={formData.star4}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 320" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">3 Star Count</label>
+                      <input 
+                        type="number" 
+                        name="star3"
+                        value={formData.star3}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 98" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">2 Star Count</label>
+                      <input 
+                        type="number" 
+                        name="star2"
+                        value={formData.star2}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 20" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">1 Star Count</label>
+                      <input 
+                        type="number" 
+                        name="star1"
+                        value={formData.star1}
+                        onChange={handleInputChange}
+                        placeholder="e.g. 10" 
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-black focus:border-orange-500 outline-none transition-all" 
                       />
                     </div>
                   </div>

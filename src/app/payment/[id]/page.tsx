@@ -61,6 +61,92 @@ const fStyle = {
   color: "#222"
 };
 
+function PhonePeBrandLogo({ size = 28 }: { size?: number }) {
+  return (
+    <div className="flex items-center gap-1.5 select-none shrink-0">
+      <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+        <circle cx="32" cy="32" r="32" fill="#5F259F" />
+        <path d="M45.7 26.34c0-1.18-.97-2.16-2.16-2.16h-3.99l-9.13-10.46c-.83-1-2.16-1.33-3.49-1l-3.16 1c-.5.17-.66.83-.33 1.16l9.96 9.46H18.42c-.5 0-.83.33-.83.83v1.66c0 1.18.97 2.16 2.16 2.16h2.32v7.97c0 5.97 3.16 9.46 8.46 9.46 1.66 0 2.99-.17 4.65-.83v5.31c0 1.5 1.16 2.66 2.66 2.66h2.32c.5 0 1-.5 1-1v-23.74h3.82c.5 0 .83-.33.83-.83zM35.07 39.62c-1 .5-2.32.66-3.32.66-2.66 0-3.99-1.33-3.99-4.31v-7.97h7.31v11.62z" fill="#fff" />
+      </svg>
+      <span className="text-[18px] font-black text-[#5F259F] tracking-tight font-sans">PhonePe</span>
+    </div>
+  );
+}
+
+function PaytmBrandLogo() {
+  return (
+    <div className="flex items-center select-none font-sans" style={{ fontStyle: 'italic' }}>
+      <span className="text-[17px] font-black text-[#0F2F5F] tracking-tighter">pay</span>
+      <span className="text-[17px] font-black text-[#00BAF2] tracking-tighter">tm</span>
+    </div>
+  );
+}
+
+function UpiBrandLogo() {
+  return (
+    <div className="flex items-center gap-1.5 select-none font-sans font-black italic">
+      <span className="text-[16px] text-[#0F2F5F] tracking-tighter">UPI</span>
+      <div className="flex flex-col gap-[2px] shrink-0" style={{ marginTop: 2 }}>
+        <div className="w-[10px] h-[3px] bg-[#FF9933] transform skew-x-[-20deg]" />
+        <div className="w-[12px] h-[2.5px] bg-[#8B8B8B] transform skew-x-[-20deg]" />
+        <div className="w-[8px] h-[2.5px] bg-[#138808] transform skew-x-[-20deg]" />
+      </div>
+    </div>
+  );
+}
+
+// Trust Badge icons
+function ReturnIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 5L7 10L18 15L29 10L18 5Z" fill="#E5C199" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M7 10V21L18 26V15L7 10Z" fill="#C59B73" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M18 15V26L29 21V10L18 15Z" fill="#B3865B" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M7 26.5C7 26.5 11 29.5 18 29.5C25 29.5 29 26.5 29 26.5" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M10.5 23.5L6.5 26.5L10.5 29.5" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function RefundIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 5C24.5 5 29.5 9 31 15" stroke="#4ADE80" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M27.5 15H31V11.5" stroke="#4ADE80" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M18 31C11.5 31 6.5 27 5 21" stroke="#4ADE80" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M8.5 21H5V24.5" stroke="#4ADE80" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="18" cy="18" r="8" fill="#FBBF24" stroke="#333" strokeWidth="1.5" />
+      <path d="M16 15H20M16 17H19.5C20.5 17 20.5 19 19.5 19H16M16 19L19.5 22.5" stroke="#333" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function GenuineIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 9L9 13L18 17L27 13L18 9Z" fill="#E5C199" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M9 13V23L18 27V17L9 13Z" fill="#C59B73" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M18 17V27L27 23V13L18 17Z" fill="#B3865B" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="23.5" cy="11.5" r="6" fill="#2563EB" stroke="#fff" strokeWidth="1.2" />
+      <path d="M21.5 11.5L23 13L25.5 10" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TruckIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M4 9H21V23H4V9Z" fill="#EF4444" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M21 13H27L31 17V23H21V13Z" fill="#F97316" stroke="#333" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M23 15H26L28 18H23V15Z" fill="#E0F2FE" stroke="#333" strokeWidth="1.2" strokeLinejoin="round" />
+      <circle cx="9" cy="24" r="3.5" fill="#1F2937" stroke="#333" strokeWidth="1.5" />
+      <circle cx="24" cy="24" r="3.5" fill="#1F2937" stroke="#333" strokeWidth="1.5" />
+      <rect x="6.5" y="12" width="11" height="6.5" rx="1" fill="#22C55E" />
+      <text x="8" y="17.2" fill="#fff" fontSize="5.5" fontWeight="900" fontFamily="sans-serif">FREE</text>
+    </svg>
+  );
+}
+
 function PhonePeIcon({ size = 40 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
@@ -454,6 +540,38 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* Selection Body */}
       <div className="max-w-md mx-auto px-3 mt-3">
+        {/* PhonePe 20% Cashback Banner */}
+        <div className="relative w-full bg-[#5f259f] rounded-xl flex items-center justify-between min-h-[88px] overflow-hidden border border-slate-100 mb-3 select-none shadow-sm">
+          {/* Left white section with S-curve styling */}
+          <div 
+            className="absolute top-0 left-0 bottom-0 bg-white flex items-center pl-4 pr-12 z-10" 
+            style={{ 
+              width: '45%', 
+              clipPath: 'path("M0 0 L110 0 C 145 25, 75 63, 110 88 L0 88 Z")' 
+            }}
+          >
+            <div className="flex items-center gap-1.5">
+              <svg width="24" height="24" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                <circle cx="32" cy="32" r="32" fill="#5F259F" />
+                <path d="M45.7 26.34c0-1.18-.97-2.16-2.16-2.16h-3.99l-9.13-10.46c-.83-1-2.16-1.33-3.49-1l-3.16 1c-.5.17-.66.83-.33 1.16l9.96 9.46H18.42c-.5 0-.83.33-.83.83v1.66c0 1.18.97 2.16 2.16 2.16h2.32v7.97c0 5.97 3.16 9.46 8.46 9.46 1.66 0 2.99-.17 4.65-.83v5.31c0 1.5 1.16 2.66 2.66 2.66h2.32c.5 0 1-.5 1-1v-23.74h3.82c.5 0 .83-.33.83-.83zM35.07 39.62c-1 .5-2.32.66-3.32.66-2.66 0-3.99-1.33-3.99-4.31v-7.97h7.31v11.62z" fill="#fff" />
+              </svg>
+              <span className="text-[17px] font-black text-[#5f259f] tracking-tight font-sans">PhonePe</span>
+            </div>
+          </div>
+          {/* Right purple section with cashback promotion details */}
+          <div className="w-full flex justify-end items-center py-2.5 pl-[42%] pr-3.5 z-0 text-right">
+            <div className="flex flex-col items-end">
+              <span className="text-[13px] font-black text-[#ffc200] tracking-wide uppercase">
+                GET <span className="text-white text-base">20% CASHBACK</span>
+              </span>
+              <span className="text-[11px] font-extrabold text-white leading-tight mt-0.5 font-sans">
+                when you pay with PhonePe UPI
+              </span>
+              <span className="text-[7px] text-white/50 mt-1 font-sans">*Condition Apply</span>
+            </div>
+          </div>
+        </div>
+
         {/* Countdown Offer Timer Banner */}
         <div className="bg-[#fff9f4] border border-[#fbeee6] rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-[#fb641b]/10 flex items-center justify-center text-[#fb641b]">
@@ -526,16 +644,61 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
 
-        {/* Flipkart Assured / Safety Shield Badge */}
-        <img 
-          src="https://electriceranet.store/assets/images/theme/safety-label-badge.jpg" 
-          className="w-full rounded-xl shadow-xs mb-6" 
-          alt="safety badge"
-          onError={(e) => {
-            // Safety fallback if link breaks
-            e.currentTarget.style.display = 'none';
-          }}
-        />
+        {/* Trust Badges and Secure Payment logos */}
+        <div className="bg-white rounded-xl shadow-xs border border-slate-100 p-4 mb-6">
+          {/* 4 Trust Badges Row */}
+          <div className="flex items-start justify-between text-center mb-4">
+            <div className="flex flex-col items-center flex-1 min-w-[65px]">
+              <ReturnIcon />
+              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">7 Day Return</span>
+            </div>
+            
+            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
+
+            <div className="flex flex-col items-center flex-1 min-w-[65px]">
+              <RefundIcon />
+              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">7 Day Refunds</span>
+            </div>
+
+            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
+
+            <div className="flex flex-col items-center flex-1 min-w-[65px]">
+              <GenuineIcon />
+              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">Genuine Products</span>
+            </div>
+
+            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
+
+            <div className="flex flex-col items-center flex-1 min-w-[65px]">
+              <TruckIcon />
+              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">Delivery in 2 Days</span>
+            </div>
+          </div>
+
+          {/* Double-headed arrow line */}
+          <div className="relative flex items-center justify-center my-4 px-1">
+            <div className="w-full h-[1.5px] bg-slate-300 relative">
+              {/* Left arrow head */}
+              <div className="absolute left-0 top-[-3.5px] w-[8px] h-[8px] border-l-2 border-b-2 border-slate-400 rotate-[45deg]" />
+              {/* Right arrow head */}
+              <div className="absolute right-0 top-[-3.5px] w-[8px] h-[8px] border-r-2 border-t-2 border-slate-400 rotate-[45deg]" />
+            </div>
+          </div>
+
+          {/* Secure Payment By text */}
+          <div className="text-center text-[11px] font-black text-slate-700 tracking-wide uppercase mb-3.5 font-sans">
+            Secure Payment By
+          </div>
+
+          {/* Secure Logos Row */}
+          <div className="flex items-center justify-center gap-5 select-none">
+            <PhonePeBrandLogo size={18} />
+            <span className="text-slate-300 font-light">|</span>
+            <PaytmBrandLogo />
+            <span className="text-slate-300 font-light">|</span>
+            <UpiBrandLogo />
+          </div>
+        </div>
       </div>
 
       {/* Sticky Yellow/Orange Flipkart Continue Footer Bar */}

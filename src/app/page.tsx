@@ -14,16 +14,45 @@ const CountdownTimer = () => {
   const [timeLeft, setTimeLeft] = React.useState(10 * 60); 
 
   React.useEffect(() => {
-    const getRemainingSeconds = () => {
-      const now = new Date();
-      const currentSeconds = now.getMinutes() * 60 + now.getSeconds();
-      return 600 - (currentSeconds % 600);
+    const getOrSetOfferEndTime = () => {
+      const stored = sessionStorage.getItem('offer_ends_at');
+      const now = Date.now();
+      
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          return { endsAt, remaining };
+        }
+      }
+      
+      // Generate new 10 minute duration if none exists or has expired
+      const endsAt = now + 10 * 60 * 1000;
+      sessionStorage.setItem('offer_ends_at', endsAt.toString());
+      return { endsAt, remaining: 10 * 60 };
     };
 
-    setTimeLeft(getRemainingSeconds());
+    const init = getOrSetOfferEndTime();
+    setTimeLeft(init.remaining);
 
     const timer = setInterval(() => {
-      setTimeLeft(getRemainingSeconds());
+      const now = Date.now();
+      const stored = sessionStorage.getItem('offer_ends_at');
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          setTimeLeft(remaining);
+        } else {
+          const newEndsAt = now + 10 * 60 * 1000;
+          sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
+          setTimeLeft(10 * 60);
+        }
+      } else {
+        const newEndsAt = now + 10 * 60 * 1000;
+        sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
+        setTimeLeft(10 * 60);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
@@ -90,6 +119,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
+      {/* Main Banner Slider */}
+      <section className="bg-[#f1f3f6] pt-2 px-2">
+        <BannerSlider />
+      </section>
+
       {/* SASA LELE Sale Countdown Banner */}
       <section className="bg-[#2874f0] w-full pt-2 pb-3 px-3 flex items-center justify-between relative overflow-hidden">
         {/* SASA LELE Graphic (CSS representation) */}
@@ -118,11 +152,6 @@ export default function Home() {
         
         {/* Background Decorative Circles */}
         <div className="absolute top-0 left-1/2 w-32 h-32 bg-white/5 rounded-full blur-xl transform -translate-x-1/2" />
-      </section>
-
-      {/* Main Banner Slider */}
-      <section className="bg-[#f1f3f6] pt-2 px-2">
-        <BannerSlider />
       </section>
 
       {/* "Still looking for these?" Section Hidden as per request

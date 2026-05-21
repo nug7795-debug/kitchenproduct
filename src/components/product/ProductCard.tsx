@@ -108,9 +108,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
   const numericId = typeof id === 'number' ? id : (id?.charCodeAt(0) || 0);
-  const ratingCount = (numericId * 73) % 400 + 80;
-  const ratingValue = (4.0 + (numericId % 5) * 0.1).toFixed(1);
-  const ratingCountStr = ratingCount > 250 ? `${Math.floor(ratingCount / 100)}k` : `${ratingCount}`;
+  const ratingVal = parseFloat(product.average_rating || (4.0 + (numericId % 5) * 0.1)).toFixed(1);
+  const totalRatings = product.total_ratings || ((numericId * 73) % 400 + 80);
+  const totalRatingsStr = totalRatings >= 1000 ? `${(totalRatings / 1000).toFixed(1)}k` : `${totalRatings}`;
 
   // Split title into Brand and Description
   const words = name.split(' ');
@@ -186,15 +186,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Star Rating & Assured Badge Row on ALL products */}
-        <div className="flex items-center gap-0.5 mb-1.5 leading-none select-none">
-          <div className="flex items-center text-[#388e3c] gap-[0.5px]">
-            <span className="text-[11px]">★</span>
-            <span className="text-[11px]">★</span>
-            <span className="text-[11px]">★</span>
-            <span className="text-[11px]">★</span>
-            <span className="text-[11px]">★</span>
+        <div className="flex items-center gap-1.5 mb-1.5 leading-none select-none">
+          <div className="flex items-center gap-0.5 bg-[#388e3c] text-white px-1.5 py-0.5 rounded-[4px] text-[10px] font-bold shrink-0">
+             {ratingVal} <span className="text-[8px] font-bold">★</span>
           </div>
-          <span className="text-[10px] font-medium text-slate-400 ml-1">({ratingCountStr})</span>
+          <span className="text-[10px] font-bold text-slate-400">({totalRatingsStr})</span>
           <AssuredBadge />
         </div>
 

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { 
   ShoppingBag, Eye, CheckCircle, Clock, Truck, XCircle, Search, 
   Filter, ArrowUpRight, User, MoreHorizontal, Download, Loader2, 
-  Phone, MapPin, CreditCard, RefreshCw, X 
+  Phone, MapPin, CreditCard, RefreshCw, X, Trash2 
 } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { cn } from '../../../lib/utils';
@@ -64,6 +64,10 @@ export default function OrdersPage() {
   // Drawer / Modal details state
   const [selectedOrder, setSelectedOrder] = React.useState<DbOrder | null>(null);
   const [isUpdatingStatus, setIsUpdatingStatus] = React.useState(false);
+
+  // Multi-select and Delete states
+  const [selectedOrderIds, setSelectedOrderIds] = React.useState<string[]>([]);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
   // Fetch orders on mount or refresh
   React.useEffect(() => {
@@ -194,6 +198,53 @@ export default function OrdersPage() {
     }
   };
 
+  // Bulk / Single Delete Orders
+  const handleDeleteOrders = async (idsToDelete: string[]) => {
+    if (idsToDelete.length === 0) return;
+    const confirmMessage = idsToDelete.length === 1 
+      ? "Are you sure you want to delete this order? This cannot be undone."
+      : `Are you sure you want to delete ${idsToDelete.length} selected orders? This cannot be undone.`;
+      
+    if (!confirm(confirmMessage)) return;
+
+    setIsDeleting(true);
+    try {
+      // 1. Delete associated payments first to prevent foreign key errors
+      const { error: payErr } = await supabase
+        .from('payments')
+        .delete()
+        .in('order_id', idsToDelete);
+      if (payErr) console.warn("Payment delete warning:", payErr);
+
+      // 2. Delete associated order_items
+      const { error: itemsErr } = await supabase
+        .from('order_items')
+        .delete()
+        .in('order_id', idsToDelete);
+      if (itemsErr) console.warn("Order items delete warning:", itemsErr);
+
+      // 3. Delete the orders
+      const { error: orderErr } = await supabase
+        .from('orders')
+        .delete()
+        .in('id', idsToDelete);
+      if (orderErr) throw orderErr;
+
+      // Update state locally
+      setOrders(prev => prev.filter(o => !idsToDelete.includes(o.id)));
+      setSelectedOrderIds(prev => prev.filter(id => !idsToDelete.includes(id)));
+      if (selectedOrder && idsToDelete.includes(selectedOrder.id)) {
+        setSelectedOrder(null);
+      }
+      alert(idsToDelete.length === 1 ? 'Order successfully deleted!' : 'Selected orders successfully deleted!');
+    } catch (e: any) {
+      console.error(e);
+      alert('Failed to delete: ' + (e.message || e));
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   // Stat calculations
   const totalRevenue = orders
     .filter(o => o.status === 'paid' || o.status === 'delivered' || o.status === 'shipped')
@@ -317,24 +368,38 @@ export default function OrdersPage() {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-[10px] uppercase text-slate-400 font-black tracking-[0.15em]">
               <tr>
-                <th className="px-8 py-5">Order Reference</th>
-                <th className="px-8 py-5">Customer Profile</th>
-                <th className="px-8 py-5">Status</th>
-                <th className="px-8 py-5">Transaction</th>
+                <th className="pl-8 pr-4 py-5 w-12 text-center">
+                  <input 
+                    type="checkbox"
+                    checked={filteredOrders.length > 0 && selectedOrderIds.length === filteredOrders.length}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedOrderIds(filteredOrders.map(o => o.id));
+                      } else {
+                        setSelectedOrderIds([]);
+                      }
+                    }}
+                    className="h-4 w-4 rounded border-slate-300 text-orange-600 focus:ring-orange-500 focus:ring-offset-0 cursor-pointer accent-orange-500"
+                  />
+                </th>
+                <th className="px-6 py-5">Order Reference</th>
+                <th className="px-6 py-5">Customer Profile</th>
+                <th className="px-6 py-5">Status</th>
+                <th className="px-6 py-5">Transaction</th>
                 <th className="px-8 py-5 text-right">Operations</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-20 text-center">
+                  <td colSpan={6} className="py-20 text-center">
                     <Loader2 className="h-10 w-10 animate-spin mx-auto text-orange-500" />
                     <p className="mt-4 text-xs font-black text-slate-400 uppercase tracking-widest">Loading Live Orders...</p>
                   </td>
                 </tr>
               ) : filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-20 text-center text-slate-500 font-bold uppercase text-[10px] tracking-widest">
+                  <td colSpan={6} className="py-20 text-center text-slate-500 font-bold uppercase text-[10px] tracking-widest">
                     No orders matching criteria found.
                   </td>
                 </tr>
@@ -342,10 +407,25 @@ export default function OrdersPage() {
                 filteredOrders.map((order) => {
                   const config = statusConfig[order.status as keyof typeof statusConfig] || statusConfig.pending;
                   const totalItems = order.order_items.reduce((sum, item) => sum + item.quantity, 0);
+                  const isChecked = selectedOrderIds.includes(order.id);
                   
                   return (
-                    <tr key={order.id} className="group hover:bg-slate-50/50 transition-all">
-                      <td className="px-8 py-6">
+                    <tr key={order.id} className={cn("group hover:bg-slate-50/50 transition-all", isChecked && "bg-slate-50/45")}>
+                      <td className="pl-8 pr-4 py-6 w-12 text-center">
+                        <input 
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedOrderIds(prev => [...prev, order.id]);
+                            } else {
+                              setSelectedOrderIds(prev => prev.filter(id => id !== order.id));
+                            }
+                          }}
+                          className="h-4 w-4 rounded border-slate-300 text-orange-600 focus:ring-orange-500 focus:ring-offset-0 cursor-pointer accent-orange-500"
+                        />
+                      </td>
+                      <td className="px-6 py-6">
                         <div className="font-black text-slate-900 tracking-tight flex items-center gap-2">
                            ORD-{order.id.substring(0, 8).toUpperCase()} <ArrowUpRight className="h-3 w-3 text-slate-300 group-hover:text-slate-900 transition-colors" />
                         </div>
@@ -353,7 +433,7 @@ export default function OrdersPage() {
                           <Clock className="h-3 w-3" /> {new Date(order.created_at).toLocaleString()}
                         </div>
                       </td>
-                      <td className="px-8 py-6">
+                      <td className="px-6 py-6">
                          <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-slate-900 group-hover:text-white transition-all">
                                <User className="h-5 w-5" />
@@ -368,7 +448,7 @@ export default function OrdersPage() {
                             </div>
                          </div>
                       </td>
-                      <td className="px-8 py-6">
+                      <td className="px-6 py-6">
                         <span className={cn(
                           "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xs border border-transparent",
                           config.style
@@ -377,7 +457,7 @@ export default function OrdersPage() {
                           {config.label}
                         </span>
                       </td>
-                      <td className="px-8 py-6">
+                      <td className="px-6 py-6">
                          <p className="font-black text-slate-900">₹{order.total_amount.toLocaleString()}</p>
                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">
                            {totalItems} SKU Item{totalItems > 1 ? 's' : ''}
@@ -396,6 +476,13 @@ export default function OrdersPage() {
                             title="View Order Details"
                           >
                             <Eye className="h-4 w-4" />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteOrders([order.id])}
+                            className="h-10 w-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-rose-450 hover:text-rose-650 hover:border-rose-250 hover:bg-rose-50 hover:shadow-sm transition-all"
+                            title="Delete Order"
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </td>
@@ -559,6 +646,35 @@ export default function OrdersPage() {
 
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Floating Bulk Action Bar */}
+      {selectedOrderIds.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 bg-slate-900/95 backdrop-blur-md text-white py-4 px-6 rounded-2xl shadow-2xl border border-white/10 animate-in slide-in-from-bottom-5 duration-300">
+          <div className="text-xs font-bold whitespace-nowrap">
+            <span className="bg-orange-500 text-white font-black px-2 py-0.5 rounded-md mr-2">{selectedOrderIds.length}</span>
+            order{selectedOrderIds.length > 1 ? 's' : ''} selected
+          </div>
+          <div className="h-4 w-px bg-white/20" />
+          <button
+            onClick={() => setSelectedOrderIds([])}
+            className="text-[10px] font-black uppercase tracking-widest text-slate-350 hover:text-white transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={isDeleting}
+            onClick={() => handleDeleteOrders(selectedOrderIds)}
+            className="flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white py-2 px-4 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all disabled:opacity-50 active:scale-95"
+          >
+            {isDeleting ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              <Trash2 className="h-3.5 w-3.5" />
+            )}
+            Delete Selected
+          </button>
         </div>
       )}
     </div>

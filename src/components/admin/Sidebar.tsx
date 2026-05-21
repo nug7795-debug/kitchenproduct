@@ -22,12 +22,11 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      router.push('/');
-    } else {
-      alert('Error logging out: ' + error.message);
-    }
+    localStorage.removeItem('admin_session');
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {}
+    window.location.href = '/admin';
   };
 
   return (

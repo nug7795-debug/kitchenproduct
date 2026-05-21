@@ -457,6 +457,44 @@ const getMockReviews = (productName: string, totalReviews: number): MockReview[]
   return list;
 };
 
+const parseDescription = (desc: string) => {
+  if (!desc) return { text: '', specs: [] };
+  
+  const cleanDesc = desc.replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+  const lines = cleanDesc.split('\n');
+  const specs: { key: string; value: string }[] = [];
+  const textLines: string[] = [];
+  
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    
+    const parts = trimmed.split(/\s{2,}|\t/);
+    if (parts.length >= 2) {
+      specs.push({
+        key: parts[0].trim(),
+        value: parts[1].trim()
+      });
+    } else if (trimmed.includes(':') && !trimmed.startsWith('http')) {
+      const colonIdx = trimmed.indexOf(':');
+      const key = trimmed.substring(0, colonIdx).trim();
+      const value = trimmed.substring(colonIdx + 1).trim();
+      if (key && value && key.length < 35) {
+        specs.push({ key, value });
+      } else {
+        textLines.push(trimmed);
+      }
+    } else if (trimmed.toLowerCase() !== 'about this product') {
+      textLines.push(trimmed);
+    }
+  });
+  
+  return {
+    text: textLines.join('\n'),
+    specs
+  };
+};
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = React.use(params);
@@ -465,6 +503,69 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [selectedImage, setSelectedImage] = React.useState(0);
   const [isInCart, setIsInCart] = React.useState(false);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
+  
+  const getDynamicHighlights = () => {
+    if (!product) return [];
+    
+    // 1. If we have parsed specs, use them as highlights (format as "Key: Value")!
+    const { specs } = parseDescription(product.description || '');
+    if (specs.length > 0) {
+      // Return first 5 specs to avoid cluttering highlights
+      return specs.slice(0, 5).map(s => `${s.key}: ${s.value}`);
+    }
+    
+    // 2. Category-based or product name-based default highlights
+    const lowerName = (product.name || '').toLowerCase();
+    const catName = (product.categoryName || '').toLowerCase();
+    
+    if (lowerName.includes('luggage') || lowerName.includes('bag') || catName.includes('luggage') || catName.includes('bag')) {
+      return [
+        "Premium Travel Gear",
+        "Smooth 360° Spinner Wheels",
+        "Highly Durable Shell",
+        "Secure Combination Lock",
+        "Spacious Compartments"
+      ];
+    }
+    
+    if (lowerName.includes('stove') || lowerName.includes('burner') || catName.includes('stove') || catName.includes('burner') || catName.includes('hob')) {
+      return [
+        "High Thermal Efficiency",
+        "Spill-Proof Glass Top",
+        "Heavy Duty Pan Support",
+        "Easy to Clean Surface",
+        "Sturdy Brass Burners"
+      ];
+    }
+    
+    if (lowerName.includes('mixer') || lowerName.includes('grinder') || catName.includes('mixer') || catName.includes('grinder')) {
+      return [
+        "Powerful High-Speed Motor",
+        "Stainless Steel Heavy Jars",
+        "Leak-Proof Secure Lids",
+        "Ergonomic Easy-Grip Handles",
+        "Vibration-Free Suction Feet"
+      ];
+    }
+    
+    if (lowerName.includes('cooker') || catName.includes('cooker')) {
+      return [
+        "Premium Food Grade Metal",
+        "Double Safety Valve System",
+        "Heavy Induction & Gas Base",
+        "Comfortable Cool-Touch Grips",
+        "Fast & Efficient Cooking"
+      ];
+    }
+    
+    return [
+      "Premium Build Quality",
+      "Ergonomic Design",
+      "Easy to Clean",
+      "Modern Aesthetics",
+      "1 Year Warranty"
+    ];
+  };
   
   // Swipe Handlers (Supports both Touch swipe and Mouse drag swipe!)
   const swipeStartX = React.useRef<number | null>(null);
@@ -960,15 +1061,42 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className="p-4 bg-white">
                <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Highlights</h3>
                <ul className="space-y-2 mb-4">
-                  {["Premium Build Quality", "Ergonomic Design", "Easy to Clean", "Energy Efficient", "1 Year Warranty"].map((item, i) => (
+                  {getDynamicHighlights().map((item, i) => (
                     <li key={i} className="flex items-center gap-3 text-[14px] text-slate-700">
-                       <div className="h-1.5 w-1.5 rounded-full bg-slate-400" />
+                       <div className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0" />
                        {item}
                     </li>
                   ))}
                </ul>
-               <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Description</h3>
-               <p className="text-[13px] text-slate-700 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+               
+               {(() => {
+                 const { text: descriptionText, specs: parsedSpecs } = parseDescription(product.description || '');
+                 const cleanFullDesc = (product.description || '').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+                 return (
+                   <>
+                     <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Description</h3>
+                     <p className="text-[13px] text-slate-700 leading-relaxed" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                       {cleanFullDesc}
+                     </p>
+                     
+                     {parsedSpecs.length > 0 && (
+                       <div className="mt-6">
+                         <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Specifications</h3>
+                         <div className="border border-slate-100 rounded-xl overflow-hidden bg-slate-50/20">
+                           <div className="divide-y divide-slate-100">
+                             {parsedSpecs.map((spec, idx) => (
+                               <div key={idx} className="grid grid-cols-3 gap-2 px-4 py-2.5 text-[13px] bg-white">
+                                 <div className="text-slate-400 font-bold uppercase tracking-wider text-[10px] col-span-1 flex items-center">{spec.key}</div>
+                                 <div className="text-slate-800 font-semibold col-span-2">{spec.value}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                       </div>
+                     )}
+                   </>
+                 );
+               })()}
             </div>
 
             {/* Gap in mobile view */}

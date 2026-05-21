@@ -137,12 +137,9 @@ export default function OrdersPage() {
                 } : null
               };
             })
-            // Exclude pending/incomplete checkouts that have not had UTR or Direct Paid Confirmation submitted
+            // Exclude draft/incomplete checkouts that do not have a linked address/customer profile
             .filter((order: DbOrder) => {
-              if (order.status === 'pending' && (!order.payment || order.payment.status === 'pending')) {
-                return false;
-              }
-              return true;
+              return !!order.addresses;
             });
 
           setOrders(formatted);

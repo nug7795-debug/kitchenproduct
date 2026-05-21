@@ -215,6 +215,248 @@ const ProductOfferBox = () => {
   );
 };
 
+interface MockReview {
+  id: string;
+  rating: number;
+  title: string;
+  comment: string;
+  reviewer_name: string;
+  location: string;
+  likes: number;
+  dislikes: number;
+  image_url: string | null;
+  created_at: string;
+}
+
+const getMockReviews = (productName: string, totalReviews: number): MockReview[] => {
+  const lower = (productName || '').toLowerCase();
+  
+  let type: 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
+  let defaultImageUrl = 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=300';
+  
+  if (lower.includes('luggage') || lower.includes('trolley') || lower.includes('bag')) {
+    type = 'luggage';
+    defaultImageUrl = 'https://images.unsplash.com/photo-1565026057447-bc90a3dca487?auto=format&fit=crop&q=80&w=300';
+  } else if (lower.includes('stove') || lower.includes('burner') || lower.includes('hob')) {
+    type = 'stove';
+    defaultImageUrl = 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&q=80&w=300';
+  } else if (lower.includes('mixer') || lower.includes('grinder') || lower.includes('blade')) {
+    type = 'mixer';
+    defaultImageUrl = 'https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&q=80&w=300';
+  } else if (lower.includes('cooker') || lower.includes('aluminium')) {
+    type = 'cooker';
+    defaultImageUrl = 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&q=80&w=300';
+  }
+
+  // Simple LCG pseudo-random generator seeded by a string
+  const createRandom = (seedStr: string) => {
+    let h = 0;
+    for (let i = 0; i < seedStr.length; i++) {
+      h = (Math.imul(31, h) + seedStr.charCodeAt(i)) | 0;
+    }
+    return function() {
+      h = Math.imul(1103515245, h) + 12345;
+      h = h & 0x7fffffff;
+      return h / 0x80000000;
+    };
+  };
+
+  const INDIAN_NAMES = [
+    'Ansarul', 'Soriful', 'Priya Sharma', 'Amit Verma', 'Sneha Reddy', 
+    'Vikram Singh', 'Rohan Sen', 'Meera Nair', 'Kunal Kapoor', 'Aditi Goel', 
+    'Divya Patel', 'Sanjay Dutt', 'Rajesh Kumar', 'Suresh Raina', 'Anita Desai', 
+    'Deepak Sharma', 'Pooja Hegde', 'Alok Pandey', 'Sunita Rao', 'Kavita Devi',
+    'Arvind Swamy', 'Rahul Dravid', 'Sachin T.', 'Neha Kakkar', 'Karan Johar',
+    'Rohit Sharma', 'Virat Kohli', 'MS Dhoni', 'Shikhar D.', 'Hardik P.',
+    'Jasprit B.', 'KL Rahul', 'Rishabh P.', 'Ravindra J.', 'Shreyas I.',
+    'Yuzvendra C.', 'Bhuvneshwar K.', 'Mohammed S.', 'Umesh Y.', 'Ishant S.'
+  ];
+
+  const CITIES = [
+    'Kolkata', 'Mumbai', 'Bangalore', 'New Delhi', 'Hyderabad', 
+    'Jaipur', 'Pune', 'Chennai', 'Chandigarh', 'Lucknow', 
+    'Ahmedabad', 'Patna', 'Bhopal', 'Indore', 'Kochi', 
+    'Coimbatore', 'Nagpur', 'Surat', 'Vadodara', 'Guwahati',
+    'Ranchi', 'Bhubaneswar', 'Dehradun', 'Shimla', 'Jammu',
+    'Srinagar', 'Amritsar', 'Jalandhar', 'Ludhiana', 'Kanpur'
+  ];
+
+  const TITLES_5 = [
+    'Simply awesome', 'Mind-blowing purchase', 'Terrific purchase', 'Highly recommended', 
+    'Delightful', 'Just wow', 'Fabulous!', 'Must buy!', 'Classy product', 'Excellent', 'Superb'
+  ];
+
+  const TITLES_4 = [
+    'Very Good', 'Good choice', 'Value-for-money', 'Perfect purchase!', 'Nice product', 
+    'Great product', 'Pretty good', 'Decent purchase', 'Satisfied customer', 'Worth the money'
+  ];
+
+  const CATEGORY_COMMENTS = {
+    luggage: [
+      "Excellent luggage bags. The build quality is very good and the wheels are very smooth.",
+      "Great luggage bags. Very lightweight but extremely strong. Used it for my travel and it was durable.",
+      "Loved the color and the dual spinner wheels are very silent and smooth.",
+      "Good trolley bags. The lock works fine. Size is perfect for family trips.",
+      "Flipkart assured delivery was very quick. Nice premium compartments.",
+      "Got it on sale. Absolute steal at this price. Durable material.",
+      "Decent quality trolley. The handles are sturdy and pull smoothly.",
+      "Super light weight and look very stylish. Got many compliments!",
+      "Excellent wheel alignment. Doesn't tip over even when heavily packed.",
+      "Beautiful finish and extremely premium look.",
+      "Stitching and material is super strong. Locks are highly secure.",
+      "Nice compact bags. Perfect for cabin and check-in luggage needs.",
+      "Very sturdy and lightweight bags. Traveled twice and no scratches.",
+      "Outstanding quality trolley set. The color matches the picture exactly. Highly satisfied.",
+      "Strong zippers and smooth pull rod. Very comfortable during heavy travel."
+    ],
+    stove: [
+      "Excellent gas stove. The brass burners are of high quality and flame is very even.",
+      "The body is premium toughened glass finish. Very easy to clean and sturdy knobs.",
+      "Excellent value for money. Auto ignition works flawlessly. Flame intensity is excellent.",
+      "Stove is compact and fits perfectly in small kitchens. Burners are quite far apart.",
+      "Beautiful stove. Double packing and fast delivery by Flipkart.",
+      "Extremely elegant and looks very premium in our modular kitchen.",
+      "Excellent build quality, glass is thick and strong. Stand is highly stable.",
+      "Saves a lot of gas. High thermal efficiency and knobs operate very smoothly.",
+      "Outstanding performance. Multiple burners allow cooking multiple items simultaneously.",
+      "Spill-proof design is a lifesaver. Extremely easy to clean milk spills or oil stains.",
+      "Very sturdy stove. Brass burners don't rust or block. Highly durable.",
+      "Flipkart delivered this in less than 24 hours. Excellent stove.",
+      "The flames are clean and blue. No soot formation on pans. Excellent purchase.",
+      "Modern looks and very sturdy pan supports. Stays in place during cooking.",
+      "Highly efficient and elegant. Glass top makes cleanup effortless."
+    ],
+    mixer: [
+      "Excellent mixer. The motor is very powerful and grinds dry spices in seconds.",
+      "Sturdy stainless steel jars and very low noise operation. High speed grinding.",
+      "Amazing performance. Jars are completely leak-proof and have secure locks.",
+      "Grinds spices really well. The suction feet keep the mixer stable during operation.",
+      "Grinds wet and dry items perfectly. The chutney jar is excellent.",
+      "Extremely durable. The motor does not heat up even during long usage.",
+      "Grinds hard items like turmeric easily. Elegant looking mixer.",
+      "Good value mixer. Stainless steel blades are of high quality and do not rust.",
+      "Very easy to wash and operate. Speed controls are clicky and robust.",
+      "Motor sound is smooth and powerful. Flipkart packing was strong.",
+      "Excellent chutney jar. High speed whipping and grinding is effortless.",
+      "Jars have ergonomic handles which makes pouring very easy. Premium design.",
+      "Very compact and powerful mixer grinder. Jars are highly durable.",
+      "Makes smooth purees and fine powders effortlessly. Best brand choice.",
+      "Beautiful metallic body and very secure jar locking mechanism."
+    ],
+    cooker: [
+      "Excellent cooker combo. The aluminium is thick and safety valve is high quality.",
+      "Great addition to my kitchen. Very durable and efficient pressure cooker.",
+      "Gaskets are high quality. Fits perfectly on both gas and induction cooktops.",
+      "Very convenient sizes (2L, 3L, 5L) for daily household usage.",
+      "Superb quality pressure cooker. Cooks rice and dal in minutes.",
+      "Very sturdy metal and strong safety valves. Hard anodized finish.",
+      "Excellent brand value and sturdy build. Heavy base prevents food from burning.",
+      "Unbeatable price for a three-piece combo. Flipkart delivery was exceptionally fast.",
+      "Whistle mechanism works very smoothly. Saves a lot of cooking time.",
+      "Best cooker in this range. Handles are robust and firmly screwed.",
+      "Looks beautiful on our kitchen shelf. Very easy to clean.",
+      "Decent cookers. Double safety pressure lock works fine.",
+      "Extremely heavy base ensures food cooks without sticking. Perfect combo.",
+      "Fast cooking and very safe pressure valves. Clean design and easy handling.",
+      "Perfect sizes for a small to medium family. Ideal for induction as well."
+    ],
+    general: [
+      "Excellent product. The build quality is very good and the delivery was fast. Highly recommended.",
+      "Great addition to my kitchen. Very durable and efficient.",
+      "Loved the color and the quality. Worth every rupee.",
+      "Good purchase. Highly recommended for daily use.",
+      "Flipkart assured delivery was very quick. The packaging was neat.",
+      "Got it on sale. Absolute steal at this price.",
+      "Decent quality product. Highly recommended for any household.",
+      "Super light weight and look very stylish. Extremely happy!",
+      "Doesn't tip over even when heavily packed. Very stable.",
+      "Beautiful finish and extremely premium look.",
+      "Stitching and material is super strong. Very satisfied.",
+      "Nice compact product. Strongly built.",
+      "Absolutely love this. Very premium feel and performs excellently.",
+      "One of the best products in this range. Safe to use and easy to clean.",
+      "High thermal efficiency and handles operate smoothly.",
+      "My family loved it. Super fast delivery and great value."
+    ]
+  };
+
+  const comments = CATEGORY_COMMENTS[type];
+  const reviewsCount = Math.max(totalReviews || 12, 12);
+  const list: MockReview[] = [];
+
+  for (let i = 0; i < reviewsCount; i++) {
+    const seedStr = `${productName}-${i}`;
+    const rng = createRandom(seedStr);
+    
+    const nameIdx = Math.floor(rng() * INDIAN_NAMES.length);
+    const reviewerName = INDIAN_NAMES[nameIdx];
+    
+    const cityIdx = Math.floor(rng() * CITIES.length);
+    const location = `Certified Buyer, ${CITIES[cityIdx]}`;
+    
+    const rating = rng() > 0.3 ? 5 : 4;
+    const titleList = rating === 5 ? TITLES_5 : TITLES_4;
+    const titleIdx = Math.floor(rng() * titleList.length);
+    const title = titleList[titleIdx];
+    
+    const commentIdx = Math.floor(rng() * comments.length);
+    const comment = comments[commentIdx];
+    
+    const likes = Math.round(rng() * 40 + 2);
+    const dislikes = Math.round(rng() * 4);
+    
+    const daysAgo = Math.floor(rng() * 60 + 1);
+    const created_at = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000).toISOString();
+    
+    const hasImage = i === 0 || (i % 7 === 3 && rng() > 0.5);
+    const image_url = hasImage ? defaultImageUrl : null;
+
+    list.push({
+      id: `mock-review-${i}`,
+      rating,
+      title,
+      comment,
+      reviewer_name: reviewerName,
+      location,
+      likes,
+      dislikes,
+      image_url,
+      created_at
+    });
+  }
+
+  if (list.length > 0) {
+    list[0].reviewer_name = 'Ansarul';
+    list[0].location = 'Certified Buyer, Kolkata';
+    list[0].rating = 5;
+    list[0].title = 'Simply awesome';
+    list[0].comment = type === 'luggage' 
+      ? 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.'
+      : type === 'stove'
+      ? 'Excellent gas stove. The brass burners are of high quality and flame is very even. Highly recommended.'
+      : type === 'mixer'
+      ? 'Excellent mixer grinds dry spices in seconds. Jars are heavy duty. Highly recommended.'
+      : 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.';
+    list[0].image_url = defaultImageUrl;
+  }
+  if (list.length > 1) {
+    list[1].reviewer_name = 'Soriful';
+    list[1].location = 'Certified Buyer, Mumbai';
+    list[1].rating = 4;
+    list[1].title = 'Very Good';
+    list[1].comment = type === 'luggage'
+      ? 'Great luggage bags. Very lightweight but extremely strong. Used it for my travel to Mumbai.'
+      : type === 'stove'
+      ? 'Great gas stove with sleek glass top. Heat distribution is uniform and knobs are sturdy.'
+      : type === 'mixer'
+      ? 'Great addition to my kitchen. Very durable and efficient speed controller.'
+      : 'Great addition to my kitchen. Very durable and efficient.';
+    list[1].image_url = null;
+  }
+
+  return list;
+};
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = React.use(params);
@@ -714,33 +956,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* Gap in mobile view */}
             <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
 
-            {/* Services (Disabled to prevent duplicate trust section content) */}
-            {/*
-            <div className="p-4 bg-white flex items-center justify-between">
-               <div className="flex flex-col items-center gap-1">
-                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
-                   <ShieldCheck className="h-5 w-5 text-[#2874f0]" />
-                 </div>
-                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">1 Year<br/>Warranty</span>
-               </div>
-               <div className="flex flex-col items-center gap-1">
-                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
-                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2874f0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                 </div>
-                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">7 Days<br/>Replacement</span>
-               </div>
-               <div className="flex flex-col items-center gap-1">
-                 <div className="h-10 w-10 rounded-full border border-slate-200 flex items-center justify-center">
-                   <span className="font-bold text-[#2874f0] text-sm">₹</span>
-                 </div>
-                 <span className="text-[10px] text-slate-700 text-center w-16 leading-tight">Cash on<br/>Delivery</span>
-               </div>
-            </div>
-            */}
-
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-
             {/* Description / Highlights */}
             <div className="p-4 bg-white">
                <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Highlights</h3>
@@ -809,89 +1024,67 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                {/* Sample/Dynamic Reviews List (Short version for details page) */}
                <div className="space-y-4">
-                 {(reviewsList.length > 0 ? reviewsList : [
-                   {
-                     id: 'default-1',
-                     rating: 5,
-                     title: 'Simply awesome',
-                     comment: 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.',
-                     reviewer_name: 'Ansarul',
-                     location: 'Certified Buyer, Kolkata',
-                     likes: 24,
-                     dislikes: 2,
-                     image_url: 'https://images.unsplash.com/photo-1584900129033-b2da7863fb72?q=80&w=200',
-                     created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-                   },
-                   {
-                     id: 'default-2',
-                     rating: 4,
-                     title: 'Very Good',
-                     comment: 'Great addition to my kitchen. Very durable and efficient.',
-                     reviewer_name: 'Soriful',
-                     location: 'Certified Buyer, Mumbai',
-                     likes: 12,
-                     dislikes: 1,
-                     image_url: null,
-                     created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-                   }
-                 ]).slice(0, 3).map((review) => (
-                   <div key={review.id} className="border-t border-slate-100 pt-4 pb-2">
-                     <div className="flex items-center gap-2 mb-1.5">
-                       <div className={cn(
-                         "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
-                         review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
-                       )}>
-                         {review.rating} <Star className="h-2 w-2 fill-current" />
+                 {(() => {
+                   const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                   return combined.slice(0, 3).map((review) => (
+                     <div key={review.id} className="border-t border-slate-100 pt-4 pb-2">
+                       <div className="flex items-center gap-2 mb-1.5">
+                         <div className={cn(
+                           "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
+                           review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
+                         )}>
+                           {review.rating} <Star className="h-2 w-2 fill-current" />
+                         </div>
+                         <span className="text-[13px] font-bold text-slate-800">{review.title}</span>
                        </div>
-                       <span className="text-[13px] font-bold text-slate-800">{review.title}</span>
-                     </div>
-                     <p className="text-[13px] text-slate-700 mb-2 leading-relaxed">{review.comment}</p>
-                     
-                     {review.image_url && (
-                       <div className="flex items-center gap-2 mb-3">
-                          <div className="h-16 w-16 relative rounded overflow-hidden border border-slate-200 shrink-0">
-                            <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
-                          </div>
-                       </div>
-                     )}
+                       <p className="text-[13px] text-slate-700 mb-2 leading-relaxed">{review.comment}</p>
+                       
+                       {review.image_url && (
+                         <div className="flex items-center gap-2 mb-3">
+                            <div className="h-16 w-16 relative rounded overflow-hidden border border-slate-200 shrink-0">
+                              <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
+                            </div>
+                         </div>
+                       )}
 
-                     <div className="flex items-center justify-between">
-                       <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
-                         <span className="font-bold text-slate-700">{review.reviewer_name}</span>
-                         <span className="flex items-center gap-1 text-slate-400">
-                           <ShieldCheck className="h-3 w-3 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
-                         </span>
-                         <span className="text-slate-300">•</span>
-                         <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
-                       </div>
-                       <div className="flex items-center gap-3">
-                         <button 
-                           onClick={() => handleLike(review.id, true)}
-                           className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
-                         >
-                           <ThumbsUp className="h-3 w-3" /> {review.likes || 0}
-                         </button>
-                         <button 
-                           onClick={() => handleLike(review.id, false)}
-                           className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
-                         >
-                           <ThumbsDown className="h-3 w-3" /> {review.dislikes || 0}
-                         </button>
+                       <div className="flex items-center justify-between">
+                         <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+                           <span className="font-bold text-slate-700">{review.reviewer_name}</span>
+                           <span className="flex items-center gap-1 text-slate-400">
+                             <ShieldCheck className="h-3 w-3 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
+                           </span>
+                           <span className="text-slate-300">•</span>
+                           <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
+                         </div>
+                         <div className="flex items-center gap-3">
+                           <button 
+                             onClick={() => handleLike(review.id, true)}
+                             className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
+                           >
+                             <ThumbsUp className="h-3 w-3" /> {review.likes || 0}
+                           </button>
+                           <button 
+                             onClick={() => handleLike(review.id, false)}
+                             className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
+                           >
+                             <ThumbsDown className="h-3 w-3" /> {review.dislikes || 0}
+                           </button>
+                         </div>
                        </div>
                      </div>
-                   </div>
-                 ))}
+                   ));
+                 })()}
                </div>
                
                 <button 
-                  onClick={() => {
-                    setVisibleCount(15);
-                    setShowAllReviewsModal(true);
-                  }}
-                  className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
-                >
-                  All {(reviewsList.length > 0 ? reviewsList : [1, 2]).length} reviews
-                  <ChevronRight className="h-4 w-4" />
+                   onClick={() => {
+                     setVisibleCount(15);
+                     setShowAllReviewsModal(true);
+                   }}
+                   className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
+                 >
+                   All {(product.total_reviews || 2).toLocaleString()} reviews
+                   <ChevronRight className="h-4 w-4" />
                 </button>
             </div>
           </div>
@@ -1056,7 +1249,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
               <div>
                 <h3 className="text-xl font-black text-slate-900 tracking-tight">Verified Customer Reviews</h3>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Showing all approved user feedback ({(reviewsList.length > 0 ? reviewsList : [1, 2]).length})</p>
+                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Showing all approved user feedback ({(product.total_reviews || 2).toLocaleString()})</p>
               </div>
               <button 
                 onClick={() => setShowAllReviewsModal(false)}
@@ -1068,90 +1261,74 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
             {/* List Body */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {(reviewsList.length > 0 ? reviewsList : [
-                {
-                  id: 'default-1',
-                  rating: 5,
-                  title: 'Simply awesome',
-                  comment: 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.',
-                  reviewer_name: 'Ansarul',
-                  location: 'Certified Buyer, Kolkata',
-                  likes: 24,
-                  dislikes: 2,
-                  image_url: 'https://images.unsplash.com/photo-1584900129033-b2da7863fb72?q=80&w=200',
-                  created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-                },
-                {
-                  id: 'default-2',
-                  rating: 4,
-                  title: 'Very Good',
-                  comment: 'Great addition to my kitchen. Very durable and efficient.',
-                  reviewer_name: 'Soriful',
-                  location: 'Certified Buyer, Mumbai',
-                  likes: 12,
-                  dislikes: 1,
-                  image_url: null,
-                  created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-                }
-              ]).slice(0, visibleCount).map((review) => (
-                <div key={review.id} className="border-b border-slate-100 pb-6 last:border-none last:pb-0 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <div className={cn(
-                      "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
-                      review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
-                    )}>
-                      {review.rating} <Star className="h-2 w-2 fill-current" />
-                    </div>
-                    <span className="text-sm font-black text-slate-800">{review.title}</span>
-                  </div>
-
-                  <p className="text-sm text-slate-600 leading-relaxed font-medium">{review.comment}</p>
-
-                  {review.image_url && (
+              {(() => {
+                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                return combined.slice(0, visibleCount).map((review) => (
+                  <div key={review.id} className="border-b border-slate-100 pb-6 last:border-none last:pb-0 space-y-3">
                     <div className="flex items-center gap-2">
-                      <a href={review.image_url} target="_blank" rel="noreferrer" className="h-24 w-24 relative rounded-xl border border-slate-200 overflow-hidden shrink-0 block hover:opacity-90 transition-opacity">
-                        <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
-                      </a>
+                      <div className={cn(
+                        "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
+                        review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
+                      )}>
+                        {review.rating} <Star className="h-2 w-2 fill-current" />
+                      </div>
+                      <span className="text-sm font-black text-slate-800">{review.title}</span>
                     </div>
-                  )}
 
-                  <div className="flex items-center justify-between text-xs pt-1">
-                    <div className="flex items-center gap-2 text-slate-400 font-semibold">
-                      <span className="font-black text-slate-700">{review.reviewer_name}</span>
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
-                      </span>
-                      <span>•</span>
-                      <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <button 
-                        onClick={() => handleLike(review.id, true)}
-                        className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
-                      >
-                        <ThumbsUp className="h-3.5 w-3.5" /> {review.likes || 0}
-                      </button>
-                      <button 
-                        onClick={() => handleLike(review.id, false)}
-                        className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
-                      >
-                        <ThumbsDown className="h-3.5 w-3.5" /> {review.dislikes || 0}
-                      </button>
+                    <p className="text-sm text-slate-600 leading-relaxed font-medium">{review.comment}</p>
+
+                    {review.image_url && (
+                      <div className="flex items-center gap-2">
+                        <a href={review.image_url} target="_blank" rel="noreferrer" className="h-24 w-24 relative rounded-xl border border-slate-200 overflow-hidden shrink-0 block hover:opacity-90 transition-opacity">
+                          <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
+                        </a>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between text-xs pt-1">
+                      <div className="flex items-center gap-2 text-slate-400 font-semibold">
+                        <span className="font-black text-slate-700">{review.reviewer_name}</span>
+                        <span className="flex items-center gap-1 text-slate-400">
+                          <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
+                        </span>
+                        <span>•</span>
+                        <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <button 
+                          onClick={() => handleLike(review.id, true)}
+                          className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
+                        >
+                          <ThumbsUp className="h-3.5 w-3.5" /> {review.likes || 0}
+                        </button>
+                        <button 
+                          onClick={() => handleLike(review.id, false)}
+                          className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
+                        >
+                          <ThumbsDown className="h-3.5 w-3.5" /> {review.dislikes || 0}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ));
+              })()}
 
-              {visibleCount < (reviewsList.length > 0 ? reviewsList.length : 2) && (
-                <div className="flex justify-center pt-2 pb-6">
-                  <button
-                    onClick={() => setVisibleCount(prev => prev + 15)}
-                    className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 font-black text-xs text-[#2874f0] uppercase tracking-wider shadow-sm transition-all duration-200 cursor-pointer active:scale-95"
-                  >
-                    Load More Reviews
-                  </button>
-                </div>
-              )}
+              {(() => {
+                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                if (visibleCount < combined.length) {
+                  return (
+                    <div className="flex justify-center pt-2 pb-6">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + 15)}
+                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 font-black text-xs text-[#2874f0] uppercase tracking-wider shadow-sm transition-all duration-200 cursor-pointer active:scale-95"
+                      >
+                        Load More Reviews
+                      </button>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </div>
 
             {/* Footer */}

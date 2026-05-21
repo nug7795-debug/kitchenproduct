@@ -5,16 +5,13 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
-    const { amount, productinfo, firstname, email, phone } = await request.json();
+    const { amount, productinfo, firstname, email, phone, txnid: reqTxnId, orderId } = await request.json();
 
     if (!amount) {
       return NextResponse.json({ error: 'Amount is required' }, { status: 400 });
     }
 
-    // 1. Generate a unique transaction ID matching the reference style: TXN + Timestamp + 4 random digits
-    const txnid = `TXN${Date.now()}${Math.floor(1000 + Math.random() * 9000)}`;
-
-    // 2. Fetch payment settings dynamically from settings table
+    // 1. Fetch payment settings dynamically from settings table
     const { data: settingsRecord } = await supabaseAdmin
       .from('settings')
       .select('*')
@@ -26,44 +23,72 @@ export async function POST(request: Request) {
     const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Sale Hub';
     const mccCode = paymentSettings.mccCode || '5722';
 
-    // 3. Create a pending payment record in the database for tracking
-    // We can also create a placeholder order if none exists to ensure database coherence
-    // Let's create an order first so that the foreign key constraint is satisfied!
-    
-    // Check if we can find a matching order or create a new one
-    // Let's create a pending order for tracking
-    const { data: newOrder, error: orderErr } = await supabaseAdmin
-      .from('orders')
-      .insert([{
-        total_amount: Number(amount),
-        discount_amount: 0,
-        shipping_charge: 0,
-        status: 'pending'
-      }])
-      .select()
-      .single();
+    // 2. Determine order and transaction ID to use
+    let orderIdToUse = orderId;
+    let txnid = reqTxnId;
 
-    if (orderErr) throw orderErr;
+    if (orderIdToUse) {
+      const { data: existingOrder } = await supabaseAdmin
+        .from('orders')
+        .select('id')
+        .eq('id', orderIdToUse)
+        .maybeSingle();
+      
+      if (!existingOrder) {
+        orderIdToUse = null;
+      }
+    }
 
-    const { error: paymentError } = await supabaseAdmin
+    if (!orderIdToUse) {
+      // Create a pending order for tracking
+      const { data: newOrder, error: orderErr } = await supabaseAdmin
+        .from('orders')
+        .insert([{
+          total_amount: Number(amount),
+          discount_amount: 0,
+          shipping_charge: 0,
+          status: 'pending'
+        }])
+        .select()
+        .single();
+
+      if (orderErr) throw orderErr;
+      orderIdToUse = newOrder.id;
+    }
+
+    if (!txnid) {
+      // Generate a unique transaction ID matching the reference style: TXN + Timestamp + 4 random digits
+      txnid = `TXN${Date.now()}${Math.floor(1000 + Math.random() * 9000)}`;
+    }
+
+    // Check if a payment with this txnid already exists
+    const { data: existingPayment } = await supabaseAdmin
       .from('payments')
-      .insert([
-        {
-          order_id: newOrder.id,
-          transaction_id: txnid,
-          amount: Number(amount),
-          status: 'pending',
-          method: 'UPI',
-          raw_response: {
-            customer_name: firstname,
-            customer_email: email,
-            customer_phone: phone,
-            product_info: productinfo
-          }
-        }
-      ]);
+      .select('id')
+      .eq('transaction_id', txnid)
+      .maybeSingle();
 
-    if (paymentError) throw paymentError;
+    if (!existingPayment) {
+      const { error: paymentError } = await supabaseAdmin
+        .from('payments')
+        .insert([
+          {
+            order_id: orderIdToUse,
+            transaction_id: txnid,
+            amount: Number(amount),
+            status: 'pending',
+            method: 'UPI',
+            raw_response: {
+              customer_name: firstname,
+              customer_email: email,
+              customer_phone: phone,
+              product_info: productinfo
+            }
+          }
+        ]);
+
+      if (paymentError) throw paymentError;
+    }
 
     // 4. Generate UPI URLs
     // Universal upi://pay link

@@ -222,6 +222,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   
   const [countdown, setCountdown] = useState(300);
   const pollingRef = useRef(false);
+  const initiatingRef = useRef(false);
 
   // Sync state with dynamic local storage on mount
   useEffect(() => {
@@ -249,11 +250,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
   // Initiate Payment Intent
   useEffect(() => {
-    if (isLoaded || errorMessage || !selling || selling <= 0) return;
+    if (isLoaded || errorMessage || !selling || selling <= 0 || initiatingRef.current) return;
 
     // Check if query parameters already carry txnid to avoid creating multiple draft orders
     const queryTxnId = searchParams.get('txnid');
     if (queryTxnId) {
+      initiatingRef.current = true;
       setTxnid(queryTxnId);
       // Fetch intents using existing txnid or configure dynamically
       const setupExistingIntents = async () => {
@@ -266,7 +268,9 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               productinfo: cartData.name || "Order",
               firstname: user.firstname || "",
               email: user.email || "",
-              phone: user.phone || ""
+              phone: user.phone || "",
+              txnid: queryTxnId,
+              orderId: searchParams.get('orderId')
             })
           });
           const t = await res.json();
@@ -278,9 +282,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             setIsLoaded(true);
           } else {
             setErrorMessage(t.error || "Could not initiate payment details");
+            initiatingRef.current = false;
           }
         } catch (e: any) {
           setErrorMessage(e.message || "Network connection error");
+          initiatingRef.current = false;
         }
       };
       setupExistingIntents();
@@ -288,6 +294,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     }
 
     const initiateTransaction = async () => {
+      initiatingRef.current = true;
       try {
         const res = await fetch("/api/initiate-payment", {
           method: "POST",
@@ -303,6 +310,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         const t = await res.json();
         if (!t.success) {
           setErrorMessage(t.error || "Could not initiate payment");
+          initiatingRef.current = false;
           return;
         }
         setTxnid(t.txnid);
@@ -313,6 +321,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         setIsLoaded(true);
       } catch (err: any) {
         setErrorMessage(err.message || "Network error");
+        initiatingRef.current = false;
       }
     };
     initiateTransaction();

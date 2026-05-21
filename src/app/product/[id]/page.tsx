@@ -968,7 +968,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   ))}
                </ul>
                <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Description</h3>
-               <p className="text-[13px] text-slate-700 leading-relaxed">{product.description}</p>
+               <p className="text-[13px] text-slate-700 leading-relaxed whitespace-pre-wrap">{product.description}</p>
             </div>
 
             {/* Gap in mobile view */}

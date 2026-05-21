@@ -634,10 +634,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           {/* Product Info Section */}
           <div className="bg-white">
             <div className="p-4 space-y-1">
-              {/* Brand Name */}
-              <div className="text-[14px] font-black text-slate-900 tracking-wide uppercase">
-                {product.brand || (product.name ? product.name.split(' ')[0] : 'Kitchen Pro')}
-              </div>
               {/* Product Title with ...more */}
               <h1 className="text-[13px] font-medium text-slate-500 md:text-[15px] leading-snug">
                 {showFullTitle || product.name.length <= 60 ? (

@@ -114,8 +114,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   // Split title into Brand and Description
   const words = name.split(' ');
-  const brandName = words[0] || 'Premium';
-  const description = words.slice(1).join(' ') || 'High Quality Product';
+  const description = words.slice(1).join(' ') || name;
 
   const [isWishlisted, setIsWishlisted] = useState(false);
 
@@ -170,17 +169,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Product Details Area */}
       <div className="px-2.5 pb-2.5 pt-2 sm:p-3 flex flex-col flex-1">
-        {/* Sponsored Label at the very top */}
-        <span className="block text-[9px] font-bold text-slate-400 select-none leading-none mb-1">
-          Sponsored
-        </span>
-
-        {/* Brand and Description (Clean Flipkart mobile split with guaranteed single-line truncation) */}
-        <div className="mb-1 leading-snug overflow-hidden">
-          <span className="block text-[12px] font-black text-slate-900 uppercase tracking-wide truncate">
-            {brandName}
-          </span>
-          <span className="block text-[12.5px] font-medium text-slate-500 truncate mt-0.5" title={description}>
+        {/* Brand/Description Title (Single-line truncation) */}
+        <div className="mb-1.5 leading-snug overflow-hidden">
+          <span className="block text-[12.5px] font-medium text-slate-800 truncate" title={description}>
             {description}
           </span>
         </div>

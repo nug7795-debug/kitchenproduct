@@ -88,6 +88,8 @@ const ISICertifiedBadge = () => (
 );
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  if (!product) return null;
+
   const {
     id,
     name,
@@ -98,13 +100,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   } = product;
 
   // Handle both database object and flat props
-  const displayPrice = price || product.price;
-  const displaySalePrice = sale_price || product.salePrice;
+  const displayPrice = price || product.price || 0;
+  const displaySalePrice = sale_price || product.salePrice || displayPrice;
   const categoryName = categories?.name || product.category || 'Kitchen';
   const imageUrl = product_images?.[0]?.image_url || product.imageUrl || 'https://via.placeholder.com/300';
   
-  const discount = displaySalePrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
-  const bankOfferPrice = Math.round((displaySalePrice || displayPrice) * 0.95);
+  const discount = (displaySalePrice && displayPrice && displayPrice > displaySalePrice) ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
+  const bankOfferPrice = Math.round((displaySalePrice || displayPrice || 0) * 0.95);
 
   // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
   const numericId = typeof id === 'number' ? id : (id?.charCodeAt(0) || 0);
@@ -113,8 +115,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const totalRatingsStr = totalRatings >= 1000 ? `${(totalRatings / 1000).toFixed(1)}k` : `${totalRatings}`;
 
   // Split title into Brand and Description
-  const words = name.split(' ');
-  const description = words.slice(1).join(' ') || name;
+  const words = (name || '').split(' ');
+  const description = words.slice(1).join(' ') || name || 'Kitchen Product';
 
   const [isWishlisted, setIsWishlisted] = useState(false);
 

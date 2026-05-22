@@ -109,14 +109,14 @@ const ProductOfferBox = () => {
   const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className="border-2 border-[#2874f0]/20 rounded-2xl bg-white my-6 overflow-hidden shadow-[0_4px_16px_rgba(40,116,240,0.06)] text-slate-900 select-none">
+    <div className="w-auto -mx-4 border-t border-b border-slate-200 bg-white my-4 overflow-hidden text-slate-900 select-none">
       {/* 1. Countdown Row */}
       <div className="py-3 text-center text-[17px] font-extrabold border-b border-slate-100 bg-[#fbfbfb] tracking-wide text-slate-800">
         📢 Offer ends in <span className="text-[#f15a24] font-black ml-1 text-[18px] tracking-wider bg-[#f15a24]/5 px-2 py-0.5 rounded">{timeStr}</span>
       </div>
 
       {/* 2. Flipkart Pay Later Promo Row */}
-      <div className="p-5 flex items-center justify-between border-b border-slate-100 relative min-h-[85px] gap-2">
+      <div className="p-4 flex items-center justify-between border-b border-slate-100 relative min-h-[85px] gap-2">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2 shrink-0">
           <svg width="34" height="28" viewBox="0 0 34 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">

@@ -202,19 +202,6 @@ export default function Home() {
         )}
       </section>
 
-      <section className="mt-2 bg-white p-3">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm">
-             <Image src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?q=80&w=2070" alt="Sponsor" fill className="object-cover" />
-             <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
-          </div>
-          <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-sm">
-             <Image src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070" alt="Sponsor" fill className="object-cover" />
-             <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
-          </div>
-        </div>
-      </section>
-
       {/* Bottom Padding for Nav */}
       <div className="h-24" />
     </div>

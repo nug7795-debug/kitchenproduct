@@ -7,19 +7,36 @@ import { supabase } from '../../../lib/supabase';
 import { cn } from '../../../lib/utils';
 
 export default function BannersPage() {
-  const [banners, setBanners] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [banners, setBanners] = React.useState<any[]>([
+    {
+      id: 'mock-b1',
+      title: 'Mega Kitchen Sale',
+      subtitle: 'Up to 50% off on premium appliances',
+      image_url: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070',
+      link: '/category/gas-stoves',
+      order_index: 0,
+      is_active: true
+    },
+    {
+      id: 'mock-b2',
+      title: 'Smart Kitchen Upgrades',
+      subtitle: 'Modern inductions & non-stick cooktops',
+      image_url: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=2070',
+      link: '/category/induction-cooktops',
+      order_index: 1,
+      is_active: true
+    }
+  ]);
+  const [loading, setLoading] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
 
   const fetchBanners = async () => {
-    setLoading(true);
     const { data, error } = await supabase
       .from('banners')
       .select('*')
       .order('order_index', { ascending: true });
     
     if (data) setBanners(data);
-    setLoading(false);
   };
 
   React.useEffect(() => {

@@ -7,19 +7,22 @@ import { cn } from '../../../lib/utils';
 import { supabase } from '../../../lib/supabase';
 
 export default function AdminCategoriesPage() {
-  const [categories, setCategories] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [categories, setCategories] = React.useState<any[]>([
+    { id: 'mock-1', name: 'Gas Stoves', slug: 'gas-stoves', is_active: true, image_url: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070' },
+    { id: 'mock-2', name: 'Induction Cooktops', slug: 'induction-cooktops', is_active: true, image_url: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=2070' },
+    { id: 'mock-3', name: 'Non-stick Cookware', slug: 'non-stick-cookware', is_active: true, image_url: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?q=80&w=2070' },
+    { id: 'mock-4', name: 'Pressure Cookers', slug: 'pressure-cookers', is_active: true, image_url: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?q=80&w=2070' }
+  ]);
+  const [loading, setLoading] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
 
   const fetchCategories = async () => {
-    setLoading(true);
     const { data, error } = await supabase
       .from('categories')
       .select('*')
       .order('name');
     
     if (data) setCategories(data);
-    setLoading(false);
   };
 
   React.useEffect(() => {

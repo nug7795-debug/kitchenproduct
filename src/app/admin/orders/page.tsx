@@ -55,8 +55,71 @@ const statusConfig = {
 };
 
 export default function OrdersPage() {
-  const [orders, setOrders] = React.useState<DbOrder[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [orders, setOrders] = React.useState<DbOrder[]>([
+    {
+      id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3d4f82',
+      created_at: new Date(Date.now() - 3600000 * 2).toISOString(), // 2 hours ago
+      status: 'paid',
+      total_amount: 169,
+      discount_amount: 0,
+      shipping_charge: 0,
+      addresses: {
+        full_name: 'Khalijk Home',
+        phone: '9876543210',
+        street_address: 'H, H, Mumbai, Goa',
+        city: 'Mumbai',
+        state: 'Goa',
+        postal_code: '400001'
+      },
+      order_items: [
+        {
+          id: 'item-1',
+          quantity: 1,
+          price: 169,
+          products: {
+            name: 'Crompton Hiflo Wave Plus 400 mm Wall Fan',
+            price: 3799,
+            sale_price: 169
+          }
+        }
+      ],
+      payment: {
+        transaction_id: 'TXN_KHALIJK_123',
+        status: 'success',
+        utr: '123456789012'
+      }
+    },
+    {
+      id: 'd9b73ad7-8fe4-4a2f-9872-466d7bd49202',
+      created_at: new Date(Date.now() - 3600000 * 5).toISOString(), // 5 hours ago
+      status: 'pending',
+      total_amount: 9999,
+      discount_amount: 500,
+      shipping_charge: 0,
+      addresses: {
+        full_name: 'Ansarul Admin',
+        phone: '9988776655',
+        street_address: 'Main St, Flat 12B',
+        city: 'Kolkata',
+        state: 'West Bengal',
+        postal_code: '700001'
+      },
+      order_items: [
+        {
+          id: 'item-2',
+          quantity: 1,
+          price: 9999,
+          products: {
+            name: 'Pro-Mixer Master 500W with Stainless Steel Blades',
+            price: 12498,
+            sale_price: 9999
+          }
+        }
+      ],
+      payment: null
+    }
+  ]);
+  const [loading, setLoading] = React.useState(false); // Set to false to support instant load
   const [searchQuery, setSearchQuery] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState<string>('all');
   const [refreshTrigger, setRefreshTrigger] = React.useState(0);

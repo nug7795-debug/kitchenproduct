@@ -7,8 +7,12 @@ import { cn } from '../../../lib/utils';
 import { supabase } from '../../../lib/supabase';
 
 export default function AdminCouponsPage() {
-  const [coupons, setCoupons] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [coupons, setCoupons] = React.useState<any[]>([
+    { id: 'mock-c1', code: 'WELCOME10', discount_type: 'percent', discount_value: 10, min_order_amount: 499, is_active: true },
+    { id: 'mock-c2', code: 'FLAT200', discount_type: 'flat', discount_value: 200, min_order_amount: 1999, is_active: true },
+    { id: 'mock-c3', code: 'FESTIVE15', discount_type: 'percent', discount_value: 15, min_order_amount: 999, is_active: false }
+  ]);
+  const [loading, setLoading] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -18,8 +22,8 @@ export default function AdminCouponsPage() {
   const [discountValue, setDiscountValue] = React.useState('');
   const [minOrderAmount, setMinOrderAmount] = React.useState('');
 
-  const fetchCoupons = async () => {
-    setLoading(true);
+  const fetchCoupons = async (showLoading = false) => {
+    if (showLoading) setLoading(true);
     const { data, error } = await supabase
       .from('coupons')
       .select('*')
@@ -30,7 +34,7 @@ export default function AdminCouponsPage() {
   };
 
   React.useEffect(() => {
-    fetchCoupons();
+    fetchCoupons(false);
   }, []);
 
   const handleCreateCoupon = async (e: React.FormEvent) => {
@@ -117,7 +121,7 @@ export default function AdminCouponsPage() {
           <p className="text-sm text-slate-500 font-bold uppercase tracking-wider">Create, manage and synchronize customer promo codes</p>
         </div>
         <button
-          onClick={fetchCoupons}
+          onClick={() => fetchCoupons(true)}
           className="self-start md:self-auto h-12 w-12 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors shadow-xs"
         >
           <RefreshCw className={cn("h-5 w-5", loading && "animate-spin")} />

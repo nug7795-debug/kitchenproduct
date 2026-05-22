@@ -5,11 +5,35 @@ import { supabase } from '../../../lib/supabase';
 import { Check, X, Star, Trash2 } from 'lucide-react';
 
 export default function AdminReviewsPage() {
-  const [reviews, setReviews] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [reviews, setReviews] = React.useState<any[]>([
+    {
+      id: 'mock-r1',
+      products: { name: 'Premium 3-Burner Gas Stove' },
+      reviewer_name: 'Rahul Sharma',
+      rating: 5,
+      comment: 'Superb quality and excellent design! Toughened glass looks very premium.',
+      is_approved: true
+    },
+    {
+      id: 'mock-r2',
+      products: { name: 'Heavy Duty Induction Cooktop' },
+      reviewer_name: 'Priya Patel',
+      rating: 4,
+      comment: 'Works perfectly fine. Burners work perfectly and flame control is really precise.',
+      is_approved: true
+    },
+    {
+      id: 'mock-r3',
+      products: { name: 'Non-stick Cookware Set' },
+      reviewer_name: 'Amit Verma',
+      rating: 3,
+      comment: 'Stove is okay, but the small burner size is a bit too small. Decent build.',
+      is_approved: false
+    }
+  ]);
+  const [loading, setLoading] = React.useState(false);
 
   const fetchReviews = async () => {
-    setLoading(true);
     const { data, error } = await supabase
       .from('reviews')
       .select(`
@@ -19,7 +43,6 @@ export default function AdminReviewsPage() {
       .order('created_at', { ascending: false });
 
     if (data) setReviews(data);
-    setLoading(false);
   };
 
   React.useEffect(() => {

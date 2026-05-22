@@ -131,8 +131,39 @@ const STOVE_REVIEWS = [
 ];
 
 export default function ProductsPage() {
-  const [products, setProducts] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [products, setProducts] = React.useState<any[]>([
+    {
+      id: 'mock-p1',
+      name: 'Premium 3-Burner Gas Stove',
+      category: 'Gas Stoves',
+      mrp: '₹5,999',
+      salePrice: '₹2,499',
+      stock: 45,
+      status: 'In Stock',
+      image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2070'
+    },
+    {
+      id: 'mock-p2',
+      name: 'Heavy Duty Induction Cooktop',
+      category: 'Induction Cooktops',
+      mrp: '₹4,499',
+      salePrice: '₹1,999',
+      stock: 8,
+      status: 'Low Stock',
+      image: 'https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=2070'
+    },
+    {
+      id: 'mock-p3',
+      name: 'Non-stick Cookware Set (3 Piece)',
+      category: 'Non-stick Cookware',
+      mrp: '₹3,299',
+      salePrice: '₹1,499',
+      stock: 0,
+      status: 'Out of Stock',
+      image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?q=80&w=2070'
+    }
+  ]);
+  const [loading, setLoading] = React.useState(false);
 
   // Reviews Generator States
   const [selectedProduct, setSelectedProduct] = React.useState<any | null>(null);
@@ -314,7 +345,6 @@ export default function ProductsPage() {
 
   React.useEffect(() => {
     const fetchProducts = async () => {
-      setLoading(true);
       const { data, error } = await supabase
         .from('products')
         .select(`
@@ -331,7 +361,6 @@ export default function ProductsPage() {
 
       if (error) {
         console.error('Error fetching products:', error);
-        setLoading(false);
         return;
       }
 
@@ -348,7 +377,6 @@ export default function ProductsPage() {
         }));
         setProducts(transformed);
       }
-      setLoading(false);
     };
     fetchProducts();
   }, []);

@@ -3,7 +3,6 @@
 import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { BottomNav } from './BottomNav';
 import { cn } from '../../lib/utils';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
@@ -27,10 +26,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col min-h-screen items-center overflow-x-hidden bg-slate-100">
       <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
         {pathname !== '/cart' && <Header />}
-        <main className="flex-grow pb-20">
+        <main className="flex-grow">
           {children}
         </main>
-        <BottomNav />
       </div>
     </div>
   );

@@ -56,6 +56,164 @@ const CountdownTimer = () => {
   );
 };
 
+const ProductOfferBox = () => {
+  const [timeLeft, setTimeLeft] = React.useState(10 * 60);
+
+  React.useEffect(() => {
+    const getOrSetOfferEndTime = () => {
+      const stored = sessionStorage.getItem('offer_ends_at');
+      const now = Date.now();
+      
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          return { endsAt, remaining };
+        }
+      }
+      
+      // Generate new 10 minute duration if none exists or has expired
+      const endsAt = now + 10 * 60 * 1000;
+      sessionStorage.setItem('offer_ends_at', endsAt.toString());
+      return { endsAt, remaining: 10 * 60 };
+    };
+
+    const init = getOrSetOfferEndTime();
+    setTimeLeft(init.remaining);
+
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const stored = sessionStorage.getItem('offer_ends_at');
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          setTimeLeft(remaining);
+        } else {
+          const newEndsAt = now + 10 * 60 * 1000;
+          sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
+          setTimeLeft(10 * 60);
+        }
+      } else {
+        const newEndsAt = now + 10 * 60 * 1000;
+        sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
+        setTimeLeft(10 * 60);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+  return (
+    <div className="border-2 border-[#2874f0]/20 rounded-2xl bg-white my-6 overflow-hidden shadow-[0_4px_16px_rgba(40,116,240,0.06)] text-slate-900 select-none">
+      {/* 1. Countdown Row */}
+      <div className="py-3 text-center text-[17px] font-extrabold border-b border-slate-100 bg-[#fbfbfb] tracking-wide text-slate-800">
+        📢 Offer ends in <span className="text-[#f15a24] font-black ml-1 text-[18px] tracking-wider bg-[#f15a24]/5 px-2 py-0.5 rounded">{timeStr}</span>
+      </div>
+
+      {/* 2. Flipkart Pay Later Promo Row */}
+      <div className="p-5 flex items-center justify-between border-b border-slate-100 relative min-h-[85px] gap-2">
+        {/* Left Side: Logo */}
+        <div className="flex items-center gap-2 shrink-0">
+          <svg width="34" height="28" viewBox="0 0 34 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
+            {/* Basket in yellow */}
+            <path d="M10 5h18l-2 9H12L10 5z" fill="#f9e03d" />
+            <path d="M13 5v9M17 5v9M21 5v9M25 5v9" stroke="#5fa61f" strokeWidth="1.2" />
+            {/* Handle/Frame in blue */}
+            <path d="M4 2h4l4 14h14l3-9" stroke="#2874f0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            {/* Wheels */}
+            <circle cx="13" cy="21" r="2.5" fill="#2874f0" />
+            <circle cx="23" cy="21" r="2.5" fill="#2874f0" />
+          </svg>
+          <div className="flex flex-col">
+            <span className="text-[#2874f0] font-black italic text-[13px] leading-none tracking-tight">Flipkart</span>
+            <span className="text-[#2874f0] font-black italic text-[13px] leading-none tracking-tight mt-0.5">Pay Later</span>
+          </div>
+        </div>
+
+        {/* Right Side: Text & CTA */}
+        <div className="flex-1 pl-3 flex flex-col justify-center">
+          <div className="text-[13px] font-black text-slate-800 leading-tight">
+            Credit Up to ₹1 Lakh*
+          </div>
+          <div className="text-[11px] text-slate-500 font-extrabold leading-tight mt-0.5">
+            Shop Now & Pay Next Month or in EMIs
+          </div>
+          <div className="text-[11.5px] font-black text-[#2874f0] hover:underline cursor-pointer mt-1 flex items-center gap-0.5">
+            Activate Now <span className="font-sans font-bold text-[9px]">&gt;</span>
+          </div>
+        </div>
+
+        {/* Terms & Conditions light watermark */}
+        <span className="text-[8px] text-slate-400 font-bold absolute bottom-1 right-2 select-none uppercase tracking-wider">
+          *T&C Apply
+        </span>
+      </div>
+
+      {/* 3. Trust Grid Row */}
+      <div className="grid grid-cols-3 divide-x divide-slate-100 py-4 bg-[#fafafa]">
+        {/* Replacement */}
+        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
+          <div className="h-12 w-12 flex items-center justify-center mb-1.5 transition-transform hover:scale-105">
+            <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
+              <circle cx="22" cy="22" r="20" fill="#f19e1f" />
+              <path d="M15 22a7 7 0 0 1 11.5-5.4M29 22a7 7 0 0 1-11.5 5.4" stroke="white" strokeWidth="3.2" strokeLinecap="round" />
+              <path d="M22 13.5h5v5M22 30.5h-5v-5" stroke="white" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <span className="text-[12px] font-black text-slate-800 leading-tight">
+            7 days
+          </span>
+          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
+            Replacement
+          </span>
+        </div>
+
+        {/* No COD */}
+        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
+          <div className="h-12 w-12 flex items-center justify-center mb-1.5 transition-transform hover:scale-105">
+            <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
+              <rect x="15" y="11" width="20" height="12" rx="1" transform="rotate(12 15 11)" fill="#c5c5c5" stroke="#909090" strokeWidth="1.5" />
+              <rect x="10" y="15" width="20" height="12" rx="1" fill="#e0e0e0" stroke="#a0a0a0" strokeWidth="1.5" />
+              <text x="17" y="24" fill="#606060" fontSize="9" fontWeight="extrabold" fontFamily="sans-serif">₹</text>
+            </svg>
+          </div>
+          <span className="text-[12px] font-black text-slate-800 leading-tight">
+            No Cash On
+          </span>
+          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
+            Delivery
+          </span>
+        </div>
+
+        {/* Plus F-Assured */}
+        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
+          <div className="h-12 w-12 flex items-center justify-center mb-1.5 scale-105 transition-transform hover:scale-110">
+            <div className="flex items-center gap-0.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" fill="#ffc200" />
+              </svg>
+              <div className="flex flex-col items-start leading-none -space-y-0.5 select-none">
+                <span className="text-[#ffc200] font-black italic text-[12px] tracking-tighter">Plus</span>
+                <span className="text-[#2874f0] font-black italic text-[10px] tracking-tighter">F-ASSURED</span>
+              </div>
+            </div>
+          </div>
+          <span className="text-[12px] font-black text-[#2874f0] leading-tight">
+            Plus
+          </span>
+          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
+            (F-Assured)
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 
 interface MockReview {
@@ -865,7 +1023,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 )}
               </div>
               <div className="text-[12px] text-slate-500 font-medium pt-1">Free delivery</div>
-
+              <ProductOfferBox />
             </div>
 
             {/* Gap in mobile view */}

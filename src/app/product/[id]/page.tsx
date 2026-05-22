@@ -1241,7 +1241,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                </ul>
                
                {(() => {
-                 const { text: descriptionText, specs: parsedSpecs } = parseDescription(product.description || '');
                  const cleanFullDesc = (product.description || '').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
                  return (
                    <>
@@ -1249,22 +1248,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                      <p className="text-[13px] text-slate-700 leading-relaxed" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                        {cleanFullDesc}
                      </p>
-                     
-                     {parsedSpecs.length > 0 && (
-                       <div className="mt-6">
-                         <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Specifications</h3>
-                         <div className="border border-slate-100 rounded-xl overflow-hidden bg-slate-50/20">
-                           <div className="divide-y divide-slate-100">
-                             {parsedSpecs.map((spec, idx) => (
-                               <div key={idx} className="grid grid-cols-3 gap-2 px-4 py-2.5 text-[13px] bg-white">
-                                 <div className="text-slate-400 font-bold uppercase tracking-wider text-[10px] col-span-1 flex items-center">{spec.key}</div>
-                                 <div className="text-slate-800 font-semibold col-span-2">{spec.value}</div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                       </div>
-                     )}
                    </>
                  );
                })()}

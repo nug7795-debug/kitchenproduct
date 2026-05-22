@@ -216,6 +216,175 @@ const ProductOfferBox = () => {
 };
 
 
+interface SimilarProductsProps {
+  currentProductId: string;
+  categoryId: string;
+  categoryName?: string;
+}
+
+const SimilarProducts = ({ currentProductId, categoryId, categoryName }: SimilarProductsProps) => {
+  const [products, setProducts] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const fetchSimilarProducts = async () => {
+      if (!categoryId) return;
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('products')
+          .select(`
+            *,
+            categories (name, slug),
+            product_images (image_url, is_featured)
+          `)
+          .eq('category_id', categoryId)
+          .neq('id', currentProductId)
+          .eq('is_active', true)
+          .limit(8);
+
+        if (error) throw error;
+
+        if (data) {
+          const formatted = data.map((item: any) => ({
+            ...item,
+            categoryName: item.categories?.name || categoryName || 'Kitchen',
+            images: item.product_images?.length > 0 
+              ? item.product_images.map((img: any) => img.image_url)
+              : ['https://via.placeholder.com/600']
+          }));
+          setProducts(formatted);
+        }
+      } catch (err) {
+        console.error('Error fetching similar products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSimilarProducts();
+  }, [categoryId, currentProductId, categoryName]);
+
+  if (loading) {
+    return (
+      <div className="w-full bg-white py-4 -mx-4 px-4 border-t border-b border-slate-200/80 my-2">
+        <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 select-none">Similar Products</h3>
+        <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+          <style dangerouslySetInnerHTML={{__html: `
+            .no-scrollbar::-webkit-scrollbar {
+              display: none;
+            }
+            .no-scrollbar {
+              -ms-overflow-style: none;
+              scrollbar-width: none;
+            }
+          `}} />
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="min-w-[140px] w-[140px] shrink-0 border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm flex flex-col animate-pulse">
+              <div className="w-full aspect-square bg-slate-100 rounded-lg mb-2" />
+              <div className="h-3.5 bg-slate-100 rounded w-5/6 mb-1" />
+              <div className="h-3.5 bg-slate-100 rounded w-2/3 mb-2" />
+              <div className="h-3 bg-slate-100 rounded w-1/3 mb-2" />
+              <div className="h-4 bg-slate-100 rounded w-1/2" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (products.length === 0) return null;
+
+  return (
+    <div className="w-full bg-white py-4 -mx-4 px-4 border-t border-b border-slate-200/80 my-2">
+      <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 select-none">Similar Products</h3>
+      <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+        <style dangerouslySetInnerHTML={{__html: `
+          .no-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+          .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}} />
+        {products.map((item) => {
+          const displayPrice = parseFloat(item.price) || 0;
+          const displaySalePrice = parseFloat(item.sale_price) || displayPrice;
+          const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
+          const rating = parseFloat(item.average_rating) || 4.2;
+
+          return (
+            <button
+              key={item.id}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                router.push(`/product/${item.id}`);
+              }}
+              className="min-w-[140px] w-[140px] shrink-0 border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col text-left active:scale-[0.98] transition-transform duration-100"
+            >
+              {/* Product Image */}
+              <div className="w-full aspect-square relative rounded-lg overflow-hidden mb-2 bg-slate-50 flex items-center justify-center">
+                <img
+                  src={item.images[0]}
+                  alt={item.name}
+                  className="object-contain w-full h-full p-1"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Product Title */}
+              <span className="text-[12px] font-bold text-slate-800 line-clamp-2 h-[34px] leading-tight mb-1 select-none overflow-hidden">
+                {item.name}
+              </span>
+
+              {/* Ratings and Reviews */}
+              <div className="flex items-center gap-1 mb-1 select-none">
+                <span className="bg-green-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-0.5 leading-none">
+                  {rating} <Star className="h-2 w-2 fill-current" />
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold">
+                  ({(item.total_ratings || Math.floor(rating * 10 + 50)).toLocaleString()})
+                </span>
+              </div>
+
+              {/* Price section */}
+              <div className="mt-auto pt-1 select-none">
+                <div className="flex items-baseline gap-1 flex-wrap">
+                  <span className="text-[14px] font-black text-slate-900">
+                    ₹{parseInt(displaySalePrice.toString()).toLocaleString()}
+                  </span>
+                  {discount > 0 && (
+                    <span className="text-[10px] text-slate-400 line-through font-medium">
+                      ₹{parseInt(displayPrice.toString()).toLocaleString()}
+                    </span>
+                  )}
+                </div>
+                {discount > 0 && (
+                  <span className="text-[11px] text-green-600 font-extrabold block mt-0.5 leading-none">
+                    {discount}% off
+                  </span>
+                )}
+              </div>
+
+              {/* Assured Badge */}
+              <div className="mt-1.5 flex items-center h-[14px] select-none">
+                <img 
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                  alt="Assured" 
+                  className="h-[12px] w-auto shrink-0 opacity-90"
+                />
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+
 interface MockReview {
   id: string;
   rating: number;
@@ -815,6 +984,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   };
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     fetchProduct();
     fetchReviews();
 
@@ -1102,6 +1272,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
             {/* Gap in mobile view */}
             <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+
+            {/* Similar Products Section */}
+            {product && product.category_id && (
+              <>
+                <SimilarProducts 
+                  currentProductId={product.id} 
+                  categoryId={product.category_id} 
+                  categoryName={product.categoryName} 
+                />
+                <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
+              </>
+            )}
 
             {/* Ratings & Reviews Section */}
             <div className="p-4 bg-white">

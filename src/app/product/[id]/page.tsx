@@ -19,6 +19,54 @@ const AssuredBadgeBig = () => (
   />
 );
 
+// Slanted WOW! bank offer badge
+const WowIcon = () => (
+  <svg 
+    viewBox="0 0 38 16" 
+    className="h-[19px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path 
+      d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
+      fill="#FFFFFF" 
+      stroke="#1c54d4" 
+      strokeWidth="1.1" 
+      strokeLinejoin="round"
+    />
+    <text 
+      x="19" 
+      y="10.2" 
+      fontFamily="system-ui, -apple-system, sans-serif" 
+      fontSize="8.5" 
+      fontWeight="900" 
+      fontStyle="italic" 
+      fill="#1c54d4" 
+      textAnchor="middle"
+      letterSpacing="-0.1"
+    >
+      WOW!
+    </text>
+  </svg>
+);
+
+// Delivery truck icon SVG matching Flipkart
+const DeliveryTruckIcon = () => (
+  <svg 
+    viewBox="0 0 16 12" 
+    className="h-[12px] w-auto shrink-0 text-slate-800 align-middle inline-block mr-1" 
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <line x1="1" y1="3" x2="4" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="0" y1="5.5" x2="3" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <line x1="1" y1="8" x2="4" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    <rect x="4.5" y="2" width="7" height="6" rx="0.5" fill="currentColor" />
+    <path d="M 11.5 4 L 14 4 L 15 6 L 15 8 L 11.5 8 Z" fill="currentColor" />
+    <path d="M 12 4.6 L 13.6 4.6 L 14.2 5.8 L 12 5.8 Z" fill="#FFFFFF" />
+    <circle cx="6.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+    <circle cx="12.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
+  </svg>
+);
+
 
 
 interface SimilarProductsProps {
@@ -1105,9 +1153,27 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
               
               {/* Offers: Buy 3 Get 10% Off row styled exactly as akkskitchensalee.vercel.app */}
-              <div className="text-[14px] font-bold text-[#fb641b] mt-0.5 mb-3 flex items-center gap-1 select-none">
+              <div className="text-[14px] font-bold text-[#fb641b] mt-0.5 flex items-center gap-1 select-none">
                 <span className="bg-[#fb641b]/10 text-[#fb641b] text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">Offer</span>
                 <span>Buy 3 Get 10% Off</span>
+              </div>
+
+              {/* WOW! Bank Offer & Express Delivery Container (matching the marked home page block exactly) */}
+              <div className="pt-2.5 mt-2.5 border-t border-slate-100/60 space-y-1 select-none text-left">
+                <div className="flex items-center gap-1 leading-none">
+                  <WowIcon />
+                  <span className="text-[12.5px] font-black text-[#1c54d4] align-middle">
+                    ₹{Math.round(displaySalePrice * 0.95).toLocaleString('en-IN')}
+                  </span>
+                </div>
+                <p className="text-[10px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
+                
+                {/* Express Delivery Truck & Tag Line */}
+                <div className="flex items-center gap-1 pt-0.5 leading-none">
+                  <DeliveryTruckIcon />
+                  <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
+                  <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
+                </div>
               </div>
             </div>
 

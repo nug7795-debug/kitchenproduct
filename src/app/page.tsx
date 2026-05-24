@@ -146,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* Live Sale Timer Section (Full-width edge-to-edge matching endsale reference) */}
-      <section className="w-full bg-white py-4 px-4 text-center flex flex-col items-center justify-center border-b-8 border-[#f1f3f6] mb-1">
+      <section className="w-full bg-white pt-4 pb-2 px-4 text-center flex flex-col items-center justify-center">
         <div className="text-[19px] font-bold text-[#424242] flex items-center justify-center gap-1.5 leading-none">
           <span>Live Sale :</span>
           <LiveSaleTimer />

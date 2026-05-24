@@ -1073,68 +1073,71 @@ export default function CheckoutPage() {
                     const deliveryString = `Delivery by ${months[deliveryDate.getMonth()]} ${deliveryDate.getDate()}, ${days[deliveryDate.getDay()]}`;
 
                     return (
-                      <div key={idx} className="p-4 flex gap-4 relative">
-                        {/* Product Image and Qty drop down */}
-                        <div className="flex flex-col items-center gap-3 shrink-0">
-                          <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
-                            <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
+                      <div key={idx} className="bg-white flex flex-col border-b border-slate-100 last:border-b-0">
+                        {/* Upper row: Product Image + Info */}
+                        <div className="p-4 flex gap-4 relative">
+                          {/* Product Image and Qty drop down */}
+                          <div className="flex flex-col items-center gap-3 shrink-0">
+                            <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
+                              <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
+                            </div>
+                            
+                            {/* Qty Selector Capsule */}
+                            <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
+                              <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
+                              <ChevronDown className="h-3 w-3 text-slate-500" />
+                            </div>
                           </div>
-                          
-                          {/* Qty Selector Capsule */}
-                          <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
-                            <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
-                            <ChevronDown className="h-3 w-3 text-slate-500" />
+
+                          {/* Product Info */}
+                          <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+                            <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
+                              {item.name}
+                            </h4>
+                            
+                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                              Silver Premium Edition
+                            </p>
+
+                            {/* Ratings and Assured Icon */}
+                            <div className="flex items-center gap-1.5 text-[10px] font-bold">
+                              <span className="bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8.5px] font-black flex items-center gap-0.5 shadow-2xs">
+                                4.4 ★
+                              </span>
+                              <span className="text-slate-400 font-bold">(9,614)</span>
+                              {/* Assured Emblem */}
+                              <img 
+                                src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                                alt="Assured" 
+                                className="h-3.5 w-auto object-contain ml-1 inline-block" 
+                              />
+                            </div>
+
+                            {/* Flipkart Prices Row */}
+                            <div className="flex items-center gap-2.5 mt-1">
+                              {discountPercent > 0 && (
+                                <span className="text-xs font-black text-emerald-600">
+                                  ↓ {discountPercent}%
+                                </span>
+                              )}
+                              <span className="text-xs text-slate-400 line-through">
+                                ₹{item.price.toLocaleString()}
+                              </span>
+                              <span className="text-sm font-black text-slate-900">
+                                ₹{item.salePrice.toLocaleString()}
+                              </span>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Product Info */}
-                        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                          <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
-                            {item.name}
-                          </h4>
-                          
-                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                            Silver Premium Edition
-                          </p>
-
-                          {/* Ratings and Assured Icon */}
-                          <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                            <span className="bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8.5px] font-black flex items-center gap-0.5 shadow-2xs">
-                              4.4 ★
-                            </span>
-                            <span className="text-slate-400 font-bold">(9,614)</span>
-                            {/* Assured Emblem */}
-                            <img 
-                              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
-                              alt="Assured" 
-                              className="h-3.5 w-auto object-contain ml-1 inline-block" 
-                            />
-                          </div>
-
-                          {/* Flipkart Prices Row */}
-                          <div className="flex items-center gap-2.5 mt-1">
-                            {discountPercent > 0 && (
-                              <span className="text-xs font-black text-emerald-600">
-                                ↓ {discountPercent}%
-                              </span>
-                            )}
-                            <span className="text-xs text-slate-400 line-through">
-                              ₹{item.price.toLocaleString()}
-                            </span>
-                            <span className="text-sm font-black text-slate-900">
-                              ₹{item.salePrice.toLocaleString()}
-                            </span>
-                          </div>
-
-                          {/* Express Delivery Banner */}
-                          <div className="mt-2.5 overflow-hidden w-full leading-[0]">
-                            <img 
-                              src="/banners/express_delivery_tomorrow.jpg" 
-                              alt="EXPRESS Delivery by tomorrow" 
-                              className="h-10 w-auto object-contain block m-0 p-0"
-                              style={{ display: 'block', height: '40px', width: 'auto', margin: 0, padding: 0 }}
-                            />
-                          </div>
+                        {/* Lower row: Express Delivery Banner - Full bleed edge-to-edge relative to the product container! */}
+                        <div className="w-full bg-[#f8fafc] border-t border-slate-100 overflow-hidden leading-[0] p-0 m-0">
+                          <img 
+                            src="/banners/express_delivery_tomorrow.jpg" 
+                            alt="EXPRESS Delivery by tomorrow" 
+                            className="w-full block object-cover p-0 m-0"
+                            style={{ display: 'block', width: '100%', height: 'auto', margin: 0, padding: 0 }}
+                          />
                         </div>
                       </div>
                     );

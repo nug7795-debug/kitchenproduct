@@ -75,6 +75,17 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    // Attempt instant restore from localStorage cache for instant loads on slow networks
+    try {
+      const cached = localStorage.getItem('homepage_products_cache');
+      if (cached) {
+        setProducts(JSON.parse(cached));
+        setLoading(false);
+      }
+    } catch (e) {
+      console.warn('Failed to load homepage products cache:', e);
+    }
+
     let active = true;
     const fetchData = async () => {
       try {
@@ -96,6 +107,11 @@ export default function Home() {
         if (error) throw error;
         if (active && data) {
           setProducts(data);
+          try {
+            localStorage.setItem('homepage_products_cache', JSON.stringify(data));
+          } catch (e) {
+            console.warn('Failed to save homepage products cache:', e);
+          }
         }
       } catch (err) {
         console.error('Error fetching products:', err);
@@ -146,12 +162,7 @@ export default function Home() {
       </section>
 
 
-      <section className="bg-white pt-5 pb-3 px-4 flex items-center justify-between">
-        <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">Suggested For You</h2>
-        <div className="bg-black rounded-full p-1.5 shadow-sm active:scale-90 transition-transform">
-          <ArrowRight className="h-4 w-4 text-white stroke-[2.5px]" />
-        </div>
-      </section>
+
 
       <section className="bg-white px-3 pb-6">
         {loading ? (

@@ -1171,14 +1171,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               )}
             </div>
 
-            {/* Similar Products Section */}
-            {product && product.category_id && (
-              <SimilarProducts 
-                currentProductId={product.id} 
-                categoryId={product.category_id} 
-                categoryName={product.categoryName} 
-              />
-            )}
 
             {/* Ratings & Reviews Section */}
             <div className="p-4 bg-white">

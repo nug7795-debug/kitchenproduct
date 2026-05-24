@@ -1025,10 +1025,10 @@ export default function CheckoutPage() {
 
           {/* STEP 2: ORDER SUMMARY */}
           {step === 'summary' && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 p-3 min-h-[500px] flex flex-col justify-between">
-              <div className="space-y-3">
-                {/* 1. Deliver To Address Card */}
-                <div className="bg-white rounded-lg p-3.5 border border-slate-200 shadow-sm relative flex flex-col gap-1.5">
+            <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between">
+              <div className="space-y-2.5">
+                {/* 1. Deliver To Address Card - FULL BLEED */}
+                <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-800 font-extrabold text-xs uppercase tracking-wider">
                       Deliver to:
@@ -1049,7 +1049,7 @@ export default function CheckoutPage() {
                     </span>
                   </div>
                   
-                  <p className="text-xs text-slate-655 leading-relaxed font-medium">
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
                     {address.streetAddress}, {address.city}, {address.state} - <span className="font-mono font-bold text-slate-800">{address.postalCode}</span>
                   </p>
                   
@@ -1058,27 +1058,8 @@ export default function CheckoutPage() {
                   </p>
                 </div>
 
-                {/* 2. Incomplete/Verified Address Banner matching screenshot exactly */}
-                <div className="bg-[#fff3e0] border border-[#ffe0b2] rounded-lg p-3 flex items-center justify-between gap-4 shadow-2xs">
-                  <div className="space-y-0.5">
-                    <h4 className="text-[11px] font-bold text-slate-800">
-                      Incomplete address details for delivery
-                    </h4>
-                    <p className="text-[9px] text-slate-500 font-semibold uppercase tracking-wider">
-                      Please check pincode and street address
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setStep('address')}
-                    className="bg-white border border-[#2874f0] text-[#2874f0] hover:bg-slate-50 text-[10px] font-black px-3.5 py-1.5 rounded shrink-0 uppercase tracking-wider"
-                  >
-                    Edit details
-                  </button>
-                </div>
-
-                {/* 3. Dynamic Products / Cart Items list */}
-                <div className="space-y-3">
+                {/* 2. Dynamic Products / Cart Items list - FULL BLEED */}
+                <div className="bg-white border-y border-slate-200 divide-y divide-slate-150">
                   {cartItems.map((item, idx) => {
                     const discountPercent = item.price > item.salePrice 
                       ? Math.round(((item.price - item.salePrice) / item.price) * 100)
@@ -1092,7 +1073,7 @@ export default function CheckoutPage() {
                     const deliveryString = `Delivery by ${months[deliveryDate.getMonth()]} ${deliveryDate.getDate()}, ${days[deliveryDate.getDay()]}`;
 
                     return (
-                      <div key={idx} className="bg-white rounded-lg p-4 border border-slate-200 shadow-sm flex gap-4 relative">
+                      <div key={idx} className="p-4 flex gap-4 relative">
                         {/* Product Image and Qty drop down */}
                         <div className="flex flex-col items-center gap-3 shrink-0">
                           <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
@@ -1163,10 +1144,9 @@ export default function CheckoutPage() {
                   })}
                 </div>
 
-
-
-                {/* 5. Price Details Breakdown */}
-                <div className="bg-white rounded-lg border border-slate-200 p-4 space-y-3 shadow-sm">
+                {/* 5. Price Details Breakdown - FULL BLEED */}
+                <div className="bg-white border-y border-slate-200 py-4 px-5 space-y-3">
+                  <h3 className="text-[15px] font-bold text-slate-800 pb-2 border-b border-slate-150 mb-1">Price Details</h3>
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
                     <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
@@ -1193,8 +1173,8 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                {/* 6. Green Savings Banner */}
-                <div className="bg-[#e8f5e9]/70 border border-[#c8e6c9] rounded-lg p-3 flex items-center gap-2 text-xs font-bold text-[#388e3c] shadow-2xs">
+                {/* 6. Green Savings Banner - FULL BLEED */}
+                <div className="bg-[#e8f5e9]/70 border-y border-[#c8e6c9] py-3.5 px-5 flex items-center gap-2 text-xs font-bold text-[#388e3c]">
                   <span className="bg-[#388e3c] text-white p-0.5 rounded-full shrink-0 flex items-center justify-center h-4 w-4 text-[9px] font-black">
                     %
                   </span>
@@ -1203,13 +1183,13 @@ export default function CheckoutPage() {
               </div>
 
               {error && (
-                <div className="text-[11px] text-red-600 bg-red-50 p-2 rounded-lg font-bold text-center border border-red-100 my-2">
+                <div className="mx-4 text-[11px] text-red-600 bg-red-50 p-2 rounded-lg font-bold text-center border border-red-100 my-2">
                   {error}
                 </div>
               )}
 
               {/* 7. Bottom Sticky Payment Bar */}
-              <div className="bg-white border-t border-slate-200 p-4 flex items-center justify-between -mx-3 -mb-3 rounded-b-xl sticky bottom-0 z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+              <div className="bg-white border-t border-slate-200 p-4 flex items-center justify-between sticky bottom-0 z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
                 <div className="flex flex-col">
                   <span className="text-[11px] text-slate-400 line-through">
                     ₹{totalOriginal.toLocaleString()}

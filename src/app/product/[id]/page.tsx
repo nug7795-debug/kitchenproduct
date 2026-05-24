@@ -19,201 +19,6 @@ const AssuredBadgeBig = () => (
   />
 );
 
-const CountdownTimer = () => {
-  const [timeLeft, setTimeLeft] = React.useState(10 * 60); 
-
-  React.useEffect(() => {
-    const getRemainingSeconds = () => {
-      const now = new Date();
-      const currentSeconds = now.getMinutes() * 60 + now.getSeconds();
-      return 600 - (currentSeconds % 600);
-    };
-
-    setTimeLeft(getRemainingSeconds());
-
-    const timer = setInterval(() => {
-      setTimeLeft(getRemainingSeconds());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-
-  return (
-    <div className="flex items-center gap-1.5 font-black text-white select-none">
-      <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
-        <span className="text-[16px]">{minutes.toString().padStart(2, '0')}</span>
-        <span className="text-[9px] font-semibold mt-0.5">Min</span>
-      </div>
-      <span className="text-[16px] -mt-1 opacity-80">:</span>
-      <div className="flex flex-col items-center justify-center bg-[#f44336] rounded-[6px] w-[38px] h-[40px] shadow-sm leading-none">
-        <span className="text-[16px]">{seconds.toString().padStart(2, '0')}</span>
-        <span className="text-[9px] font-semibold mt-0.5">Sec</span>
-      </div>
-    </div>
-  );
-};
-
-const ProductOfferBox = () => {
-  const [timeLeft, setTimeLeft] = React.useState(10 * 60);
-
-  React.useEffect(() => {
-    const getOrSetOfferEndTime = () => {
-      const stored = sessionStorage.getItem('offer_ends_at');
-      const now = Date.now();
-      
-      if (stored) {
-        const endsAt = parseInt(stored, 10);
-        const remaining = Math.floor((endsAt - now) / 1000);
-        if (remaining > 0) {
-          return { endsAt, remaining };
-        }
-      }
-      
-      // Generate new 10 minute duration if none exists or has expired
-      const endsAt = now + 10 * 60 * 1000;
-      sessionStorage.setItem('offer_ends_at', endsAt.toString());
-      return { endsAt, remaining: 10 * 60 };
-    };
-
-    const init = getOrSetOfferEndTime();
-    setTimeLeft(init.remaining);
-
-    const timer = setInterval(() => {
-      const now = Date.now();
-      const stored = sessionStorage.getItem('offer_ends_at');
-      if (stored) {
-        const endsAt = parseInt(stored, 10);
-        const remaining = Math.floor((endsAt - now) / 1000);
-        if (remaining > 0) {
-          setTimeLeft(remaining);
-        } else {
-          const newEndsAt = now + 10 * 60 * 1000;
-          sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
-          setTimeLeft(10 * 60);
-        }
-      } else {
-        const newEndsAt = now + 10 * 60 * 1000;
-        sessionStorage.setItem('offer_ends_at', newEndsAt.toString());
-        setTimeLeft(10 * 60);
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-  return (
-    <div className="w-auto -mx-4 border-t border-b border-slate-200 bg-white my-4 overflow-hidden text-slate-900 select-none">
-      {/* 1. Countdown Row */}
-      <div className="py-3 text-center text-[17px] font-extrabold border-b border-slate-100 bg-[#fbfbfb] tracking-wide text-slate-800">
-        📢 Offer ends in <span className="text-[#f15a24] font-black ml-1 text-[18px] tracking-wider bg-[#f15a24]/5 px-2 py-0.5 rounded">{timeStr}</span>
-      </div>
-
-      {/* 2. Flipkart Pay Later Promo Row */}
-      <div className="p-4 flex items-center justify-between border-b border-slate-100 relative min-h-[85px] gap-2">
-        {/* Left Side: Logo */}
-        <div className="flex items-center gap-2 shrink-0">
-          <svg width="34" height="28" viewBox="0 0 34 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
-            {/* Basket in yellow */}
-            <path d="M10 5h18l-2 9H12L10 5z" fill="#f9e03d" />
-            <path d="M13 5v9M17 5v9M21 5v9M25 5v9" stroke="#5fa61f" strokeWidth="1.2" />
-            {/* Handle/Frame in blue */}
-            <path d="M4 2h4l4 14h14l3-9" stroke="#2874f0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-            {/* Wheels */}
-            <circle cx="13" cy="21" r="2.5" fill="#2874f0" />
-            <circle cx="23" cy="21" r="2.5" fill="#2874f0" />
-          </svg>
-          <div className="flex flex-col">
-            <span className="text-[#2874f0] font-black italic text-[13px] leading-none tracking-tight">Flipkart</span>
-            <span className="text-[#2874f0] font-black italic text-[13px] leading-none tracking-tight mt-0.5">Pay Later</span>
-          </div>
-        </div>
-
-        {/* Right Side: Text & CTA */}
-        <div className="flex-1 pl-3 flex flex-col justify-center">
-          <div className="text-[13px] font-black text-slate-800 leading-tight">
-            Credit Up to ₹1 Lakh*
-          </div>
-          <div className="text-[11px] text-slate-500 font-extrabold leading-tight mt-0.5">
-            Shop Now & Pay Next Month or in EMIs
-          </div>
-          <div className="text-[11.5px] font-black text-[#2874f0] hover:underline cursor-pointer mt-1 flex items-center gap-0.5">
-            Activate Now <span className="font-sans font-bold text-[9px]">&gt;</span>
-          </div>
-        </div>
-
-        {/* Terms & Conditions light watermark */}
-        <span className="text-[8px] text-slate-400 font-bold absolute bottom-1 right-2 select-none uppercase tracking-wider">
-          *T&C Apply
-        </span>
-      </div>
-
-      {/* 3. Trust Grid Row */}
-      <div className="grid grid-cols-3 divide-x divide-slate-100 py-4 bg-[#fafafa]">
-        {/* Replacement */}
-        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
-          <div className="h-12 w-12 flex items-center justify-center mb-1.5 transition-transform hover:scale-105">
-            <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
-              <circle cx="22" cy="22" r="20" fill="#f19e1f" />
-              <path d="M15 22a7 7 0 0 1 11.5-5.4M29 22a7 7 0 0 1-11.5 5.4" stroke="white" strokeWidth="3.2" strokeLinecap="round" />
-              <path d="M22 13.5h5v5M22 30.5h-5v-5" stroke="white" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <span className="text-[12px] font-black text-slate-800 leading-tight">
-            7 days
-          </span>
-          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
-            Replacement
-          </span>
-        </div>
-
-        {/* No COD */}
-        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
-          <div className="h-12 w-12 flex items-center justify-center mb-1.5 transition-transform hover:scale-105">
-            <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 select-none">
-              <rect x="15" y="11" width="20" height="12" rx="1" transform="rotate(12 15 11)" fill="#c5c5c5" stroke="#909090" strokeWidth="1.5" />
-              <rect x="10" y="15" width="20" height="12" rx="1" fill="#e0e0e0" stroke="#a0a0a0" strokeWidth="1.5" />
-              <text x="17" y="24" fill="#606060" fontSize="9" fontWeight="extrabold" fontFamily="sans-serif">₹</text>
-            </svg>
-          </div>
-          <span className="text-[12px] font-black text-slate-800 leading-tight">
-            No Cash On
-          </span>
-          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
-            Delivery
-          </span>
-        </div>
-
-        {/* Plus F-Assured */}
-        <div className="flex flex-col items-center justify-center text-center px-2 py-1">
-          <div className="h-12 w-12 flex items-center justify-center mb-1.5 scale-105 transition-transform hover:scale-110">
-            <div className="flex items-center gap-0.5">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-                <path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z" fill="#ffc200" />
-              </svg>
-              <div className="flex flex-col items-start leading-none -space-y-0.5 select-none">
-                <span className="text-[#ffc200] font-black italic text-[12px] tracking-tighter">Plus</span>
-                <span className="text-[#2874f0] font-black italic text-[10px] tracking-tighter">F-ASSURED</span>
-              </div>
-            </div>
-          </div>
-          <span className="text-[12px] font-black text-[#2874f0] leading-tight">
-            Plus
-          </span>
-          <span className="text-[10px] font-bold text-slate-500 leading-tight mt-0.5">
-            (F-Assured)
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 interface SimilarProductsProps {
@@ -674,6 +479,58 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [isInCart, setIsInCart] = React.useState(false);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
   
+  // Custom Timer for product-data2 countdown timer
+  const [timeLeft, setTimeLeft] = React.useState(15 * 60);
+
+  React.useEffect(() => {
+    const getOrSetOfferEndTime = () => {
+      const stored = sessionStorage.getItem('shared_offer_ends_at');
+      const now = Date.now();
+      
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          return { endsAt, remaining };
+        }
+      }
+      
+      const endsAt = now + 15 * 60 * 1000;
+      sessionStorage.setItem('shared_offer_ends_at', endsAt.toString());
+      return { endsAt, remaining: 15 * 60 };
+    };
+
+    const init = getOrSetOfferEndTime();
+    setTimeLeft(init.remaining);
+
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const stored = sessionStorage.getItem('shared_offer_ends_at');
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          setTimeLeft(remaining);
+        } else {
+          const newEndsAt = now + 15 * 60 * 1000;
+          sessionStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+          setTimeLeft(15 * 60);
+        }
+      } else {
+        const newEndsAt = now + 15 * 60 * 1000;
+        sessionStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+        setTimeLeft(15 * 60);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const timeStr = `${minutes}min ${seconds.toString().padStart(2, '0')}sec`;
+
+  
   const getDynamicHighlights = () => {
     if (!product) return [];
     
@@ -794,6 +651,52 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       console.error('Error sharing:', err);
     }
   };
+
+  // Download Image Handler
+  const handleDownloadImage = async () => {
+    if (!product || !product.images || product.images.length === 0) return;
+    const imageUrl = product.images[selectedImage];
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const filename = `${product.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_image_${selectedImage + 1}.jpg`;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      // Fallback: open image in a new tab if fetch fails due to CORS
+      window.open(imageUrl, '_blank');
+    }
+  };
+
+  // Long-press (click and hold) detection state
+  const longPressTimer = React.useRef<any>(null);
+
+  const startLongPress = React.useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+    }
+    longPressTimer.current = setTimeout(() => {
+      handleDownloadImage();
+      if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
+    }, 600);
+  }, [product, selectedImage]);
+
+  const cancelLongPress = React.useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  }, []);
+
+
   
   // Review modals & list state
   const [showRateModal, setShowRateModal] = React.useState(false);
@@ -1085,8 +988,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       <div className="md:container md:mx-auto md:px-4 md:py-8 bg-white md:bg-transparent">
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 bg-white md:p-6 md:rounded-xl md:shadow-sm">
           
-          {/* Image Section */}
-          <div className="relative bg-white pt-2 pb-6 flex flex-col items-center border-b border-slate-100 md:border-none w-full">
+           {/* Image Section */}
+           <div className="relative bg-white pt-2 pb-6 flex flex-col items-center border-b border-slate-100 md:border-none w-full">
             {/* Wishlist Button (Top-Right) */}
             <button className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform">
               <Heart className="h-5 w-5 text-slate-400" />
@@ -1103,18 +1006,38 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </svg>
             </button>
 
-            {/* Swipable Carousel container */}
+            {/* Swipable Carousel container with click-and-hold (long press) auto download */}
             <div 
-              onTouchStart={(e) => handleSwipeStart(e.touches[0].clientX)}
-              onTouchEnd={(e) => handleSwipeEnd(e.changedTouches[0].clientX)}
-              onMouseDown={(e) => handleSwipeStart(e.clientX)}
-              onMouseUp={(e) => handleSwipeEnd(e.clientX)}
+              onTouchStart={(e) => {
+                handleSwipeStart(e.touches[0].clientX);
+                startLongPress();
+              }}
+              onTouchMove={() => {
+                cancelLongPress();
+              }}
+              onTouchEnd={(e) => {
+                handleSwipeEnd(e.changedTouches[0].clientX);
+                cancelLongPress();
+              }}
+              onMouseDown={(e) => {
+                handleSwipeStart(e.clientX);
+                startLongPress();
+              }}
+              onMouseMove={() => {
+                cancelLongPress();
+              }}
+              onMouseUp={(e) => {
+                handleSwipeEnd(e.clientX);
+                cancelLongPress();
+              }}
               onMouseLeave={(e) => {
+                cancelLongPress();
                 if (isDragging.current) {
                   handleSwipeEnd(e.clientX);
                 }
               }}
               className="relative aspect-square w-full max-w-[400px] overflow-hidden cursor-grab active:cursor-grabbing select-none flex items-center justify-center"
+              title="Click and hold to download image"
             >
               <AnimatePresence initial={false} mode="wait">
                 <motion.div
@@ -1146,126 +1069,57 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Product Info Section */}
-          <div className="bg-white">
-            <div className="p-4 space-y-1">
-              {/* Product Title with ...more */}
-              <h1 className="text-[13px] font-medium text-slate-500 md:text-[15px] leading-snug">
-                {showFullTitle || product.name.length <= 60 ? (
-                  <>
-                    {product.name}
-                    {product.name.length > 60 && (
-                      <button 
-                        onClick={() => setShowFullTitle(false)} 
-                        className="text-[#2874f0] font-bold ml-1 hover:underline text-[13px]"
-                      >
-                        less
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {product.name.slice(0, 60)}...
-                    <button 
-                      onClick={() => setShowFullTitle(true)} 
-                      className="text-[#2874f0] font-bold ml-0.5 hover:underline text-[13px]"
-                    >
-                      more
-                    </button>
-                  </>
-                )}
-              </h1>
-              
-              <div className="flex items-center pt-1 select-none flex-wrap gap-y-1">
-                <div className="flex items-center gap-1 bg-[#388e3c] text-white px-1.5 py-0.5 rounded-[4px] text-[12px] font-bold shrink-0">
-                   {product.average_rating || 4.5} <span className="text-[10px] font-bold">★</span>
-                </div>
-                <span className="text-[13px] text-slate-500 font-medium ml-2 shrink-0">{(product.total_ratings || 1428).toLocaleString()} ratings and {(product.total_reviews || 234).toLocaleString()} reviews</span>
-                <AssuredBadgeBig />
+          <div className="bg-white flex flex-col">
+            {/* product-data1 block */}
+            <div className="product-data1 bg-white">
+              <div className="product-title">{product.name}</div>
+              <img 
+                src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
+                style={{ width: "83px", marginTop: "10px", marginBottom: "4px" }} 
+                alt="logo"
+              />
+              <div className="p-pricedet">
+                {discount > 0 && <span className="discount">{discount}% off</span>}
+                {discount > 0 && <span className="mrp">₹{displayPrice.toLocaleString()}</span>}
+                <span className="price">₹{displaySalePrice.toLocaleString()}</span>
               </div>
+            </div>
 
-              <div className="flex items-end gap-2 pt-2">
-                <span className="text-[28px] font-semibold text-slate-900 leading-none">₹{displaySalePrice.toLocaleString()}</span>
-                {displaySalePrice < displayPrice && (
-                  <>
-                    <span className="text-[14px] text-slate-500 line-through mb-1">₹{displayPrice.toLocaleString()}</span>
-                    <span className="text-[14px] font-bold text-green-600 mb-1">{discount}% off</span>
-                  </>
-                )}
+            {/* product-data2 block */}
+            <div className="product-data2">
+              <h4 className="offer-time">
+                Offer ends in <span>{timeStr}</span>
+              </h4>
+            </div>
+
+            {/* product-data3 block */}
+            <div className="product-data3">
+              <img src="https://akkskitchensalee.vercel.app/img/pro.png" alt="" />
+            </div>
+
+            {/* product-data4 block */}
+            <div className="product-data4">
+              <div className="pry-1">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-1.png" alt="7 days replacement" />
+                <h5>7 days Replacement</h5>
               </div>
-              <div className="text-[12px] text-slate-500 font-medium pt-1">Free delivery</div>
-              <ProductOfferBox />
+              <div className="pry-1">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-2.png" alt="No cash on delivery" />
+                <h5>No Cash On Delivery</h5>
+              </div>
+              <div className="pry-3">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-3.png" alt="Plus F-Assured" />
+                <h5 style={{ paddingTop: "10px" }}>Plus(F-Assured)</h5>
+              </div>
             </div>
-
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-
-            {/* Available Offers Section */}
-            <div className="p-4 bg-white">
-               <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Available Offers</h3>
-               <div className="space-y-3">
-                  {[
-                    { type: 'Bank Offer', desc: '5% Unlimited Cashback on Flipkart Axis Bank Credit Card', link: 'T&C' },
-                    { type: 'Bank Offer', desc: '10% off on SBI Credit Card, up to ₹1750 on orders of ₹5000 and above', link: 'T&C' },
-                    { type: 'Special Price', desc: 'Get extra 15% off (price inclusive of cashback/coupon)', link: 'T&C' },
-                    { type: 'Partner Offer', desc: 'Sign up for Flipkart Pay Later and get Flipkart Gift Card worth up to ₹500', link: 'Know More' }
-                  ].map((offer, i) => (
-                    <div key={i} className="flex gap-2.5 items-start">
-                       <svg 
-                         viewBox="0 0 24 24" 
-                         className="h-[16px] w-[16px] text-[#388e3c] fill-current shrink-0 mt-0.5" 
-                         xmlns="http://www.w3.org/2000/svg"
-                       >
-                         <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-                         <circle cx="7" cy="7" r="1.5" fill="white" />
-                       </svg>
-                       <p className="text-[13px] text-slate-800 leading-[1.4]">
-                         <span className="font-semibold">{offer.type}</span> {offer.desc} <span className="text-[#2874f0] font-semibold cursor-pointer">{offer.link}</span>
-                       </p>
-                    </div>
-                  ))}
-               </div>
-            </div>
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-
-            {/* Description / Highlights */}
-            <div className="p-4 bg-white">
-               <h3 className="text-[15px] font-semibold text-slate-900 mb-3">Highlights</h3>
-               <ul className="space-y-2 mb-4">
-                  {getDynamicHighlights().map((item, i) => (
-                    <li key={i} className="flex items-center gap-3 text-[14px] text-slate-700">
-                       <div className="h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0" />
-                       {item}
-                    </li>
-                  ))}
-               </ul>
-               
-               {(() => {
-                 const cleanFullDesc = (product.description || '').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
-                 return (
-                   <>
-                     <h3 className="text-[15px] font-semibold text-slate-900 mb-2">Description</h3>
-                     <p className="text-[13px] text-slate-700 leading-relaxed" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                       {cleanFullDesc}
-                     </p>
-                   </>
-                 );
-               })()}
-            </div>
-
-            {/* Gap in mobile view */}
-            <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
 
             {/* Similar Products Section */}
             {product && product.category_id && (
-              <>
-                <SimilarProducts 
-                  currentProductId={product.id} 
-                  categoryId={product.category_id} 
-                  categoryName={product.categoryName} 
-                />
-                <div className="h-2 bg-[#f1f3f6] w-full md:hidden" />
-              </>
+              <SimilarProducts 
+                currentProductId={product.id} 
+                categoryId={product.category_id} 
+                categoryName={product.categoryName} 
+              />
             )}
 
             {/* Ratings & Reviews Section */}
@@ -1313,60 +1167,43 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                        </div>
                      );
                    })}
-                 </div>
-               </div>
-
+                  </div>
+                </div>
                {/* Sample/Dynamic Reviews List (Short version for details page) */}
                <div className="space-y-4">
                  {(() => {
                    const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
                    return combined.slice(0, 3).map((review) => (
-                     <div key={review.id} className="border-t border-slate-100 pt-4 pb-2">
-                       <div className="flex items-center gap-2 mb-1.5">
-                         <div className={cn(
-                           "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
-                           review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
-                         )}>
-                           {review.rating} <Star className="h-2 w-2 fill-current" />
-                         </div>
-                         <span className="text-[13px] font-bold text-slate-800">{review.title}</span>
-                       </div>
-                       <p className="text-[13px] text-slate-700 mb-2 leading-relaxed">{review.comment}</p>
-                       
-                       {review.image_url && (
-                         <div className="flex items-center gap-2 mb-3">
-                            <div className="h-16 w-16 relative rounded overflow-hidden border border-slate-200 shrink-0">
-                              <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
-                            </div>
-                         </div>
-                       )}
+                      <div key={review.id} className="review-card">
+                        <div className="rating">
+                          <div className="star-box">
+                            {review.rating} <span className="star">★</span>
+                          </div>
+                          <span style={{ fontWeight: '700', fontSize: '14px', color: '#333' }}>{review.title}</span>
+                        </div>
+                        
+                        <p className="review-text">{review.comment}</p>
+                        
+                        {review.image_url && (
+                          <div className="image-row">
+                            <img src={review.image_url} alt="Review attachment" />
+                          </div>
+                        )}
 
-                       <div className="flex items-center justify-between">
-                         <div className="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
-                           <span className="font-bold text-slate-700">{review.reviewer_name}</span>
-                           <span className="flex items-center gap-1 text-slate-400">
-                             <ShieldCheck className="h-3 w-3 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
-                           </span>
-                           <span className="text-slate-300">•</span>
-                           <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
-                         </div>
-                         <div className="flex items-center gap-3">
-                           <button 
-                             onClick={() => handleLike(review.id, true)}
-                             className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
-                           >
-                             <ThumbsUp className="h-3 w-3" /> {review.likes || 0}
-                           </button>
-                           <button 
-                             onClick={() => handleLike(review.id, false)}
-                             className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors"
-                           >
-                             <ThumbsDown className="h-3 w-3" /> {review.dislikes || 0}
-                           </button>
-                         </div>
-                       </div>
-                     </div>
-                   ));
+                        <div className="buyer-info">
+                          <div>
+                            <span className="buyer-name">{review.reviewer_name}</span>
+                            <span className="verified">
+                              <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
+                            </span>
+                            <span className="location">, {review.location ? review.location.replace('Certified Buyer, ', '') : 'Kolkata'}</span>
+                          </div>
+                          <span style={{ fontSize: '11px', color: '#777' }}>
+                            {review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}
+                          </span>
+                        </div>
+                      </div>
+                    ));
                  })()}
                </div>
                
@@ -1385,16 +1222,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
       </div>
 
-      {/* Sticky Bottom Bar (Flipkart Style) */}
-      <div className="fixed bottom-0 left-0 right-0 z-[100] flex h-[60px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+      {/* Sticky Bottom Bar (akkskitchensalee.vercel.app style) */}
+      <div className="footer-btn z-[100]">
          <button 
            onClick={handleAddToCart}
-           className="flex-1 flex items-center justify-center text-[15px] font-bold text-[#333] bg-white border-t border-slate-100 hover:bg-slate-50 transition-colors uppercase"
+           className="b-btn text-[#333] bg-white"
          >
             {isInCart ? 'Go to Cart' : 'Add to Cart'}
          </button>
-         <Link href={`/checkout?productId=${product.id}`} className="flex-1 flex items-center justify-center text-[15px] font-bold text-white bg-[#fb641b] hover:bg-[#f4511e] transition-colors uppercase">
-            BUY NOW
+         <Link 
+           href={`/checkout?productId=${product.id}`} 
+           className="b-btn text-black font-bold"
+           style={{ backgroundColor: '#ffc200', border: 'none' }}
+         >
+            Buy Now
          </Link>
       </div>
 

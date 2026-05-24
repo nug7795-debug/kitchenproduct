@@ -95,6 +95,106 @@ function UpiBrandLogo() {
   );
 }
 
+// Hand holding phone scan icon for Scan To Pay option
+function ScanToPayIcon({ size = 28 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M14 46 C14 39, 17 35, 23 35 L25 35 L25 43" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" />
+      <rect x="25" y="10" width="22" height="42" rx="4" fill="#fff" stroke="#334155" strokeWidth="2.5" />
+      <rect x="28" y="14" width="16" height="30" rx="1.5" fill="#f8fafc" />
+      <line x1="30" y1="29" x2="42" y2="29" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round" />
+      <rect x="32" y="19" width="8" height="7" stroke="#475569" strokeWidth="1.2" />
+      <path d="M20 40 L27 34" stroke="#334155" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M18 44 L25 38" stroke="#334155" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M23 49 L26 44" stroke="#334155" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// Authentic Products Icon (Starburst with ORIGINAL ribbon)
+function AuthenticBadgeIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 2 L21 5 L25 4 L26 8 L30 9 L29 13 L32 16 L30 19 L31 23 L27 24 L26 28 L22 28 L19 31 L16 29 L12 30 L11 26 L7 25 L8 21 L5 18 L7 15 L6 11 L10 10 L11 6 L15 6 Z" fill="none" stroke="#2563EB" strokeWidth="1.8" strokeLinejoin="round" />
+      <circle cx="18" cy="17" r="10" fill="none" stroke="#2563EB" strokeWidth="1.5" />
+      <rect x="5" y="14" width="26" height="6" rx="1" fill="#2563EB" />
+      <text x="18" y="19" fill="#fff" fontSize="5" fontWeight="900" textAnchor="middle" fontFamily="sans-serif" letterSpacing="0.2">ORIGINAL</text>
+    </svg>
+  );
+}
+
+// Secure Payments Icon (Shield with Rupee ₹)
+function SecureShieldIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 5 C24 5, 29 7, 29 7 C29 7, 29 18, 26 23 C23 28, 18 31, 18 31 C18 31, 13 28, 10 23 C7 18, 7 7, 7 7 C7 7, 12 5, 18 5 Z" fill="none" stroke="#0F2F5F" strokeWidth="2" strokeLinejoin="round" />
+      <text x="18" y="21.5" fill="#0F2F5F" fontSize="13" fontWeight="900" textAnchor="middle" fontFamily="sans-serif">₹</text>
+      <path d="M21 11 L23 13 L27 9" stroke="#10B981" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// Easy Returns Icon (Box with circular arrow)
+function EasyReturnsIcon() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <path d="M18 10 L8 14 L18 18 L28 14 Z" fill="none" stroke="#475569" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M8 14 V24 L18 28 V18 Z" fill="none" stroke="#475569" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M18 18 V28 L28 24 V14 Z" fill="none" stroke="#475569" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M25 7 C28 10, 28 15, 25 18" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" />
+      <path d="M17 7 C14 10, 14 15, 17 18" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" />
+      <path d="M19 5 L16 7 L19 9" stroke="#2563EB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// Visa Card Logo
+function VisaLogo() {
+  return (
+    <span className="text-[16px] font-black italic tracking-tighter text-[#1A1F71] font-sans">
+      VISA
+    </span>
+  );
+}
+
+// Mastercard Logo
+function MastercardLogo() {
+  return (
+    <div className="flex items-center -space-x-1.5 shrink-0">
+      <div className="w-[14px] h-[14px] rounded-full bg-[#EB001B]" />
+      <div className="w-[14px] h-[14px] rounded-full bg-[#F79E1B] opacity-90" />
+    </div>
+  );
+}
+
+// RuPay Card Logo
+function RupayLogo() {
+  return (
+    <div className="flex items-center gap-[1px] font-sans italic font-extrabold tracking-tighter text-xs">
+      <span className="text-[#0A58A3] text-[13px]">RuPay</span>
+      <span className="text-[#F15A24] text-[10px] tracking-tight">▶</span>
+    </div>
+  );
+}
+
+// PCI DSS Compliant Badge
+function PciDssBadge() {
+  return (
+    <div className="flex items-center gap-1 border border-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded text-[8px] font-black text-emerald-700 leading-none">
+      <span className="text-emerald-500 font-bold">✔</span> PCI DSS
+    </div>
+  );
+}
+
+// Razorpay Logo
+function RazorpayLogo() {
+  return (
+    <div className="flex items-center gap-1 text-[#0c2e68] font-sans font-black italic text-xs">
+      <span className="text-[#0c2e68] text-[13px]">Razorpay</span>
+    </div>
+  );
+}
+
 // Trust Badge icons
 function ReturnIcon() {
   return (
@@ -494,7 +594,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] font-sans pb-28">
+    <div className="min-h-screen bg-[#f1f3f6] font-sans pb-20">
       {/* Dynamic keyframe styles */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes spin {
@@ -548,164 +648,210 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       {/* Selection Body */}
-      <div className="max-w-md mx-auto px-3 mt-3">
-        {/* PhonePe 20% Cashback Banner */}
-        <div className="relative w-full bg-[#5f259f] rounded-xl flex items-center justify-between min-h-[88px] overflow-hidden border border-slate-100 mb-3 select-none shadow-sm">
-          {/* Left white section with S-curve styling */}
-          <div 
-            className="absolute top-0 left-0 bottom-0 bg-white flex items-center pl-4 pr-12 z-10" 
-            style={{ 
-              width: '45%', 
-              clipPath: 'path("M0 0 L110 0 C 145 25, 75 63, 110 88 L0 88 Z")' 
-            }}
-          >
-            <div className="flex items-center gap-1.5">
-              <svg width="24" height="24" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-                <circle cx="32" cy="32" r="32" fill="#5F259F" />
-                <path d="M45.7 26.34c0-1.18-.97-2.16-2.16-2.16h-3.99l-9.13-10.46c-.83-1-2.16-1.33-3.49-1l-3.16 1c-.5.17-.66.83-.33 1.16l9.96 9.46H18.42c-.5 0-.83.33-.83.83v1.66c0 1.18.97 2.16 2.16 2.16h2.32v7.97c0 5.97 3.16 9.46 8.46 9.46 1.66 0 2.99-.17 4.65-.83v5.31c0 1.5 1.16 2.66 2.66 2.66h2.32c.5 0 1-.5 1-1v-23.74h3.82c.5 0 .83-.33.83-.83zM35.07 39.62c-1 .5-2.32.66-3.32.66-2.66 0-3.99-1.33-3.99-4.31v-7.97h7.31v11.62z" fill="#fff" />
+      <div className="max-w-md mx-auto mt-3">
+        {/* Festive Yellow 80% Discount Banner matching deals-offer-india screenshot */}
+        <div className="mx-4">
+          <div className="relative w-full bg-[#FFF115] rounded-xl border border-[#E7CD14] py-3.5 px-2 mb-4 select-none flex items-center justify-between overflow-hidden shadow-xs">
+            {/* Top festive scalloped border */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 flex overflow-hidden">
+              {Array.from({ length: 30 }).map((_, i) => (
+                <svg key={i} width="16" height="6" viewBox="0 0 16 6" fill="none" className="shrink-0">
+                  <path d="M0 0 H16 V3 C12 3, 10 6, 8 6 C6 6, 4 3, 0 3 Z" fill="#008060" />
+                  <circle cx="8" cy="1.5" r="1" fill="#FF5252" />
+                </svg>
+              ))}
+            </div>
+
+            {/* Bottom festive scalloped border */}
+            <div className="absolute bottom-0 left-0 right-0 h-1.5 flex overflow-hidden transform rotate-180">
+              {Array.from({ length: 30 }).map((_, i) => (
+                <svg key={i} width="16" height="6" viewBox="0 0 16 6" fill="none" className="shrink-0">
+                  <path d="M0 0 H16 V3 C12 3, 10 6, 8 6 C6 6, 4 3, 0 3 Z" fill="#008060" />
+                  <circle cx="8" cy="1.5" r="1" fill="#FF5252" />
+                </svg>
+              ))}
+            </div>
+
+            {/* Left Festive Lantern */}
+            <div className="flex items-center pl-1 z-10 shrink-0">
+              <svg width="34" height="54" viewBox="0 0 34 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xs">
+                {/* String */}
+                <line x1="17" y1="0" x2="17" y2="10" stroke="#FF5252" strokeWidth="1.2" />
+                {/* Lantern cap (cone) */}
+                <path d="M17 10 L8 20 H26 Z" fill="#D81B60" />
+                {/* Lantern drum */}
+                <rect x="10" y="20" width="14" height="12" fill="#FFE57F" stroke="#D81B60" strokeWidth="1" />
+                <line x1="10" y1="26" x2="24" y2="26" stroke="#D81B60" strokeWidth="1" />
+                {/* Drum decoration */}
+                <circle cx="17" cy="26" r="2.5" fill="#D81B60" />
+                {/* Lantern bottom triangles */}
+                <path d="M10 32 L8 36 H26 L24 32 Z" fill="#D81B60" />
+                {/* Hanging Tassels */}
+                <line x1="12" y1="36" x2="10" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="17" y1="36" x2="17" y2="52" stroke="#FF8F00" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="22" y1="36" x2="24" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
+                {/* Little sparkle/lights */}
+                <circle cx="10" cy="48" r="1.5" fill="#FFE57F" />
+                <circle cx="17" cy="52" r="1.5" fill="#FFE57F" />
+                <circle cx="24" cy="48" r="1.5" fill="#FFE57F" />
               </svg>
-              <span className="text-[17px] font-black text-[#5f259f] tracking-tight font-sans">PhonePe</span>
             </div>
-          </div>
-          {/* Right purple section with cashback promotion details */}
-          <div className="w-full flex justify-end items-center py-2.5 pl-[42%] pr-3.5 z-0 text-right">
-            <div className="flex flex-col items-end">
-              <span className="text-[13px] font-black text-[#ffc200] tracking-wide uppercase">
-                GET <span className="text-white text-base">20% CASHBACK</span>
-              </span>
-              <span className="text-[11px] font-extrabold text-white leading-tight mt-0.5 font-sans">
-                when you pay with PhonePe UPI
-              </span>
-              <span className="text-[7px] text-white/50 mt-1 font-sans">*Condition Apply</span>
+
+            {/* Central Promotion Text */}
+            <div className="text-center flex-1 px-1 z-10">
+              <div className="text-[14px] md:text-[15px] font-extrabold text-[#1E293B] tracking-tight leading-snug">
+                Get up to <span className="text-[17px] font-black text-black">80% Discount</span> on
+              </div>
+              <div className="text-[16px] md:text-[17px] font-black text-black tracking-tight leading-snug mt-0.5">
+                All UPI Payments
+              </div>
+            </div>
+
+            {/* Right Festive Lantern */}
+            <div className="flex items-center pr-1 z-10 shrink-0">
+              <svg width="34" height="54" viewBox="0 0 34 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xs">
+                {/* String */}
+                <line x1="17" y1="0" x2="17" y2="10" stroke="#FF5252" strokeWidth="1.2" />
+                {/* Lantern cap (cone) */}
+                <path d="M17 10 L8 20 H26 Z" fill="#D81B60" />
+                {/* Lantern drum */}
+                <rect x="10" y="20" width="14" height="12" fill="#FFE57F" stroke="#D81B60" strokeWidth="1" />
+                <line x1="10" y1="26" x2="24" y2="26" stroke="#D81B60" strokeWidth="1" />
+                {/* Drum decoration */}
+                <circle cx="17" cy="26" r="2.5" fill="#D81B60" />
+                {/* Lantern bottom triangles */}
+                <path d="M10 32 L8 36 H26 L24 32 Z" fill="#D81B60" />
+                {/* Hanging Tassels */}
+                <line x1="12" y1="36" x2="10" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="17" y1="36" x2="17" y2="52" stroke="#FF8F00" strokeWidth="1.5" strokeLinecap="round" />
+                <line x1="22" y1="36" x2="24" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
+                {/* Little sparkle/lights */}
+                <circle cx="10" cy="48" r="1.5" fill="#FFE57F" />
+                <circle cx="17" cy="52" r="1.5" fill="#FFE57F" />
+                <circle cx="24" cy="48" r="1.5" fill="#FFE57F" />
+              </svg>
             </div>
           </div>
         </div>
 
-        {/* Countdown Offer Timer Banner */}
-        <div className="bg-[#fff9f4] border border-[#fbeee6] rounded-xl px-4 py-3 mb-3 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#fb641b]/10 flex items-center justify-center text-[#fb641b]">
-            <span className="font-extrabold text-lg">⏳</span>
-          </div>
-          <div>
-            <h4 className="text-sm font-extrabold text-[#fb641b]">
-              Offer ends in <span className="font-mono text-base">{formatTimerValue(countdown)}</span>
-            </h4>
-            <p className="text-xs text-slate-500 font-medium">Complete payment immediately to lock special discounted price!</p>
-          </div>
+        {/* Countdown Offer Timer Banner centered matching screenshot */}
+        <div className="mx-4 text-center py-1 mb-4">
+          <p className="text-[16px] font-bold text-slate-700">
+            Offer ends in <span className="text-[#fb641b] font-extrabold">{formatTimerValue(countdown)}</span>
+          </p>
         </div>
 
-        {/* Payment Methods Wrapper Box */}
-        <div className="bg-white rounded-xl shadow-xs border border-slate-100 p-4 mb-3">
-          <h2 className="text-sm font-black text-slate-800 uppercase tracking-wide border-b pb-2 mb-3">
-            Select Payment Method
-          </h2>
-
-          {/* PhonePe Card */}
-          <div 
+        {/* Payment Methods */}
+        <div className="mx-4 space-y-3.5 mb-5">
+          {/* 1. PhonePe Card */}
+          <div
             onClick={() => setSelectedMethod(o.PHONEPE)}
-            style={h(selectedMethod === o.PHONEPE)}
+            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.PHONEPE
+                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
+                : "border-slate-200 hover:border-slate-350"
+            }`}
+            style={{ minHeight: 76 }}
           >
-            <label style={pStyle}>
-              <PhonePeIcon size={42} />
-              <span style={fStyle}>Pay with PhonePe</span>
-            </label>
+            <div className="flex items-center gap-4">
+              <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
+                  alt="PhonePe" 
+                  className="h-8 w-8 object-contain" 
+                />
+              </div>
+              <span className="text-[16px] font-bold text-slate-800 font-sans">PhonePe</span>
+            </div>
           </div>
 
-          {/* Paytm Card */}
-          <div 
+          {/* 2. Paytm Card */}
+          <div
             onClick={() => setSelectedMethod(o.PAYTM)}
-            style={h(selectedMethod === o.PAYTM)}
+            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.PAYTM
+                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
+                : "border-slate-200 hover:border-slate-350"
+            }`}
+            style={{ minHeight: 76 }}
           >
-            <label style={pStyle}>
-              <PaytmIcon />
-              <span style={fStyle} className="ml-1">Pay with Paytm</span>
-            </label>
+            <div className="flex items-center gap-4">
+              <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
+                  alt="Paytm" 
+                  className="h-6 w-6 object-contain" 
+                />
+              </div>
+              <span className="text-[16px] font-bold text-slate-800 font-sans">Paytm</span>
+            </div>
           </div>
 
-          {/* Scan QR Card */}
-          <div 
+          {/* 3. Scan To Pay Card */}
+          <div
             onClick={() => setSelectedMethod(o.QR)}
-            style={h(selectedMethod === o.QR)}
+            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.QR
+                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
+                : "border-slate-200 hover:border-slate-350"
+            }`}
+            style={{ minHeight: 76 }}
           >
-            <label style={pStyle}>
-              <QrIcon size={42} />
-              <span style={fStyle}>Scan QR</span>
-            </label>
+            <div className="flex items-center gap-4">
+              <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                <ScanToPayIcon size={28} />
+              </div>
+              <span className="text-[16px] font-bold text-slate-800 font-sans">Scan To Pay</span>
+            </div>
           </div>
         </div>
 
-        {/* Pricing Summary Breakdown Box */}
-        <div className="bg-white rounded-xl shadow-xs border border-slate-150 p-4 mb-4">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-b pb-2">Price Details</h3>
-          <div className="space-y-3">
+        {/* Pricing Summary Breakdown Box - FULL BLEED */}
+        <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-5">
+          <h3 className="text-[16px] font-bold text-slate-800 pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
+          <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between text-sm text-slate-600 font-medium">
               <span>Price (1 item)</span>
-              <span className="line-through text-slate-400">₹ {mrp || selling}</span>
+              <span className="line-through text-slate-400 font-semibold">₹ {mrp || selling}</span>
             </div>
             <div className="flex items-center justify-between text-sm text-slate-600 font-medium">
               <span>Delivery Charges</span>
-              <span className="text-success-650 text-green-600 font-bold">FREE</span>
+              <span className="text-green-600 font-bold">FREE</span>
             </div>
-            <div className="flex items-center justify-between text-base font-black text-slate-800 pt-3 border-t border-dashed">
+            <div className="flex items-center justify-between text-base font-black text-slate-800 pt-3 border-t border-dashed border-slate-200">
               <span>Amount Payable</span>
               <span>₹ {selling}</span>
             </div>
           </div>
         </div>
 
-        {/* Trust Badges and Secure Payment logos */}
-        <div className="bg-white rounded-xl shadow-xs border border-slate-100 p-4 mb-6">
-          {/* 4 Trust Badges Row */}
-          <div className="flex items-start justify-between text-center mb-4">
-            <div className="flex flex-col items-center flex-1 min-w-[65px]">
-              <ReturnIcon />
-              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">7 Day Return</span>
+        {/* Trust Badges & Secure Payment Brands - FULL BLEED */}
+        <div className="bg-white border-t border-b border-slate-200 overflow-hidden mb-0">
+          {/* Trust Badges Row */}
+          <div className="grid grid-cols-3 gap-2 py-4 px-4 text-center">
+            <div className="flex flex-col items-center justify-center">
+              <AuthenticBadgeIcon />
+              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Authentic Products</span>
             </div>
             
-            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
-
-            <div className="flex flex-col items-center flex-1 min-w-[65px]">
-              <RefundIcon />
-              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">7 Day Refunds</span>
+            <div className="flex flex-col items-center justify-center border-x border-slate-150">
+              <SecureShieldIcon />
+              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Secure Payments</span>
             </div>
-
-            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
-
-            <div className="flex flex-col items-center flex-1 min-w-[65px]">
-              <GenuineIcon />
-              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">Genuine Products</span>
-            </div>
-
-            <div className="h-10 w-[1px] bg-slate-200 self-center shrink-0" />
-
-            <div className="flex flex-col items-center flex-1 min-w-[65px]">
-              <TruckIcon />
-              <span className="text-[9.5px] font-black text-slate-700 leading-tight mt-1.5 font-sans">Delivery in 2 Days</span>
+            
+            <div className="flex flex-col items-center justify-center">
+              <EasyReturnsIcon />
+              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Easy Returns</span>
             </div>
           </div>
 
-          {/* Double-headed arrow line */}
-          <div className="relative flex items-center justify-center my-4 px-1">
-            <div className="w-full h-[1.5px] bg-slate-300 relative">
-              {/* Left arrow head */}
-              <div className="absolute left-0 top-[-3.5px] w-[8px] h-[8px] border-l-2 border-b-2 border-slate-400 rotate-[45deg]" />
-              {/* Right arrow head */}
-              <div className="absolute right-0 top-[-3.5px] w-[8px] h-[8px] border-r-2 border-t-2 border-slate-400 rotate-[45deg]" />
-            </div>
-          </div>
-
-          {/* Secure Payment By text */}
-          <div className="text-center text-[11px] font-black text-slate-700 tracking-wide uppercase mb-3.5 font-sans">
-            Secure Payment By
-          </div>
-
-          {/* Secure Logos Row */}
-          <div className="flex items-center justify-center gap-5 select-none">
-            <PhonePeBrandLogo size={18} />
-            <span className="text-slate-300 font-light">|</span>
-            <PaytmBrandLogo />
-            <span className="text-slate-300 font-light">|</span>
-            <UpiBrandLogo />
+          {/* Secure Payment Brands Row */}
+          <div className="bg-[#f8fafc] border-t border-slate-200 py-4 px-5 flex items-center justify-between gap-3 flex-wrap">
+            <VisaLogo />
+            <MastercardLogo />
+            <RupayLogo />
+            <PciDssBadge />
+            <RazorpayLogo />
           </div>
         </div>
       </div>

@@ -35,3 +35,212 @@ body {
   color: var(--foreground);
   font-family: Inter, system-ui, sans-serif;
 }
+
+/* Reference site akkskitchensalee.vercel.app Product Page Classes */
+.product-data1 {
+  background-color: #ffffffc2;
+  border-radius: 0.25rem !important;
+  margin-top: -38px;
+  padding: 0 13px;
+  position: relative;
+  z-index: 10;
+}
+.product-title {
+  font-size: 19px;
+  font-weight: 700;
+  color: #000;
+  margin-top: 15px;
+  text-align: left;
+}
+.p-pricedet {
+  display: flex;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02px;
+  line-height: 28px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+.discount {
+  color: #008c00;
+  margin-right: 10px;
+}
+.mrp {
+  color: #717478;
+  text-decoration: line-through;
+  margin-right: 10px;
+}
+.price {
+  color: #000;
+}
+.product-data2 {
+  background-color: #fff;
+  border-bottom: 1px solid hsla(0,0%,72%,.685);
+  border-top: 1px solid hsla(0,0%,72%,.685);
+  font-weight: 700;
+  padding: 16px;
+  text-align: center;
+}
+.offer-time {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0;
+}
+.offer-time span {
+  color: #fb641b !important;
+  font-weight: 700;
+}
+.product-data3 {
+  background-color: #fff;
+  padding: 6px;
+}
+.product-data3 img {
+  margin-bottom: 0.5rem !important;
+  margin-top: 0.5rem !important;
+  width: 100%;
+}
+.product-data4 {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 15px 0;
+}
+.pry-1 {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pry-1 img {
+  width: 30px;
+  height: auto;
+}
+.pry-1 h5 {
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 4px;
+  color: #333;
+}
+.pry-3 {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pry-3 img {
+  width: 84px;
+  height: auto;
+}
+.pry-3 h5 {
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 4px;
+  color: #333;
+}
+
+/* Reference site akkskitchensalee.vercel.app Review Classes */
+.review-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px #0000000d;
+  margin: 7px;
+  padding: 16px 20px;
+}
+.rating {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.star-box {
+  background-color: #388e3c;
+  border-radius: 4px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 6px;
+  align-items: center;
+}
+.star {
+  font-size: 10px;
+  margin-left: 3px;
+}
+.review-text {
+  color: #333;
+  font-size: 14px;
+  margin: 8px 0 14px;
+  text-align: left;
+}
+.buyer-info {
+  align-items: center;
+  color: #777;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+}
+.buyer-name {
+  color: #333;
+  font-weight: 700;
+}
+.verified {
+  font-size: 12px;
+  margin-left: 4px;
+  color: #388e3c;
+  font-weight: 600;
+}
+.location {
+  margin-left: 4px;
+}
+.image-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.image-row img {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  height: 60px;
+  object-fit: cover;
+  transition: transform 0.2s;
+  width: 60px;
+}
+.image-row img:hover {
+  transform: scale(1.05);
+}
+
+/* Reference site akkskitchensalee.vercel.app Footer Buttons Classes */
+.footer-btn {
+  background-color: #fff;
+  bottom: 0;
+  box-shadow: -4px 3px 7px #bdbbbb;
+  display: flex;
+  left: 0;
+  position: fixed;
+  right: 0;
+}
+.b-btn {
+  border: 1px solid hsla(0, 0%, 59%, 0.623);
+  border-radius: 16px;
+  font-size: 15px;
+  height: 50px;
+  margin: 10px;
+  width: 100%;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.b-btn:hover {
+  opacity: 0.9;
+}
+
+
+

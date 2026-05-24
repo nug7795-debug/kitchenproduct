@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
 
@@ -147,12 +146,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     <Link href={`/product/${id}`} className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-2 select-none">
       {/* Product Image Box */}
       <div className="relative aspect-[1/1] w-full bg-[#fdfdfd] overflow-hidden">
-        <Image
+        <img
           src={imageUrl}
           alt={name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-          className="object-contain p-1.5 sm:p-3 transition-transform duration-500 group-hover:scale-103"
+          className="absolute inset-0 w-full h-full object-contain p-1.5 sm:p-3 transition-transform duration-500 group-hover:scale-103"
+          loading="lazy"
         />
 
         {/* Floating Wishlist Button */}

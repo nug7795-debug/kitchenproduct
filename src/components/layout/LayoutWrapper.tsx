@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -7,6 +8,12 @@ import { cn } from '../../lib/utils';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
+  React.useEffect(() => {
+    // Initialize shared offer ends time to 15 minutes from now on fresh load/refresh
+    const endsAt = Date.now() + 15 * 60 * 1000;
+    sessionStorage.setItem('shared_offer_ends_at', endsAt.toString());
+  }, []);
   
   // Hide layout elements on specialized pages
   const isCheckout = pathname?.startsWith('/checkout');

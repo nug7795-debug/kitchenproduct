@@ -181,154 +181,99 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Categories Row - Authentic Flipkart White Background & Beautiful Inline SVGs */}
-      <div className="flex flex-col bg-white border-b border-slate-100/90 shadow-2xs">
-        <div className="flex items-center justify-between px-4 pb-2 pt-2.5 overflow-x-auto no-scrollbar gap-6">
-          <Link href="/" className="flex flex-col items-center gap-1.5 min-w-max relative pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-red-50 border border-red-100/50">
-               {/* Gift / Present Box in Red & Gold */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="giftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#ff4d4d" />
-                     <stop offset="100%" stopColor="#cc0000" />
-                   </linearGradient>
-                   <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#ffe066" />
-                     <stop offset="100%" stopColor="#f5b041" />
-                   </linearGradient>
-                 </defs>
-                 {/* Sparkles */}
-                 <path d="M4 6L5 5L4 4L3 5L4 6Z" fill="#f5b041" />
-                 <path d="M20 5L21 4L20 3L19 4L20 5Z" fill="#f5b041" />
-                 {/* Box Base */}
-                 <rect x="5" y="11" width="14" height="9" rx="1.5" fill="url(#giftGrad)" />
-                 {/* Box Lid */}
-                 <rect x="4" y="9" width="16" height="3" rx="1" fill="url(#goldGrad)" />
-                 {/* Ribbon vertical */}
-                 <rect x="11" y="11" width="2" height="9" fill="url(#goldGrad)" />
-                 {/* Ribbon Bow */}
-                 <path d="M12 9C10.5 7 8 7 9.5 9C10.5 10 12 9 12 9Z" fill="url(#goldGrad)" />
-                 <path d="M12 9C13.5 7 16 7 14.5 9C13.5 10 12 9 12 9Z" fill="url(#goldGrad)" />
-                 <circle cx="12" cy="9" r="1.2" fill="#d35400" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-black text-slate-800 tracking-tight">For You</span>
-            <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#2874f0] rounded-t-full" />
-          </Link>
-
-          <Link href="/search?q=fashion" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-pink-50 border border-pink-100/50">
-               {/* Fashion Shirt in Pink/Orange Gradient */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="fashionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#ff758c" />
-                     <stop offset="100%" stopColor="#ff7eb3" />
-                   </linearGradient>
-                 </defs>
-                 <path d="M9 4L12 6L15 4L21 6.5L19 11L17 10.5V19C17 19.8 16.3 20.5 15.5 20.5H8.5C7.7 20.5 7 19.8 7 19V10.5L5 11L3 6.5L9 4Z" 
-                   fill="url(#fashionGrad)" 
-                   stroke="#ff3366" 
-                   strokeWidth="1.2" 
-                   strokeLinejoin="round" 
-                 />
-                 <path d="M12 6.5C12 5.5 12.8 4.7 13.5 4.5" stroke="#ff3366" strokeWidth="1.2" strokeLinecap="round" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Fashion</span>
-          </Link>
-
-          <Link href="/search?q=mobiles" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-emerald-50 border border-emerald-100/50">
-               {/* Mobile Phone in Emerald Green Gradient */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="mobGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#11998e" />
-                     <stop offset="100%" stopColor="#38ef7d" />
-                   </linearGradient>
-                 </defs>
-                 <rect x="6" y="3" width="12" height="18" rx="2" fill="url(#mobGrad)" stroke="#0e7f75" strokeWidth="1.2" />
-                 <rect x="7.5" y="4.5" width="9" height="13" rx="0.5" fill="#ffffff" fillOpacity="0.3" />
-                 <line x1="10" y1="19" x2="14" y2="19" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" />
-                 <circle cx="12" cy="4" r="0.6" fill="#ffffff" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Mobiles</span>
-          </Link>
-
-          <Link href="/search?q=beauty" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-purple-50 border border-purple-100/50">
-               {/* Beauty Jar and Lipstick in Lavender/Magenta Gradient */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="beautyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#da22ff" />
-                     <stop offset="100%" stopColor="#9733ee" />
-                   </linearGradient>
-                   <linearGradient id="lipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#ff0844" />
-                     <stop offset="100%" stopColor="#ffb199" />
-                   </linearGradient>
-                 </defs>
-                 <rect x="5" y="9" width="8" height="11" rx="1.5" fill="url(#beautyGrad)" stroke="#7d1ebd" strokeWidth="0.8" />
-                 <rect x="7.5" y="6" width="3" height="3" rx="0.5" fill="#f5b041" />
-                 <rect x="15" y="11" width="4" height="9" rx="1" fill="#333333" />
-                 <rect x="15" y="14" width="4" height="1.5" fill="#ffe066" />
-                 <path d="M16 7.5L18 8.5V11H16V7.5Z" fill="url(#lipGrad)" stroke="#ff0844" strokeWidth="0.5" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Beauty</span>
-          </Link>
-
-          <Link href="/search?q=appliances" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-blue-50 border border-blue-100/50">
-               {/* Electronics Laptop in Cyan/Royal Blue Gradient */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="elecGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#00c6ff" />
-                     <stop offset="100%" stopColor="#0072ff" />
-                   </linearGradient>
-                 </defs>
-                 <rect x="5" y="6" width="14" height="9" rx="1" fill="url(#elecGrad)" stroke="#0056b3" strokeWidth="1" />
-                 <rect x="6.5" y="7.5" width="11" height="6" rx="0.5" fill="#ffffff" fillOpacity="0.3" />
-                 <path d="M2 16.5C2 15.7 2.7 15 3.5 15H20.5C21.3 15 22 15.7 22 16.5V17C22 17.8 21.3 18.5 20.5 18.5H3.5C2.7 18.5 2 17.8 2 17V16.5Z" fill="#8ca9d3" stroke="#0056b3" strokeWidth="0.5" />
-                 <rect x="10" y="15" width="4" height="1" fill="#ffffff" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Electronics</span>
-          </Link>
-
-          <Link href="/search?q=cooker" className="flex flex-col items-center gap-1.5 min-w-max pb-1 active:scale-95 transition-transform group">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-amber-50 border border-amber-100/50">
-               {/* Home Sofa/Armchair in Orange/Yellow Sunset Gradient */}
-               <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <defs>
-                   <linearGradient id="cushionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                     <stop offset="0%" stopColor="#ff9f43" />
-                     <stop offset="100%" stopColor="#ffb142" />
-                   </linearGradient>
-                 </defs>
-                 <path d="M4 9C4 7.9 4.9 7 6 7H18C19.1 7 20 7.9 20 9V14H4V9Z" fill="url(#cushionGrad)" stroke="#d35400" strokeWidth="1" />
-                 <rect x="3" y="13" width="18" height="4" rx="1" fill="url(#cushionGrad)" stroke="#d35400" strokeWidth="1" />
-                 <rect x="2" y="11" width="3" height="6" rx="0.5" fill="url(#cushionGrad)" stroke="#d35400" strokeWidth="1" />
-                 <rect x="19" y="11" width="3" height="6" rx="0.5" fill="url(#cushionGrad)" stroke="#d35400" strokeWidth="1" />
-                 <rect x="5" y="17" width="2" height="2" fill="#7f8c8d" />
-                 <rect x="17" y="17" width="2" height="2" fill="#7f8c8d" />
-               </svg>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 tracking-tight">Home</span>
-          </Link>
-        </div>
-
-        {/* Categories Scroll Progress Bar */}
-        <div className="w-full px-2 pb-1.5">
-          <div className="w-full h-[3px] bg-slate-100 rounded-full overflow-hidden flex">
-            <div className="w-[15%] h-full bg-[#2874f0] rounded-full"></div>
+      {/* Categories Row - Cropped/Copied from highsale-combopack.shop/endsale/ */}
+      <div className="flex overflow-x-auto bg-white py-3 px-2.5 gap-3.5 no-scrollbar border-b-[6px] border-[#f1f3f6]">
+        {/* For You (Active) */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-[#2874f0] active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center bg-[#d0e7ff] rounded-xl scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M9.93061 6.51562H22.0706C24.0006 6.51562 25.6206 7.98562 25.8306 9.92562L27.5106 25.2356C27.7606 27.5056 26.0006 29.4856 23.7506 29.4856H8.25061C5.99061 29.4856 4.24061 27.5056 4.49061 25.2356L6.17061 9.92562C6.38061 7.98562 8.00061 6.51562 9.93061 6.51562Z" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
+              <path d="M22.0507 11.7061C22.0507 15.0861 19.3407 17.8261 16.0107 17.8261C12.6807 17.8261 9.9707 15.0861 9.9707 11.7061" fill="#ffe51f"></path>
+              <path d="M22.0507 11.7061C22.0507 15.0861 19.3407 17.8261 16.0107 17.8261C12.6807 17.8261 9.9707 15.0861 9.9707 11.7061" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
+            </svg>
           </div>
-        </div>
+          <span className="text-[12px] text-black font-bold whitespace-nowrap">For You</span>
+        </Link>
+
+        {/* Fashion */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M8.58301 24.6445H23.3717V25.7525C23.3717 27.4093 22.0285 28.7525 20.3717 28.7525H11.583C9.92615 28.7525 8.58301 27.4093 8.58301 25.7525V24.6445Z" fill="#ffe51f"></path>
+              <path d="M16.0003 10.6766C13.1536 10.6766 12.1563 8.21071 11.9404 6.48294C11.8966 6.13193 11.5352 5.88942 11.2056 6.01794C10.418 6.3251 9.33827 6.73537 8.60601 6.97946C7.6201 7.3081 6.82589 8.75958 6.55203 9.44424L4.79622 14.7117C4.62878 15.214 4.88191 15.7597 5.37351 15.9564L8.60601 17.2494V26.7517C8.60601 27.8562 9.50144 28.7517 10.606 28.7517H21.3947C22.4992 28.7517 23.3947 27.8562 23.3947 26.7517V17.2494L26.6645 15.9414C27.1406 15.751 27.3961 15.232 27.2499 14.7405C26.631 12.6601 25.6079 9.47765 25.0379 8.62264C24.3806 7.63673 23.6685 7.11639 23.3947 6.97946L20.7839 6.00041C20.457 5.87783 20.1047 6.11968 20.0623 6.4662C19.8508 8.19473 18.8563 10.6766 16.0003 10.6766Z" stroke="#333333" strokeWidth="1.4"></path>
+              <path d="M8.99414 24.6445H22.9612" stroke="#333333" strokeWidth="1.4" strokeLinecap="round"></path>
+              <path d="M23.3941 17.661V13.9639M8.60547 17.661V13.9639" stroke="#333333" strokeWidth="1.4" strokeLinecap="round"></path>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Fashion</span>
+        </Link>
+
+        {/* Mobiles */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <g clipPath="url(#clip0_3415_178959_new)">
+                <path d="M9.7998 24.9199V27.1199C9.7998 28.5899 10.9898 29.7799 12.4598 29.7799H19.7598C21.2298 29.7799 22.4198 28.5899 22.4198 27.1199V25.0799" fill="#ffe51f"></path>
+                <path d="M9.7998 24.9199V27.1199C9.7998 28.5899 10.9898 29.7799 12.4598 29.7799H19.7598C21.2298 29.7799 22.4198 28.5899 22.4198 27.1199V25.0799" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
+                <path d="M12.4198 6.7998H19.7998C21.2498 6.7998 22.4198 7.9698 22.4198 9.4198V27.1298C22.4198 28.5998 21.2298 29.7898 19.7598 29.7898H12.4598C10.9898 29.7898 9.7998 28.5998 9.7998 27.1298V9.4198C9.7998 7.9698 10.9698 6.7998 12.4198 6.7998Z" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
+                <path d="M14.8994 9.24023H16.8994" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+                <path d="M14.1699 27.4102H18.1699" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              </g>
+              <defs><clipPath id="clip0_3415_178959_new"><rect width="14.22" height="24.59" fill="#ffe51f" transform="translate(9 6)"></rect></clipPath></defs>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Mobiles</span>
+        </Link>
+
+        {/* Beauty */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M12.2291 14.4229H19.5191C20.3191 14.4229 20.9691 15.0729 20.9691 15.8729V26.9529C20.9691 28.2529 19.9091 29.3129 18.6091 29.3129H13.1491C11.8491 29.3129 10.7891 28.2529 10.7891 26.9529V15.8729C10.7891 15.0729 11.4391 14.4229 12.2391 14.4229H12.2291Z" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
+              <path d="M18.1886 14.4427V9.24269C18.1886 9.06269 18.1086 8.88269 17.9586 8.77269L14.5386 6.03269C14.1386 5.71269 13.5586 6.00269 13.5586 6.50269V14.4427H18.1886Z" fill="#ffe51f" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M11.3691 17.4727L20.8691 17.6027" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Beauty</span>
+        </Link>
+
+        {/* Electronics */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M4.99121 23.2591V10.0236C4.99121 9.03574 5.78867 8.23828 6.77657 8.23828H25.3086C26.2965 8.23828 27.094 9.03574 27.094 10.0236V23.2591" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M2.26483 24.3418H29.7475V26.508C29.7475 28.0315 28.5096 29.2694 26.9861 29.2694H5.01428C3.49078 29.2694 2.25293 28.0315 2.25293 26.508V24.3418H2.26483Z" fill="#ffe51f" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M13.751 26.9131H18.3453" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Electronics</span>
+        </Link>
+
+        {/* Home */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1_Home" version="1.1" viewBox="0 0 32 32" width="32" height="32">
+              <path fill="#ffe51f" d="M20.86,8.76h-9.69l1.07-3.25h7.41l.56,1.75.5,1.51h.15Z"></path>
+              <path fill="none" stroke="#333333" strokeWidth="1.4px" strokeMiterlimit="10" d="M16.03,27.82v-10.18"></path>
+              <line strokeLinecap="round" fill="none" stroke="#333333" strokeWidth="1.4px" strokeMiterlimit="10" x1="10.67" y1="27.82" x2="21.33" y2="27.82"></line>
+              <path strokeLinecap="round" fill="none" stroke="#333333" strokeWidth="1.4px" strokeMiterlimit="10" strokeLinejoin="round" d="M9.05,17.64h13.95c.66,0,1.13-.64.92-1.27l-3.57-10.87c-.13-.4-.5-.67-.92-.67h-6.91c-.42,0-.79.27-.92.67l-3.47,10.87c-.2.62.27,1.26.92,1.26Z"></path>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Home</span>
+        </Link>
+
+        {/* Furniture */}
+        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-transparent active:scale-95 transition-transform shrink-0">
+          <div className="w-[42px] h-[42px] flex items-center justify-center scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M28.1679 23.9892C28.0729 24.8557 27.2301 25.5205 26.2211 25.5205H5.13934C4.09475 25.5205 3.22821 24.8083 3.1926 23.918L2.21923 18.2439C2.17175 17.8641 2.51599 17.5317 2.95519 17.5317H5.28179C5.60229 17.5317 5.88718 17.7098 5.98214 17.9709C5.98214 17.9709 5.98214 17.9828 5.98214 17.9946L7.08609 21.4133C7.19292 21.7338 7.52529 21.9475 7.90514 21.9475H23.9302C24.3219 21.9475 24.6661 21.7219 24.7611 21.3896L25.7345 17.9828C25.8175 17.6979 26.1143 17.4961 26.4585 17.4961H29.0344C29.3291 17.4961 29.5804 17.6451 29.7028 17.8545C29.7727 17.9741 29.8006 18.1134 29.7704 18.2558L28.1679 23.9892Z" fill="#ffe51f" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M5.38965 29.1298L6.65978 26.9219" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M26.3277 29.1298L25.0576 26.9219" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+              <path d="M8.03613 21.7937L9.22317 12.1193C9.22317 10.505 10.5289 9.19922 12.1433 9.19922H19.7047C21.3191 9.19922 22.6248 10.505 22.6248 12.1193L23.8119 21.7937" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Furniture</span>
+        </Link>
       </div>
     </header>
   );

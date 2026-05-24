@@ -204,12 +204,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
               </div>
 
               {/* Assured Badge */}
-              <div className="mt-1.5 flex items-center h-[14px] select-none justify-between w-full">
+              <div className="mt-1.5 flex items-center h-[15px] select-none justify-between w-full">
                 <img 
-                  src="/salec.png" 
-                  alt="Assured" 
-                  className="h-[14px] w-auto shrink-0 select-none object-contain"
-                  style={{ width: "60px" }}
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                  alt="fAssured" 
+                  className="h-[15px] w-auto shrink-0 select-none align-middle inline-block" 
                 />
                 <span className="text-[10px] text-slate-400 font-medium">Free delivery</span>
               </div>

@@ -1178,7 +1178,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Vertically stacked product images (Matches reference site exactly) */}
-            <div className="flex flex-col gap-2.5 my-2.5 w-full bg-white select-none">
+            <div className="flex flex-col gap-2.5 mt-0 mb-2.5 w-full bg-white select-none">
               {product.images && product.images.map((imgUrl: string, idx: number) => (
                 <img 
                   key={idx} 

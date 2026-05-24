@@ -1026,7 +1026,7 @@ export default function CheckoutPage() {
           {/* STEP 2: ORDER SUMMARY */}
           {step === 'summary' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between">
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {/* 1. Deliver To Address Card - FULL BLEED */}
                 <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
@@ -1075,9 +1075,9 @@ export default function CheckoutPage() {
                     return (
                       <div key={idx} className="bg-white flex flex-col border-b border-slate-100 last:border-b-0">
                         {/* Upper row: Product Image + Info */}
-                        <div className="p-4 flex gap-4 relative">
+                        <div className="pt-3 px-4 pb-2 flex gap-4 relative">
                           {/* Product Image and Qty drop down */}
-                          <div className="flex flex-col items-center gap-3 shrink-0">
+                          <div className="flex flex-col items-center gap-2 shrink-0">
                             <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
                               <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
                             </div>
@@ -1144,41 +1144,43 @@ export default function CheckoutPage() {
                   })}
                 </div>
 
-                {/* 5. Price Details Breakdown - FULL BLEED */}
-                <div className="bg-white border-y border-slate-200 py-4 px-5 space-y-3">
-                  <h3 className="text-[15px] font-bold text-slate-800 pb-2 border-b border-slate-150 mb-1">Price Details</h3>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
-                    <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-medium">Discount Savings</span>
-                    <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
-                  </div>
-                  {couponDiscount > 0 && (
-                    <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
-                      <span className="text-emerald-700 font-bold flex items-center gap-1">
-                        <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
-                      </span>
-                      <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
+                {/* 5. Price Details Breakdown & 6. Green Savings Banner - FULL BLEED UNIFIED CONTAINER */}
+                <div className="bg-white border-y border-slate-200 overflow-hidden">
+                  <div className="py-4 px-5 space-y-3">
+                    <h3 className="text-[15px] font-bold text-slate-800 pb-2 border-b border-slate-150 mb-1">Price Details</h3>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
+                      <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
                     </div>
-                  )}
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-500 font-medium">Delivery Charges</span>
-                    <span className="font-bold text-green-600">FREE</span>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-500 font-medium">Discount Savings</span>
+                      <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
+                    </div>
+                    {couponDiscount > 0 && (
+                      <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
+                        <span className="text-emerald-700 font-bold flex items-center gap-1">
+                          <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
+                        </span>
+                        <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
+                      </div>
+                    )}
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-500 font-medium">Delivery Charges</span>
+                      <span className="font-bold text-green-600">FREE</span>
+                    </div>
+                    <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
+                      <span className="text-sm font-black text-slate-900 uppercase">Total Payable</span>
+                      <span className="text-base font-black text-[#2874f0]">₹{totalSale.toLocaleString()}</span>
+                    </div>
                   </div>
-                  <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
-                    <span className="text-sm font-black text-slate-900 uppercase">Total Payable</span>
-                    <span className="text-base font-black text-[#2874f0]">₹{totalSale.toLocaleString()}</span>
-                  </div>
-                </div>
 
-                {/* 6. Green Savings Banner - FULL BLEED */}
-                <div className="bg-[#e8f5e9]/70 border-y border-[#c8e6c9] py-3.5 px-5 flex items-center gap-2 text-xs font-bold text-[#388e3c]">
-                  <span className="bg-[#388e3c] text-white p-0.5 rounded-full shrink-0 flex items-center justify-center h-4 w-4 text-[9px] font-black">
-                    %
-                  </span>
-                  <span>You'll save ₹{(totalOriginal - totalSale).toLocaleString()} on this order!</span>
+                  {/* Green Savings Banner */}
+                  <div className="bg-[#e8f5e9]/70 border-t border-dashed border-[#c8e6c9] py-3.5 px-5 flex items-center gap-2 text-xs font-bold text-[#388e3c]">
+                    <span className="bg-[#388e3c] text-white p-0.5 rounded-full shrink-0 flex items-center justify-center h-4 w-4 text-[9px] font-black">
+                      %
+                    </span>
+                    <span>You'll save ₹{(totalOriginal - totalSale).toLocaleString()} on this order!</span>
+                  </div>
                 </div>
               </div>
 

@@ -1126,18 +1126,15 @@ export default function CheckoutPage() {
                             </span>
                           </div>
 
-                          {/* Protect Promise Label */}
-                          <p className="text-[9px] text-slate-400 font-medium">
-                            + ₹39 Protect Promise Fee ⓘ
-                          </p>
-
-                          <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wide">
-                            9 Offers Available
-                          </p>
-
-                          <p className="text-[10px] font-black text-slate-805 mt-1">
-                            {deliveryString}
-                          </p>
+                          {/* Express Delivery Banner */}
+                          <div className="mt-2.5 overflow-hidden w-full leading-[0]">
+                            <img 
+                              src="/banners/express_delivery_tomorrow.jpg" 
+                              alt="EXPRESS Delivery by tomorrow" 
+                              className="h-10 w-auto object-contain block m-0 p-0"
+                              style={{ display: 'block', height: '40px', width: 'auto', margin: 0, padding: 0 }}
+                            />
+                          </div>
                         </div>
                       </div>
                     );

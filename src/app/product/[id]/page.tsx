@@ -1151,13 +1151,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 {discount > 0 && <span className="mrp">₹{Math.round(displayPrice).toLocaleString('en-IN')}</span>}
                 <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
               </div>
-              
-              {/* Express Delivery Truck & Tag Line */}
-              <div className="flex items-center gap-1 pt-2.5 pb-0.5 leading-none select-none text-left border-t border-slate-100/60 mt-2">
-                <DeliveryTruckIcon />
-                <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
-                <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
-              </div>
             </div>
 
             {/* product-data2 block */}

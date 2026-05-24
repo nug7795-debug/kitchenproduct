@@ -647,92 +647,18 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
+      {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
+      <div className="max-w-md mx-auto bg-white border-b border-slate-100 overflow-hidden leading-[0]">
+        <img 
+          src="/banners/phonepe_cashback.jpg" 
+          alt="PhonePe 20% Cashback Offer" 
+          className="w-full block object-cover"
+          style={{ display: 'block', width: '100%', height: 'auto', margin: 0, padding: 0 }}
+        />
+      </div>
+
       {/* Selection Body */}
       <div className="max-w-md mx-auto mt-3">
-        {/* Festive Yellow 80% Discount Banner matching deals-offer-india screenshot */}
-        <div className="mx-4">
-          <div className="relative w-full bg-[#FFF115] rounded-xl border border-[#E7CD14] py-3.5 px-2 mb-4 select-none flex items-center justify-between overflow-hidden shadow-xs">
-            {/* Top festive scalloped border */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 flex overflow-hidden">
-              {Array.from({ length: 30 }).map((_, i) => (
-                <svg key={i} width="16" height="6" viewBox="0 0 16 6" fill="none" className="shrink-0">
-                  <path d="M0 0 H16 V3 C12 3, 10 6, 8 6 C6 6, 4 3, 0 3 Z" fill="#008060" />
-                  <circle cx="8" cy="1.5" r="1" fill="#FF5252" />
-                </svg>
-              ))}
-            </div>
-
-            {/* Bottom festive scalloped border */}
-            <div className="absolute bottom-0 left-0 right-0 h-1.5 flex overflow-hidden transform rotate-180">
-              {Array.from({ length: 30 }).map((_, i) => (
-                <svg key={i} width="16" height="6" viewBox="0 0 16 6" fill="none" className="shrink-0">
-                  <path d="M0 0 H16 V3 C12 3, 10 6, 8 6 C6 6, 4 3, 0 3 Z" fill="#008060" />
-                  <circle cx="8" cy="1.5" r="1" fill="#FF5252" />
-                </svg>
-              ))}
-            </div>
-
-            {/* Left Festive Lantern */}
-            <div className="flex items-center pl-1 z-10 shrink-0">
-              <svg width="34" height="54" viewBox="0 0 34 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xs">
-                {/* String */}
-                <line x1="17" y1="0" x2="17" y2="10" stroke="#FF5252" strokeWidth="1.2" />
-                {/* Lantern cap (cone) */}
-                <path d="M17 10 L8 20 H26 Z" fill="#D81B60" />
-                {/* Lantern drum */}
-                <rect x="10" y="20" width="14" height="12" fill="#FFE57F" stroke="#D81B60" strokeWidth="1" />
-                <line x1="10" y1="26" x2="24" y2="26" stroke="#D81B60" strokeWidth="1" />
-                {/* Drum decoration */}
-                <circle cx="17" cy="26" r="2.5" fill="#D81B60" />
-                {/* Lantern bottom triangles */}
-                <path d="M10 32 L8 36 H26 L24 32 Z" fill="#D81B60" />
-                {/* Hanging Tassels */}
-                <line x1="12" y1="36" x2="10" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
-                <line x1="17" y1="36" x2="17" y2="52" stroke="#FF8F00" strokeWidth="1.5" strokeLinecap="round" />
-                <line x1="22" y1="36" x2="24" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
-                {/* Little sparkle/lights */}
-                <circle cx="10" cy="48" r="1.5" fill="#FFE57F" />
-                <circle cx="17" cy="52" r="1.5" fill="#FFE57F" />
-                <circle cx="24" cy="48" r="1.5" fill="#FFE57F" />
-              </svg>
-            </div>
-
-            {/* Central Promotion Text */}
-            <div className="text-center flex-1 px-1 z-10">
-              <div className="text-[14px] md:text-[15px] font-extrabold text-[#1E293B] tracking-tight leading-snug">
-                Get up to <span className="text-[17px] font-black text-black">80% Discount</span> on
-              </div>
-              <div className="text-[16px] md:text-[17px] font-black text-black tracking-tight leading-snug mt-0.5">
-                All UPI Payments
-              </div>
-            </div>
-
-            {/* Right Festive Lantern */}
-            <div className="flex items-center pr-1 z-10 shrink-0">
-              <svg width="34" height="54" viewBox="0 0 34 54" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-xs">
-                {/* String */}
-                <line x1="17" y1="0" x2="17" y2="10" stroke="#FF5252" strokeWidth="1.2" />
-                {/* Lantern cap (cone) */}
-                <path d="M17 10 L8 20 H26 Z" fill="#D81B60" />
-                {/* Lantern drum */}
-                <rect x="10" y="20" width="14" height="12" fill="#FFE57F" stroke="#D81B60" strokeWidth="1" />
-                <line x1="10" y1="26" x2="24" y2="26" stroke="#D81B60" strokeWidth="1" />
-                {/* Drum decoration */}
-                <circle cx="17" cy="26" r="2.5" fill="#D81B60" />
-                {/* Lantern bottom triangles */}
-                <path d="M10 32 L8 36 H26 L24 32 Z" fill="#D81B60" />
-                {/* Hanging Tassels */}
-                <line x1="12" y1="36" x2="10" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
-                <line x1="17" y1="36" x2="17" y2="52" stroke="#FF8F00" strokeWidth="1.5" strokeLinecap="round" />
-                <line x1="22" y1="36" x2="24" y2="48" stroke="#D81B60" strokeWidth="1.5" strokeLinecap="round" />
-                {/* Little sparkle/lights */}
-                <circle cx="10" cy="48" r="1.5" fill="#FFE57F" />
-                <circle cx="17" cy="52" r="1.5" fill="#FFE57F" />
-                <circle cx="24" cy="48" r="1.5" fill="#FFE57F" />
-              </svg>
-            </div>
-          </div>
-        </div>
 
         {/* Countdown Offer Timer Banner centered matching screenshot */}
         <div className="mx-4 text-center py-1 mb-4">

@@ -1152,28 +1152,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
               </div>
               
-              {/* Offers: Buy 3 Get 10% Off row styled exactly as akkskitchensalee.vercel.app */}
-              <div className="text-[14px] font-bold text-[#fb641b] mt-0.5 flex items-center gap-1 select-none">
-                <span className="bg-[#fb641b]/10 text-[#fb641b] text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">Offer</span>
-                <span>Buy 3 Get 10% Off</span>
-              </div>
-
-              {/* WOW! Bank Offer & Express Delivery Container (matching the marked home page block exactly) */}
-              <div className="pt-2.5 mt-2.5 border-t border-slate-100/60 space-y-1 select-none text-left">
-                <div className="flex items-center gap-1 leading-none">
-                  <WowIcon />
-                  <span className="text-[12.5px] font-black text-[#1c54d4] align-middle">
-                    ₹{Math.round(displaySalePrice * 0.95).toLocaleString('en-IN')}
-                  </span>
-                </div>
-                <p className="text-[10px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
-                
-                {/* Express Delivery Truck & Tag Line */}
-                <div className="flex items-center gap-1 pt-0.5 leading-none">
-                  <DeliveryTruckIcon />
-                  <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
-                  <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
-                </div>
+              {/* Express Delivery Truck & Tag Line */}
+              <div className="flex items-center gap-1 pt-2.5 pb-0.5 leading-none select-none text-left border-t border-slate-100/60 mt-2">
+                <DeliveryTruckIcon />
+                <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
+                <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
               </div>
             </div>
 
@@ -1291,17 +1274,37 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                           </div>
                         )}
 
-                        <div className="buyer-info">
-                          <div>
-                            <span className="buyer-name">{review.reviewer_name}</span>
-                            <span className="verified">
-                              <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
+                        <div className="buyer-info mt-2">
+                          <div className="flex flex-col text-left">
+                            <div className="flex items-center gap-1 flex-wrap">
+                              <span className="buyer-name">{review.reviewer_name}</span>
+                              <span className="verified">
+                                <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
+                              </span>
+                              <span className="location">, {review.location ? review.location.replace('Certified Buyer, ', '') : 'Kolkata'}</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 mt-0.5">
+                              {review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}
                             </span>
-                            <span className="location">, {review.location ? review.location.replace('Certified Buyer, ', '') : 'Kolkata'}</span>
                           </div>
-                          <span style={{ fontSize: '11px', color: '#777' }}>
-                            {review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}
-                          </span>
+                          
+                          {/* Helpful Likes/Dislikes Votes */}
+                          <div className="flex items-center gap-3 shrink-0">
+                            <button 
+                              onClick={() => handleLike(review.id, true)}
+                              className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
+                            >
+                              <ThumbsUp className="h-3.5 w-3.5" /> 
+                              <span className="text-[11px]">{review.likes || 0}</span>
+                            </button>
+                            <button 
+                              onClick={() => handleLike(review.id, false)}
+                              className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
+                            >
+                              <ThumbsDown className="h-3.5 w-3.5" /> 
+                              <span className="text-[11px]">{review.dislikes || 0}</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ));

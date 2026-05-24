@@ -206,9 +206,10 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
               {/* Assured Badge */}
               <div className="mt-1.5 flex items-center h-[14px] select-none justify-between w-full">
                 <img 
-                  src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
+                  src="/salec.png" 
                   alt="Assured" 
-                  className="h-[12px] w-auto shrink-0 opacity-90"
+                  className="h-[14px] w-auto shrink-0 select-none object-contain"
+                  style={{ width: "60px" }}
                 />
                 <span className="text-[10px] text-slate-400 font-medium">Free delivery</span>
               </div>

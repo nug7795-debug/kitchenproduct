@@ -55,74 +55,10 @@ const statusConfig = {
 };
 
 export default function OrdersPage() {
-  const [orders, setOrders] = React.useState<DbOrder[]>([
-    {
-      id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3d4f82',
-      created_at: new Date(Date.now() - 3600000 * 2).toISOString(), // 2 hours ago
-      status: 'paid',
-      total_amount: 169,
-      discount_amount: 0,
-      shipping_charge: 0,
-      addresses: {
-        full_name: 'Khalijk Home',
-        phone: '9876543210',
-        street_address: 'H, H, Mumbai, Goa',
-        city: 'Mumbai',
-        state: 'Goa',
-        postal_code: '400001'
-      },
-      order_items: [
-        {
-          id: 'item-1',
-          quantity: 1,
-          price: 169,
-          products: {
-            name: 'Crompton Hiflo Wave Plus 400 mm Wall Fan',
-            price: 3799,
-            sale_price: 169
-          }
-        }
-      ],
-      payment: {
-        transaction_id: 'TXN_KHALIJK_123',
-        status: 'success',
-        utr: '123456789012'
-      }
-    },
-    {
-      id: 'd9b73ad7-8fe4-4a2f-9872-466d7bd49202',
-      created_at: new Date(Date.now() - 3600000 * 5).toISOString(), // 5 hours ago
-      status: 'pending',
-      total_amount: 9999,
-      discount_amount: 500,
-      shipping_charge: 0,
-      addresses: {
-        full_name: 'Ansarul Admin',
-        phone: '9988776655',
-        street_address: 'Main St, Flat 12B',
-        city: 'Kolkata',
-        state: 'West Bengal',
-        postal_code: '700001'
-      },
-      order_items: [
-        {
-          id: 'item-2',
-          quantity: 1,
-          price: 9999,
-          products: {
-            name: 'Pro-Mixer Master 500W with Stainless Steel Blades',
-            price: 12498,
-            sale_price: 9999
-          }
-        }
-      ],
-      payment: null
-    }
-  ]);
-  const [loading, setLoading] = React.useState(false); // Set to false to support instant load
+  const [orders, setOrders] = React.useState<DbOrder[]>([]);
+  const [loading, setLoading] = React.useState(true);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState<string>('all');
-  const [refreshTrigger, setRefreshTrigger] = React.useState(0);
   
   // Drawer / Modal details state
   const [selectedOrder, setSelectedOrder] = React.useState<DbOrder | null>(null);
@@ -132,88 +68,89 @@ export default function OrdersPage() {
   const [selectedOrderIds, setSelectedOrderIds] = React.useState<string[]>([]);
   const [isDeleting, setIsDeleting] = React.useState(false);
 
-  // Fetch orders on mount or refresh
-  React.useEffect(() => {
-    const fetchOrders = async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('orders')
-          .select(`
+  // Fetch orders logic defined in a stable callback
+  const fetchOrders = React.useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select(`
+          id,
+          created_at,
+          status,
+          total_amount,
+          discount_amount,
+          shipping_charge,
+          addresses (
+            full_name,
+            phone,
+            street_address,
+            city,
+            state,
+            postal_code
+          ),
+          order_items (
             id,
-            created_at,
-            status,
-            total_amount,
-            discount_amount,
-            shipping_charge,
-            addresses (
-              full_name,
-              phone,
-              street_address,
-              city,
-              state,
-              postal_code
-            ),
-            order_items (
-              id,
-              quantity,
+            quantity,
+            price,
+            products (
+              name,
               price,
-              products (
-                name,
-                price,
-                sale_price
-              )
-            ),
-            payments (
-              transaction_id,
-              status,
-              raw_response
+              sale_price
             )
-          `)
-          .order('created_at', { ascending: false });
+          ),
+          payments (
+            transaction_id,
+            status,
+            raw_response
+          )
+        `)
+        .order('created_at', { ascending: false });
 
-        if (error) throw error;
-        if (data) {
-          // Cast relationship structures to typescript interface
-          const formatted: DbOrder[] = data
-            .map((order: any) => {
-              const paymentArr = order.payments;
-              const paymentObj = Array.isArray(paymentArr) ? paymentArr[0] : paymentArr;
-              return {
-                id: order.id,
-                created_at: order.created_at,
-                status: order.status || 'pending',
-                total_amount: parseFloat(order.total_amount || 0),
-                discount_amount: parseFloat(order.discount_amount || 0),
-                shipping_charge: parseFloat(order.shipping_charge || 0),
-                addresses: Array.isArray(order.addresses) ? order.addresses[0] : order.addresses,
-                order_items: (order.order_items || []).map((item: any) => ({
-                  id: item.id,
-                  quantity: item.quantity,
-                  price: parseFloat(item.price || 0),
-                  products: Array.isArray(item.products) ? item.products[0] : item.products
-                })),
-                payment: paymentObj ? {
-                  transaction_id: paymentObj.transaction_id,
-                  status: paymentObj.status,
-                  utr: paymentObj.raw_response?.utr || ''
-                } : null
-              };
-            })
-            // Exclude draft/incomplete checkouts that do not have a linked address/customer profile
-            .filter((order: DbOrder) => {
-              return !!order.addresses;
-            });
+      if (error) throw error;
+      if (data) {
+        // Cast relationship structures to typescript interface
+        const formatted: DbOrder[] = data
+          .map((order: any) => {
+            const paymentArr = order.payments;
+            const paymentObj = Array.isArray(paymentArr) ? paymentArr[0] : paymentArr;
+            return {
+              id: order.id,
+              created_at: order.created_at,
+              status: order.status || 'pending',
+              total_amount: parseFloat(order.total_amount || 0),
+              discount_amount: parseFloat(order.discount_amount || 0),
+              shipping_charge: parseFloat(order.shipping_charge || 0),
+              addresses: Array.isArray(order.addresses) ? order.addresses[0] : order.addresses,
+              order_items: (order.order_items || []).map((item: any) => ({
+                id: item.id,
+                quantity: item.quantity,
+                price: parseFloat(item.price || 0),
+                products: Array.isArray(item.products) ? item.products[0] : item.products
+              })),
+              payment: paymentObj ? {
+                transaction_id: paymentObj.transaction_id,
+                status: paymentObj.status,
+                utr: paymentObj.raw_response?.utr || ''
+              } : null
+            };
+          })
+          // Exclude draft/incomplete checkouts that do not have a linked address/customer profile
+          .filter((order: DbOrder) => {
+            return !!order.addresses;
+          });
 
-          setOrders(formatted);
-        }
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-      } finally {
-        setLoading(false);
+        setOrders(formatted);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
+  // Fetch orders on mount and listen to realtime channel
+  React.useEffect(() => {
     fetchOrders();
 
     // Enable Supabase Realtime channel to capture newly placed orders instantly!
@@ -223,7 +160,7 @@ export default function OrdersPage() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'orders' },
         () => {
-          setRefreshTrigger(prev => prev + 1);
+          fetchOrders();
         }
       )
       .subscribe();
@@ -231,7 +168,7 @@ export default function OrdersPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [refreshTrigger]);
+  }, [fetchOrders]);
 
   // Handle Order Status updates
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -360,7 +297,7 @@ export default function OrdersPage() {
             <Download className="mr-2 h-4 w-4" /> Export Ledger
           </Button>
           <Button 
-            onClick={() => setRefreshTrigger(prev => prev + 1)}
+            onClick={() => fetchOrders()}
             className="rounded-full bg-slate-900 hover:bg-slate-800 text-white h-11 px-8 font-black shadow-xl shadow-slate-200 gap-2 uppercase text-xs tracking-wider transition-all"
           >
              <RefreshCw className="h-4 w-4" /> Refresh

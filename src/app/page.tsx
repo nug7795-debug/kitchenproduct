@@ -71,61 +71,8 @@ const LiveSaleTimer = () => {
 
 
 export default function Home() {
-  const [products, setProducts] = React.useState<any[]>([
-    {
-      id: "bd7bfe1f-d383-4fc9-a1d4-597dc315f6c5",
-      name: "Maharaja Whiteline Odacios Plus Juicer Mixer Grinder",
-      price: 4900,
-      sale_price: 139,
-      categories: { name: "Kitchen", slug: "kitchen" },
-      product_images: [
-        {
-          image_url: "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433573286-8iculop.webp",
-          is_featured: true
-        }
-      ]
-    },
-    {
-      id: "e7fd205d-0c50-4b28-b161-6fe5668e591d",
-      name: "Premier Non Stick Cookware Combo Pack HG 545",
-      price: 2765,
-      sale_price: 153,
-      categories: { name: "Kitchen", slug: "kitchen" },
-      product_images: [
-        {
-          image_url: "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433043959-r3mxj56.webp",
-          is_featured: true
-        }
-      ]
-    },
-    {
-      id: "mock-p3",
-      name: "Prestige Magic Glass Top 2 Burner Gas Stove",
-      price: 3995,
-      sale_price: 1999,
-      categories: { name: "Gas Stoves", slug: "gas-stoves" },
-      product_images: [
-        {
-          image_url: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=300",
-          is_featured: true
-        }
-      ]
-    },
-    {
-      id: "mock-p4",
-      name: "Pigeon Stovekraft Cruise 1800W Induction Cooktop",
-      price: 3195,
-      sale_price: 1449,
-      categories: { name: "Inductions", slug: "inductions" },
-      product_images: [
-        {
-          image_url: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?q=80&w=300",
-          is_featured: true
-        }
-      ]
-    }
-  ]);
-  const [loading, setLoading] = React.useState(false);
+  const [products, setProducts] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     let active = true;
@@ -147,7 +94,7 @@ export default function Home() {
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        if (active && data && data.length > 0) {
+        if (active && data) {
           setProducts(data);
         }
       } catch (err) {

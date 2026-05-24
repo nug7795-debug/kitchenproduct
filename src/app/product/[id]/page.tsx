@@ -1014,7 +1014,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px] items-center">
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         {/* Top Header strictly matching Flipkart mobile web style */}
-        <div className="flex items-center justify-between px-3 py-2.5 sticky top-0 bg-[#2874f0] z-50 shadow-sm text-white select-none">
+        <div className="flex items-center justify-between px-3 py-2.5 relative bg-[#2874f0] z-50 shadow-sm text-white select-none">
            <div className="flex items-center gap-3">
              <Link href="/">
                <ArrowLeft className="h-6 w-6 text-white stroke-[2.5px]" />

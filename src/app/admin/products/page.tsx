@@ -133,6 +133,7 @@ const STOVE_REVIEWS = [
 export default function ProductsPage() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   // Reviews Generator States
   const [selectedProduct, setSelectedProduct] = React.useState<any | null>(null);
@@ -315,6 +316,7 @@ export default function ProductsPage() {
   React.useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
+      setErrorMsg('');
       try {
         const { data, error } = await supabase
           .from('products')
@@ -332,24 +334,67 @@ export default function ProductsPage() {
 
         if (error) {
           console.error('Error fetching products:', error);
+          setErrorMsg(error.message || JSON.stringify(error));
           return;
         }
 
         if (data) {
-          const transformed = data.map(p => ({
-            id: p.id,
-            name: p.name,
-            category: p.categories?.name || 'Uncategorized', 
-            mrp: p.price ? `₹${p.price.toLocaleString()}` : '',
-            salePrice: p.sale_price ? `₹${p.sale_price.toLocaleString()}` : `₹${p.price?.toLocaleString() || '0'}`,
-            stock: p.stock_quantity || 0,
-            status: p.stock_quantity > 10 ? 'In Stock' : p.stock_quantity > 0 ? 'Low Stock' : 'Out of Stock',
-            image: p.product_images?.find((img: any) => img.is_featured)?.image_url || 'https://via.placeholder.com/200'
-          }));
+          const transformed = data.map(p => {
+            let categoryName = 'Uncategorized';
+            if (p.categories) {
+              if (Array.isArray(p.categories)) {
+                categoryName = p.categories[0]?.name || 'Uncategorized';
+              } else {
+                categoryName = p.categories.name || 'Uncategorized';
+              }
+            }
+            
+            let mrpValue = '';
+            try {
+              if (p.price) {
+                mrpValue = `₹${parseFloat(p.price).toLocaleString('en-IN')}`;
+              }
+            } catch (e) {
+              mrpValue = p.price ? `₹${p.price}` : '';
+            }
+
+            let salePriceValue = '₹0';
+            try {
+              if (p.sale_price) {
+                salePriceValue = `₹${parseFloat(p.sale_price).toLocaleString('en-IN')}`;
+              } else if (p.price) {
+                salePriceValue = `₹${parseFloat(p.price).toLocaleString('en-IN')}`;
+              }
+            } catch (e) {
+              salePriceValue = p.sale_price ? `₹${p.sale_price}` : (p.price ? `₹${p.price}` : '₹0');
+            }
+
+            let imageUrl = 'https://via.placeholder.com/200';
+            if (p.product_images) {
+              if (Array.isArray(p.product_images)) {
+                const featured = p.product_images.find((img: any) => img.is_featured);
+                imageUrl = featured?.image_url || p.product_images[0]?.image_url || imageUrl;
+              } else if (typeof p.product_images === 'object') {
+                imageUrl = (p.product_images as any).image_url || imageUrl;
+              }
+            }
+
+            return {
+              id: p.id,
+              name: p.name || 'Unnamed Product',
+              category: categoryName,
+              mrp: mrpValue,
+              salePrice: salePriceValue,
+              stock: p.stock_quantity || 0,
+              status: (p.stock_quantity || 0) > 10 ? 'In Stock' : (p.stock_quantity || 0) > 0 ? 'Low Stock' : 'Out of Stock',
+              image: imageUrl
+            };
+          });
           setProducts(transformed);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error fetching products:', err);
+        setErrorMsg(err.message || err.toString());
       } finally {
         setLoading(false);
       }
@@ -359,6 +404,12 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-8">
+      {errorMsg && (
+        <div className="bg-red-50 border-2 border-red-100 text-red-750 px-6 py-4 rounded-2xl text-xs font-bold leading-normal animate-pulse flex flex-col gap-1.5">
+          <p className="font-black uppercase tracking-widest text-[10px]">Database Connection / Fetch Failure</p>
+          <p>{errorMsg}</p>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Products</h1>

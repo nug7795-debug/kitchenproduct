@@ -93,12 +93,13 @@ body {
 }
 .product-data3 {
   background-color: #fff;
-  padding: 6px;
+  padding: 0px;
 }
 .product-data3 img {
-  margin-bottom: 0.5rem !important;
-  margin-top: 0.5rem !important;
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
   width: 100%;
+  display: block;
 }
 .product-data4 {
   background-color: #fff;

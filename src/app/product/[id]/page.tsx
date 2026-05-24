@@ -1167,12 +1167,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </h4>
             </div>
 
-            {/* product-data3 block: Spacer / guarantee image (Matches reference site exactly) */}
-            <div className="product-data3 border-b border-slate-100">
+            {/* product-data3 block: PhonePe Cashback Banner (Matches reference site layout but upgraded to look clean and native) */}
+            <div className="w-full border-b border-slate-100 bg-[#fff] overflow-hidden p-0 m-0 leading-[0]">
               <img 
-                src="https://akkskitchensalee.vercel.app/img/pro.png" 
-                alt="Feature guarantee" 
-                className="w-full object-contain"
+                src="/banners/phonepe_cashback.jpg" 
+                alt="PhonePe Cashback Offer" 
+                className="w-full block object-cover p-0 m-0"
+                style={{ display: 'block', width: '100%', height: 'auto', margin: 0, padding: 0 }}
               />
             </div>
 

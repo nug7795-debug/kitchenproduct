@@ -73,20 +73,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
 
   if (loading) {
     return (
-      <div className="w-full bg-white py-4 -mx-4 px-4 border-t border-b border-slate-200/80 my-2">
-        <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 select-none">Similar Products</h3>
-        <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-          <style dangerouslySetInnerHTML={{__html: `
-            .no-scrollbar::-webkit-scrollbar {
-              display: none;
-            }
-            .no-scrollbar {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
-            }
-          `}} />
+      <div className="w-full bg-[#f1f3f6] py-4 px-2">
+        <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 px-2 select-none">Similar Products</h3>
+        <div className="grid grid-cols-2 gap-2">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="min-w-[140px] w-[140px] shrink-0 border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm flex flex-col animate-pulse">
+            <div key={i} className="border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm flex flex-col animate-pulse">
               <div className="w-full aspect-square bg-slate-100 rounded-lg mb-2" />
               <div className="h-3.5 bg-slate-100 rounded w-5/6 mb-1" />
               <div className="h-3.5 bg-slate-100 rounded w-2/3 mb-2" />
@@ -102,18 +93,9 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-white py-4 -mx-4 px-4 border-t border-b border-slate-200/80 my-2">
-      <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 select-none">Similar Products</h3>
-      <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
-        <style dangerouslySetInnerHTML={{__html: `
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-          .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-        `}} />
+    <div className="w-full bg-[#f1f3f6] py-4">
+      <h3 className="text-[16px] font-extrabold text-slate-900 mb-3 px-4 select-none">Similar Products</h3>
+      <div className="grid grid-cols-2 gap-2 px-2">
         {products.map((item) => {
           const displayPrice = parseFloat(item.price) || 0;
           const displaySalePrice = parseFloat(item.sale_price) || displayPrice;
@@ -127,10 +109,10 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 router.push(`/product/${item.id}`);
               }}
-              className="min-w-[140px] w-[140px] shrink-0 border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col text-left active:scale-[0.98] transition-transform duration-100"
+              className="bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col text-left active:scale-[0.98] transition-transform duration-100 border border-slate-100"
             >
               {/* Product Image */}
-              <div className="w-full aspect-square relative rounded-lg overflow-hidden mb-2 bg-slate-50 flex items-center justify-center">
+              <div className="w-full aspect-square relative rounded-lg overflow-hidden mb-2 bg-white flex items-center justify-center">
                 <img
                   src={item.images[0]}
                   alt={item.name}
@@ -174,12 +156,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
               </div>
 
               {/* Assured Badge */}
-              <div className="mt-1.5 flex items-center h-[14px] select-none">
+              <div className="mt-1.5 flex items-center h-[14px] select-none justify-between w-full">
                 <img 
-                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                  src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
                   alt="Assured" 
                   className="h-[12px] w-auto shrink-0 opacity-90"
                 />
+                <span className="text-[10px] text-slate-400 font-medium">Free delivery</span>
               </div>
             </button>
           );
@@ -477,6 +460,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [loading, setLoading] = React.useState(true);
   const [selectedImage, setSelectedImage] = React.useState(0);
   const [isInCart, setIsInCart] = React.useState(false);
+  const [cartCount, setCartCount] = React.useState(0);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
   
   // Custom Timer for product-data2 countdown timer
@@ -897,6 +881,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       try {
         const cartList = JSON.parse(cached);
         setIsInCart(cartList.some((item: any) => item.id === id));
+        setCartCount(cartList.length);
       } catch (e) {
         console.error(e);
       }
@@ -910,7 +895,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       })
       .subscribe();
 
+    const handleStorageChange = () => {
+      const cachedList = localStorage.getItem('cart_items');
+      if (cachedList) {
+        try {
+          const parsed = JSON.parse(cachedList);
+          setCartCount(parsed.length);
+          setIsInCart(parsed.some((item: any) => item.id === id));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
     return () => {
+      window.removeEventListener('storage', handleStorageChange);
       supabase.removeChannel(channel);
     };
   }, [id]);
@@ -963,35 +963,44 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
 
   return (
-    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px]">
-      {/* Top Header */}
-      <div className="flex items-center justify-between px-3 py-2.5 sticky top-0 bg-white z-50 shadow-sm md:hidden">
-         <div className="flex items-center gap-3">
-           <Link href="/"><ArrowLeft className="h-6 w-6 text-slate-700" /></Link>
-           <Image src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/flipkart-plus_8d85f4.png" alt="Flipkart" width={75} height={20} className="h-5 w-auto object-contain" />
-         </div>
-         <div className="flex items-center gap-4">
-            <Search className="h-5 w-5 text-slate-700" />
-            <button 
-              onClick={handleShare}
-              aria-label="Share product"
-              className="active:scale-90 transition-transform h-8 w-8 flex items-center justify-center rounded-full hover:bg-slate-50"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5 text-slate-700 fill-current">
-                <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11.1z" />
-              </svg>
-            </button>
-            <ShoppingCart className="h-5 w-5 text-slate-700" />
-         </div>
-      </div>
+    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px] items-center">
+      <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
+        {/* Top Header strictly matching Flipkart mobile web style */}
+        <div className="flex items-center justify-between px-3 py-2.5 sticky top-0 bg-[#2874f0] z-50 shadow-sm text-white select-none">
+           <div className="flex items-center gap-3">
+             <Link href="/">
+               <ArrowLeft className="h-6 w-6 text-white stroke-[2.5px]" />
+             </Link>
+             <span className="text-[17px] font-bold text-white tracking-wide">Flipkart</span>
+           </div>
+           <div className="flex items-center gap-4">
+              <Search className="h-5 w-5 text-white" />
+              <button 
+                onClick={handleShare}
+                aria-label="Share product"
+                className="active:scale-90 transition-transform h-8 w-8 flex items-center justify-center rounded-full text-white hover:bg-blue-600/40"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                  <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11.1z" />
+                </svg>
+              </button>
+              <Link href="/cart" className="relative flex items-center justify-center h-8 w-8">
+                <ShoppingCart className="h-5 w-5 text-white" />
+                {cartCount > 0 && (
+                  <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+           </div>
+        </div>
 
-      <div className="md:container md:mx-auto md:px-4 md:py-8 bg-white md:bg-transparent">
-        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6 bg-white md:p-6 md:rounded-xl md:shadow-sm">
+        <div className="w-full flex flex-col">
           
            {/* Image Section */}
-           <div className="relative bg-white pt-2 pb-6 flex flex-col items-center border-b border-slate-100 md:border-none w-full">
+           <div className="relative bg-white pt-2 pb-6 flex flex-col items-center border-b border-slate-100 w-full">
             {/* Wishlist Button (Top-Right) */}
-            <button className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform">
+            <button className="absolute top-4 right-4 z-10 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform border border-slate-100">
               <Heart className="h-5 w-5 text-slate-400" />
             </button>
 
@@ -1066,22 +1075,39 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                  ))}
               </div>
             )}
-          </div>
+           </div>
 
           {/* Product Info Section */}
           <div className="bg-white flex flex-col">
             {/* product-data1 block */}
             <div className="product-data1 bg-white">
               <div className="product-title">{product.name}</div>
-              <img 
-                src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
-                style={{ width: "83px", marginTop: "10px", marginBottom: "4px" }} 
-                alt="logo"
-              />
+              
+              {/* Star ratings & Assured Row */}
+              <div className="flex items-center gap-1.5 mt-2 select-none flex-wrap">
+                <span className="bg-green-600 text-white text-[11px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-0.5 leading-none">
+                  {product.average_rating || 4.2} <Star className="h-2.5 w-2.5 fill-current" />
+                </span>
+                <span className="text-[12px] text-slate-500 font-bold">
+                  {(product.total_ratings || 1428).toLocaleString()} Ratings & {(product.total_reviews || 234).toLocaleString()} Reviews
+                </span>
+                <img 
+                  src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
+                  alt="Assured" 
+                  className="h-[14px] w-auto ml-1.5 shrink-0"
+                />
+              </div>
+
               <div className="p-pricedet">
                 {discount > 0 && <span className="discount">{discount}% off</span>}
-                {discount > 0 && <span className="mrp">₹{displayPrice.toLocaleString()}</span>}
-                <span className="price">₹{displaySalePrice.toLocaleString()}</span>
+                {discount > 0 && <span className="mrp">₹{Math.round(displayPrice).toLocaleString('en-IN')}</span>}
+                <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
+              </div>
+              
+              {/* Offers: Buy 3 Get 10% Off row styled exactly as akkskitchensalee.vercel.app */}
+              <div className="text-[14px] font-bold text-[#fb641b] mt-0.5 mb-3 flex items-center gap-1 select-none">
+                <span className="bg-[#fb641b]/10 text-[#fb641b] text-[10px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">Offer</span>
+                <span>Buy 3 Get 10% Off</span>
               </div>
             </div>
 
@@ -1092,9 +1118,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </h4>
             </div>
 
-            {/* product-data3 block */}
+            {/* product-data3 block: stacked infographics vertically for gorgeous landing presentation */}
             <div className="product-data3">
-              <img src="https://akkskitchensalee.vercel.app/img/pro.png" alt="" />
+              {product.images && product.images.length > 1 ? (
+                product.images.slice(1).map((imgUrl: string, idx: number) => (
+                  <img 
+                    key={idx} 
+                    src={imgUrl} 
+                    alt={`Feature infographic ${idx + 1}`} 
+                    className="w-full object-contain" 
+                    loading="lazy"
+                  />
+                ))
+              ) : (
+                <img src="https://akkskitchensalee.vercel.app/img/pro.png" alt="Feature infographic stack default" />
+              )}
             </div>
 
             {/* product-data4 block */}

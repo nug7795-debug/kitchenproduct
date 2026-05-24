@@ -733,7 +733,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}
-        <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-5">
+        <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-0">
           <h3 className="text-[16px] font-bold text-slate-800 pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between text-sm text-slate-600 font-medium">

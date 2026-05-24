@@ -1184,57 +1184,42 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </h4>
             </div>
 
-            {/* Unified PayLater & Trust Badges Section on White Background with zero padding gaps */}
-            <div className="bg-white px-4 pt-4 pb-3 border-b-8 border-[#f1f3f6] flex flex-col">
-              {/* PayLater Banner */}
-              <div className="paylater-banner flex items-center justify-between border border-[#e0e0e0] rounded-xl p-3.5 mb-4">
-                <div className="flex items-center gap-3">
-                  <img 
-                    src="https://akkskitchensalee.vercel.app/img/logo2.png" 
-                    alt="Flipkart Pay Later" 
-                    className="h-8 w-auto object-contain select-none" 
-                  />
-                  <div className="text-left">
-                    <h4 className="text-xs font-black text-slate-800 tracking-tight">Credit Up to ₹1 Lakh*</h4>
-                    <p className="text-[10px] text-slate-500 font-bold leading-tight mt-0.5">Shop Now & Pay Next Month or in EMIs</p>
-                    <span className="text-[10px] text-[#2874f0] font-black flex items-center gap-0.5 mt-0.5 cursor-pointer hover:underline">Activate Now &gt;</span>
-                  </div>
-                </div>
-                <span className="text-[7px] text-slate-400 font-bold self-end">*T&C APPLY</span>
-              </div>
+            {/* product-data3 block: Spacer / guarantee image (Matches reference site exactly) */}
+            <div className="product-data3 border-b border-slate-100">
+              <img 
+                src="https://akkskitchensalee.vercel.app/img/pro.png" 
+                alt="Feature guarantee" 
+                className="w-full object-contain"
+              />
+            </div>
 
-              {/* Trust Badges strictly styled side-by-side */}
-              <div className="product-data4 !py-0 !px-0 flex justify-between w-full select-none">
-                <div className="pry-1 flex-1">
-                  <img src="https://akkskitchensalee.vercel.app/img/pry-1.png" alt="7 days replacement" />
-                  <h5>7 days Replacement</h5>
-                </div>
-                <div className="pry-1 flex-1">
-                  <img src="https://akkskitchensalee.vercel.app/img/pry-2.png" alt="No cash on delivery" />
-                  <h5>No Cash On Delivery</h5>
-                </div>
-                <div className="pry-3 flex-1">
-                  <img src="https://akkskitchensalee.vercel.app/img/pry-3.png" alt="Plus F-Assured" />
-                  <h5 style={{ paddingTop: "10px" }}>Plus(F-Assured)</h5>
-                </div>
+            {/* product-data4 block: Trust Badges flat row (Matches reference site exactly) */}
+            <div className="product-data4 flex justify-between w-full select-none bg-white py-[15px] px-0 border-b-8 border-[#f1f3f6]">
+              <div className="pry-1 flex-1">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-1.png" alt="7 days replacement" />
+                <h5>7 days Replacement</h5>
+              </div>
+              <div className="pry-1 flex-1">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-2.png" alt="No cash on delivery" />
+                <h5>No Cash On Delivery</h5>
+              </div>
+              <div className="pry-3 flex-1">
+                <img src="https://akkskitchensalee.vercel.app/img/pry-3.png" alt="Plus F-Assured" />
+                <h5 style={{ paddingTop: "10px" }}>Plus(F-Assured)</h5>
               </div>
             </div>
 
-            {/* product-data3 block: stacked infographics vertically for gorgeous landing presentation */}
-            <div className="product-data3 border-b-8 border-[#f1f3f6]">
-              {product.images && product.images.length > 1 ? (
-                product.images.slice(1).map((imgUrl: string, idx: number) => (
-                  <img 
-                    key={idx} 
-                    src={imgUrl} 
-                    alt={`Feature infographic ${idx + 1}`} 
-                    className="w-full object-contain" 
-                    loading="lazy"
-                  />
-                ))
-              ) : (
-                <img src="https://akkskitchensalee.vercel.app/img/pro.png" alt="Feature infographic stack default" />
-              )}
+            {/* Vertically stacked product images (Matches reference site exactly) */}
+            <div className="flex flex-col gap-2.5 my-2.5 w-full bg-white select-none">
+              {product.images && product.images.map((imgUrl: string, idx: number) => (
+                <img 
+                  key={idx} 
+                  src={imgUrl} 
+                  alt={`Product image stack ${idx + 1}`} 
+                  className="w-full object-contain" 
+                  loading="lazy"
+                />
+              ))}
             </div>
 
 
@@ -1323,17 +1308,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                  })()}
                </div>
                
-                <button 
-                   onClick={() => {
-                     setVisibleCount(15);
-                     setShowAllReviewsModal(true);
-                   }}
-                   className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
-                 >
-                   All {(product.total_reviews || 2).toLocaleString()} reviews
-                   <ChevronRight className="h-4 w-4" />
-                </button>
+                            <button 
+                    onClick={() => {
+                      setVisibleCount(15);
+                      setShowAllReviewsModal(true);
+                    }}
+                    className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
+                  >
+                    All {(product.total_reviews || 2).toLocaleString()} reviews
+                    <ChevronRight className="h-4 w-4" />
+                 </button>
             </div>
+
+            {/* Similar Products */}
+            <SimilarProducts 
+              currentProductId={product.id} 
+              categoryId={product.category_id} 
+              categoryName={product.categoryName} 
+            />
           </div>
         </div>
       </div>

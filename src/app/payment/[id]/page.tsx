@@ -667,19 +667,25 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </p>
         </div>
 
-        {/* Payment Methods */}
-        <div className="mx-4 space-y-3.5 mb-5">
+        {/* Payment Methods - FULL BLEED edge-to-edge stacked layout with native radio circular selectors */}
+        <div className="space-y-0 mb-0 border-t border-slate-200">
           {/* 1. PhonePe Card */}
           <div
             onClick={() => setSelectedMethod(o.PHONEPE)}
-            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
-              selectedMethod === o.PHONEPE
-                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
-                : "border-slate-200 hover:border-slate-350"
+            className={`w-full bg-white py-4.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.PHONEPE ? "bg-blue-50/10" : "hover:bg-slate-50"
             }`}
             style={{ minHeight: 76 }}
           >
             <div className="flex items-center gap-4">
+              {/* circular Radio Indicator */}
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                selectedMethod === o.PHONEPE ? "border-[#2874F0]" : "border-slate-300"
+              }`}>
+                {selectedMethod === o.PHONEPE && (
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
+                )}
+              </div>
               <div className="h-9 w-9 flex items-center justify-center shrink-0">
                 <img 
                   src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
@@ -694,14 +700,20 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 2. Paytm Card */}
           <div
             onClick={() => setSelectedMethod(o.PAYTM)}
-            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
-              selectedMethod === o.PAYTM
-                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
-                : "border-slate-200 hover:border-slate-350"
+            className={`w-full bg-white py-4.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.PAYTM ? "bg-blue-50/10" : "hover:bg-slate-50"
             }`}
             style={{ minHeight: 76 }}
           >
             <div className="flex items-center gap-4">
+              {/* circular Radio Indicator */}
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                selectedMethod === o.PAYTM ? "border-[#2874F0]" : "border-slate-300"
+              }`}>
+                {selectedMethod === o.PAYTM && (
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
+                )}
+              </div>
               <div className="h-9 w-9 flex items-center justify-center shrink-0">
                 <img 
                   src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
@@ -716,14 +728,20 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 3. Scan To Pay Card */}
           <div
             onClick={() => setSelectedMethod(o.QR)}
-            className={`w-full bg-white rounded-xl p-4.5 border-2 transition-all flex items-center justify-between cursor-pointer ${
-              selectedMethod === o.QR
-                ? "border-[#2874F0] bg-blue-50/5 ring-1 ring-[#2874F0]"
-                : "border-slate-200 hover:border-slate-350"
+            className={`w-full bg-white py-4.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
+              selectedMethod === o.QR ? "bg-blue-50/10" : "hover:bg-slate-50"
             }`}
             style={{ minHeight: 76 }}
           >
             <div className="flex items-center gap-4">
+              {/* circular Radio Indicator */}
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                selectedMethod === o.QR ? "border-[#2874F0]" : "border-slate-300"
+              }`}>
+                {selectedMethod === o.QR && (
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
+                )}
+              </div>
               <div className="h-9 w-9 flex items-center justify-center shrink-0">
                 <ScanToPayIcon size={28} />
               </div>

@@ -1167,30 +1167,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </h4>
             </div>
 
-            {/* product-data3 block: PhonePe Cashback Banner (Matches reference site layout but upgraded to look clean and native) */}
-            <div className="w-full border-b border-slate-100 bg-[#fff] overflow-hidden p-0 m-0 leading-[0]">
+            {/* product-data3 & product-data4 block: Upgraded combined Pay Later & Trust Badges banner */}
+            <div className="w-full border-b-8 border-[#f1f3f6] bg-white overflow-hidden p-0 m-0 leading-[0]">
               <img 
-                src="/banners/phonepe_cashback.jpg" 
-                alt="PhonePe Cashback Offer" 
+                src="/banners/flipkart_pay_later.jpg" 
+                alt="Flipkart Pay Later & Trust Badges" 
                 className="w-full block object-cover p-0 m-0"
                 style={{ display: 'block', width: '100%', height: 'auto', margin: 0, padding: 0 }}
               />
-            </div>
-
-            {/* product-data4 block: Trust Badges flat row (Matches reference site exactly) */}
-            <div className="product-data4 flex justify-between w-full select-none bg-white py-[15px] px-0 border-b-8 border-[#f1f3f6]">
-              <div className="pry-1 flex-1">
-                <img src="https://akkskitchensalee.vercel.app/img/pry-1.png" alt="7 days replacement" />
-                <h5>7 days Replacement</h5>
-              </div>
-              <div className="pry-1 flex-1">
-                <img src="https://akkskitchensalee.vercel.app/img/pry-2.png" alt="No cash on delivery" />
-                <h5>No Cash On Delivery</h5>
-              </div>
-              <div className="pry-3 flex-1">
-                <img src="https://akkskitchensalee.vercel.app/img/pry-3.png" alt="Plus F-Assured" />
-                <h5 style={{ paddingTop: "10px" }}>Plus(F-Assured)</h5>
-              </div>
             </div>
 
             {/* Vertically stacked product images (Matches reference site exactly) */}

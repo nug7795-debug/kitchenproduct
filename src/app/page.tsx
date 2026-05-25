@@ -141,7 +141,7 @@ export default function Home() {
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
       {/* Main Banner Slider */}
-      <section className="bg-[#f1f3f6] w-full pt-1 pb-0.5">
+      <section className="bg-white w-full">
         <BannerSlider />
       </section>
 

@@ -708,8 +708,8 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] py-6 px-3 flex items-center justify-center font-sans">
-      <div className="w-full max-w-lg bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+    <div className="min-h-screen bg-slate-100 flex justify-center items-start font-sans">
+      <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         
         {/* Header */}
         <div className="bg-white px-4 py-3.5 border-b border-slate-100 flex items-center justify-between text-slate-900">
@@ -1026,9 +1026,9 @@ export default function CheckoutPage() {
           {/* STEP 2: ORDER SUMMARY */}
           {step === 'summary' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between">
-              <div className="space-y-2">
+              <div>
                 {/* 1. Deliver To Address Card - FULL BLEED */}
-                <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5">
+                <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5 mb-2">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-800 font-extrabold text-xs uppercase tracking-wider">
                       Deliver to:
@@ -1082,10 +1082,36 @@ export default function CheckoutPage() {
                               <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
                             </div>
                             
-                            {/* Qty Selector Capsule */}
+                            {/* Qty Selector Capsule - Interactive Dropdown */}
                             <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
                               <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
                               <ChevronDown className="h-3 w-3 text-slate-500" />
+                              <select 
+                                value={item.quantity} 
+                                onChange={(e) => {
+                                  const q = parseInt(e.target.value);
+                                  const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
+                                  setCartItems(updated);
+                                  
+                                  // Sync to localStorage so cart and checkout remain perfectly in sync
+                                  const cached = localStorage.getItem('cart_items');
+                                  if (cached) {
+                                    try {
+                                      const cartList = JSON.parse(cached);
+                                      const updatedCart = cartList.map((it: any) => it.id === item.productId ? { ...it, quantity: q } : it);
+                                      localStorage.setItem('cart_items', JSON.stringify(updatedCart));
+                                      window.dispatchEvent(new Event('storage'));
+                                    } catch (err) {
+                                      console.error(err);
+                                    }
+                                  }
+                                }}
+                                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                              >
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(q => (
+                                  <option key={q} value={q}>{q}</option>
+                                ))}
+                              </select>
                             </div>
                           </div>
 

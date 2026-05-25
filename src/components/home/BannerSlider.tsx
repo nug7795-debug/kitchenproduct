@@ -36,8 +36,8 @@ export const BannerSlider = () => {
   }, [banners]);
 
   return (
-    <div className="w-full bg-white">
-      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-50">
+    <div className="w-full bg-[#f1f3f6]">
+      <div className="relative mx-3.5 mt-1.5 aspect-[2/1] overflow-hidden rounded-2xl bg-white shadow-3xs">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={current}
@@ -55,23 +55,24 @@ export const BannerSlider = () => {
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
             />
-            <div className="absolute top-2 right-2 bg-black/40 text-[7px] text-white px-2 py-0.5 rounded-full font-black tracking-widest backdrop-blur-sm">AD</div>
+            <div className="absolute bottom-2.5 right-2.5 bg-black/35 text-[7px] text-white px-1.5 py-0.5 rounded-xs font-semibold tracking-wider backdrop-blur-3xs select-none pointer-events-none">AD</div>
           </motion.div>
         </AnimatePresence>
+      </div>
 
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 space-x-1.5 items-center">
-          {banners.map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "transition-all duration-300",
-                current === i 
-                  ? "w-8 h-1.5 bg-black rounded-full" 
-                  : "w-1.5 h-1.5 bg-slate-300 rounded-full"
-              )}
-            />
-          ))}
-        </div>
+      {/* Carousel Indicators placed below the banner exactly like native Flipkart */}
+      <div className="flex justify-center items-center mt-2.5 pb-2 space-x-1.5">
+        {banners.map((_, i) => (
+          <div
+            key={i}
+            className={cn(
+              "transition-all duration-300",
+              current === i 
+                ? "w-8 h-1 bg-[#111111] rounded-full" 
+                : "w-1.5 h-1.5 bg-[#d6d8db] rounded-full"
+            )}
+          />
+        ))}
       </div>
     </div>
   );

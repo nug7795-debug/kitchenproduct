@@ -83,23 +83,44 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   React.useEffect(() => {
     const fetchSimilarProducts = async () => {
-      if (!categoryId) return;
       try {
         setLoading(true);
-        // Fetch a wider pool of products from the same category to rank them dynamically
-        const { data, error } = await supabase
-          .from('products')
-          .select(`
-            *,
-            categories (name, slug),
-            product_images (image_url, is_featured)
-          `)
-          .eq('category_id', categoryId)
-          .neq('id', currentProductId)
-          .eq('is_active', true)
-          .limit(100);
+        let data: any[] | null = null;
+        let error = null;
 
-        if (error) throw error;
+        if (categoryId) {
+          // Fetch products from the same category
+          const response = await supabase
+            .from('products')
+            .select(`
+              *,
+              categories (name, slug),
+              product_images (image_url, is_featured)
+            `)
+            .eq('category_id', categoryId)
+            .neq('id', currentProductId)
+            .eq('is_active', true)
+            .limit(100);
+          data = response.data;
+          error = response.error;
+        }
+
+        // Fallback: If no category ID is present, or if it returned fewer than 4 products, query all active products
+        if (error || !data || data.length < 4) {
+          const fallbackResponse = await supabase
+            .from('products')
+            .select(`
+              *,
+              categories (name, slug),
+              product_images (image_url, is_featured)
+            `)
+            .neq('id', currentProductId)
+            .eq('is_active', true)
+            .limit(100);
+          if (fallbackResponse.data) {
+            data = fallbackResponse.data;
+          }
+        }
 
         if (data) {
           // Tokenize the current product name to extract keywords
@@ -287,11 +308,11 @@ interface MockReview {
   created_at: string;
 }
 
-const getMockReviews = (productName: string, totalReviews: number): MockReview[] => {
+const getMockReviews = (productName: string, totalReviews: number, productImageUrl?: string): MockReview[] => {
   const lower = (productName || '').toLowerCase();
   
   let type: 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
-  let defaultImageUrl = 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=300';
+  let defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=300';
   
   if (lower.includes('luggage') || lower.includes('trolley') || lower.includes('bag')) {
     type = 'luggage';
@@ -1287,7 +1308,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                {/* Sample/Dynamic Reviews List (Short version for details page) */}
                <div className="space-y-4">
                  {(() => {
-                   const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                   const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
                    return combined.slice(0, 3).map((review) => (
                       <div key={review.id} className="review-card">
                         <div className="rating">
@@ -1540,7 +1561,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* List Body */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
               {(() => {
-                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
                 return combined.slice(0, visibleCount).map((review) => (
                   <div key={review.id} className="border-b border-slate-100 pb-6 last:border-none last:pb-0 space-y-3">
                     <div className="flex items-center gap-2">
@@ -1592,7 +1613,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               })()}
 
               {(() => {
-                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews)];
+                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
                 if (visibleCount < combined.length) {
                   return (
                     <div className="flex justify-center pt-2 pb-6">

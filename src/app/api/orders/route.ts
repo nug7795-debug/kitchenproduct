@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { getUser } from '@/lib/auth';
+import { getUser, adminOnly } from '@/lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -67,6 +67,46 @@ export async function POST(request: Request) {
     if (itemsError) throw itemsError;
 
     return NextResponse.json(order, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const user = await adminOnly(request);
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { ids } = await request.json();
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ error: 'Invalid or empty IDs list' }, { status: 400 });
+    }
+
+    // 1. Delete associated payments first to prevent foreign key errors
+    const { error: payErr } = await supabaseAdmin
+      .from('payments')
+      .delete()
+      .in('order_id', ids);
+    if (payErr) console.warn("Payment delete warning:", payErr);
+
+    // 2. Delete associated order_items
+    const { error: itemsErr } = await supabaseAdmin
+      .from('order_items')
+      .delete()
+      .in('order_id', ids);
+    if (itemsErr) console.warn("Order items delete warning:", itemsErr);
+
+    // 3. Delete the orders
+    const { error: orderErr } = await supabaseAdmin
+      .from('orders')
+      .delete()
+      .in('id', ids);
+
+    if (orderErr) throw orderErr;
+
+    return NextResponse.json({ success: true, deletedCount: ids.length });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

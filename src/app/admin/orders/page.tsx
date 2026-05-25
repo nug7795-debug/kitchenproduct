@@ -206,26 +206,22 @@ export default function OrdersPage() {
 
     setIsDeleting(true);
     try {
-      // 1. Delete associated payments first to prevent foreign key errors
-      const { error: payErr } = await supabase
-        .from('payments')
-        .delete()
-        .in('order_id', idsToDelete);
-      if (payErr) console.warn("Payment delete warning:", payErr);
+      // Retrieve the current auth session to attach token
+      const { data: { session } } = await supabase.auth.getSession();
 
-      // 2. Delete associated order_items
-      const { error: itemsErr } = await supabase
-        .from('order_items')
-        .delete()
-        .in('order_id', idsToDelete);
-      if (itemsErr) console.warn("Order items delete warning:", itemsErr);
+      const response = await fetch('/api/orders', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token || ''}`
+        },
+        body: JSON.stringify({ ids: idsToDelete })
+      });
 
-      // 3. Delete the orders
-      const { error: orderErr } = await supabase
-        .from('orders')
-        .delete()
-        .in('id', idsToDelete);
-      if (orderErr) throw orderErr;
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Failed to delete orders from server');
+      }
 
       // Update state locally
       setOrders(prev => prev.filter(o => !idsToDelete.includes(o.id)));

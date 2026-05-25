@@ -51,9 +51,12 @@ export const BannerSlider = () => {
             <img
               src={banners[current]?.image_url}
               alt={banners[current]?.title || 'Banner'}
-              className="w-full h-full object-fill"
+              className="w-full h-full object-fill select-none pointer-events-none"
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
+              draggable="false"
+              onContextMenu={(e) => e.preventDefault()}
+              style={{ WebkitTouchCallout: 'none' }}
             />
             <div className="absolute bottom-2.5 right-2.5 bg-black/35 text-[7px] text-white px-1.5 py-0.5 rounded-xs font-semibold tracking-wider backdrop-blur-3xs select-none pointer-events-none">AD</div>
           </motion.div>

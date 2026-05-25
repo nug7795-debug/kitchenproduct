@@ -746,26 +746,24 @@ export default function CheckoutPage() {
               Secure
             </div>
           )}
-        </div>
-
-        {/* Steps Tracker Indicator */}
-        <div className="bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center relative max-w-md mx-auto">
+        </div>        {/* Steps Tracker Indicator */}
+        <div className="bg-white border-b border-slate-100 px-4 py-4.5 flex justify-between items-center relative w-full select-none">
           {/* Background Connecting Line - Segment 1 (Address to Summary) */}
           <div className={cn(
-            "absolute top-[28px] left-[15%] w-[35%] h-[1.5px] z-0 transition-all",
+            "absolute top-[34px] left-[18%] w-[32%] h-[2px] z-0 transition-all",
             step === 'address' ? "bg-slate-200" : "bg-[#2874f0]"
           )} />
           
           {/* Background Connecting Line - Segment 2 (Summary to Payment) */}
           <div className={cn(
-            "absolute top-[28px] right-[15%] w-[35%] h-[1.5px] z-0 transition-all",
+            "absolute top-[34px] right-[18%] w-[32%] h-[2px] z-0 transition-all",
             (step === 'payment' || step === 'utr_entry' || step === 'verifying' || step === 'success') ? "bg-[#2874f0]" : "bg-slate-200"
           )} />
           
           {/* Step 1: Address */}
           <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
-              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              "h-8 w-8 rounded-full flex items-center justify-center text-sm font-black transition-all",
               step === 'address'
                 ? "bg-[#2874f0] text-white shadow-sm"
                 : "border-2 border-[#2874f0] bg-white text-[#2874f0]"
@@ -773,8 +771,8 @@ export default function CheckoutPage() {
               {step === 'address' ? '1' : '✓'}
             </div>
             <span className={cn(
-              "text-[10px] font-bold mt-1.5 transition-all tracking-tight", 
-              step === 'address' ? "text-[#2874f0]" : "text-slate-500"
+              "text-[11px] mt-2 transition-all tracking-tight", 
+              step === 'address' ? "text-[#2874f0] font-black" : "text-slate-500 font-bold"
             )}>
               Address
             </span>
@@ -783,9 +781,9 @@ export default function CheckoutPage() {
           {/* Step 2: Order Summary */}
           <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
-              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              "h-8 w-8 rounded-full flex items-center justify-center text-sm font-black transition-all",
               step === 'address'
-                ? "border border-slate-300 bg-white text-slate-400"
+                ? "border border-slate-350 bg-white text-slate-400"
                 : step === 'summary'
                 ? "bg-[#2874f0] text-white shadow-sm"
                 : "border-2 border-[#2874f0] bg-white text-[#2874f0]"
@@ -793,10 +791,10 @@ export default function CheckoutPage() {
               {step === 'address' || step === 'summary' ? '2' : '✓'}
             </div>
             <span className={cn(
-              "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
+              "text-[11px] mt-2 transition-all tracking-tight",
               step === 'summary'
-                ? "text-slate-800 font-extrabold"
-                : "text-slate-400"
+                ? "text-slate-800 font-black"
+                : "text-slate-400 font-bold"
             )}>
               Order Summary
             </span>
@@ -805,22 +803,22 @@ export default function CheckoutPage() {
           {/* Step 3: Payment */}
           <div className="flex flex-col items-center relative z-10 flex-1">
             <div className={cn(
-              "h-6 w-6 rounded-full flex items-center justify-center text-xs font-black transition-all",
+              "h-8 w-8 rounded-full flex items-center justify-center text-sm font-black transition-all",
               step === 'payment' || step === 'utr_entry' || step === 'verifying'
                 ? "bg-[#2874f0] text-white shadow-sm"
                 : step === 'success'
                 ? "bg-[#388e3c] text-white"
-                : "border border-slate-300 bg-white text-slate-400"
+                : "border border-slate-350 bg-white text-slate-400"
             )}>
               {step === 'success' ? '✓' : '3'}
             </div>
             <span className={cn(
-              "text-[10px] font-bold mt-1.5 transition-all tracking-tight",
+              "text-[11px] mt-2 transition-all tracking-tight",
               step === 'payment' || step === 'utr_entry' || step === 'verifying'
-                ? "text-[#2874f0] font-extrabold"
+                ? "text-[#2874f0] font-black"
                 : step === 'success'
-                ? "text-[#388e3c] font-extrabold"
-                : "text-slate-400"
+                ? "text-[#388e3c] font-black"
+                : "text-slate-400 font-bold"
             )}>
               Payment
             </span>

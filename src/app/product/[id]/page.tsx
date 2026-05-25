@@ -73,9 +73,10 @@ interface SimilarProductsProps {
   currentProductId: string;
   categoryId: string;
   categoryName?: string;
+  currentProductName?: string;
 }
 
-const SimilarProducts = ({ currentProductId, categoryId, categoryName }: SimilarProductsProps) => {
+const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentProductName = '' }: SimilarProductsProps) => {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
@@ -85,6 +86,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
       if (!categoryId) return;
       try {
         setLoading(true);
+        // Fetch a wider pool of products from the same category to rank them dynamically
         const { data, error } = await supabase
           .from('products')
           .select(`
@@ -95,19 +97,70 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
           .eq('category_id', categoryId)
           .neq('id', currentProductId)
           .eq('is_active', true)
-          .limit(8);
+          .limit(100);
 
         if (error) throw error;
 
         if (data) {
-          const formatted = data.map((item: any) => ({
-            ...item,
-            categoryName: item.categories?.name || categoryName || 'Kitchen',
-            images: item.product_images?.length > 0 
-              ? item.product_images.map((img: any) => img.image_url)
-              : ['https://via.placeholder.com/600']
-          }));
-          setProducts(formatted);
+          // Tokenize the current product name to extract keywords
+          const commonWords = new Set(['with', 'and', 'the', 'set', 'of', 'in', 'by', 'for', 'a', 'an', 'to', 'on', 'at', 'from']);
+          const keywords = currentProductName.toLowerCase()
+            .replace(/[^a-z0-9\s]/g, '')
+            .split(/\s+/)
+            .filter(word => word.length > 2 && !commonWords.has(word));
+
+          const formatted = data.map((item: any) => {
+            const candidateName = item.name || '';
+            const candidateLower = candidateName.toLowerCase();
+            let score = 0;
+
+            // 1. Keyword overlap scoring
+            keywords.forEach(keyword => {
+              if (candidateLower.includes(keyword)) {
+                score += 15;
+              }
+            });
+
+            // 2. Exact word boundary match boost
+            keywords.forEach(keyword => {
+              const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+              if (regex.test(candidateName)) {
+                score += 25;
+              }
+            });
+
+            // 3. Category/Type specific matching boost
+            const types = [
+              'mixer', 'grinder', 'cooker', 'stove', 'cooler', 'speaker', 'luggage', 'watch', 
+              'earbuds', 'neckband', 'ac', 'dry fruits', 'oil', 'pan', 'trolley', 'fan', 'hob'
+            ];
+            types.forEach(type => {
+              const currentHasType = keywords.some(kw => kw.includes(type)) || currentProductName.toLowerCase().includes(type);
+              const candidateHasType = candidateLower.includes(type);
+              if (currentHasType && candidateHasType) {
+                score += 150; // Massively boost matching categories (e.g. stove to stove, cooler to cooler)
+              }
+            });
+
+            // 4. Slight random factor (+0 to +9) so that identical scores shuffle dynamically on click/refresh
+            const randomTieBreaker = Math.random() * 10;
+
+            return {
+              ...item,
+              categoryName: item.categories?.name || categoryName || 'Kitchen',
+              images: item.product_images?.length > 0 
+                ? item.product_images.map((img: any) => img.image_url)
+                : ['https://via.placeholder.com/600'],
+              similarityScore: score + randomTieBreaker
+            };
+          });
+
+          // Sort by similarity score descending (highest matches first) and limit to 8
+          const sorted = formatted
+            .sort((a: any, b: any) => b.similarityScore - a.similarityScore)
+            .slice(0, 8);
+
+          setProducts(sorted);
         }
       } catch (err) {
         console.error('Error fetching similar products:', err);
@@ -117,7 +170,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName }: Similar
     };
 
     fetchSimilarProducts();
-  }, [categoryId, currentProductId, categoryName]);
+  }, [categoryId, currentProductId, categoryName, currentProductName]);
 
   if (loading) {
     return (
@@ -1306,6 +1359,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               currentProductId={product.id} 
               categoryId={product.category_id} 
               categoryName={product.categoryName} 
+              currentProductName={product.name}
             />
           </div>
         </div>

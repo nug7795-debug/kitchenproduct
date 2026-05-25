@@ -161,8 +161,13 @@ export default function Home() {
         </div>
       </section>
 
-
-
+      {/* Suggested For You Section Header */}
+      <section className="bg-white w-full pt-4 pb-2 px-4 flex items-center justify-between select-none">
+        <h2 className="text-[17px] font-extrabold text-[#111111] tracking-tight">Suggested For You</h2>
+        <div className="bg-black rounded-full p-1.5 flex items-center justify-center cursor-pointer hover:bg-slate-900 active:scale-95 transition-all">
+          <ArrowRight className="h-4 w-4 text-white" strokeWidth={3} />
+        </div>
+      </section>
 
       <section className="bg-white px-3 pb-6">
         {loading ? (

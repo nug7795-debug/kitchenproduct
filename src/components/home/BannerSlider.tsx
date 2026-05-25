@@ -37,7 +37,7 @@ export const BannerSlider = () => {
 
   return (
     <div className="w-full bg-white">
-      <div className="relative w-full aspect-[21/9] overflow-hidden bg-gray-50">
+      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-50">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={current}

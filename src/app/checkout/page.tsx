@@ -101,6 +101,10 @@ export default function CheckoutPage() {
   const [couponError, setCouponError] = React.useState<string | null>(null);
   const [couponDiscount, setCouponDiscount] = React.useState(0);
 
+  // Black Membership and Direct UPI Donation States
+  const [isBlackMembershipAdded, setIsBlackMembershipAdded] = React.useState(false);
+  const [donationAmount, setDonationAmount] = React.useState<number>(0);
+
   // Address Field splits to exactly match the design
   const [houseNumber, setHouseNumber] = React.useState('');
   const [roadName, setRoadName] = React.useState('');
@@ -259,8 +263,9 @@ export default function CheckoutPage() {
 
   const totalOriginal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const baseSaleTotal = cartItems.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
-  const totalSale = Math.max(0, baseSaleTotal - couponDiscount);
-  const totalDiscount = totalOriginal - totalSale;
+  const membershipFee = isBlackMembershipAdded ? 990 : 0;
+  const totalSale = Math.max(0, baseSaleTotal - couponDiscount + membershipFee + donationAmount);
+  const totalDiscount = totalOriginal - (baseSaleTotal - couponDiscount);
 
   // Copy VPA to Clipboard Utility
   const handleCopyVpa = () => {
@@ -1168,6 +1173,104 @@ export default function CheckoutPage() {
                   })}
                 </div>
 
+                {/* 3. Get privileges Card (Flipkart BLACK) */}
+                <div className="bg-white p-4.5 border-b border-slate-200 mb-2">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                      {/* Kitchen BLACK Badge */}
+                      <div className="h-14 w-14 shrink-0 bg-gradient-to-br from-slate-950 via-slate-900 to-black rounded-xl flex flex-col items-center justify-center p-1.5 shadow-md border border-slate-700 select-none">
+                        <span className="text-[7px] font-bold text-slate-400 tracking-wider uppercase leading-none">Kitchen</span>
+                        <span className="text-[10px] font-black text-white tracking-widest uppercase mt-0.5 leading-none">BLACK</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-black text-slate-800 tracking-tight leading-snug">
+                          Get privileges worth ₹2,290
+                        </h4>
+                        <p className="text-[9.5px] text-slate-500 font-bold mt-0.5 leading-normal">
+                          FREE YouTube Premium, 5% SuperCoin cashback only with Black membership
+                        </p>
+                        <div className="flex items-center gap-1.5 mt-2">
+                          <span className="text-[10px] text-slate-400 line-through">₹1,499</span>
+                          <span className="text-xs font-black text-slate-900">₹990 for 1 year</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button
+                      type="button"
+                      onClick={() => setIsBlackMembershipAdded(!isBlackMembershipAdded)}
+                      className={cn(
+                        "rounded-lg px-4 py-1.5 text-xs font-black uppercase tracking-wider transition-all select-none shrink-0 border cursor-pointer",
+                        isBlackMembershipAdded
+                          ? "bg-slate-50 text-slate-500 border-slate-200"
+                          : "bg-[#2874f0] border-[#2874f0] text-white hover:bg-blue-600 shadow-sm"
+                      )}
+                    >
+                      {isBlackMembershipAdded ? '✓ Added' : 'Add'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4. Rest assured with Open Box Delivery */}
+                <div className="bg-white p-4.5 border-y border-slate-200 mb-2 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">📦</span>
+                    <h4 className="text-[11px] font-extrabold text-[#873e23] uppercase tracking-wide">
+                      Rest assured with Open Box Delivery
+                    </h4>
+                  </div>
+                  <p className="text-[9.5px] text-slate-500 font-bold leading-normal pl-6">
+                    Delivery agent will open the package so you can check for correct product, damage or missing items. Share OTP to accept the delivery.
+                  </p>
+                </div>
+
+                {/* 4.1. Direct UPI Payment / Donation Widget */}
+                <div className="bg-white p-4.5 border-y border-slate-200 mb-2 space-y-3">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <h4 className="text-xs font-black text-slate-800 tracking-tight">Direct UPI Payment</h4>
+                      <p className="text-[9.5px] text-slate-500 font-bold mt-0.5 leading-normal">
+                        Support transformative social work in India
+                      </p>
+                    </div>
+                    
+                    {/* Social Support image */}
+                    <div className="h-10 w-16 bg-slate-100 rounded-lg overflow-hidden shrink-0 border border-slate-200 shadow-3xs">
+                      <img 
+                        src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=200" 
+                        alt="Social Support" 
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Donation Pills */}
+                  <div className="flex items-center gap-2 pt-1">
+                    {[10, 20, 50, 100].map((amount) => {
+                      const isSelected = donationAmount === amount;
+                      return (
+                        <button
+                          key={amount}
+                          type="button"
+                          onClick={() => setDonationAmount(isSelected ? 0 : amount)}
+                          className={cn(
+                            "flex-1 py-1.5 rounded-full text-xs font-black transition-all border text-center select-none cursor-pointer",
+                            isSelected 
+                              ? "bg-[#2874f0] border-[#2874f0] text-white shadow-xs" 
+                              : "bg-white border-slate-250 text-slate-700 hover:bg-slate-50"
+                          )}
+                        >
+                          ₹{amount}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  
+                  <p className="text-[9px] text-slate-400 font-bold pt-1 leading-none">
+                    Note: GST and No cost EMI will not be applicable
+                  </p>
+                </div>
+
                 {/* 5. Price Details Breakdown & 6. Green Savings Banner - FULL BLEED UNIFIED CONTAINER */}
                 <div className="bg-white border-y border-slate-200 overflow-hidden">
                   <div className="py-4 px-5 space-y-3">
@@ -1180,6 +1283,18 @@ export default function CheckoutPage() {
                       <span className="text-slate-500 font-medium">Discount Savings</span>
                       <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
                     </div>
+                    {isBlackMembershipAdded && (
+                      <div className="flex justify-between items-center text-xs animate-in fade-in">
+                        <span className="text-slate-500 font-medium">Black Membership (1 Year)</span>
+                        <span className="font-bold text-slate-705 text-slate-800">₹990</span>
+                      </div>
+                    )}
+                    {donationAmount > 0 && (
+                      <div className="flex justify-between items-center text-xs animate-in fade-in">
+                        <span className="text-slate-500 font-medium">UPI Donation Support</span>
+                        <span className="font-bold text-slate-705 text-slate-800">₹{donationAmount}</span>
+                      </div>
+                    )}
                     {couponDiscount > 0 && (
                       <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
                         <span className="text-emerald-700 font-bold flex items-center gap-1">
@@ -1205,6 +1320,13 @@ export default function CheckoutPage() {
                     </span>
                     <span>You'll save ₹{(totalOriginal - totalSale).toLocaleString()} on this order!</span>
                   </div>
+                </div>
+
+                {/* Age Consent and Terms Notice */}
+                <div className="bg-[#f8fafc] border border-slate-200/60 rounded-xl p-4 mx-4 my-4 text-[10.5px] font-bold text-slate-500 leading-relaxed shadow-3xs">
+                  By continuing with the order, you confirm that you are above 18 years of age, and you agree to the{' '}
+                  <a href="/terms" className="text-[#2874f0] hover:underline font-extrabold">Terms of Use</a> and{' '}
+                  <a href="/privacy" className="text-[#2874f0] hover:underline font-extrabold">Privacy Policy</a>.
                 </div>
               </div>
 

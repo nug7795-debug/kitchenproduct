@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Flipkart - Online Shopping for Electronics, Mobile, Fashion, etc.",
   description: "Shop online for Electronics, Mobile, Fashion, Appliances and more on Flipkart.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export const viewport = {

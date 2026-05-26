@@ -131,7 +131,7 @@ export const Header = () => {
       {/* Top Tabs */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
         <button className="flex-1 flex items-center justify-center gap-1.5 bg-[#fbde3b] text-[#2874f0] h-10 rounded-[8px] font-black text-[14px] shadow-sm tracking-tight active:scale-95 transition-transform px-2 italic">
-          <span className="text-[#2874f0] font-black italic text-[16px]">f</span> Flipkart
+          <span className="text-[#2874f0] font-black italic text-[16px]">f</span> kitchenproduct
         </button>
         <button className="flex-1 flex items-center justify-center gap-1.5 bg-white text-slate-800 h-10 rounded-[8px] font-bold text-[13px] shadow-sm active:scale-95 transition-transform px-2">
           <Plane className="text-[#ff4343] fill-[#ff4343] w-4 h-4" />

@@ -1093,7 +1093,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
              <Link href="/">
                <ArrowLeft className="h-6 w-6 text-white stroke-[2.5px]" />
              </Link>
-             <span className="text-[17px] font-bold text-white tracking-wide">Flipkart</span>
+             <span className="text-[17px] font-bold text-white tracking-wide">kitchenproduct</span>
            </div>
            <div className="flex items-center gap-4">
               <Search className="h-5 w-5 text-white" />

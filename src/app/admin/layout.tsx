@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Sidebar } from "../../components/admin/Sidebar";
 import { cn } from "../../lib/utils";
-import { Lock, Mail, Eye, EyeOff, KeyRound, Loader2, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, KeyRound, Loader2, ShieldCheck, Menu, X } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -16,6 +16,9 @@ export default function AdminLayout({
   const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = React.useState('');
   const [loading, setLoading] = React.useState(false);
+
+  // Responsive sidebar drawer state for mobile
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   React.useEffect(() => {
     // Check if user is already authenticated in local storage
@@ -154,16 +157,30 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <style dangerouslySetInnerHTML={{ __html: `
-        body > div > div > div { 
+        /* Overrides to break out of storefront max-w-[500px] mobile container */
+        body > div { 
+          align-items: stretch !important;
+          background-color: transparent !important;
+        }
+        body > div > div { 
           max-width: none !important; 
           width: 100% !important;
+          box-shadow: none !important;
         }
         .md\\:ml-64 { margin-left: 16rem !important; }
       ` }} />
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="md:ml-64 transition-all duration-300">
-        <header className="sticky top-0 z-30 h-20 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-          <div className="flex items-center gap-4">
+        <header className="sticky top-0 z-30 h-20 flex items-center justify-between px-4 sm:px-8 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+          <div className="flex items-center gap-3 sm:gap-4">
+            {/* Mobile Hamburger menu toggle button */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden h-10 w-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 active:scale-95 transition-transform"
+              aria-label="Toggle Navigation Sidebar"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
             <div className="flex flex-col">
               <h1 className="text-xl font-extrabold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
                 KitchenProduct
@@ -193,7 +210,7 @@ export default function AdminLayout({
           </div>
         </header>
 
-        <main className="p-8 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <main className="p-4 sm:p-8 max-w-[1600px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
           {children}
           <footer className="mt-12 py-6 border-t border-slate-200/60 text-center">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">

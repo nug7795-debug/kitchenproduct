@@ -1324,7 +1324,7 @@ export default function CheckoutPage() {
 
                 {/* Age Consent and Terms Notice */}
                 <div className="bg-[#f8fafc] border border-slate-200/60 rounded-xl p-4 mx-4 my-4 text-[10.5px] font-bold text-slate-500 leading-relaxed shadow-3xs">
-                  By continuing with the order, you confirm that you are above 18 years of age, and you agree to the{' '}
+                  By continuing with the order, you confirm that you are above 18 years of age, and you agree to the Flipkart's{' '}
                   <a href="/terms" className="text-[#2874f0] hover:underline font-extrabold">Terms of Use</a> and{' '}
                   <a href="/privacy" className="text-[#2874f0] hover:underline font-extrabold">Privacy Policy</a>.
                 </div>

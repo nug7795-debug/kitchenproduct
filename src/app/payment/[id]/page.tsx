@@ -313,6 +313,55 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [phonepeIntent, setPhonepeIntent] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [upiUrl, setUpiUrl] = useState("");
+
+  const [activePayScreen, setActivePayScreen] = useState<'select' | 'phonepe' | 'paytm'>('select');
+  const [upiId, setUpiId] = useState('paytm.s29ckmp@pty');
+  const [merchantName, setMerchantName] = useState('Gohil Vikrambhai Kanabhai');
+
+  const getInitials = (name: string) => {
+    if (!name) return "GK";
+    const parts = name.split(" ");
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
+  const amountToWords = (amount: number): string => {
+    const words = [
+      "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+      "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+    ];
+    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    
+    if (amount === 0) return "Zero Only";
+    
+    let str = "";
+    if (amount >= 100000) {
+      str += amountToWords(Math.floor(amount / 100000)) + " Lakh ";
+      amount %= 100000;
+    }
+    if (amount >= 1000) {
+      str += amountToWords(Math.floor(amount / 1000)) + " Thousand ";
+      amount %= 1000;
+    }
+    if (amount >= 100) {
+      str += words[Math.floor(amount / 100)] + " Hundred ";
+      amount %= 100;
+    }
+    if (amount > 0) {
+      if (str !== "") str += "and ";
+      if (amount < 20) {
+        str += words[amount];
+      } else {
+        str += tens[Math.floor(amount / 10)];
+        if (amount % 10 > 0) {
+          str += " " + words[amount % 10];
+        }
+      }
+    }
+    return str.trim() + " Only";
+  };
   
   const [isLoaded, setIsLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -379,6 +428,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             setPhonepeIntent(t.phonepeIntent);
             setQrCodeUrl(t.qrCodeUrl);
             setUpiUrl(t.upiUrl);
+            if (t.upiId) setUpiId(t.upiId);
+            if (t.merchantName) setMerchantName(t.merchantName);
             setIsLoaded(true);
           } else {
             setErrorMessage(t.error || "Could not initiate payment details");
@@ -418,6 +469,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         setPhonepeIntent(t.phonepeIntent);
         setQrCodeUrl(t.qrCodeUrl);
         setUpiUrl(t.upiUrl);
+        if (t.upiId) setUpiId(t.upiId);
+        if (t.merchantName) setMerchantName(t.merchantName);
         setIsLoaded(true);
       } catch (err: any) {
         setErrorMessage(err.message || "Network error");
@@ -481,12 +534,20 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
   // Back state prevention and PopState Payment Guard
   useEffect(() => {
-    if (!activeVerificationApp && !showQrModal) return;
+    if (activePayScreen === 'select' && !activeVerificationApp && !showQrModal) return;
     try {
       window.history.pushState({ paymentGuard: true }, "");
     } catch (e) {}
 
     const handlePopState = () => {
+      if (showQrModal) {
+        setShowQrModal(false);
+      } else if (activePayScreen !== 'select') {
+        setActivePayScreen('select');
+        setActiveVerificationApp(null);
+      } else {
+        setActiveVerificationApp(null);
+      }
       try {
         window.history.pushState({ paymentGuard: true }, "");
       } catch (e) {}
@@ -494,7 +555,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
-  }, [activeVerificationApp, showQrModal]);
+  }, [activePayScreen, activeVerificationApp, showQrModal]);
 
   // Direct app launch utility
   const launchIntent = useCallback((intentUrl: string) => {
@@ -587,6 +648,160 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             className="w-full bg-[#2874F0] text-white py-3 rounded-xl font-bold text-sm"
           >
             Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (activePayScreen === 'phonepe') {
+    return (
+      <div className="min-h-screen bg-white font-sans flex flex-col justify-between select-none">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-slate-100 shrink-0">
+          <div className="flex items-center gap-3">
+            <button onClick={() => { setActivePayScreen('select'); setActiveVerificationApp(null); }} className="p-1">
+              <ArrowLeft className="h-6 w-6 text-slate-800" />
+            </button>
+            <div className="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-sm">
+              P
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[13px] font-black text-slate-800 tracking-tight leading-tight">
+                {upiId.length > 20 ? `${upiId.substring(0, 16)}...` : upiId}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-slate-700">
+            {/* Clock Timer */}
+            <div className="flex items-center gap-1">
+              <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+              </svg>
+            </div>
+            {/* Question mark help icon */}
+            <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m0 4h.01" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Blank Body with Float */}
+        <div className="flex-1 flex flex-col justify-end p-4 bg-[#fcfcfc]">
+          <div className="flex justify-end mb-6">
+            <div className="border border-dashed border-slate-300 rounded-full px-4 py-1.5 text-xs font-black text-slate-600 bg-white shadow-sm flex items-center gap-1.5 cursor-pointer">
+              Send ₹1
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Payment Sheet */}
+        <div className="bg-white border-t border-slate-100 p-4 space-y-4 shrink-0 shadow-lg">
+          <div className="text-center">
+            <span className="text-[12px] font-black tracking-widest text-slate-500 uppercase font-mono">
+              {txnid}
+            </span>
+          </div>
+          
+          <div className="border-t border-slate-100"></div>
+          
+          <div className="flex items-center justify-between py-1 px-1">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#1A73E8] flex items-center justify-center text-white text-[9px] font-black shadow-sm">
+                SBI
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13px] font-black text-slate-800 leading-tight">State Bank of India</span>
+                <span className="text-[10px] font-bold text-slate-400">•••• 2262</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-black text-[#1a73e8] tracking-wider">UPI</span>
+              <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-2">
+            <div className="flex items-baseline gap-0.5">
+              <span className="text-[18px] font-bold text-slate-900 leading-none">₹</span>
+              <span className="text-[26px] font-black text-slate-900 tracking-tight leading-none">{Math.round(selling)}</span>
+              <svg className="w-4 h-4 text-slate-400 ml-1.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <button 
+              onClick={() => launchIntent(phonepeIntent)}
+              className="bg-[#118A44] hover:bg-[#0f7a3c] text-white text-[14px] font-black px-10 py-3.5 rounded-full uppercase tracking-widest shadow-md shadow-green-200 active:scale-95 transition-all"
+            >
+              PAY
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (activePayScreen === 'paytm') {
+    return (
+      <div className="min-h-screen bg-[#F5F7FA] font-sans flex flex-col justify-between">
+        {/* Header */}
+        <div className="px-4 py-4 flex items-center shrink-0">
+          <button onClick={() => { setActivePayScreen('select'); setActiveVerificationApp(null); }} className="p-1">
+            <ArrowLeft className="h-6 w-6 text-slate-800" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="flex-1 flex flex-col items-center px-6 pt-2">
+          <div className="w-16 h-16 rounded-full bg-[#E5F3FF] border-2 border-[#CCE6FF] flex items-center justify-center text-[#008CFF] font-black text-xl mb-3.5 shadow-sm select-none">
+            {getInitials(merchantName)}
+          </div>
+          
+          <div className="flex items-center gap-1.5 mb-1 select-none">
+            <h2 className="text-[19px] font-black text-slate-900 tracking-tight leading-none">
+              {merchantName}
+            </h2>
+            <div className="w-[15px] h-[15px] rounded-full bg-[#00B9F5] flex items-center justify-center text-white text-[9px] font-black">
+              ✓
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-1 text-[11px] font-black text-slate-400 uppercase tracking-wider mb-8 select-none">
+            <span>{upiId}</span>
+            <span className="text-[#00B9F5] text-xs">▲</span>
+          </div>
+
+          <div className="flex items-start mb-2.5 select-none">
+            <span className="text-xl font-bold text-slate-900 mt-1.5 mr-0.5">₹</span>
+            <span className="text-6xl font-black text-slate-900 tracking-tighter leading-none">
+              {Math.round(selling)}
+            </span>
+          </div>
+
+          <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-8 text-center px-4 leading-normal select-none">
+            {amountToWords(Math.round(selling))}
+          </div>
+
+          <div className="bg-white border border-slate-100 rounded-full px-5 py-2.5 text-[11px] font-black text-slate-700 shadow-sm flex items-center gap-2">
+            <span className="text-slate-400">TXN NOTE:</span>
+            <span className="tracking-wider">{txnid}</span>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="p-4 bg-white border-t border-slate-100 shrink-0 shadow-lg">
+          <button 
+            onClick={() => launchIntent(paytmIntent)}
+            className="w-full bg-[#002970] hover:bg-[#001c50] text-white py-4.5 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-lg shadow-blue-200 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+          >
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <span>Proceed Securely</span>
           </button>
         </div>
       </div>
@@ -758,29 +973,28 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <span>Price (1 item)</span>
               <span className="line-through text-slate-400 font-semibold">₹ {mrp || selling}</span>
             </div>
-            <div className="flex items-center justify-between text-sm text-slate-600 font-medium">
+            <div className="flex items-center justify-between text-sm text-slate-650 font-medium">
               <span>Delivery Charges</span>
               <span className="text-green-600 font-bold">FREE</span>
             </div>
-            <div className="flex items-center justify-between text-base font-black text-slate-800 pt-3 border-t border-dashed border-slate-200">
+            <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-[16px] font-bold text-slate-800">
               <span>Amount Payable</span>
               <span>₹ {selling}</span>
             </div>
           </div>
         </div>
 
-        {/* Trust Badges & Secure Payment Brands - FULL BLEED */}
-        <div className="bg-white border-t border-b border-slate-200 overflow-hidden mb-0">
-          {/* Trust Badges Row */}
-          <div className="grid grid-cols-3 gap-2 py-4 px-4 text-center">
+        {/* Dynamic Secure Badges with authentic icons */}
+        <div className="bg-white border-b border-slate-200 py-6 px-4">
+          <div className="grid grid-cols-3 gap-3">
             <div className="flex flex-col items-center justify-center">
               <AuthenticBadgeIcon />
-              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Authentic Products</span>
+              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">100% Brand Original</span>
             </div>
             
-            <div className="flex flex-col items-center justify-center border-x border-slate-150">
+            <div className="flex flex-col items-center justify-center border-l border-r border-slate-100">
               <SecureShieldIcon />
-              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Secure Payments</span>
+              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Secure UPI payments</span>
             </div>
             
             <div className="flex flex-col items-center justify-center">
@@ -790,7 +1004,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* Secure Payment Brands Row */}
-          <div className="bg-[#f8fafc] border-t border-slate-200 py-4 px-5 flex items-center justify-between gap-3 flex-wrap">
+          <div className="bg-[#f8fafc] border-t border-slate-200 py-4 px-5 flex items-center justify-between gap-3 flex-wrap mt-6">
             <VisaLogo />
             <MastercardLogo />
             <RupayLogo />
@@ -814,8 +1028,20 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               if (isLoaded) {
                 if (selectedMethod === o.QR) {
                   setShowQrModal(true);
-                } else {
-                  handleAppPay(selectedMethod === o.PHONEPE ? "phonepe" : "paytm");
+                } else if (selectedMethod === o.PHONEPE) {
+                  setActivePayScreen('phonepe');
+                  setActiveVerificationApp('phonepe');
+                  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                  if (isMobile && phonepeIntent) {
+                    setTimeout(() => launchIntent(phonepeIntent), 1200);
+                  }
+                } else if (selectedMethod === o.PAYTM) {
+                  setActivePayScreen('paytm');
+                  setActiveVerificationApp('paytm');
+                  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                  if (isMobile && paytmIntent) {
+                    setTimeout(() => launchIntent(paytmIntent), 1200);
+                  }
                 }
               }
             }}
@@ -832,8 +1058,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       {/* Polling / App Intent Verification Modal Overlay */}
-      {activeVerificationApp && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      {activePayScreen === 'select' && activeVerificationApp && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifycenter: "center", padding: 16 }}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 24, maxWidth: 360, width: "100%", textAlign: "center", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
             <div style={{ position: "relative", width: 76, height: 76, margin: "0 auto 12px" }}>
               <div style={{ position: "absolute", inset: 0, border: "4px solid #eee", borderRadius: "50%" }} />
@@ -847,7 +1073,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   borderRadius: "50%" 
                 }} 
               />
-              <div style={{ position: "absolute", inset: 8, background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #eee", overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 8, background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifycenter: "center", border: "1px solid #eee", overflow: "hidden" }}>
                 {activeVerificationApp === "phonepe" ? (
                   <PhonePeIcon size={44} />
                 ) : (
@@ -891,12 +1117,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* Scannable Payment QR Modal Overlay */}
       {showQrModal && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifycenter: "center", padding: 16 }}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 20, maxWidth: 360, width: "100%", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
             <button 
               onClick={() => setShowQrModal(false)} 
               aria-label="Close" 
-              style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", border: "none", background: "#f1f1f1", color: "#444", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+              style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", border: "none", background: "#f1f1f1", color: "#444", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center" }}
             >
               &times;
             </button>
@@ -906,11 +1132,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               Amount: <strong>₹ {selling}</strong>
             </p>
 
-            <div style={{ margin: "16px auto", background: "#fff", padding: 12, borderRadius: 12, border: "1px solid #eee", display: "flex", justifyContent: "center" }}>
+            <div style={{ margin: "16px auto", background: "#fff", padding: 12, borderRadius: 12, border: "1px solid #eee", display: "flex", justifycenter: "center" }}>
               {qrCodeUrl ? (
                 <img src={qrCodeUrl} alt="Payment QR" style={{ width: 220, height: 220, display: "block" }} />
               ) : (
-                <div style={{ width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#999" }}>
+                <div style={{ width: 220, height: 220, display: "flex", alignItems: "center", justifycenter: "center", color: "#999" }}>
                   <Loader2 className="animate-spin h-8 w-8 text-[#2874F0]" />
                 </div>
               )}
@@ -926,14 +1152,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <div style={{ display: "flex", gap: 8 }}>
               <button 
                 onClick={handleDownloadQr} 
-                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 13 }}
+                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center", gap: 6, fontSize: 13 }}
               >
                 <Download className="h-4 w-4" /> Download
               </button>
               
               <button 
                 onClick={handleShareQr} 
-                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 13 }}
+                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center", gap: 6, fontSize: 13 }}
               >
                 <Share2 className="h-4 w-4" /> Share
               </button>

@@ -251,10 +251,10 @@ export default function SettingsPage() {
                    <h2 className="font-black text-slate-900 uppercase tracking-tight">Payment Configuration</h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
-                  <div className="md:col-span-3 space-y-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
+                  <div className="md:col-span-2 space-y-1">
                     <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">PhonePe & Paytm UPI Settings</h4>
-                    <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Configure the merchant UPI ID (VPA), payee name, and category code used to formulate the PhonePe & Paytm checkout links.</p>
+                    <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Configure the merchant UPI ID (VPA) and payee name used to formulate the PhonePe & Paytm checkout links.</p>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant UPI ID (VPA)</label>
@@ -281,32 +281,6 @@ export default function SettingsPage() {
                       placeholder="e.g. Premium Kitchens"
                       className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
                     />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">MCC Code (Merchant Category)</label>
-                    <input 
-                      type="text" 
-                      value={settings.payment?.mccCode || ''} 
-                      onChange={(e) => {
-                        updateNestedField('payment', 'mccCode', e.target.value);
-                        updateNestedField('payment', 'activeMethod', 'upi_intent');
-                      }}
-                      placeholder="e.g. 5799"
-                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
-                    />
-                  </div>
-                </div>
-
-                {/* Status Toggles */}
-                <div className="flex items-center justify-between p-4 bg-orange-500/5 rounded-3xl border border-orange-500/10">
-                  <div className="space-y-1">
-                    <p className="text-sm font-black text-slate-900 uppercase tracking-tight">Allow Instant Checkout Payments</p>
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Enable checkout process to bypass or accept these gateway integrations.</p>
-                  </div>
-                  <div 
-                    onClick={() => updateNestedField('payment', 'allowUpiCheckout', !settings.payment?.allowUpiCheckout)}
-                    className={cn("h-7 w-12 rounded-full relative transition-all cursor-pointer", settings.payment?.allowUpiCheckout ? "bg-orange-500 shadow-lg shadow-orange-100" : "bg-slate-100 border-2 border-slate-50")}>
-                    <div className={cn("absolute top-1 h-5 w-5 bg-white rounded-full transition-all shadow-md", settings.payment?.allowUpiCheckout ? "right-1" : "left-1")} />
                   </div>
                 </div>
               </div>

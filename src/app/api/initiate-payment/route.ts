@@ -98,10 +98,10 @@ export async function POST(request: Request) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link
-    const paytmIntent = `paytmmp://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}&mc=${mccCode}`;
+    const paytmIntent = `paytmmp://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
 
     // PhonePe Intent Link
-    const phonepeIntent = `phonepe://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}&mc=${mccCode}`;
+    const phonepeIntent = `phonepe://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
 
     return NextResponse.json({
       success: true,

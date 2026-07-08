@@ -70,6 +70,15 @@ const LiveSaleTimer = () => {
 
 
 
+const shuffleArray = (array: any[]) => {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
 export default function Home() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -79,7 +88,7 @@ export default function Home() {
     try {
       const cached = localStorage.getItem('homepage_products_cache');
       if (cached) {
-        setProducts(JSON.parse(cached));
+        setProducts(shuffleArray(JSON.parse(cached)));
         setLoading(false);
       }
     } catch (e) {
@@ -106,7 +115,7 @@ export default function Home() {
 
         if (error) throw error;
         if (active && data) {
-          setProducts(data);
+          setProducts(shuffleArray(data));
           try {
             localStorage.setItem('homepage_products_cache', JSON.stringify(data));
           } catch (e) {

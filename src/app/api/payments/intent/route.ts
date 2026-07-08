@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Generate a unique transaction ID
-    const transactionId = `TXN_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
+    const transactionId = `TXN${Date.now()}${Math.floor(1000 + Math.random() * 9000)}`;
 
     // 3. Create a pending payment record
     const { error: paymentError } = await supabaseAdmin
@@ -108,10 +108,9 @@ export async function POST(request: Request) {
               const pn = queryParams.get('pn') || storeName;
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
-              const mc = queryParams.get('mc') || paymentSettings.mccCode || '5722';
               const tr = queryParams.get('tr') || transactionId;
               const tn = queryParams.get('tn') || `Order ${orderId}`;
-              upiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}&mc=${mc}&tr=${tr}&tn=${encodeURIComponent(tn)}&mode=02&purpose=00`;
+              upiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}&tr=${tr}&tn=${encodeURIComponent(tn)}`;
             } else {
               upiUrl = rawUpiUrl;
             }
@@ -122,7 +121,7 @@ export async function POST(request: Request) {
         qrCodeBase64 = upiOrder.qrCode || '';
       } catch (err) {
         console.error('Failed to create unified googlepay order, falling back to legacy link generator:', err);
-        upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, storeName, paymentSettings.mccCode);
+        upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, storeName);
       }
     }
 

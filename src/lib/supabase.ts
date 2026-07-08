@@ -205,6 +205,37 @@ class MockSupabaseQuery {
       }
     }
 
+    const resolveProductRelations = (rows: any[]) => {
+      const categoriesData = getLocalTableData('categories');
+      const imagesData = getLocalTableData('product_images');
+      return rows.map(row => {
+        const rowCopy = { ...row };
+        if (rowCopy.category_id) {
+          const matchedCategory = categoriesData.find(c => c.id === rowCopy.category_id);
+          if (matchedCategory) {
+            rowCopy.categories = {
+              name: matchedCategory.name,
+              slug: matchedCategory.slug
+            };
+          } else {
+            rowCopy.categories = null;
+          }
+        } else {
+          rowCopy.categories = null;
+        }
+        
+        const matchedImages = imagesData
+          .filter(img => img.product_id === rowCopy.id)
+          .sort((a, b) => (a.order_index || 0) - (b.order_index || 0));
+        rowCopy.product_images = matchedImages.map(img => ({
+          image_url: img.image_url,
+          is_featured: img.is_featured,
+          order_index: img.order_index
+        }));
+        return rowCopy;
+      });
+    };
+
     if (isInsert) {
       const newRecords = insertPayload.map(r => ({
         id: r.id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2)),
@@ -213,7 +244,14 @@ class MockSupabaseQuery {
       }));
       const updatedTable = [...tableData, ...newRecords];
       saveLocalTableData(this.tableName, updatedTable);
-      return { data: isSingle ? newRecords[0] : newRecords, error: null };
+      
+      let responseData = isSingle ? newRecords[0] : newRecords;
+      if (this.tableName === 'products') {
+        responseData = isSingle 
+          ? resolveProductRelations([newRecords[0]])[0] 
+          : resolveProductRelations(newRecords);
+      }
+      return { data: responseData, error: null };
     }
 
     if (isUpdate) {
@@ -227,18 +265,34 @@ class MockSupabaseQuery {
       });
       saveLocalTableData(this.tableName, updatedTable);
       const updatedRows = updatedTable.filter(row => targetIds.has(row.id || row.key));
-      return { data: isSingle ? updatedRows[0] : updatedRows, error: null };
+      
+      let responseData = isSingle ? updatedRows[0] : updatedRows;
+      if (this.tableName === 'products') {
+        responseData = isSingle 
+          ? resolveProductRelations([updatedRows[0]])[0] 
+          : resolveProductRelations(updatedRows);
+      }
+      return { data: responseData, error: null };
     }
 
     if (isDelete) {
       const targetIds = new Set(filteredData.map(r => r.id || r.key));
       const updatedTable = tableData.filter(row => !targetIds.has(row.id || row.key));
       saveLocalTableData(this.tableName, updatedTable);
-      return { data: filteredData, error: null };
+      
+      let responseData = filteredData;
+      if (this.tableName === 'products') {
+        responseData = resolveProductRelations(filteredData);
+      }
+      return { data: responseData, error: null };
     }
 
+    let responseData = filteredData;
+    if (this.tableName === 'products') {
+      responseData = resolveProductRelations(filteredData);
+    }
     return {
-      data: isSingle ? (filteredData[0] || null) : filteredData,
+      data: isSingle ? (responseData[0] || null) : responseData,
       error: null
     };
   }

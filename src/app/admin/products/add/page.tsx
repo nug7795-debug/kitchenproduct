@@ -92,6 +92,15 @@ export default function AddProductPage() {
   // State for multiple images (URLs)
   const [images, setImages] = React.useState<string[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const uploadingThumbnailRef = React.useRef(false);
+
+  const setAsFeatured = (index: number) => {
+    setImages(prev => {
+      const copy = [...prev];
+      const [item] = copy.splice(index, 1);
+      return [item, ...copy];
+    });
+  };
 
   // State for variants
   const [variants, setVariants] = React.useState<any[]>([]);
@@ -177,7 +186,12 @@ export default function AddProductPage() {
 
         newImageUrls.push(publicUrl);
       }
-      setImages([...images, ...newImageUrls]);
+      if (uploadingThumbnailRef.current) {
+        setImages([...newImageUrls, ...images]);
+        uploadingThumbnailRef.current = false;
+      } else {
+        setImages([...images, ...newImageUrls]);
+      }
     } catch (error: any) {
       console.error('Upload error:', error);
       alert('Error uploading image: ' + error.message);
@@ -654,46 +668,73 @@ export default function AddProductPage() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                    <button 
-                    disabled={uploading}
-                    onClick={() => fileInputRef.current?.click()}
-                    className={cn(
-                      "aspect-square rounded-[1.5rem] border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-2 transition-all group",
-                      uploading ? "opacity-50 cursor-not-allowed" : "hover:bg-slate-50 hover:border-orange-200"
-                    )}>
-                      <div className={cn(
-                        "h-10 w-10 rounded-full flex items-center justify-center transition-all",
-                        uploading ? "bg-slate-100 text-slate-300 animate-pulse" : "bg-slate-50 text-slate-400 group-hover:bg-orange-100 group-hover:text-orange-500"
-                      )}>
-                        <Plus className="h-5 w-5" />
+                     disabled={uploading}
+                     onClick={() => {
+                       uploadingThumbnailRef.current = false;
+                       fileInputRef.current?.click();
+                     }}
+                     className={cn(
+                       "aspect-square rounded-[1.5rem] border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-2 transition-all group",
+                       uploading ? "opacity-50 cursor-not-allowed" : "hover:bg-slate-50 hover:border-orange-200"
+                     )}>
+                       <div className={cn(
+                         "h-10 w-10 rounded-full flex items-center justify-center transition-all",
+                         uploading ? "bg-slate-100 text-slate-300 animate-pulse" : "bg-slate-50 text-slate-400 group-hover:bg-orange-100 group-hover:text-orange-500"
+                       )}>
+                         <Plus className="h-5 w-5" />
+                       </div>
+                       <span className="text-[10px] font-black text-slate-400 uppercase group-hover:text-orange-600">
+                         {uploading ? 'Uploading...' : 'Add Media'}
+                       </span>
+                    </button>
+                    
+                    {images.map((url, index) => (
+                      <div key={index} className="aspect-square rounded-[1.5rem] bg-slate-100 relative group overflow-hidden border-2 border-slate-100">
+                         <img src={url} className="w-full h-full object-cover" />
+                         {index === 0 ? (
+                           <div className="absolute top-2 left-2 bg-orange-500 text-[8px] font-black text-white px-2 py-0.5 rounded-full uppercase tracking-widest shadow-lg animate-in fade-in">Featured</div>
+                         ) : (
+                           <button
+                             type="button"
+                             onClick={() => setAsFeatured(index)}
+                             className="absolute bottom-2 left-2 bg-slate-900/80 hover:bg-slate-900 text-[8px] font-black text-white px-2 py-1 rounded-lg uppercase tracking-widest shadow-lg transition-all opacity-0 group-hover:opacity-100"
+                           >
+                             Make Main
+                           </button>
+                         )}
+                         <button 
+                           onClick={() => removeImage(index)}
+                           className="absolute top-2 right-2 h-6 w-6 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                         >
+                           <Trash2 className="h-3 w-3" />
+                         </button>
                       </div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase group-hover:text-orange-600">
-                        {uploading ? 'Uploading...' : 'Add Media'}
-                      </span>
-                   </button>
-                   
-                   {images.map((url, index) => (
-                     <div key={index} className="aspect-square rounded-[1.5rem] bg-slate-100 relative group overflow-hidden border-2 border-slate-100">
-                        <img src={url} className="w-full h-full object-cover" />
-                        {index === 0 && <div className="absolute top-2 left-2 bg-orange-500 text-[8px] font-black text-white px-2 py-0.5 rounded-full uppercase tracking-widest shadow-lg">Featured</div>}
-                        <button 
-                          onClick={() => removeImage(index)}
-                          className="absolute top-2 right-2 h-6 w-6 bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </button>
-                     </div>
-                   ))}
-                </div>
+                    ))}
+                 </div>
 
-                <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 flex gap-4 items-center">
-                   <div className="h-12 w-12 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
-                      <ImageIcon className="h-6 w-6 text-slate-300" />
-                   </div>
-                   <div className="space-y-1">
-                      <p className="text-xs font-black text-slate-800 uppercase tracking-tight">Main Product Image (Thumbnail)</p>
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">This will be shown on the home page and category listings.</p>
-                   </div>
-                </div>
+                 <div 
+                    onClick={() => {
+                      uploadingThumbnailRef.current = true;
+                      fileInputRef.current?.click();
+                    }}
+                    className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-orange-300 hover:bg-slate-100/50 cursor-pointer flex gap-4 items-center transition-all animate-in fade-in"
+                 >
+                    <div className="h-12 w-12 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0 overflow-hidden border border-slate-200">
+                       {images[0] ? (
+                          <img src={images[0]} alt="Thumbnail" className="w-full h-full object-cover" />
+                       ) : (
+                          <ImageIcon className="h-6 w-6 text-slate-300" />
+                       )}
+                    </div>
+                    <div className="space-y-1">
+                       <p className="text-xs font-black text-slate-800 uppercase tracking-tight">
+                         {images[0] ? 'Change Main Product Image (Thumbnail)' : 'Select Main Product Image (Thumbnail)'}
+                       </p>
+                       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                         {images[0] ? 'Click here to upload a new featured thumbnail image.' : 'Click here to upload the featured thumbnail image.'}
+                       </p>
+                    </div>
+                 </div>
               </div>
             </div>
           )}

@@ -2,11 +2,11 @@ export class PaymentService {
   merchantUpiId: string;
 
   constructor() {
-    this.merchantUpiId = process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'yourstore@paytm';
+    this.merchantUpiId = process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
   }
 
   generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string) {
-    const storeName = payeeName || process.env.STORE_NAME || 'KitchenProduct Premium';
+    const storeName = payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
     const cleanStoreName = encodeURIComponent(storeName);
     const formattedAmount = Number(amount).toFixed(2);
     const activeUpiId = upiId || this.merchantUpiId;

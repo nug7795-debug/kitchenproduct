@@ -18,7 +18,25 @@ const memoryDb: Record<string, any[]> = {
     { id: '4', title: 'Sale 4', image_url: '/banners/banner4.jpg', is_active: true }
   ],
   settings: [
-    { key: 'merchant_upi', value: { upi_id: 'paytm.s29ckmp@pty', merchant_name: 'Gohil Vikrambhai Kanabhai', merchant_code: '0000', mode: 'manual' } }
+    { key: 'merchant_upi', value: { upi_id: 'paytm.s29ckmp@pty', merchant_name: 'Gohil Vikrambhai Kanabhai', merchant_code: '0000', mode: 'manual' } },
+    {
+      key: 'global_settings',
+      value: {
+        store: {
+          name: 'KitchenProduct',
+          contactEmail: 'support@kitchenproduct.com',
+          supportPhone: '9999999999',
+          address: 'Mumbai, Maharashtra',
+          currency: 'INR'
+        },
+        payment: {
+          activeMethod: 'upi_intent',
+          merchantUpiId: 'paytm.s29ckmp@pty',
+          payeeName: 'Gohil Vikrambhai Kanabhai',
+          allowUpiCheckout: true
+        }
+      }
+    }
   ],
   addresses: [],
   orders: [],

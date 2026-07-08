@@ -874,17 +874,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       const file = files[0];
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const filePath = `reviews/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('kitchenproduct')
-        .upload(filePath, file);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('filename', fileName);
+      formData.append('bucket', 'kitchenproduct');
+      formData.append('folder', 'reviews');
 
-      if (uploadError) throw uploadError;
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('kitchenproduct')
-        .getPublicUrl(filePath);
+      const uploadData = await uploadRes.json();
+      if (!uploadRes.ok || !uploadData.success) {
+        throw new Error(uploadData.error || 'Failed to upload image');
+      }
+
+      const publicUrl = uploadData.publicUrl;
 
       setReviewForm(prev => ({ ...prev, imageUrl: publicUrl }));
     } catch (error: any) {

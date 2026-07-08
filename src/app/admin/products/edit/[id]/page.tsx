@@ -165,15 +165,22 @@ export default function EditProductPage() {
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
         const filePath = `${fileName}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from('products')
-          .upload(filePath, file);
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('filename', fileName);
+        formData.append('bucket', 'products');
 
-        if (uploadError) throw uploadError;
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        });
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('products')
-          .getPublicUrl(filePath);
+        const uploadData = await uploadRes.json();
+        if (!uploadRes.ok || !uploadData.success) {
+          throw new Error(uploadData.error || 'Failed to upload image');
+        }
+
+        const publicUrl = uploadData.publicUrl;
 
         newImageUrls.push(publicUrl);
       }

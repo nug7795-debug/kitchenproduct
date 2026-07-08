@@ -18,7 +18,7 @@ const memoryDb: Record<string, any[]> = {
     { id: '4', title: 'Sale 4', image_url: '/banners/banner4.jpg', is_active: true }
   ],
   settings: [
-    { key: 'merchant_upi', value: { upi_id: 'bigdhamaka@paytm', merchant_name: 'KitchenProduct Premium', merchant_code: '0000', mode: 'manual' } }
+    { key: 'merchant_upi', value: { upi_id: 'paytm.s29ckmp@pty', merchant_name: 'Gohil Vikrambhai Kanabhai', merchant_code: '0000', mode: 'manual' } }
   ],
   addresses: [],
   orders: [],

@@ -19,8 +19,8 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     const paymentSettings = settingsRecord?.value?.payment || {};
-    const merchantUpiId = paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s1w1ia2@pty';
-    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Sale Hub';
+    const merchantUpiId = paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
+    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
     const mccCode = paymentSettings.mccCode || '5722';
 
     // 2. Determine order and transaction ID to use
@@ -98,36 +98,10 @@ export async function POST(request: Request) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link
-    const paytmIntent = `paytmmp://cash_wallet?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}&mc=${mccCode}&featuretype=money_transfer`;
+    const paytmIntent = `paytmmp://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}&mc=${mccCode}`;
 
-    // PhonePe Intent Link (Base64 Encoded JSON structure matching PhonePe native format)
-    const phonepePayload = {
-      contact: {
-        cbsName: storeName,
-        nickName: "Payment",
-        vpa: merchantUpiId,
-        type: "VPA"
-      },
-      p2pPaymentCheckoutParams: {
-        note: txnid,
-        isByDefaultKnownContact: true,
-        enableSpeechToText: false,
-        allowAmountEdit: false,
-        showQrCodeOption: false,
-        disableViewHistory: true,
-        shouldShowUnsavedContactBanner: false,
-        isRecurring: false,
-        checkoutType: "DEFAULT",
-        transactionContext: "p2p",
-        initialAmount: Math.round(Number(amount) * 100), // in paise
-        disableNotesEdit: true,
-        showKeyboard: true,
-        currency: "INR",
-        shouldShowMaskedNumber: true
-      }
-    };
-    const base64Data = Buffer.from(JSON.stringify(phonepePayload)).toString('base64');
-    const phonepeIntent = `phonepe://native?data=${base64Data}&id=p2ppayment`;
+    // PhonePe Intent Link
+    const phonepeIntent = `phonepe://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}&mc=${mccCode}`;
 
     return NextResponse.json({
       success: true,

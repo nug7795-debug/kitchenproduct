@@ -32,6 +32,9 @@ const memoryDb: Record<string, any[]> = {
         payment: {
           activeMethod: 'upi_intent',
           merchantUpiId: 'paytm.s29ckmp@pty',
+          upi: 'paytm.s29ckmp@pty',
+          upi2: 'paytm.s29ckmp@pty',
+          upi3: 'paytm.s29ckmp@pty',
           payeeName: 'Gohil Vikrambhai Kanabhai',
           allowUpiCheckout: true
         }

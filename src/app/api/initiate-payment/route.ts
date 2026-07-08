@@ -19,9 +19,10 @@ export async function POST(request: Request) {
       .maybeSingle();
 
     const paymentSettings = settingsRecord?.value?.payment || {};
-    const merchantUpiId = paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
+    const defaultUpi = paymentSettings.upi || paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
+    const phonepeUpi = paymentSettings.upi2 || defaultUpi;
+    const paytmUpi = paymentSettings.upi3 || defaultUpi;
     const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
-    const mccCode = paymentSettings.mccCode || '5722';
 
     // 2. Determine order and transaction ID to use
     let orderIdToUse = orderId;
@@ -91,17 +92,17 @@ export async function POST(request: Request) {
     }
 
     // 4. Generate UPI URLs
-    // Universal upi://pay link
-    const upiUrl = `upi://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&tn=${txnid}&tr=${txnid}&cu=INR`;
+    // Universal upi://pay link (uses default UPI ID)
+    const upiUrl = `upi://pay?pa=${defaultUpi}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&tn=${txnid}&tr=${txnid}&cu=INR`;
 
     // Dynamic QR code URL via free stable QR API
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
-    // Paytm Intent Link
-    const paytmIntent = `paytmmp://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
+    // Paytm Intent Link (uses Paytm UPI ID - upi3)
+    const paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
 
-    // PhonePe Intent Link
-    const phonepeIntent = `phonepe://pay?pa=${merchantUpiId}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
+    // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
+    const phonepeIntent = `phonepe://pay?pa=${phonepeUpi}&pn=${encodeURIComponent(storeName)}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${txnid}&tr=${txnid}`;
 
     return NextResponse.json({
       success: true,
@@ -112,7 +113,7 @@ export async function POST(request: Request) {
       paytmIntent,
       phonepeIntent,
       merchantName: storeName,
-      upiId: merchantUpiId
+      upiId: defaultUpi
     });
   } catch (error: any) {
     console.error('Initiate Payment Error:', error);

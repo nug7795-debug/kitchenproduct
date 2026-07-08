@@ -51,6 +51,9 @@ export default function SettingsPage() {
       razorpayKeyId: '',
       razorpayKeySecret: '',
       merchantUpiId: '',
+      upi: '',
+      upi2: '',
+      upi3: '',
       payeeName: '',
       mccCode: '',
       allowUpiCheckout: true
@@ -69,7 +72,27 @@ export default function SettingsPage() {
       if (data?.value) {
         setSettings(prev => ({ 
           ...prev, 
-          ...data.value
+          ...data.value,
+          payment: {
+            ...prev.payment,
+            ...(data.value.payment || {})
+          },
+          store: {
+            ...prev.store,
+            ...(data.value.store || {})
+          },
+          shipping: {
+            ...prev.shipping,
+            ...(data.value.shipping || {})
+          },
+          security: {
+            ...prev.security,
+            ...(data.value.security || {})
+          },
+          notifications: {
+            ...prev.notifications,
+            ...(data.value.notifications || {})
+          }
         }));
       }
     };
@@ -253,15 +276,17 @@ export default function SettingsPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-[2rem] border border-slate-100 animate-in fade-in duration-300">
                   <div className="md:col-span-2 space-y-1">
-                    <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">PhonePe & Paytm UPI Settings</h4>
-                    <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Configure the merchant UPI ID (VPA) and payee name used to formulate the PhonePe & Paytm checkout links.</p>
+                    <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">UPI Routing Settings</h4>
+                    <p className="text-[11px] text-slate-400 font-bold leading-normal uppercase">Configure the UPI IDs used for routing payments. If PhonePe or Paytm UPI ID is left empty, the Default UPI ID will be used.</p>
                   </div>
+                  
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant UPI ID (VPA)</label>
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Default / Google Pay UPI ID (upi)</label>
                     <input 
                       type="text" 
-                      value={settings.payment?.merchantUpiId || ''} 
+                      value={settings.payment?.upi || settings.payment?.merchantUpiId || ''} 
                       onChange={(e) => {
+                        updateNestedField('payment', 'upi', e.target.value);
                         updateNestedField('payment', 'merchantUpiId', e.target.value);
                         updateNestedField('payment', 'activeMethod', 'upi_intent');
                       }}
@@ -269,6 +294,7 @@ export default function SettingsPage() {
                       className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
                     />
                   </div>
+
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payee Name (pn)</label>
                     <input 
@@ -278,7 +304,35 @@ export default function SettingsPage() {
                         updateNestedField('payment', 'payeeName', e.target.value);
                         updateNestedField('payment', 'activeMethod', 'upi_intent');
                       }}
-                      placeholder="e.g. Premium Kitchens"
+                      placeholder="e.g. Gohil Vikrambhai Kanabhai"
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">PhonePe UPI ID (upi2)</label>
+                    <input 
+                      type="text" 
+                      value={settings.payment?.upi2 || ''} 
+                      onChange={(e) => {
+                        updateNestedField('payment', 'upi2', e.target.value);
+                        updateNestedField('payment', 'activeMethod', 'upi_intent');
+                      }}
+                      placeholder="e.g. paytm.s27z8uz@pty"
+                      className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Paytm UPI ID (upi3)</label>
+                    <input 
+                      type="text" 
+                      value={settings.payment?.upi3 || ''} 
+                      onChange={(e) => {
+                        updateNestedField('payment', 'upi3', e.target.value);
+                        updateNestedField('payment', 'activeMethod', 'upi_intent');
+                      }}
+                      placeholder="e.g. paytm.s29ckmp@pty"
                       className="w-full bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
                     />
                   </div>

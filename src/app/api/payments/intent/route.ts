@@ -71,8 +71,8 @@ export async function POST(request: Request) {
 
     const paymentSettings = settingsRecord?.value?.payment || {};
     const activeMethod = paymentSettings.activeMethod || 'upi_intent';
-    const merchantUpiId = paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'yourbusiness@okaxis';
-    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'KitchenProduct Premium';
+    const defaultUpi = paymentSettings.upi || paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
+    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
     const razorpayKeyId = paymentSettings.razorpayKeyId || '';
     const razorpayKeySecret = paymentSettings.razorpayKeySecret || '';
 
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
           provider: 'googlepay',
           credentials: {
             merchantName: storeName,
-            merchantUPI: merchantUpiId
+            merchantUPI: defaultUpi
           }
         });
 
@@ -124,7 +124,7 @@ export async function POST(request: Request) {
             const parts = rawUpiUrl.split('?');
             if (parts.length >= 2) {
               const queryParams = new URLSearchParams(parts[1]);
-              const pa = queryParams.get('pa') || merchantUpiId;
+              const pa = queryParams.get('pa') || defaultUpi;
               const pn = queryParams.get('pn') || storeName;
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
         qrCodeBase64 = upiOrder.qrCode || '';
       } catch (err) {
         console.error('Failed to create unified googlepay order, falling back to legacy link generator:', err);
-        upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, merchantUpiId, storeName);
+        upiUrl = paymentService.generateUpiIntent(orderId, amount, transactionId, defaultUpi, storeName);
       }
     }
 
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
       mode: activeMethod,
       razorpayKeyId,
       message: 'Payment intent created successfully.',
-      merchantUpiId,
+      merchantUpiId: defaultUpi,
       payeeName: storeName
     });
   } catch (error: any) {

@@ -1,5 +1,5 @@
-const supabaseUrl = 'https://scjbackzybmoapkupfbi.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjamJhY2t6eWJtb2Fwa3VwZmJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2NzM0MjUsImV4cCI6MjA5NDI0OTQyNX0.3rcgjJT4xpPijAW4sL6PQ--lshVlluQhAAU417zj5xw';
+const supabaseUrl = 'https://rcsqcbrdfqgxqhnyqtoa.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjc3FjYnJkZnFneHFobnlxdG9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0NTgxNTYsImV4cCI6MjA5OTAzNDE1Nn0.8J3-Sb6e-aF1cv6Lll-y7KNR-oIQ6mFzllndgxrVKHM';
 
 async function run() {
   const url = `${supabaseUrl}/rest/v1/products?select=*,categories(name,slug),product_images(image_url,is_featured)&order=created_at.desc`;

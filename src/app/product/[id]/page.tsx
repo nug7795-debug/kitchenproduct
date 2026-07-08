@@ -944,7 +944,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       const ratingStr = reviewForm.rating.toString();
       distribution[ratingStr] = (parseInt(distribution[ratingStr] || '0') + 1).toString();
 
-      setProduct(prev => ({
+      setProduct((prev: any) => ({
         ...prev,
         total_reviews: updatedTotalReviews,
         total_ratings: updatedTotalRatings,

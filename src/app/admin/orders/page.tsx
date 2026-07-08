@@ -70,8 +70,10 @@ export default function OrdersPage() {
 
   // Fetch orders logic defined in a stable callback
   const fetchOrders = React.useCallback(async () => {
+    console.log('fetchOrders: initiated loading orders...');
     setLoading(true);
     try {
+      console.log('fetchOrders: sending Supabase query...');
       const { data, error } = await supabase
         .from('orders')
         .select(`
@@ -105,7 +107,10 @@ export default function OrdersPage() {
             raw_response
           )
         `)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      console.log('fetchOrders: query returned status:', { hasData: !!data, dataLength: data?.length, error });
 
       if (error) throw error;
       if (data) {
@@ -140,11 +145,13 @@ export default function OrdersPage() {
             return !!order.addresses;
           });
 
+        console.log('fetchOrders: formatted orders count:', formatted.length);
         setOrders(formatted);
       }
     } catch (err) {
       console.error('Error fetching orders:', err);
     } finally {
+      console.log('fetchOrders: completing execution, setting loading to false.');
       setLoading(false);
     }
   }, []);
@@ -154,19 +161,26 @@ export default function OrdersPage() {
     fetchOrders();
 
     // Enable Supabase Realtime channel to capture newly placed orders instantly!
-    const channel = supabase
-      .channel('orders_realtime_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'orders' },
-        () => {
-          fetchOrders();
-        }
-      )
-      .subscribe();
+    let channel: any;
+    try {
+      channel = supabase
+        .channel('orders_realtime_changes')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'orders' },
+          () => {
+            fetchOrders();
+          }
+        )
+        .subscribe();
+    } catch (realtimeErr) {
+      console.warn('Realtime subscription failed:', realtimeErr);
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
     };
   }, [fetchOrders]);
 

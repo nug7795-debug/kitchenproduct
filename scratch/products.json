@@ -39,39 +39,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478383034-31436c7.webp",
+        "image_url": "/api/products/image?file=1779478383034-31436c7.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478384129-rogoced.webp",
+        "image_url": "/api/products/image?file=1779478384129-rogoced.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478385157-a3g5g1j.webp",
+        "image_url": "/api/products/image?file=1779478385157-a3g5g1j.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478385656-45z5e3i.webp",
+        "image_url": "/api/products/image?file=1779478385656-45z5e3i.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478386081-7m4lry2.webp",
+        "image_url": "/api/products/image?file=1779478386081-7m4lry2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478386847-p79wys9.webp",
+        "image_url": "/api/products/image?file=1779478386847-p79wys9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478387709-xxu9wyi.webp",
+        "image_url": "/api/products/image?file=1779478387709-xxu9wyi.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478388634-nrbpy3b.webp",
+        "image_url": "/api/products/image?file=1779478388634-nrbpy3b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779478389731-mjev80p.webp",
+        "image_url": "/api/products/image?file=1779478389731-mjev80p.webp",
         "is_featured": false
       }
     ]
@@ -116,31 +116,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477959943-9xvuhsc.jpg",
+        "image_url": "/api/products/image?file=1779477959943-9xvuhsc.jpg",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477961509-2h7lapt.jpg",
+        "image_url": "/api/products/image?file=1779477961509-2h7lapt.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477962217-c0wwx96.jpg",
+        "image_url": "/api/products/image?file=1779477962217-c0wwx96.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477962932-z6lerte.jpg",
+        "image_url": "/api/products/image?file=1779477962932-z6lerte.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477963774-n6l0qgq.jpg",
+        "image_url": "/api/products/image?file=1779477963774-n6l0qgq.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477964820-8pr7c8u.jpg",
+        "image_url": "/api/products/image?file=1779477964820-8pr7c8u.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477965446-ap5a55k.jpg",
+        "image_url": "/api/products/image?file=1779477965446-ap5a55k.jpg",
         "is_featured": false
       }
     ]
@@ -185,7 +185,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477746205-xolm5t1.webp",
+        "image_url": "/api/products/image?file=1779477746205-xolm5t1.webp",
         "is_featured": true
       }
     ]
@@ -230,51 +230,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477502532-7an7ex4.webp",
+        "image_url": "/api/products/image?file=1779477502532-7an7ex4.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477503115-c8xwexo.webp",
+        "image_url": "/api/products/image?file=1779477503115-c8xwexo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477503547-zeccqk3.webp",
+        "image_url": "/api/products/image?file=1779477503547-zeccqk3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477504144-clmzjz6.webp",
+        "image_url": "/api/products/image?file=1779477504144-clmzjz6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477504763-uul12lb.webp",
+        "image_url": "/api/products/image?file=1779477504763-uul12lb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477505381-k6ape04.webp",
+        "image_url": "/api/products/image?file=1779477505381-k6ape04.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477506496-7mlubnv.webp",
+        "image_url": "/api/products/image?file=1779477506496-7mlubnv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477507087-acd79we.webp",
+        "image_url": "/api/products/image?file=1779477507087-acd79we.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477507643-xn2k2l6.webp",
+        "image_url": "/api/products/image?file=1779477507643-xn2k2l6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477508293-qd7b3du.webp",
+        "image_url": "/api/products/image?file=1779477508293-qd7b3du.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477508966-vzhey08.webp",
+        "image_url": "/api/products/image?file=1779477508966-vzhey08.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477509591-had5yqg.webp",
+        "image_url": "/api/products/image?file=1779477509591-had5yqg.webp",
         "is_featured": false
       }
     ]
@@ -316,31 +316,31 @@
     "categories": null,
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476988004-lc3r1tt.webp",
+        "image_url": "/api/products/image?file=1779476988004-lc3r1tt.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476997485-273ngvu.webp",
+        "image_url": "/api/products/image?file=1779476997485-273ngvu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476998417-d4dahvx.webp",
+        "image_url": "/api/products/image?file=1779476998417-d4dahvx.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476999399-30318eh.webp",
+        "image_url": "/api/products/image?file=1779476999399-30318eh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477000325-e0iseop.webp",
+        "image_url": "/api/products/image?file=1779477000325-e0iseop.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477001368-qdz7489.webp",
+        "image_url": "/api/products/image?file=1779477001368-qdz7489.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779477002643-fv6ezk8.webp",
+        "image_url": "/api/products/image?file=1779477002643-fv6ezk8.webp",
         "is_featured": false
       }
     ]
@@ -385,47 +385,47 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476713520-w2lsudg.webp",
+        "image_url": "/api/products/image?file=1779476713520-w2lsudg.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476714608-71svu5a.webp",
+        "image_url": "/api/products/image?file=1779476714608-71svu5a.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476715320-uj4o449.webp",
+        "image_url": "/api/products/image?file=1779476715320-uj4o449.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476716158-am6253c.webp",
+        "image_url": "/api/products/image?file=1779476716158-am6253c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476716525-t2oy082.webp",
+        "image_url": "/api/products/image?file=1779476716525-t2oy082.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476717279-ip4zqrh.webp",
+        "image_url": "/api/products/image?file=1779476717279-ip4zqrh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476717731-7xaqxhx.webp",
+        "image_url": "/api/products/image?file=1779476717731-7xaqxhx.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476718273-xagsmi2.webp",
+        "image_url": "/api/products/image?file=1779476718273-xagsmi2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476718663-ah6ja5p.webp",
+        "image_url": "/api/products/image?file=1779476718663-ah6ja5p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476719029-79dum51.webp",
+        "image_url": "/api/products/image?file=1779476719029-79dum51.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476719422-9073jmh.webp",
+        "image_url": "/api/products/image?file=1779476719422-9073jmh.webp",
         "is_featured": false
       }
     ]
@@ -470,35 +470,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476203409-fa5cjkl.webp",
+        "image_url": "/api/products/image?file=1779476203409-fa5cjkl.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476204952-bznb2e9.webp",
+        "image_url": "/api/products/image?file=1779476204952-bznb2e9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476206083-61om1o6.webp",
+        "image_url": "/api/products/image?file=1779476206083-61om1o6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476207185-o3enkt0.webp",
+        "image_url": "/api/products/image?file=1779476207185-o3enkt0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476208003-dfmx7ww.webp",
+        "image_url": "/api/products/image?file=1779476208003-dfmx7ww.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476210283-ps2n6qr.webp",
+        "image_url": "/api/products/image?file=1779476210283-ps2n6qr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476211124-2cvuf3u.webp",
+        "image_url": "/api/products/image?file=1779476211124-2cvuf3u.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779476211872-feeupje.webp",
+        "image_url": "/api/products/image?file=1779476211872-feeupje.webp",
         "is_featured": false
       }
     ]
@@ -543,35 +543,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475902504-1xikv56.jpg",
+        "image_url": "/api/products/image?file=1779475902504-1xikv56.jpg",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475904493-0phdfvh.webp",
+        "image_url": "/api/products/image?file=1779475904493-0phdfvh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475905224-a4pznv5.webp",
+        "image_url": "/api/products/image?file=1779475905224-a4pznv5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475905838-5s5tb3p.webp",
+        "image_url": "/api/products/image?file=1779475905838-5s5tb3p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475906490-acjifq4.webp",
+        "image_url": "/api/products/image?file=1779475906490-acjifq4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475907038-qz8uobh.webp",
+        "image_url": "/api/products/image?file=1779475907038-qz8uobh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475907585-00wft94.webp",
+        "image_url": "/api/products/image?file=1779475907585-00wft94.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475908354-sed23xo.webp",
+        "image_url": "/api/products/image?file=1779475908354-sed23xo.webp",
         "is_featured": false
       }
     ]
@@ -616,51 +616,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475414016-jtqfr2w.webp",
+        "image_url": "/api/products/image?file=1779475414016-jtqfr2w.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475415450-vaoncuv.webp",
+        "image_url": "/api/products/image?file=1779475415450-vaoncuv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475415899-w6bhm2g.webp",
+        "image_url": "/api/products/image?file=1779475415899-w6bhm2g.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475416408-wrehqps.webp",
+        "image_url": "/api/products/image?file=1779475416408-wrehqps.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475417201-mn02ttg.webp",
+        "image_url": "/api/products/image?file=1779475417201-mn02ttg.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475417831-y4n5zua.webp",
+        "image_url": "/api/products/image?file=1779475417831-y4n5zua.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475418436-d72pxv6.webp",
+        "image_url": "/api/products/image?file=1779475418436-d72pxv6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475419056-3tuepfk.webp",
+        "image_url": "/api/products/image?file=1779475419056-3tuepfk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475419495-rgfjew1.webp",
+        "image_url": "/api/products/image?file=1779475419495-rgfjew1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475419991-tmcqcqx.webp",
+        "image_url": "/api/products/image?file=1779475419991-tmcqcqx.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475420649-q8hypkg.webp",
+        "image_url": "/api/products/image?file=1779475420649-q8hypkg.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779475421202-20tjm14.webp",
+        "image_url": "/api/products/image?file=1779475421202-20tjm14.webp",
         "is_featured": false
       }
     ]
@@ -705,31 +705,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474901950-e198sm7.webp",
+        "image_url": "/api/products/image?file=1779474901950-e198sm7.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474907069-r1jmsji.webp",
+        "image_url": "/api/products/image?file=1779474907069-r1jmsji.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474909464-efpc9v1.webp",
+        "image_url": "/api/products/image?file=1779474909464-efpc9v1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474911071-soi7vk1.webp",
+        "image_url": "/api/products/image?file=1779474911071-soi7vk1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474911887-0dm6ha8.webp",
+        "image_url": "/api/products/image?file=1779474911887-0dm6ha8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474913169-k06s91m.webp",
+        "image_url": "/api/products/image?file=1779474913169-k06s91m.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474914737-fhx2huv.webp",
+        "image_url": "/api/products/image?file=1779474914737-fhx2huv.webp",
         "is_featured": false
       }
     ]
@@ -774,27 +774,27 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474555603-la01i3j.webp",
+        "image_url": "/api/products/image?file=1779474555603-la01i3j.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474556660-ye7erpn.webp",
+        "image_url": "/api/products/image?file=1779474556660-ye7erpn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474557348-6ynz18b.webp",
+        "image_url": "/api/products/image?file=1779474557348-6ynz18b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474557930-njp675e.webp",
+        "image_url": "/api/products/image?file=1779474557930-njp675e.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474558439-3eefajm.webp",
+        "image_url": "/api/products/image?file=1779474558439-3eefajm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474558942-a44ufnf.webp",
+        "image_url": "/api/products/image?file=1779474558942-a44ufnf.webp",
         "is_featured": false
       }
     ]
@@ -839,31 +839,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474081885-gkxb6iz.webp",
+        "image_url": "/api/products/image?file=1779474081885-gkxb6iz.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474084114-4lbeos9.webp",
+        "image_url": "/api/products/image?file=1779474084114-4lbeos9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474085188-0hhjzcn.webp",
+        "image_url": "/api/products/image?file=1779474085188-0hhjzcn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474085915-aa2qtzd.webp",
+        "image_url": "/api/products/image?file=1779474085915-aa2qtzd.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474086924-v4et1zz.webp",
+        "image_url": "/api/products/image?file=1779474086924-v4et1zz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474088010-x981vt5.webp",
+        "image_url": "/api/products/image?file=1779474088010-x981vt5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779474089104-eby6n9l.webp",
+        "image_url": "/api/products/image?file=1779474089104-eby6n9l.webp",
         "is_featured": false
       }
     ]
@@ -908,31 +908,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473660845-04kbv2z.webp",
+        "image_url": "/api/products/image?file=1779473660845-04kbv2z.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473661647-9meu1b9.webp",
+        "image_url": "/api/products/image?file=1779473661647-9meu1b9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473662069-8pl1rrn.webp",
+        "image_url": "/api/products/image?file=1779473662069-8pl1rrn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473662591-l3vmlz3.webp",
+        "image_url": "/api/products/image?file=1779473662591-l3vmlz3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473663185-7akve3v.webp",
+        "image_url": "/api/products/image?file=1779473663185-7akve3v.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473663749-726ilwv.webp",
+        "image_url": "/api/products/image?file=1779473663749-726ilwv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473664394-4agsk8w.webp",
+        "image_url": "/api/products/image?file=1779473664394-4agsk8w.webp",
         "is_featured": false
       }
     ]
@@ -977,31 +977,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473226342-2uc8o6i.webp",
+        "image_url": "/api/products/image?file=1779473226342-2uc8o6i.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473227568-cygi79d.webp",
+        "image_url": "/api/products/image?file=1779473227568-cygi79d.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473228231-2geakno.webp",
+        "image_url": "/api/products/image?file=1779473228231-2geakno.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473228988-ljlhc8c.webp",
+        "image_url": "/api/products/image?file=1779473228988-ljlhc8c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473230078-9uuv1xk.webp",
+        "image_url": "/api/products/image?file=1779473230078-9uuv1xk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473231025-b6rzko7.webp",
+        "image_url": "/api/products/image?file=1779473231025-b6rzko7.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779473231746-d29k276.webp",
+        "image_url": "/api/products/image?file=1779473231746-d29k276.webp",
         "is_featured": false
       }
     ]
@@ -1046,47 +1046,47 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472865184-6dyi1tm.webp",
+        "image_url": "/api/products/image?file=1779472865184-6dyi1tm.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472866556-a4ed1pq.webp",
+        "image_url": "/api/products/image?file=1779472866556-a4ed1pq.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472869754-n8zbxio.webp",
+        "image_url": "/api/products/image?file=1779472869754-n8zbxio.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472870326-tjqp0mu.webp",
+        "image_url": "/api/products/image?file=1779472870326-tjqp0mu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472871239-wzesmkd.webp",
+        "image_url": "/api/products/image?file=1779472871239-wzesmkd.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472872158-pi5nz4c.webp",
+        "image_url": "/api/products/image?file=1779472872158-pi5nz4c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472872704-h3yyqql.webp",
+        "image_url": "/api/products/image?file=1779472872704-h3yyqql.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472873985-6pnxrhr.webp",
+        "image_url": "/api/products/image?file=1779472873985-6pnxrhr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472875599-wcooh8l.webp",
+        "image_url": "/api/products/image?file=1779472875599-wcooh8l.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472877028-lyabx7k.webp",
+        "image_url": "/api/products/image?file=1779472877028-lyabx7k.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472877663-1my4u4v.webp",
+        "image_url": "/api/products/image?file=1779472877663-1my4u4v.webp",
         "is_featured": false
       }
     ]
@@ -1131,27 +1131,27 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472587427-azhh2ma.jpg",
+        "image_url": "/api/products/image?file=1779472587427-azhh2ma.jpg",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472588985-gvo1zef.jpg",
+        "image_url": "/api/products/image?file=1779472588985-gvo1zef.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472590986-0wfjtl9.jpg",
+        "image_url": "/api/products/image?file=1779472590986-0wfjtl9.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472592122-c2qv34g.jpg",
+        "image_url": "/api/products/image?file=1779472592122-c2qv34g.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472593849-29wzdzn.jpg",
+        "image_url": "/api/products/image?file=1779472593849-29wzdzn.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472595346-xonu8o3.jpg",
+        "image_url": "/api/products/image?file=1779472595346-xonu8o3.jpg",
         "is_featured": false
       }
     ]
@@ -1196,27 +1196,27 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472207309-9fpe6d4.webp",
+        "image_url": "/api/products/image?file=1779472207309-9fpe6d4.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472208074-jpwvu4w.webp",
+        "image_url": "/api/products/image?file=1779472208074-jpwvu4w.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472208868-zaz1uqz.webp",
+        "image_url": "/api/products/image?file=1779472208868-zaz1uqz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472211077-vru93bw.webp",
+        "image_url": "/api/products/image?file=1779472211077-vru93bw.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472211477-d3058ob.webp",
+        "image_url": "/api/products/image?file=1779472211477-d3058ob.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779472212150-iuv2rsw.webp",
+        "image_url": "/api/products/image?file=1779472212150-iuv2rsw.webp",
         "is_featured": false
       }
     ]
@@ -1261,43 +1261,43 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471950375-eihn5js.webp",
+        "image_url": "/api/products/image?file=1779471950375-eihn5js.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471951357-8fhs7p5.webp",
+        "image_url": "/api/products/image?file=1779471951357-8fhs7p5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471952197-335s8pl.webp",
+        "image_url": "/api/products/image?file=1779471952197-335s8pl.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471952786-izi2ddb.webp",
+        "image_url": "/api/products/image?file=1779471952786-izi2ddb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471953825-bow1nay.webp",
+        "image_url": "/api/products/image?file=1779471953825-bow1nay.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471954813-eenw9m2.webp",
+        "image_url": "/api/products/image?file=1779471954813-eenw9m2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471956148-5he2w2x.webp",
+        "image_url": "/api/products/image?file=1779471956148-5he2w2x.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471956706-p9eow2x.webp",
+        "image_url": "/api/products/image?file=1779471956706-p9eow2x.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471957944-5vyn7c5.webp",
+        "image_url": "/api/products/image?file=1779471957944-5vyn7c5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471958477-jg80kia.webp",
+        "image_url": "/api/products/image?file=1779471958477-jg80kia.webp",
         "is_featured": false
       }
     ]
@@ -1342,59 +1342,59 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471178627-gvzj40g.jpg",
+        "image_url": "/api/products/image?file=1779471178627-gvzj40g.jpg",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471188508-4ue332w.webp",
+        "image_url": "/api/products/image?file=1779471188508-4ue332w.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471189905-9sfaz02.webp",
+        "image_url": "/api/products/image?file=1779471189905-9sfaz02.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471190866-sqd244f.webp",
+        "image_url": "/api/products/image?file=1779471190866-sqd244f.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471191868-rs5kwlr.webp",
+        "image_url": "/api/products/image?file=1779471191868-rs5kwlr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471193674-3ry3g0g.webp",
+        "image_url": "/api/products/image?file=1779471193674-3ry3g0g.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471194348-luskd7u.webp",
+        "image_url": "/api/products/image?file=1779471194348-luskd7u.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471195829-isgruj8.webp",
+        "image_url": "/api/products/image?file=1779471195829-isgruj8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471197545-vbp5z9z.webp",
+        "image_url": "/api/products/image?file=1779471197545-vbp5z9z.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471199227-g0sh8rt.webp",
+        "image_url": "/api/products/image?file=1779471199227-g0sh8rt.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471200587-1p8v13s.webp",
+        "image_url": "/api/products/image?file=1779471200587-1p8v13s.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471202521-61kgxrs.webp",
+        "image_url": "/api/products/image?file=1779471202521-61kgxrs.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471203992-a8tt24m.webp",
+        "image_url": "/api/products/image?file=1779471203992-a8tt24m.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779471204908-8falidw.webp",
+        "image_url": "/api/products/image?file=1779471204908-8falidw.webp",
         "is_featured": false
       }
     ]
@@ -1439,19 +1439,19 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779470481205-admvm2q.webp",
+        "image_url": "/api/products/image?file=1779470481205-admvm2q.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779470482647-gfq0msn.webp",
+        "image_url": "/api/products/image?file=1779470482647-gfq0msn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779470483311-04ipgzk.webp",
+        "image_url": "/api/products/image?file=1779470483311-04ipgzk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779470484077-gxumg9n.webp",
+        "image_url": "/api/products/image?file=1779470484077-gxumg9n.webp",
         "is_featured": false
       }
     ]
@@ -1496,7 +1496,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779470275409-f1cz2qc.webp",
+        "image_url": "/api/products/image?file=1779470275409-f1cz2qc.webp",
         "is_featured": true
       }
     ]
@@ -1541,47 +1541,47 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469809741-trpmlva.webp",
+        "image_url": "/api/products/image?file=1779469809741-trpmlva.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469814516-j39zm7i.webp",
+        "image_url": "/api/products/image?file=1779469814516-j39zm7i.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469815867-dloh14b.webp",
+        "image_url": "/api/products/image?file=1779469815867-dloh14b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469819028-guoqxpw.webp",
+        "image_url": "/api/products/image?file=1779469819028-guoqxpw.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469820533-9a9z6t6.webp",
+        "image_url": "/api/products/image?file=1779469820533-9a9z6t6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469823448-azj79k5.webp",
+        "image_url": "/api/products/image?file=1779469823448-azj79k5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469824908-h08lytf.webp",
+        "image_url": "/api/products/image?file=1779469824908-h08lytf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469825477-l7c3hau.webp",
+        "image_url": "/api/products/image?file=1779469825477-l7c3hau.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469826927-g3y4hos.webp",
+        "image_url": "/api/products/image?file=1779469826927-g3y4hos.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469827810-rcxos4c.webp",
+        "image_url": "/api/products/image?file=1779469827810-rcxos4c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779469828935-egothp3.webp",
+        "image_url": "/api/products/image?file=1779469828935-egothp3.webp",
         "is_featured": false
       }
     ]
@@ -1626,19 +1626,19 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468832602-u3gzlpp.webp",
+        "image_url": "/api/products/image?file=1779468832602-u3gzlpp.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468834171-7jc44ko.webp",
+        "image_url": "/api/products/image?file=1779468834171-7jc44ko.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468836032-fg8yiaa.webp",
+        "image_url": "/api/products/image?file=1779468836032-fg8yiaa.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468837196-fq7hl2z.webp",
+        "image_url": "/api/products/image?file=1779468837196-fq7hl2z.webp",
         "is_featured": false
       }
     ]
@@ -1683,51 +1683,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468582867-54hmszh.webp",
+        "image_url": "/api/products/image?file=1779468582867-54hmszh.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468596085-g00opnq.webp",
+        "image_url": "/api/products/image?file=1779468596085-g00opnq.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468596516-hqti62l.webp",
+        "image_url": "/api/products/image?file=1779468596516-hqti62l.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468597102-33fu319.webp",
+        "image_url": "/api/products/image?file=1779468597102-33fu319.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468597551-v04pmk0.webp",
+        "image_url": "/api/products/image?file=1779468597551-v04pmk0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468613893-bptgak0.webp",
+        "image_url": "/api/products/image?file=1779468613893-bptgak0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468614496-qrt3o4n.webp",
+        "image_url": "/api/products/image?file=1779468614496-qrt3o4n.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468615574-x9nucx8.webp",
+        "image_url": "/api/products/image?file=1779468615574-x9nucx8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468616086-tubigew.webp",
+        "image_url": "/api/products/image?file=1779468616086-tubigew.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468629584-rs442h4.webp",
+        "image_url": "/api/products/image?file=1779468629584-rs442h4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468630773-pcob6qo.webp",
+        "image_url": "/api/products/image?file=1779468630773-pcob6qo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779468631464-3bgjz1b.webp",
+        "image_url": "/api/products/image?file=1779468631464-3bgjz1b.webp",
         "is_featured": false
       }
     ]
@@ -1772,55 +1772,55 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463655162-itnhkv8.webp",
+        "image_url": "/api/products/image?file=1779463655162-itnhkv8.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463685873-0we1x72.webp",
+        "image_url": "/api/products/image?file=1779463685873-0we1x72.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463697184-w3konwj.webp",
+        "image_url": "/api/products/image?file=1779463697184-w3konwj.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463711360-lwulcb9.webp",
+        "image_url": "/api/products/image?file=1779463711360-lwulcb9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463734691-xvikfyr.webp",
+        "image_url": "/api/products/image?file=1779463734691-xvikfyr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463736079-uh5zgfk.webp",
+        "image_url": "/api/products/image?file=1779463736079-uh5zgfk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463736811-jvbqja4.webp",
+        "image_url": "/api/products/image?file=1779463736811-jvbqja4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463743479-mwvtjk9.webp",
+        "image_url": "/api/products/image?file=1779463743479-mwvtjk9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463766961-twhma8j.webp",
+        "image_url": "/api/products/image?file=1779463766961-twhma8j.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463768933-81lhptj.webp",
+        "image_url": "/api/products/image?file=1779463768933-81lhptj.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463770534-06jej3q.webp",
+        "image_url": "/api/products/image?file=1779463770534-06jej3q.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463772277-barzaye.webp",
+        "image_url": "/api/products/image?file=1779463772277-barzaye.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779463775084-6ue4pif.webp",
+        "image_url": "/api/products/image?file=1779463775084-6ue4pif.webp",
         "is_featured": false
       }
     ]
@@ -1865,39 +1865,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462081130-mxmny6a.webp",
+        "image_url": "/api/products/image?file=1779462081130-mxmny6a.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462082850-l3l17av.webp",
+        "image_url": "/api/products/image?file=1779462082850-l3l17av.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462084052-iovcm9i.webp",
+        "image_url": "/api/products/image?file=1779462084052-iovcm9i.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462085299-juqa7u5.webp",
+        "image_url": "/api/products/image?file=1779462085299-juqa7u5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462087489-x0ds9ds.webp",
+        "image_url": "/api/products/image?file=1779462087489-x0ds9ds.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462088509-p3h3jeh.webp",
+        "image_url": "/api/products/image?file=1779462088509-p3h3jeh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462089523-bj44xz1.webp",
+        "image_url": "/api/products/image?file=1779462089523-bj44xz1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462090514-sqjdqx8.webp",
+        "image_url": "/api/products/image?file=1779462090514-sqjdqx8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779462092126-i4470ep.webp",
+        "image_url": "/api/products/image?file=1779462092126-i4470ep.webp",
         "is_featured": false
       }
     ]
@@ -1942,27 +1942,27 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461706585-ywj02va.webp",
+        "image_url": "/api/products/image?file=1779461706585-ywj02va.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461708390-xekocxm.webp",
+        "image_url": "/api/products/image?file=1779461708390-xekocxm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461709980-rlxw8nq.webp",
+        "image_url": "/api/products/image?file=1779461709980-rlxw8nq.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461712024-gq0kgif.webp",
+        "image_url": "/api/products/image?file=1779461712024-gq0kgif.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461713155-g007m34.webp",
+        "image_url": "/api/products/image?file=1779461713155-g007m34.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461714165-j808lc2.webp",
+        "image_url": "/api/products/image?file=1779461714165-j808lc2.webp",
         "is_featured": false
       }
     ]
@@ -2007,39 +2007,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461279890-lt5mkaf.webp",
+        "image_url": "/api/products/image?file=1779461279890-lt5mkaf.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461284160-vql5bzp.webp",
+        "image_url": "/api/products/image?file=1779461284160-vql5bzp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461287637-j8gh4wy.webp",
+        "image_url": "/api/products/image?file=1779461287637-j8gh4wy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461290260-mrk5rhs.webp",
+        "image_url": "/api/products/image?file=1779461290260-mrk5rhs.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461292585-ii823o6.webp",
+        "image_url": "/api/products/image?file=1779461292585-ii823o6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461295600-sbxc9v1.webp",
+        "image_url": "/api/products/image?file=1779461295600-sbxc9v1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461297470-6i7zvl7.webp",
+        "image_url": "/api/products/image?file=1779461297470-6i7zvl7.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461299416-lmh89c7.webp",
+        "image_url": "/api/products/image?file=1779461299416-lmh89c7.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779461300849-fmbk5o7.webp",
+        "image_url": "/api/products/image?file=1779461300849-fmbk5o7.webp",
         "is_featured": false
       }
     ]
@@ -2084,51 +2084,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449962665-p5on46l.webp",
+        "image_url": "/api/products/image?file=1779449962665-p5on46l.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449964157-00r3gnk.webp",
+        "image_url": "/api/products/image?file=1779449964157-00r3gnk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449965081-z4543he.webp",
+        "image_url": "/api/products/image?file=1779449965081-z4543he.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449966012-4h4p3vz.webp",
+        "image_url": "/api/products/image?file=1779449966012-4h4p3vz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449966784-0b59o4r.webp",
+        "image_url": "/api/products/image?file=1779449966784-0b59o4r.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449967891-03jf58s.webp",
+        "image_url": "/api/products/image?file=1779449967891-03jf58s.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449968688-6mfsw7w.webp",
+        "image_url": "/api/products/image?file=1779449968688-6mfsw7w.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449969175-jy2goc0.webp",
+        "image_url": "/api/products/image?file=1779449969175-jy2goc0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449970042-s0ysxwo.webp",
+        "image_url": "/api/products/image?file=1779449970042-s0ysxwo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449970726-pu12js6.webp",
+        "image_url": "/api/products/image?file=1779449970726-pu12js6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449971451-ifp64ug.webp",
+        "image_url": "/api/products/image?file=1779449971451-ifp64ug.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449972033-7fj4jdh.webp",
+        "image_url": "/api/products/image?file=1779449972033-7fj4jdh.webp",
         "is_featured": false
       }
     ]
@@ -2173,35 +2173,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449182977-d8tiup7.webp",
+        "image_url": "/api/products/image?file=1779449182977-d8tiup7.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449184983-tvegfi5.webp",
+        "image_url": "/api/products/image?file=1779449184983-tvegfi5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449185471-ydnwmo3.webp",
+        "image_url": "/api/products/image?file=1779449185471-ydnwmo3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449186543-wbomc1h.webp",
+        "image_url": "/api/products/image?file=1779449186543-wbomc1h.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449187914-pumqh8a.webp",
+        "image_url": "/api/products/image?file=1779449187914-pumqh8a.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449188454-v7rg1dw.webp",
+        "image_url": "/api/products/image?file=1779449188454-v7rg1dw.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449190052-kig4htc.webp",
+        "image_url": "/api/products/image?file=1779449190052-kig4htc.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779449192214-idfcrme.webp",
+        "image_url": "/api/products/image?file=1779449192214-idfcrme.webp",
         "is_featured": false
       }
     ]
@@ -2246,11 +2246,11 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779448397288-5js77t1.webp",
+        "image_url": "/api/products/image?file=1779448397288-5js77t1.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779448398532-4jsdqou.webp",
+        "image_url": "/api/products/image?file=1779448398532-4jsdqou.webp",
         "is_featured": false
       }
     ]
@@ -2295,39 +2295,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447976890-tqzbl1q.webp",
+        "image_url": "/api/products/image?file=1779447976890-tqzbl1q.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447978182-nlmqyn0.webp",
+        "image_url": "/api/products/image?file=1779447978182-nlmqyn0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447979088-w81xp1y.webp",
+        "image_url": "/api/products/image?file=1779447979088-w81xp1y.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447980169-0bl23a4.webp",
+        "image_url": "/api/products/image?file=1779447980169-0bl23a4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447981619-l781x64.webp",
+        "image_url": "/api/products/image?file=1779447981619-l781x64.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447983247-na56iyy.webp",
+        "image_url": "/api/products/image?file=1779447983247-na56iyy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447984745-45qigme.webp",
+        "image_url": "/api/products/image?file=1779447984745-45qigme.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447985969-729ewmo.webp",
+        "image_url": "/api/products/image?file=1779447985969-729ewmo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779447987057-iv5d0qv.webp",
+        "image_url": "/api/products/image?file=1779447987057-iv5d0qv.webp",
         "is_featured": false
       }
     ]
@@ -2372,7 +2372,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779448086694-loodoy2.webp",
+        "image_url": "/api/products/image?file=1779448086694-loodoy2.webp",
         "is_featured": true
       }
     ]
@@ -2417,59 +2417,59 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433573286-8iculop.webp",
+        "image_url": "/api/products/image?file=1779433573286-8iculop.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433574201-iwr1tgm.webp",
+        "image_url": "/api/products/image?file=1779433574201-iwr1tgm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433574967-62iwnep.webp",
+        "image_url": "/api/products/image?file=1779433574967-62iwnep.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433575644-ew0xvft.webp",
+        "image_url": "/api/products/image?file=1779433575644-ew0xvft.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433576613-ktavdu5.webp",
+        "image_url": "/api/products/image?file=1779433576613-ktavdu5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433577112-tudbs2a.webp",
+        "image_url": "/api/products/image?file=1779433577112-tudbs2a.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433577789-panbers.webp",
+        "image_url": "/api/products/image?file=1779433577789-panbers.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433578263-jfmofwu.webp",
+        "image_url": "/api/products/image?file=1779433578263-jfmofwu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433579413-6vnex48.webp",
+        "image_url": "/api/products/image?file=1779433579413-6vnex48.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433580083-wye4mvr.webp",
+        "image_url": "/api/products/image?file=1779433580083-wye4mvr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433580896-n4reusz.webp",
+        "image_url": "/api/products/image?file=1779433580896-n4reusz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433581391-qkbja84.webp",
+        "image_url": "/api/products/image?file=1779433581391-qkbja84.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433581853-zyqgs4u.webp",
+        "image_url": "/api/products/image?file=1779433581853-zyqgs4u.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433582388-gvog7y3.webp",
+        "image_url": "/api/products/image?file=1779433582388-gvog7y3.webp",
         "is_featured": false
       }
     ]
@@ -2514,11 +2514,11 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433043959-r3mxj56.webp",
+        "image_url": "/api/products/image?file=1779433043959-r3mxj56.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779433045077-yad7cel.webp",
+        "image_url": "/api/products/image?file=1779433045077-yad7cel.webp",
         "is_featured": false
       }
     ]
@@ -2563,59 +2563,59 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431812408-smw3sza.webp",
+        "image_url": "/api/products/image?file=1779431812408-smw3sza.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431813607-rzmtdha.webp",
+        "image_url": "/api/products/image?file=1779431813607-rzmtdha.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431814240-2sipfbp.webp",
+        "image_url": "/api/products/image?file=1779431814240-2sipfbp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431814656-zya7fi5.webp",
+        "image_url": "/api/products/image?file=1779431814656-zya7fi5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431815164-my5no84.webp",
+        "image_url": "/api/products/image?file=1779431815164-my5no84.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431815719-63aj1e4.webp",
+        "image_url": "/api/products/image?file=1779431815719-63aj1e4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431816213-51x8fzg.webp",
+        "image_url": "/api/products/image?file=1779431816213-51x8fzg.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431816931-nkk2f97.webp",
+        "image_url": "/api/products/image?file=1779431816931-nkk2f97.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431817638-1jn81mt.webp",
+        "image_url": "/api/products/image?file=1779431817638-1jn81mt.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431818216-30a60s2.webp",
+        "image_url": "/api/products/image?file=1779431818216-30a60s2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431819107-x78u3m6.webp",
+        "image_url": "/api/products/image?file=1779431819107-x78u3m6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431819796-v3dp1cv.webp",
+        "image_url": "/api/products/image?file=1779431819796-v3dp1cv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431820530-jzbu1en.webp",
+        "image_url": "/api/products/image?file=1779431820530-jzbu1en.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779431821310-3pe73uu.webp",
+        "image_url": "/api/products/image?file=1779431821310-3pe73uu.webp",
         "is_featured": false
       }
     ]
@@ -2660,59 +2660,59 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429618047-amvcxij.webp",
+        "image_url": "/api/products/image?file=1779429618047-amvcxij.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429619178-4jquc4v.webp",
+        "image_url": "/api/products/image?file=1779429619178-4jquc4v.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429620008-5x8kdnf.webp",
+        "image_url": "/api/products/image?file=1779429620008-5x8kdnf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429621015-u82am5b.webp",
+        "image_url": "/api/products/image?file=1779429621015-u82am5b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429622152-1x3b9po.webp",
+        "image_url": "/api/products/image?file=1779429622152-1x3b9po.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429622959-q3kyaaz.webp",
+        "image_url": "/api/products/image?file=1779429622959-q3kyaaz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429623869-hn25f8w.webp",
+        "image_url": "/api/products/image?file=1779429623869-hn25f8w.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429624776-63tund4.webp",
+        "image_url": "/api/products/image?file=1779429624776-63tund4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429626940-jvx7gig.webp",
+        "image_url": "/api/products/image?file=1779429626940-jvx7gig.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429627785-zn1xdef.webp",
+        "image_url": "/api/products/image?file=1779429627785-zn1xdef.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429628245-666zj8b.webp",
+        "image_url": "/api/products/image?file=1779429628245-666zj8b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429629277-wwi3xzb.webp",
+        "image_url": "/api/products/image?file=1779429629277-wwi3xzb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429629927-ixb9gbi.webp",
+        "image_url": "/api/products/image?file=1779429629927-ixb9gbi.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429630682-sxqy47l.webp",
+        "image_url": "/api/products/image?file=1779429630682-sxqy47l.webp",
         "is_featured": false
       }
     ]
@@ -2757,47 +2757,47 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429012696-k6x04z4.webp",
+        "image_url": "/api/products/image?file=1779429012696-k6x04z4.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429014409-jngb8wv.webp",
+        "image_url": "/api/products/image?file=1779429014409-jngb8wv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429016047-9lo14mn.webp",
+        "image_url": "/api/products/image?file=1779429016047-9lo14mn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429017889-ymhmoi8.webp",
+        "image_url": "/api/products/image?file=1779429017889-ymhmoi8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429021706-r2n6va2.webp",
+        "image_url": "/api/products/image?file=1779429021706-r2n6va2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429023444-35jy0xa.webp",
+        "image_url": "/api/products/image?file=1779429023444-35jy0xa.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429025346-vnyc0ei.webp",
+        "image_url": "/api/products/image?file=1779429025346-vnyc0ei.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429026254-qe91f7c.webp",
+        "image_url": "/api/products/image?file=1779429026254-qe91f7c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429027789-wbt4ywh.webp",
+        "image_url": "/api/products/image?file=1779429027789-wbt4ywh.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429029101-ed9njvy.webp",
+        "image_url": "/api/products/image?file=1779429029101-ed9njvy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779429030381-42gf00a.webp",
+        "image_url": "/api/products/image?file=1779429030381-42gf00a.webp",
         "is_featured": false
       }
     ]
@@ -2842,7 +2842,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428577501-pt4hg6x.webp",
+        "image_url": "/api/products/image?file=1779428577501-pt4hg6x.webp",
         "is_featured": true
       }
     ]
@@ -2887,23 +2887,23 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428321061-73q8ntv.webp",
+        "image_url": "/api/products/image?file=1779428321061-73q8ntv.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428324750-34cibre.webp",
+        "image_url": "/api/products/image?file=1779428324750-34cibre.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428329156-5zkvo8b.webp",
+        "image_url": "/api/products/image?file=1779428329156-5zkvo8b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428330260-gy7gxoe.webp",
+        "image_url": "/api/products/image?file=1779428330260-gy7gxoe.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428331189-bhwa00r.webp",
+        "image_url": "/api/products/image?file=1779428331189-bhwa00r.webp",
         "is_featured": false
       }
     ]
@@ -2948,63 +2948,63 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428073071-trdj7uf.webp",
+        "image_url": "/api/products/image?file=1779428073071-trdj7uf.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428073900-1hdkufl.webp",
+        "image_url": "/api/products/image?file=1779428073900-1hdkufl.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428074380-ijzwe8c.webp",
+        "image_url": "/api/products/image?file=1779428074380-ijzwe8c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428075427-fgs83uu.webp",
+        "image_url": "/api/products/image?file=1779428075427-fgs83uu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428076333-mvmagof.webp",
+        "image_url": "/api/products/image?file=1779428076333-mvmagof.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428077026-f2uindn.webp",
+        "image_url": "/api/products/image?file=1779428077026-f2uindn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428077887-srkepy2.webp",
+        "image_url": "/api/products/image?file=1779428077887-srkepy2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428078643-kl02hcf.webp",
+        "image_url": "/api/products/image?file=1779428078643-kl02hcf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428080392-dlaq5c1.webp",
+        "image_url": "/api/products/image?file=1779428080392-dlaq5c1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428080858-8evju5d.webp",
+        "image_url": "/api/products/image?file=1779428080858-8evju5d.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428081500-ghpi15j.webp",
+        "image_url": "/api/products/image?file=1779428081500-ghpi15j.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428082041-xz6zfmc.webp",
+        "image_url": "/api/products/image?file=1779428082041-xz6zfmc.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428082611-i5xqvlo.webp",
+        "image_url": "/api/products/image?file=1779428082611-i5xqvlo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428083323-q89x8u8.webp",
+        "image_url": "/api/products/image?file=1779428083323-q89x8u8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779428083929-nahc4g0.webp",
+        "image_url": "/api/products/image?file=1779428083929-nahc4g0.webp",
         "is_featured": false
       }
     ]
@@ -3049,19 +3049,19 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427587245-sz79ko4.webp",
+        "image_url": "/api/products/image?file=1779427587245-sz79ko4.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427588099-jmsfchl.webp",
+        "image_url": "/api/products/image?file=1779427588099-jmsfchl.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427588598-p9sg2jv.webp",
+        "image_url": "/api/products/image?file=1779427588598-p9sg2jv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427589055-sx69hqu.webp",
+        "image_url": "/api/products/image?file=1779427589055-sx69hqu.webp",
         "is_featured": false
       }
     ]
@@ -3106,55 +3106,55 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427135320-uqqthlg.webp",
+        "image_url": "/api/products/image?file=1779427135320-uqqthlg.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427136649-afyjgom.webp",
+        "image_url": "/api/products/image?file=1779427136649-afyjgom.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427137533-zf8skb1.webp",
+        "image_url": "/api/products/image?file=1779427137533-zf8skb1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427138426-xt6kj9b.webp",
+        "image_url": "/api/products/image?file=1779427138426-xt6kj9b.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427139312-viy7lrr.webp",
+        "image_url": "/api/products/image?file=1779427139312-viy7lrr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427140039-nu4jwjf.webp",
+        "image_url": "/api/products/image?file=1779427140039-nu4jwjf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427141869-lz8invb.webp",
+        "image_url": "/api/products/image?file=1779427141869-lz8invb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427142895-b7n2l9k.webp",
+        "image_url": "/api/products/image?file=1779427142895-b7n2l9k.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427143699-f3gxc6c.webp",
+        "image_url": "/api/products/image?file=1779427143699-f3gxc6c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427144427-hn5yrhr.webp",
+        "image_url": "/api/products/image?file=1779427144427-hn5yrhr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427145651-os6al9p.webp",
+        "image_url": "/api/products/image?file=1779427145651-os6al9p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427146697-jo32a7m.webp",
+        "image_url": "/api/products/image?file=1779427146697-jo32a7m.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779427147279-tl0qd5k.webp",
+        "image_url": "/api/products/image?file=1779427147279-tl0qd5k.webp",
         "is_featured": false
       }
     ]
@@ -3199,7 +3199,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426573111-d8p381y.webp",
+        "image_url": "/api/products/image?file=1779426573111-d8p381y.webp",
         "is_featured": true
       }
     ]
@@ -3244,23 +3244,23 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426161691-0sv3ocl.webp",
+        "image_url": "/api/products/image?file=1779426161691-0sv3ocl.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426168296-40awq9l.webp",
+        "image_url": "/api/products/image?file=1779426168296-40awq9l.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426169166-7qz97sz.webp",
+        "image_url": "/api/products/image?file=1779426169166-7qz97sz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426170411-jfhy6fy.webp",
+        "image_url": "/api/products/image?file=1779426170411-jfhy6fy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779426172045-1t4w907.webp",
+        "image_url": "/api/products/image?file=1779426172045-1t4w907.webp",
         "is_featured": false
       }
     ]
@@ -3305,39 +3305,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425312500-a5nycxz.webp",
+        "image_url": "/api/products/image?file=1779425312500-a5nycxz.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425313894-abvzg6m.webp",
+        "image_url": "/api/products/image?file=1779425313894-abvzg6m.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425314565-b5xwe5q.webp",
+        "image_url": "/api/products/image?file=1779425314565-b5xwe5q.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425315491-weqssee.webp",
+        "image_url": "/api/products/image?file=1779425315491-weqssee.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425316265-c3j0z01.webp",
+        "image_url": "/api/products/image?file=1779425316265-c3j0z01.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425317466-dxtqx6f.webp",
+        "image_url": "/api/products/image?file=1779425317466-dxtqx6f.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425318141-hv0cf3n.webp",
+        "image_url": "/api/products/image?file=1779425318141-hv0cf3n.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425319152-jpjvoo8.webp",
+        "image_url": "/api/products/image?file=1779425319152-jpjvoo8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779425320067-y5p5nv1.webp",
+        "image_url": "/api/products/image?file=1779425320067-y5p5nv1.webp",
         "is_featured": false
       }
     ]
@@ -3382,27 +3382,27 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424939314-5nzng0i.webp",
+        "image_url": "/api/products/image?file=1779424939314-5nzng0i.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424944112-f0rh8pm.webp",
+        "image_url": "/api/products/image?file=1779424944112-f0rh8pm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424945694-7d74tw0.webp",
+        "image_url": "/api/products/image?file=1779424945694-7d74tw0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424947126-hzex71v.webp",
+        "image_url": "/api/products/image?file=1779424947126-hzex71v.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424948243-6qkveoo.webp",
+        "image_url": "/api/products/image?file=1779424948243-6qkveoo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424949381-8wfnat9.webp",
+        "image_url": "/api/products/image?file=1779424949381-8wfnat9.webp",
         "is_featured": false
       }
     ]
@@ -3447,51 +3447,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424159808-onjbgbx.webp",
+        "image_url": "/api/products/image?file=1779424159808-onjbgbx.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424161442-dnnmmn0.webp",
+        "image_url": "/api/products/image?file=1779424161442-dnnmmn0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424162296-2exh1is.webp",
+        "image_url": "/api/products/image?file=1779424162296-2exh1is.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424164186-9x093ql.webp",
+        "image_url": "/api/products/image?file=1779424164186-9x093ql.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424165889-zey0d9p.webp",
+        "image_url": "/api/products/image?file=1779424165889-zey0d9p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424167715-p8no0dk.webp",
+        "image_url": "/api/products/image?file=1779424167715-p8no0dk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424168959-vn9krrp.webp",
+        "image_url": "/api/products/image?file=1779424168959-vn9krrp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424170110-icvwmlf.webp",
+        "image_url": "/api/products/image?file=1779424170110-icvwmlf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424170699-0dqflod.webp",
+        "image_url": "/api/products/image?file=1779424170699-0dqflod.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424171059-chsewez.webp",
+        "image_url": "/api/products/image?file=1779424171059-chsewez.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424171457-8mv26h5.webp",
+        "image_url": "/api/products/image?file=1779424171457-8mv26h5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779424172088-poq0mvv.webp",
+        "image_url": "/api/products/image?file=1779424172088-poq0mvv.webp",
         "is_featured": false
       }
     ]
@@ -3536,23 +3536,23 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423547224-gw78dup.webp",
+        "image_url": "/api/products/image?file=1779423547224-gw78dup.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423548262-w7w83vc.webp",
+        "image_url": "/api/products/image?file=1779423548262-w7w83vc.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423549011-b2aalo3.webp",
+        "image_url": "/api/products/image?file=1779423549011-b2aalo3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423549725-uvdc0dr.webp",
+        "image_url": "/api/products/image?file=1779423549725-uvdc0dr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423550294-4idr3n3.webp",
+        "image_url": "/api/products/image?file=1779423550294-4idr3n3.webp",
         "is_featured": false
       }
     ]
@@ -3597,35 +3597,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423321268-ei0h3hf.webp",
+        "image_url": "/api/products/image?file=1779423321268-ei0h3hf.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423322702-xig3sij.webp",
+        "image_url": "/api/products/image?file=1779423322702-xig3sij.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423323318-0v5bmmz.webp",
+        "image_url": "/api/products/image?file=1779423323318-0v5bmmz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423323917-wk1k8ve.webp",
+        "image_url": "/api/products/image?file=1779423323917-wk1k8ve.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423324875-qhvq2wr.webp",
+        "image_url": "/api/products/image?file=1779423324875-qhvq2wr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423325689-1ehtvc9.webp",
+        "image_url": "/api/products/image?file=1779423325689-1ehtvc9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423327387-4lc58t2.webp",
+        "image_url": "/api/products/image?file=1779423327387-4lc58t2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423329743-cw2wnmb.webp",
+        "image_url": "/api/products/image?file=1779423329743-cw2wnmb.webp",
         "is_featured": false
       }
     ]
@@ -3670,11 +3670,11 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423090626-bki5ajy.webp",
+        "image_url": "/api/products/image?file=1779423090626-bki5ajy.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779423091589-036q07s.webp",
+        "image_url": "/api/products/image?file=1779423091589-036q07s.webp",
         "is_featured": false
       }
     ]
@@ -3719,35 +3719,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422861746-s83hq98.webp",
+        "image_url": "/api/products/image?file=1779422861746-s83hq98.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422863253-fkckob6.webp",
+        "image_url": "/api/products/image?file=1779422863253-fkckob6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422864145-t09hsrg.webp",
+        "image_url": "/api/products/image?file=1779422864145-t09hsrg.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422865629-qzsm2ow.webp",
+        "image_url": "/api/products/image?file=1779422865629-qzsm2ow.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422868299-3s3yf8v.webp",
+        "image_url": "/api/products/image?file=1779422868299-3s3yf8v.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422871108-bgywv93.webp",
+        "image_url": "/api/products/image?file=1779422871108-bgywv93.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422872325-83hr31q.webp",
+        "image_url": "/api/products/image?file=1779422872325-83hr31q.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422873750-xvddjm9.webp",
+        "image_url": "/api/products/image?file=1779422873750-xvddjm9.webp",
         "is_featured": false
       }
     ]
@@ -3792,19 +3792,19 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422418284-ewe59gw.webp",
+        "image_url": "/api/products/image?file=1779422418284-ewe59gw.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422419335-bw4p00d.webp",
+        "image_url": "/api/products/image?file=1779422419335-bw4p00d.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422420071-6zx1i50.webp",
+        "image_url": "/api/products/image?file=1779422420071-6zx1i50.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779422420704-ayoq7n6.webp",
+        "image_url": "/api/products/image?file=1779422420704-ayoq7n6.webp",
         "is_featured": false
       }
     ]
@@ -3849,63 +3849,63 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388098360-8txe5w8.webp",
+        "image_url": "/api/products/image?file=1779388098360-8txe5w8.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388100066-zcvw1ac.webp",
+        "image_url": "/api/products/image?file=1779388100066-zcvw1ac.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388101121-six6gtc.webp",
+        "image_url": "/api/products/image?file=1779388101121-six6gtc.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388101672-k1pl3eb.webp",
+        "image_url": "/api/products/image?file=1779388101672-k1pl3eb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388102218-t87nnxg.webp",
+        "image_url": "/api/products/image?file=1779388102218-t87nnxg.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388102746-hfrohbr.webp",
+        "image_url": "/api/products/image?file=1779388102746-hfrohbr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388103504-50j2lrm.webp",
+        "image_url": "/api/products/image?file=1779388103504-50j2lrm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388103906-598pbtw.webp",
+        "image_url": "/api/products/image?file=1779388103906-598pbtw.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388104317-5kyfk70.webp",
+        "image_url": "/api/products/image?file=1779388104317-5kyfk70.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388104664-v5uj7ab.webp",
+        "image_url": "/api/products/image?file=1779388104664-v5uj7ab.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388105065-dhn6weq.webp",
+        "image_url": "/api/products/image?file=1779388105065-dhn6weq.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388105505-n2uh71p.webp",
+        "image_url": "/api/products/image?file=1779388105505-n2uh71p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388106203-ir2at4n.webp",
+        "image_url": "/api/products/image?file=1779388106203-ir2at4n.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388106785-xt7hu7c.webp",
+        "image_url": "/api/products/image?file=1779388106785-xt7hu7c.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779388107504-m25japm.webp",
+        "image_url": "/api/products/image?file=1779388107504-m25japm.webp",
         "is_featured": false
       }
     ]
@@ -3950,51 +3950,51 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386759714-oe22uhk.webp",
+        "image_url": "/api/products/image?file=1779386759714-oe22uhk.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386761236-nkizdmf.webp",
+        "image_url": "/api/products/image?file=1779386761236-nkizdmf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386761923-ooaw01p.webp",
+        "image_url": "/api/products/image?file=1779386761923-ooaw01p.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386762613-3966mus.webp",
+        "image_url": "/api/products/image?file=1779386762613-3966mus.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386763186-bpjeyr6.webp",
+        "image_url": "/api/products/image?file=1779386763186-bpjeyr6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386763851-ca4qwbv.webp",
+        "image_url": "/api/products/image?file=1779386763851-ca4qwbv.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386764486-tyf6bi4.webp",
+        "image_url": "/api/products/image?file=1779386764486-tyf6bi4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386764911-etjvow8.webp",
+        "image_url": "/api/products/image?file=1779386764911-etjvow8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386765680-3dx1pgz.webp",
+        "image_url": "/api/products/image?file=1779386765680-3dx1pgz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386766148-21wg3k0.webp",
+        "image_url": "/api/products/image?file=1779386766148-21wg3k0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386766628-80zqkwt.webp",
+        "image_url": "/api/products/image?file=1779386766628-80zqkwt.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779386767107-nrfi3yj.webp",
+        "image_url": "/api/products/image?file=1779386767107-nrfi3yj.webp",
         "is_featured": false
       }
     ]
@@ -4039,35 +4039,35 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385992520-18v3klb.webp",
+        "image_url": "/api/products/image?file=1779385992520-18v3klb.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385993964-iiuv3i7.webp",
+        "image_url": "/api/products/image?file=1779385993964-iiuv3i7.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385994987-havw38g.webp",
+        "image_url": "/api/products/image?file=1779385994987-havw38g.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385995772-6xe2aru.webp",
+        "image_url": "/api/products/image?file=1779385995772-6xe2aru.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385996489-oncj9m4.webp",
+        "image_url": "/api/products/image?file=1779385996489-oncj9m4.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385997429-rkxbuw9.webp",
+        "image_url": "/api/products/image?file=1779385997429-rkxbuw9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385997948-998kkyy.webp",
+        "image_url": "/api/products/image?file=1779385997948-998kkyy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779385998511-344toik.webp",
+        "image_url": "/api/products/image?file=1779385998511-344toik.webp",
         "is_featured": false
       }
     ]
@@ -4112,7 +4112,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779384514354-weyabqj.webp",
+        "image_url": "/api/products/image?file=1779384514354-weyabqj.webp",
         "is_featured": true
       }
     ]
@@ -4157,43 +4157,43 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382750335-lgjbqvs.webp",
+        "image_url": "/api/products/image?file=1779382750335-lgjbqvs.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382751264-f5wvm8r.webp",
+        "image_url": "/api/products/image?file=1779382751264-f5wvm8r.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382751774-kftt0xp.webp",
+        "image_url": "/api/products/image?file=1779382751774-kftt0xp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382752284-yb3sg5z.webp",
+        "image_url": "/api/products/image?file=1779382752284-yb3sg5z.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382752695-zwtzai0.webp",
+        "image_url": "/api/products/image?file=1779382752695-zwtzai0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382753329-gnnpupo.webp",
+        "image_url": "/api/products/image?file=1779382753329-gnnpupo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382753821-1qjgpp2.webp",
+        "image_url": "/api/products/image?file=1779382753821-1qjgpp2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382754355-escck21.webp",
+        "image_url": "/api/products/image?file=1779382754355-escck21.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382755108-vit5ond.webp",
+        "image_url": "/api/products/image?file=1779382755108-vit5ond.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779382755717-ycyh32f.webp",
+        "image_url": "/api/products/image?file=1779382755717-ycyh32f.webp",
         "is_featured": false
       }
     ]
@@ -4238,31 +4238,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381942189-lbk85sl.webp",
+        "image_url": "/api/products/image?file=1779381942189-lbk85sl.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381943874-za2zmv6.webp",
+        "image_url": "/api/products/image?file=1779381943874-za2zmv6.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381944922-awbc8sc.webp",
+        "image_url": "/api/products/image?file=1779381944922-awbc8sc.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381946294-ierjdc0.webp",
+        "image_url": "/api/products/image?file=1779381946294-ierjdc0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381947476-vww5utz.webp",
+        "image_url": "/api/products/image?file=1779381947476-vww5utz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381948225-c9to0pd.webp",
+        "image_url": "/api/products/image?file=1779381948225-c9to0pd.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381949264-euthk28.webp",
+        "image_url": "/api/products/image?file=1779381949264-euthk28.webp",
         "is_featured": false
       }
     ]
@@ -4307,31 +4307,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381384058-ogad74z.webp",
+        "image_url": "/api/products/image?file=1779381384058-ogad74z.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381391448-p6sla07.webp",
+        "image_url": "/api/products/image?file=1779381391448-p6sla07.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381397477-khzynvb.webp",
+        "image_url": "/api/products/image?file=1779381397477-khzynvb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381403282-6mzonj0.webp",
+        "image_url": "/api/products/image?file=1779381403282-6mzonj0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381404613-5sb1rry.webp",
+        "image_url": "/api/products/image?file=1779381404613-5sb1rry.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381410436-l1sns98.webp",
+        "image_url": "/api/products/image?file=1779381410436-l1sns98.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779381411638-7f5hcz7.webp",
+        "image_url": "/api/products/image?file=1779381411638-7f5hcz7.webp",
         "is_featured": false
       }
     ]
@@ -4376,7 +4376,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380811120-mrl61nx.webp",
+        "image_url": "/api/products/image?file=1779380811120-mrl61nx.webp",
         "is_featured": true
       }
     ]
@@ -4421,55 +4421,55 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380021708-8s5i36n.webp",
+        "image_url": "/api/products/image?file=1779380021708-8s5i36n.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380024125-c2djgdp.webp",
+        "image_url": "/api/products/image?file=1779380024125-c2djgdp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380027944-6zg0x61.webp",
+        "image_url": "/api/products/image?file=1779380027944-6zg0x61.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380029271-oyf1b5o.webp",
+        "image_url": "/api/products/image?file=1779380029271-oyf1b5o.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380032101-cagsu1d.webp",
+        "image_url": "/api/products/image?file=1779380032101-cagsu1d.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380052789-t9dwr8y.webp",
+        "image_url": "/api/products/image?file=1779380052789-t9dwr8y.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380062007-zqftx5z.webp",
+        "image_url": "/api/products/image?file=1779380062007-zqftx5z.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380068812-lgk66yo.webp",
+        "image_url": "/api/products/image?file=1779380068812-lgk66yo.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380072206-ud19rss.webp",
+        "image_url": "/api/products/image?file=1779380072206-ud19rss.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380075532-xomskt5.webp",
+        "image_url": "/api/products/image?file=1779380075532-xomskt5.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380079850-g14h3qz.webp",
+        "image_url": "/api/products/image?file=1779380079850-g14h3qz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380082581-5z59cqn.webp",
+        "image_url": "/api/products/image?file=1779380082581-5z59cqn.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779380097754-oz5k43p.webp",
+        "image_url": "/api/products/image?file=1779380097754-oz5k43p.webp",
         "is_featured": false
       }
     ]
@@ -4514,43 +4514,43 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365197039-wnyr80j.webp",
+        "image_url": "/api/products/image?file=1779365197039-wnyr80j.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365199216-gzuvvr0.webp",
+        "image_url": "/api/products/image?file=1779365199216-gzuvvr0.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365200072-pr9qsqb.webp",
+        "image_url": "/api/products/image?file=1779365200072-pr9qsqb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365200627-9kd8rn2.webp",
+        "image_url": "/api/products/image?file=1779365200627-9kd8rn2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365201890-vca02ku.webp",
+        "image_url": "/api/products/image?file=1779365201890-vca02ku.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365202464-epv4axy.webp",
+        "image_url": "/api/products/image?file=1779365202464-epv4axy.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365202995-e9qaclu.webp",
+        "image_url": "/api/products/image?file=1779365202995-e9qaclu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365203390-3tgjani.webp",
+        "image_url": "/api/products/image?file=1779365203390-3tgjani.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365204545-scvsrpm.webp",
+        "image_url": "/api/products/image?file=1779365204545-scvsrpm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779365205026-kqsuzzz.webp",
+        "image_url": "/api/products/image?file=1779365205026-kqsuzzz.webp",
         "is_featured": false
       }
     ]
@@ -4595,23 +4595,23 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364622869-1poeahc.webp",
+        "image_url": "/api/products/image?file=1779364622869-1poeahc.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364627806-7ocy277.webp",
+        "image_url": "/api/products/image?file=1779364627806-7ocy277.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364630201-0jv3r9e.webp",
+        "image_url": "/api/products/image?file=1779364630201-0jv3r9e.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364633412-e780xr3.webp",
+        "image_url": "/api/products/image?file=1779364633412-e780xr3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364635546-exd5w0u.webp",
+        "image_url": "/api/products/image?file=1779364635546-exd5w0u.webp",
         "is_featured": false
       }
     ]
@@ -4656,31 +4656,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364292630-bl7si1e.webp",
+        "image_url": "/api/products/image?file=1779364292630-bl7si1e.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364293914-49xkq5w.webp",
+        "image_url": "/api/products/image?file=1779364293914-49xkq5w.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364294505-dzntqws.webp",
+        "image_url": "/api/products/image?file=1779364294505-dzntqws.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364295730-639rwab.webp",
+        "image_url": "/api/products/image?file=1779364295730-639rwab.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364296694-nov5txr.webp",
+        "image_url": "/api/products/image?file=1779364296694-nov5txr.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364297420-zsvnotu.webp",
+        "image_url": "/api/products/image?file=1779364297420-zsvnotu.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779364298295-cc76atb.webp",
+        "image_url": "/api/products/image?file=1779364298295-cc76atb.webp",
         "is_featured": false
       }
     ]
@@ -4725,7 +4725,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779363670810-qho55oe.webp",
+        "image_url": "/api/products/image?file=1779363670810-qho55oe.webp",
         "is_featured": true
       }
     ]
@@ -4770,15 +4770,15 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779362316102-realjbr.webp",
+        "image_url": "/api/products/image?file=1779362316102-realjbr.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779362318330-4pk2to1.webp",
+        "image_url": "/api/products/image?file=1779362318330-4pk2to1.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779362320249-f46joo4.webp",
+        "image_url": "/api/products/image?file=1779362320249-f46joo4.webp",
         "is_featured": false
       }
     ]
@@ -4823,39 +4823,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359679181-bn202h2.webp",
+        "image_url": "/api/products/image?file=1779359679181-bn202h2.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359681850-bf8g714.webp",
+        "image_url": "/api/products/image?file=1779359681850-bf8g714.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359682725-h9i4668.webp",
+        "image_url": "/api/products/image?file=1779359682725-h9i4668.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359683327-dksv9hm.webp",
+        "image_url": "/api/products/image?file=1779359683327-dksv9hm.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359684063-bkrgplf.webp",
+        "image_url": "/api/products/image?file=1779359684063-bkrgplf.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359684769-ggnhske.webp",
+        "image_url": "/api/products/image?file=1779359684769-ggnhske.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359685653-l9q1rbw.webp",
+        "image_url": "/api/products/image?file=1779359685653-l9q1rbw.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359686387-r7vzyg3.webp",
+        "image_url": "/api/products/image?file=1779359686387-r7vzyg3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359687166-8d4ud2z.webp",
+        "image_url": "/api/products/image?file=1779359687166-8d4ud2z.webp",
         "is_featured": false
       }
     ]
@@ -4900,47 +4900,47 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359325403-naxm76s.webp",
+        "image_url": "/api/products/image?file=1779359325403-naxm76s.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359326730-y7ap7hp.webp",
+        "image_url": "/api/products/image?file=1779359326730-y7ap7hp.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359327388-32q8if9.webp",
+        "image_url": "/api/products/image?file=1779359327388-32q8if9.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359328100-sl8eaje.webp",
+        "image_url": "/api/products/image?file=1779359328100-sl8eaje.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359328858-t4gxs7i.webp",
+        "image_url": "/api/products/image?file=1779359328858-t4gxs7i.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359329658-qpso0j2.webp",
+        "image_url": "/api/products/image?file=1779359329658-qpso0j2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359330091-40qq0cz.webp",
+        "image_url": "/api/products/image?file=1779359330091-40qq0cz.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359331140-5h1te2i.webp",
+        "image_url": "/api/products/image?file=1779359331140-5h1te2i.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359331707-29c0vxe.webp",
+        "image_url": "/api/products/image?file=1779359331707-29c0vxe.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359332346-ijdjdjk.webp",
+        "image_url": "/api/products/image?file=1779359332346-ijdjdjk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779359333344-gd06yqt.webp",
+        "image_url": "/api/products/image?file=1779359333344-gd06yqt.webp",
         "is_featured": false
       }
     ]
@@ -4985,31 +4985,31 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358830804-q0cmzeh.webp",
+        "image_url": "/api/products/image?file=1779358830804-q0cmzeh.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358832183-ty3bu7m.webp",
+        "image_url": "/api/products/image?file=1779358832183-ty3bu7m.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358833389-l35g6ac.webp",
+        "image_url": "/api/products/image?file=1779358833389-l35g6ac.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358834614-gqjpwis.webp",
+        "image_url": "/api/products/image?file=1779358834614-gqjpwis.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358835172-w3b7jrk.webp",
+        "image_url": "/api/products/image?file=1779358835172-w3b7jrk.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358836171-h1ucgf2.webp",
+        "image_url": "/api/products/image?file=1779358836171-h1ucgf2.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358836689-lcti76t.webp",
+        "image_url": "/api/products/image?file=1779358836689-lcti76t.webp",
         "is_featured": false
       }
     ]
@@ -5054,43 +5054,43 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358022303-9lz5dfz.webp",
+        "image_url": "/api/products/image?file=1779358022303-9lz5dfz.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358028268-szhk6l3.webp",
+        "image_url": "/api/products/image?file=1779358028268-szhk6l3.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358033747-bzjnrov.webp",
+        "image_url": "/api/products/image?file=1779358033747-bzjnrov.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358039423-wzh0pbi.webp",
+        "image_url": "/api/products/image?file=1779358039423-wzh0pbi.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358047094-hthyku8.webp",
+        "image_url": "/api/products/image?file=1779358047094-hthyku8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358053151-ua9dezx.webp",
+        "image_url": "/api/products/image?file=1779358053151-ua9dezx.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358061891-qtepn7y.webp",
+        "image_url": "/api/products/image?file=1779358061891-qtepn7y.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358067131-gsp5zrd.webp",
+        "image_url": "/api/products/image?file=1779358067131-gsp5zrd.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358073222-b0wenos.webp",
+        "image_url": "/api/products/image?file=1779358073222-b0wenos.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779358077505-kikncin.webp",
+        "image_url": "/api/products/image?file=1779358077505-kikncin.webp",
         "is_featured": false
       }
     ]
@@ -5135,7 +5135,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779356735108-5bly91i.webp",
+        "image_url": "/api/products/image?file=1779356735108-5bly91i.webp",
         "is_featured": true
       }
     ]
@@ -5180,7 +5180,7 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779349079450-ndzh576.webp",
+        "image_url": "/api/products/image?file=1779349079450-ndzh576.webp",
         "is_featured": true
       }
     ]
@@ -5262,39 +5262,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004253916-uicci0j.webp",
+        "image_url": "/api/products/image?file=1779004253916-uicci0j.webp",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004263932-c0ikf49.webp",
+        "image_url": "/api/products/image?file=1779004263932-c0ikf49.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004284294-bxrskeb.webp",
+        "image_url": "/api/products/image?file=1779004284294-bxrskeb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004292166-ydv3t8q.webp",
+        "image_url": "/api/products/image?file=1779004292166-ydv3t8q.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004319008-vcs8xc7.webp",
+        "image_url": "/api/products/image?file=1779004319008-vcs8xc7.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004327326-mykldlq.webp",
+        "image_url": "/api/products/image?file=1779004327326-mykldlq.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004336735-h9j8ktb.webp",
+        "image_url": "/api/products/image?file=1779004336735-h9j8ktb.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004348406-f69wfe8.webp",
+        "image_url": "/api/products/image?file=1779004348406-f69wfe8.webp",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779004357282-gr6reoc.webp",
+        "image_url": "/api/products/image?file=1779004357282-gr6reoc.webp",
         "is_featured": false
       }
     ]
@@ -5335,37 +5335,39 @@
     },
     "product_images": [
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002349576-r7yyrj6.jpg",
+        "image_url": "/api/products/image?file=1779002349576-r7yyrj6.jpg",
         "is_featured": true
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002653871-28zkoeq.jpg",
+        "image_url": "/api/products/image?file=1779002653871-28zkoeq.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002664729-8f79yz0.jpg",
+        "image_url": "/api/products/image?file=1779002664729-8f79yz0.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002674144-nk6pik1.jpg",
+        "image_url": "/api/products/image?file=1779002674144-nk6pik1.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002349576-r7yyrj6.jpg",
+        "image_url": "/api/products/image?file=1779002349576-r7yyrj6.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002653871-28zkoeq.jpg",
+        "image_url": "/api/products/image?file=1779002653871-28zkoeq.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002664729-8f79yz0.jpg",
+        "image_url": "/api/products/image?file=1779002664729-8f79yz0.jpg",
         "is_featured": false
       },
       {
-        "image_url": "https://scjbackzybmoapkupfbi.supabase.co/storage/v1/object/public/kitchenproduct/products/1779002674144-nk6pik1.jpg",
+        "image_url": "/api/products/image?file=1779002674144-nk6pik1.jpg",
         "is_featured": false
       }
     ]
   }
 ]
+
+

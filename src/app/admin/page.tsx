@@ -87,9 +87,14 @@ export default function AdminDashboard() {
             else if (order.status === 'delivered') statusColor = 'text-slate-600 bg-slate-50';
             else if (order.status === 'cancelled') statusColor = 'text-rose-600 bg-rose-50';
 
+            const addr: any = order.addresses;
+            const customerName = Array.isArray(addr)
+              ? (addr[0]?.full_name || 'Guest Customer')
+              : (addr?.full_name || 'Guest Customer');
+
             return {
               id: `ORD-${order.id.substring(0, 8).toUpperCase()}`,
-              customer: order.addresses?.full_name || 'Guest Customer',
+              customer: customerName,
               status: order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : 'Pending',
               amount: `₹${(order.total_amount || 0).toLocaleString()}`,
               color: statusColor

@@ -156,16 +156,16 @@ export default function AddProductPage() {
       for (const file of Array.from(files)) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-        const filePath = `products/${fileName}`;
+        const filePath = `${fileName}`;
 
         const { error: uploadError } = await supabase.storage
-          .from('kitchenproduct')
+          .from('products')
           .upload(filePath, file);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
-          .from('kitchenproduct')
+          .from('products')
           .getPublicUrl(filePath);
 
         newImageUrls.push(publicUrl);

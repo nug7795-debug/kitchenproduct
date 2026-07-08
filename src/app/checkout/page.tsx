@@ -61,7 +61,7 @@ export default function CheckoutPage() {
   const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Gohil Vikrambhai Kanabhai');
   const [mccCode, setMccCode] = React.useState('5722');
   const [isMobile, setIsMobile] = React.useState(false);
-  const [selectedMethod, setSelectedMethod] = React.useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('gpay');
+  const [selectedMethod, setSelectedMethod] = React.useState<'phonepe' | 'paytm'>('phonepe');
   const [timeLeft, setTimeLeft] = React.useState(276); // 4min 36sec exactly like in the screenshot
   
   const [showAssistantModal, setShowAssistantModal] = React.useState(false);
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
           .maybeSingle();
         if (data?.value?.payment) {
           const p = data.value.payment;
-          setPaymentMode(p.activeMethod || 'upi_intent');
+          setPaymentMode('upi_intent');
           if (p.merchantUpiId) setMerchantVpa(p.merchantUpiId);
           if (p.payeeName) setPayeeName(p.payeeName);
           if (p.razorpayKeyId) setRazorpayKeyId(p.razorpayKeyId);
@@ -1507,44 +1507,10 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* MODE 2: HIGH-FIDELITY UPI INTENT CHECKOUT */}
+                {/* MODE 2: PHONEPE & PAYTM CHECKOUT */}
                 {paymentMode === 'upi_intent' && (
                   <div className="space-y-3">
-                    {/* 1. Google Pay (GPay) */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedMethod('gpay');
-                        handleUpiAppPay('gpay');
-                        setStep('verifying');
-                        startRealtimePolling();
-                      }}
-                      className={cn(
-                        "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
-                        selectedMethod === 'gpay'
-                          ? "border-[#2874f0] bg-blue-50/5 ring-1 ring-[#2874f0]"
-                          : "border-slate-200 hover:border-slate-350"
-                      )}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 flex items-center justify-center shrink-0">
-                          <img 
-                            src="https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png" 
-                            alt="GPay" 
-                            className="h-8 w-8 object-contain" 
-                          />
-                        </div>
-                        <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with Google Pay</span>
-                      </div>
-                      <div className={cn(
-                        "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
-                        selectedMethod === 'gpay' ? "border-[#2874f0] bg-[#2874f0] text-white" : "border-slate-300"
-                      )}>
-                        {selectedMethod === 'gpay' && <div className="h-2 w-2 rounded-full bg-white" />}
-                      </div>
-                    </button>
-
-                    {/* 2. PhonePe */}
+                    {/* 1. PhonePe */}
                     <button
                       type="button"
                       onClick={() => {
@@ -1578,7 +1544,7 @@ export default function CheckoutPage() {
                       </div>
                     </button>
 
-                    {/* 3. Paytm */}
+                    {/* 2. Paytm */}
                     <button
                       type="button"
                       onClick={() => {
@@ -1611,57 +1577,6 @@ export default function CheckoutPage() {
                         {selectedMethod === 'paytm' && <div className="h-2 w-2 rounded-full bg-white" />}
                       </div>
                     </button>
-
-                    {/* 4. Scan QR */}
-                    <div
-                      className={cn(
-                        "w-full rounded-xl border-2 transition-all bg-white overflow-hidden",
-                        selectedMethod === 'qr'
-                          ? "border-[#2874f0] ring-1 ring-[#2874f0]"
-                          : "border-slate-200 hover:border-slate-350"
-                      )}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setSelectedMethod('qr')}
-                        className="w-full p-4 flex items-center justify-between text-left"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 flex items-center justify-center shrink-0 bg-slate-50 rounded-lg">
-                            <QrCode className="h-6 w-6 text-slate-600" />
-                          </div>
-                          <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Scan QR code</span>
-                        </div>
-                        <div className={cn(
-                          "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
-                          selectedMethod === 'qr' ? "border-[#2874f0] bg-[#2874f0] text-white" : "border-slate-300"
-                        )}>
-                          {selectedMethod === 'qr' && <div className="h-2 w-2 rounded-full bg-white" />}
-                        </div>
-                      </button>
-                      
-                      {selectedMethod === 'qr' && (
-                        <div className="px-4 pb-4 border-t border-slate-100 pt-3 flex flex-col items-center justify-center space-y-3 bg-slate-50/50 animate-in fade-in slide-in-from-top-2 duration-200">
-                          <div className="relative bg-white p-3 rounded-xl shadow-xs border border-slate-150 flex items-center justify-center">
-                            <img 
-                              src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl || `upi://pay?pa=${merchantVpa}&pn=${encodeURIComponent(payeeName)}&am=${totalSale}&cu=INR&mc=${mccCode || '5722'}&tr=${transactionId || `TXN_${Date.now()}`}&mode=02&purpose=00`)}`} 
-                              alt="Scan UPI QR" 
-                              className="h-40 w-40 object-contain"
-                            />
-                          </div>
-                          <p className="text-[10px] text-slate-550 font-bold uppercase tracking-wider text-center">
-                            Scan this QR using GPay, PhonePe, or Paytm!
-                          </p>
-                          <button 
-                            type="button"
-                            onClick={handleDownloadQr}
-                            className="w-full flex items-center justify-center gap-1.5 py-2 bg-white text-slate-700 hover:bg-slate-100 rounded-lg text-[10px] font-black transition-all border border-slate-300 shadow-2xs"
-                          >
-                            <Download className="h-3.5 w-3.5" /> Save QR Code to Gallery
-                          </button>
-                        </div>
-                      )}
-                    </div>
                   </div>
                 )}
 
@@ -2062,7 +1977,7 @@ export default function CheckoutPage() {
                 <div className="space-y-1">
                   <h4 className="text-[10.5px] font-black text-amber-900 uppercase tracking-wide">⚠️ Why are you seeing this?</h4>
                   <p className="text-[9.5px] text-amber-800 leading-relaxed font-semibold">
-                    UPI apps (GPay, PhonePe, Paytm) block browser-initiated deep links to merchant accounts under strict NPCI policies. Scanning or uploading a QR code is a secure physical action and <strong>always succeeds!</strong>
+                    PhonePe & Paytm block browser-initiated deep links to merchant accounts under strict NPCI policies. Scanning or uploading a QR code is a secure physical action and <strong>always succeeds!</strong>
                   </p>
                 </div>
               </div>
@@ -2094,15 +2009,7 @@ export default function CheckoutPage() {
               {/* Quick Jump/Fast Launch Launcher Bar */}
               <div className="space-y-1.5">
                 <span className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block text-center">Fast Launch After Saving QR</span>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => UPIPay.launch('gpay', upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}
-                    className="flex flex-col items-center justify-center p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 shadow-3xs active:scale-95 transition-all gap-1"
-                  >
-                    <img src="https://www.gstatic.com/images/branding/product/2x/googleg_96dp.png" className="h-6 w-6 object-contain" alt="GPay" />
-                    <span className="text-[9px] font-bold text-slate-600">Google Pay</span>
-                  </button>
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => UPIPay.launch('phonepe', upiUrl || `upi://pay?pa=${merchantVpa}&pn=${payeeName}&am=${totalSale}&cu=INR`)}
@@ -2133,7 +2040,7 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex gap-2.5 items-start">
                     <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">2</span>
-                    <p className="leading-snug">📱 <strong>Open any UPI App</strong> (such as GPay, PhonePe, Paytm, or BHIM).</p>
+                    <p className="leading-snug">📱 <strong>Open PhonePe or Paytm app</strong>.</p>
                   </div>
                   <div className="flex gap-2.5 items-start">
                     <span className="h-4.5 w-4.5 rounded-full bg-[#2874f0] text-white font-black text-[9.5px] flex items-center justify-center shrink-0 mt-0.5 shadow-3xs">3</span>

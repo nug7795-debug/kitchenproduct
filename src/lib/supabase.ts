@@ -118,6 +118,11 @@ class MockSupabaseQuery {
     return this;
   }
 
+  upsert(...args: any[]) {
+    this.actions.push({ type: 'upsert', args });
+    return this;
+  }
+
   update(...args: any[]) {
     this.actions.push({ type: 'update', args });
     return this;
@@ -145,10 +150,12 @@ class MockSupabaseQuery {
     const tableData = getLocalTableData(this.tableName);
     let isSingle = false;
     let isInsert = false;
+    let isUpsert = false;
     let isUpdate = false;
     let isDelete = false;
 
     let insertPayload: any[] = [];
+    let upsertPayload: any[] = [];
     let updatePayload: any = null;
 
     let filteredData = [...tableData];
@@ -197,6 +204,9 @@ class MockSupabaseQuery {
       } else if (action.type === 'insert') {
         isInsert = true;
         insertPayload = Array.isArray(action.args[0]) ? action.args[0] : [action.args[0]];
+      } else if (action.type === 'upsert') {
+        isUpsert = true;
+        upsertPayload = Array.isArray(action.args[0]) ? action.args[0] : [action.args[0]];
       } else if (action.type === 'update') {
         isUpdate = true;
         updatePayload = action.args[0];
@@ -251,6 +261,37 @@ class MockSupabaseQuery {
           ? resolveProductRelations([newRecords[0]])[0] 
           : resolveProductRelations(newRecords);
       }
+      return { data: responseData, error: null };
+    }
+
+    if (isUpsert) {
+      const updatedTable = [...tableData];
+      const upsertedRecords = upsertPayload.map(record => {
+        const matchIdx = updatedTable.findIndex(row => {
+          if (record.id && row.id && String(row.id) === String(record.id)) return true;
+          if (record.key && row.key && String(row.key) === String(record.key)) return true;
+          return false;
+        });
+        
+        const matched = matchIdx !== -1 ? updatedTable[matchIdx] : {};
+        const merged = {
+          id: record.id || record.key || matched.id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2)),
+          created_at: matched.created_at || new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          ...matched,
+          ...record
+        };
+        
+        if (matchIdx !== -1) {
+          updatedTable[matchIdx] = merged;
+        } else {
+          updatedTable.push(merged);
+        }
+        return merged;
+      });
+      
+      saveLocalTableData(this.tableName, updatedTable);
+      const responseData = isSingle ? upsertedRecords[0] : upsertedRecords;
       return { data: responseData, error: null };
     }
 

@@ -113,6 +113,11 @@ class MockSupabaseQuery {
     return this;
   }
 
+  maybeSingle(...args: any[]) {
+    this.actions.push({ type: 'single', args });
+    return this;
+  }
+
   insert(...args: any[]) {
     this.actions.push({ type: 'insert', args });
     return this;

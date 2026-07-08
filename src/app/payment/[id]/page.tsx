@@ -657,13 +657,26 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   if (activePayScreen === 'phonepe') {
     return (
       <div className="min-h-screen bg-white font-sans flex flex-col justify-between select-none">
+        {/* Mock OS Status Bar */}
+        <div className="flex items-center justify-between px-4 py-2 bg-white text-[10px] font-bold text-slate-500 shrink-0 select-none">
+          <div className="flex items-center gap-1">
+            <span>2:27</span>
+          </div>
+          <div className="flex items-center gap-1 text-[9px] uppercase tracking-wider font-extrabold text-[#0fa85b]">
+            <svg className="w-2.5 h-2.5 text-[#0fa85b]" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+            </svg>
+            Secure Environment
+          </div>
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-slate-100 shrink-0">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-white border-b border-slate-100 shrink-0">
           <div className="flex items-center gap-3">
             <button onClick={() => { setActivePayScreen('select'); setActiveVerificationApp(null); }} className="p-1">
               <ArrowLeft className="h-6 w-6 text-slate-800" />
             </button>
-            <div className="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center text-white font-black text-sm shadow-sm">
+            <div className="w-8 h-8 bg-[#0fa85b] rounded-full flex items-center justify-center text-white font-black text-sm shadow-sm select-none">
               P
             </div>
             <div className="flex flex-col">
@@ -689,9 +702,9 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {/* Blank Body with Float */}
-        <div className="flex-1 flex flex-col justify-end p-4 bg-[#fcfcfc]">
-          <div className="flex justify-end mb-6">
-            <div className="border border-dashed border-slate-300 rounded-full px-4 py-1.5 text-xs font-black text-slate-600 bg-white shadow-sm flex items-center gap-1.5 cursor-pointer">
+        <div className="flex-1 flex flex-col justify-end p-4 bg-white">
+          <div className="flex justify-end mb-4">
+            <div className="border border-slate-200 rounded-full px-4 py-1.5 text-xs font-bold text-slate-700 bg-white shadow-sm flex items-center gap-1.5 cursor-pointer">
               Send ₹1
             </div>
           </div>
@@ -700,7 +713,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         {/* Bottom Payment Sheet */}
         <div className="bg-white border-t border-slate-100 p-4 space-y-4 shrink-0 shadow-lg">
           <div className="text-center">
-            <span className="text-[12px] font-black tracking-widest text-slate-500 uppercase font-mono">
+            <span className="text-[11px] font-black tracking-wide text-slate-400 bg-slate-50 px-3 py-1 rounded-full">
               {txnid}
             </span>
           </div>
@@ -725,20 +738,33 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-[18px] font-bold text-slate-900 leading-none">₹</span>
-              <span className="text-[26px] font-black text-slate-900 tracking-tight leading-none">{Math.round(selling)}</span>
-              <svg className="w-4 h-4 text-slate-400 ml-1.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+            <div className="flex items-center gap-1 select-none">
+              <span className="text-[14px] font-bold text-slate-400">₹</span>
+              <span className="text-[22px] font-black text-slate-900 tracking-tight leading-none">{Math.round(selling)}</span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {/* Document Icon */}
+              <svg className="w-5 h-5 text-slate-500 cursor-pointer" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
+              
+              {/* Wallet Option */}
+              <div className="flex items-center gap-1 text-slate-500 cursor-pointer">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+                <span className="text-[11px] font-bold text-slate-500">Wallet</span>
+              </div>
+
+              <button 
+                onClick={() => launchIntent(phonepeIntent)}
+                className="bg-[#0f7a3c] hover:bg-[#0a6631] text-white text-[12px] font-black px-6 py-2.5 rounded-full uppercase tracking-wider active:scale-95 transition-all shadow-sm"
+              >
+                PAY
+              </button>
             </div>
-            <button 
-              onClick={() => launchIntent(phonepeIntent)}
-              className="bg-[#118A44] hover:bg-[#0f7a3c] text-white text-[14px] font-black px-10 py-3.5 rounded-full uppercase tracking-widest shadow-md shadow-green-200 active:scale-95 transition-all"
-            >
-              PAY
-            </button>
           </div>
         </div>
       </div>
@@ -747,9 +773,9 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
   if (activePayScreen === 'paytm') {
     return (
-      <div className="min-h-screen bg-[#F5F7FA] font-sans flex flex-col justify-between">
+      <div className="min-h-screen bg-white font-sans flex flex-col justify-between select-none">
         {/* Header */}
-        <div className="px-4 py-4 flex items-center shrink-0">
+        <div className="px-4 py-4 flex items-center justify-between shrink-0">
           <button onClick={() => { setActivePayScreen('select'); setActiveVerificationApp(null); }} className="p-1">
             <ArrowLeft className="h-6 w-6 text-slate-800" />
           </button>
@@ -757,10 +783,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
         {/* Body */}
         <div className="flex-1 flex flex-col items-center px-6 pt-2">
-          <div className="w-16 h-16 rounded-full bg-[#E5F3FF] border-2 border-[#CCE6FF] flex items-center justify-center text-[#008CFF] font-black text-xl mb-3.5 shadow-sm select-none">
+          {/* Olive Green initials circle */}
+          <div className="w-16 h-16 rounded-full bg-[#e2edd7] flex items-center justify-center text-[#6d8e57] font-black text-xl mb-3.5 shadow-sm select-none">
             {getInitials(merchantName)}
           </div>
           
+          {/* Verified Payee name */}
           <div className="flex items-center gap-1.5 mb-1 select-none">
             <h2 className="text-[19px] font-black text-slate-900 tracking-tight leading-none">
               {merchantName}
@@ -770,11 +798,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
           
-          <div className="flex items-center gap-1 text-[11px] font-black text-slate-400 uppercase tracking-wider mb-8 select-none">
+          {/* VPA address with tricolor symbol */}
+          <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase mb-8 select-none">
             <span>{upiId}</span>
-            <span className="text-[#00B9F5] text-xs">▲</span>
+            <div className="flex items-center gap-[0.8px] ml-1 shrink-0">
+              <span className="w-[3px] h-[10px] bg-[#FF9933] rounded-[0.5px]" />
+              <span className="w-[3px] h-[10px] bg-white border-x border-slate-100" />
+              <span className="w-[3px] h-[10px] bg-[#138808] rounded-[0.5px]" />
+            </div>
           </div>
 
+          {/* Large Amount */}
           <div className="flex items-start mb-2.5 select-none">
             <span className="text-xl font-bold text-slate-900 mt-1.5 mr-0.5">₹</span>
             <span className="text-6xl font-black text-slate-900 tracking-tighter leading-none">
@@ -782,21 +816,25 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </span>
           </div>
 
-          <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-8 text-center px-4 leading-normal select-none">
-            {amountToWords(Math.round(selling))}
-          </div>
-
-          <div className="bg-white border border-slate-100 rounded-full px-5 py-2.5 text-[11px] font-black text-slate-700 shadow-sm flex items-center gap-2">
-            <span className="text-slate-400">TXN NOTE:</span>
-            <span className="tracking-wider">{txnid}</span>
+          {/* Amount in words */}
+          <div className="text-[11px] font-bold text-slate-400 mb-8 text-center px-4 leading-normal select-none">
+            Rupees {amountToWords(Math.round(selling)).replace("and ", "")}
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="p-4 bg-white border-t border-slate-100 shrink-0 shadow-lg">
+        <div className="p-4 bg-white shrink-0 space-y-4">
+          {/* Transaction ID Pill Badge */}
+          <div className="flex justify-center">
+            <span className="bg-[#F4F6F8] text-[#5A6E85] border-none rounded-full px-4 py-1.5 text-[11px] font-bold tracking-wide">
+              {txnid}
+            </span>
+          </div>
+
+          {/* Blue Proceed Securely Button */}
           <button 
             onClick={() => launchIntent(paytmIntent)}
-            className="w-full bg-[#002970] hover:bg-[#001c50] text-white py-4.5 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-lg shadow-blue-200 flex items-center justify-center gap-3 active:scale-[0.98] transition-all"
+            className="w-full bg-[#002970] hover:bg-[#001c50] text-white py-4.5 rounded-full font-black text-[14px] uppercase tracking-wider flex items-center justify-center gap-3 active:scale-[0.98] transition-all shadow-md"
           >
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

@@ -18,7 +18,26 @@ const memoryDb: Record<string, any[]> = {
     { id: '4', title: 'Sale 4', image_url: '/banners/banner4.jpg', is_active: true }
   ],
   settings: [
-    { key: 'merchant_upi', value: { upi_id: 'paytm.s29ckmp@pty', merchant_name: 'Gohil Vikrambhai Kanabhai', merchant_code: '0000', mode: 'manual' } },
+    {
+      key: 'upi_settings',
+      value: {
+        upi: 'paytm.s27z8uz@pty',
+        upi2: 'paytm.s27z8uz@pty',
+        upi3: 'paytm.s27z8uz@pty',
+        Gpay: true,
+        Phonepe: true,
+        Paytm: true,
+        Bhim: true,
+        WPay: true
+      }
+    },
+    {
+      key: 'pixel_settings',
+      value: {
+        FacebookPixel: '',
+        order: 0
+      }
+    },
     {
       key: 'global_settings',
       value: {
@@ -31,11 +50,11 @@ const memoryDb: Record<string, any[]> = {
         },
         payment: {
           activeMethod: 'upi_intent',
-          merchantUpiId: 'paytm.s29ckmp@pty',
-          upi: 'paytm.s29ckmp@pty',
-          upi2: 'paytm.s29ckmp@pty',
-          upi3: 'paytm.s29ckmp@pty',
-          payeeName: 'Gohil Vikrambhai Kanabhai',
+          merchantUpiId: 'paytm.s27z8uz@pty',
+          upi: 'paytm.s27z8uz@pty',
+          upi2: 'paytm.s27z8uz@pty',
+          upi3: 'paytm.s27z8uz@pty',
+          payeeName: 'Jambucha Alpesh Kanjibhai',
           allowUpiCheckout: true
         }
       }
@@ -66,17 +85,28 @@ productsFallback.forEach((p: any) => {
 memoryDb['product_images'] = initialProductImages;
 
 function getLocalTableData(tableName: string): any[] {
+  const initial = memoryDb[tableName] || [];
   if (typeof window !== 'undefined') {
     const cached = localStorage.getItem(`mock_db_${tableName}`);
     if (cached) {
       try {
-        return JSON.parse(cached);
+        const parsed = JSON.parse(cached);
+        if (tableName === 'settings') {
+          const parsedKeys = new Set(parsed.map((row: any) => row.key));
+          initial.forEach(seedRow => {
+            if (!parsedKeys.has(seedRow.key)) {
+              parsed.push(seedRow);
+            }
+          });
+          return parsed;
+        }
+        return parsed;
       } catch (e) {
         console.error(`Failed to parse cached table ${tableName}`, e);
       }
     }
   }
-  return memoryDb[tableName] || [];
+  return initial;
 }
 
 function saveLocalTableData(tableName: string, data: any[]) {

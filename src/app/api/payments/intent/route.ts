@@ -63,18 +63,26 @@ export async function POST(request: Request) {
     if (paymentError) throw paymentError;
 
     // 4. Load payment configuration dynamically from settings table
+    const { data: upiRecord } = await supabaseAdmin
+      .from('settings')
+      .select('*')
+      .eq('key', 'upi_settings')
+      .maybeSingle();
+
     const { data: settingsRecord } = await supabaseAdmin
       .from('settings')
       .select('*')
       .eq('key', 'global_settings')
       .maybeSingle();
 
-    const paymentSettings = settingsRecord?.value?.payment || {};
-    const activeMethod = paymentSettings.activeMethod || 'upi_intent';
-    const defaultUpi = paymentSettings.upi || paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
-    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
-    const razorpayKeyId = paymentSettings.razorpayKeyId || '';
-    const razorpayKeySecret = paymentSettings.razorpayKeySecret || '';
+    const upiSettings = upiRecord?.value || {};
+    const globalSettings = settingsRecord?.value?.payment || {};
+
+    const activeMethod = globalSettings.activeMethod || 'upi_intent';
+    const defaultUpi = upiSettings.upi || globalSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
+    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Jambucha Alpesh Kanjibhai';
+    const razorpayKeyId = globalSettings.razorpayKeyId || '';
+    const razorpayKeySecret = globalSettings.razorpayKeySecret || '';
 
     // 5. Generate appropriate response based on selected active payment method using unified-upi-payment
     let upiUrl = '';

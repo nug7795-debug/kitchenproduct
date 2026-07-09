@@ -12,17 +12,25 @@ export async function POST(request: Request) {
     }
 
     // 1. Fetch payment settings dynamically from settings table
+    const { data: upiRecord } = await supabaseAdmin
+      .from('settings')
+      .select('*')
+      .eq('key', 'upi_settings')
+      .maybeSingle();
+
     const { data: settingsRecord } = await supabaseAdmin
       .from('settings')
       .select('*')
       .eq('key', 'global_settings')
       .maybeSingle();
 
-    const paymentSettings = settingsRecord?.value?.payment || {};
-    const defaultUpi = paymentSettings.upi || paymentSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s29ckmp@pty';
-    const phonepeUpi = paymentSettings.upi2 || defaultUpi;
-    const paytmUpi = paymentSettings.upi3 || defaultUpi;
-    const storeName = paymentSettings.payeeName || process.env.STORE_NAME || 'Gohil Vikrambhai Kanabhai';
+    const upiSettings = upiRecord?.value || {};
+    const globalSettings = settingsRecord?.value?.payment || {};
+
+    const defaultUpi = upiSettings.upi || globalSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
+    const phonepeUpi = upiSettings.upi2 || globalSettings.upi2 || defaultUpi;
+    const paytmUpi = upiSettings.upi3 || globalSettings.upi3 || defaultUpi;
+    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Jambucha Alpesh Kanjibhai';
 
     // 2. Determine order and transaction ID to use
     let orderIdToUse = orderId;

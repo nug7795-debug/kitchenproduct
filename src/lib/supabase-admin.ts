@@ -11,17 +11,7 @@ if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
 
 const realSupabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
-// Wrap with Proxy to intercept and reuse the offline mock database from customer-side supabase client
-export const supabaseAdmin = new Proxy(realSupabaseAdmin, {
-  get(target, prop, receiver) {
-    if (prop === 'from') {
-      return (tableName: string) => {
-        return supabase.from(tableName);
-      };
-    }
-    return Reflect.get(target, prop, receiver);
-  }
-});
+export const supabaseAdmin = realSupabaseAdmin;
 
 /**
  * Upload a file to Supabase Storage with graceful offline fallback

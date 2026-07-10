@@ -905,7 +905,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* Polling / App Intent Verification Modal Overlay */}
       {activePayScreen === 'select' && activeVerificationApp && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifycenter: "center", padding: 16 }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 24, maxWidth: 360, width: "100%", textAlign: "center", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
             <div style={{ position: "relative", width: 76, height: 76, margin: "0 auto 12px" }}>
               <div style={{ position: "absolute", inset: 0, border: "4px solid #eee", borderRadius: "50%" }} />
@@ -919,7 +919,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   borderRadius: "50%" 
                 }} 
               />
-              <div style={{ position: "absolute", inset: 8, background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifycenter: "center", border: "1px solid #eee", overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 8, background: "#fff", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid #eee", overflow: "hidden" }}>
                 {activeVerificationApp === "phonepe" ? (
                   <PhonePeIcon size={44} />
                 ) : (
@@ -963,12 +963,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* Scannable Payment QR Modal Overlay */}
       {showQrModal && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifycenter: "center", padding: 16 }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 20, maxWidth: 360, width: "100%", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
             <button 
               onClick={() => setShowQrModal(false)} 
               aria-label="Close" 
-              style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", border: "none", background: "#f1f1f1", color: "#444", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center" }}
+              style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: "50%", border: "none", background: "#f1f1f1", color: "#444", fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
             >
               &times;
             </button>
@@ -978,11 +978,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               Amount: <strong>₹ {selling}</strong>
             </p>
 
-            <div style={{ margin: "16px auto", background: "#fff", padding: 12, borderRadius: 12, border: "1px solid #eee", display: "flex", justifycenter: "center" }}>
+            <div style={{ margin: "16px auto", background: "#fff", padding: 12, borderRadius: 12, border: "1px solid #eee", display: "flex", justifyContent: "center" }}>
               {qrCodeUrl ? (
                 <img src={qrCodeUrl} alt="Payment QR" style={{ width: 220, height: 220, display: "block" }} />
               ) : (
-                <div style={{ width: 220, height: 220, display: "flex", alignItems: "center", justifycenter: "center", color: "#999" }}>
+                <div style={{ width: 220, height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#999" }}>
                   <Loader2 className="animate-spin h-8 w-8 text-[#2874F0]" />
                 </div>
               )}
@@ -998,14 +998,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <div style={{ display: "flex", gap: 8 }}>
               <button 
                 onClick={handleDownloadQr} 
-                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center", gap: 6, fontSize: 13 }}
+                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 13 }}
               >
                 <Download className="h-4 w-4" /> Download
               </button>
               
               <button 
                 onClick={handleShareQr} 
-                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifycenter: "center", gap: 6, fontSize: 13 }}
+                style={{ flex: 1, background: "#f5f5f5", border: "1px solid #ddd", color: "#333", fontWeight: 600, padding: "10px 0", borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 13 }}
               >
                 <Share2 className="h-4 w-4" /> Share
               </button>

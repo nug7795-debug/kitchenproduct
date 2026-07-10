@@ -16,8 +16,6 @@ export default function SettingsPage() {
 
   const [pixelId, setPixelId] = React.useState('');
   const [orderCount, setOrderCount] = React.useState(0);
-  const [loadingUpi, setLoadingUpi] = React.useState(false);
-  const [loadingPixel, setLoadingPixel] = React.useState(false);
   const [toastMessage, setToastMessage] = React.useState('');
 
   const showToast = (msg: string) => {
@@ -59,7 +57,6 @@ export default function SettingsPage() {
 
   const handleUpiSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoadingUpi(true);
     try {
       const res = await fetch('/api/upichange', {
         method: 'POST',
@@ -74,14 +71,11 @@ export default function SettingsPage() {
       }
     } catch (err) {
       showToast('Error submitting UPI');
-    } finally {
-      setLoadingUpi(false);
     }
   };
 
   const handlePixelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoadingPixel(true);
     try {
       const res = await fetch('/api/facebookPixel', {
         method: 'POST',
@@ -96,171 +90,167 @@ export default function SettingsPage() {
       }
     } catch (err) {
       showToast('Error submitting Pixel');
-    } finally {
-      setLoadingPixel(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans pb-12">
-      {/* Toast Alert */}
-      {toastMessage && (
-        <div className="fixed top-4 right-4 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl transition-all animate-in fade-in duration-300">
-          {toastMessage}
-        </div>
-      )}
-
-      {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between">
-        <a className="text-xl font-black text-slate-900 tracking-tight" href="#">Admin</a>
-        <div className="flex gap-4">
-          <a className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors" href="/admin/products">Product</a>
-          <a className="text-sm font-bold text-slate-950 border-b-2 border-slate-950 pb-0.5" href="/settings">Setting</a>
-        </div>
-      </nav>
-
-      {/* Main Containers */}
-      <div className="max-w-md mx-auto px-4 mt-8 space-y-8">
-        
-        {/* UPI Add Form */}
-        <form onSubmit={handleUpiSubmit} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-6">
-          <h1 className="text-xl font-black text-slate-900 tracking-tight">UPI Add</h1>
-          
-          <div className="space-y-4">
-            <div className="space-y-1">
-              <label htmlFor="upi" className="text-xs font-bold text-slate-400 uppercase tracking-wider">UPI ID 1 (Default / GPay)</label>
-              <input
-                id="upi"
-                type="text"
-                value={upiData.upi}
-                onChange={(e) => setUpiData({ ...upiData, upi: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-slate-400 transition-all"
-                placeholder="upi id 1"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label htmlFor="upi2" className="text-xs font-bold text-slate-400 uppercase tracking-wider">UPI ID 2 (PhonePe)</label>
-              <input
-                id="upi2"
-                type="text"
-                value={upiData.upi2}
-                onChange={(e) => setUpiData({ ...upiData, upi2: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-slate-400 transition-all"
-                placeholder="upi id 2"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label htmlFor="upi3" className="text-xs font-bold text-slate-400 uppercase tracking-wider">UPI ID 3 (Paytm)</label>
-              <input
-                id="upi3"
-                type="text"
-                value={upiData.upi3}
-                onChange={(e) => setUpiData({ ...upiData, upi3: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-bold outline-none focus:border-slate-400 transition-all"
-                placeholder="upi id 3"
-              />
-            </div>
+    <>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+      
+      <div style={{ height: '100%' }}>
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 9999,
+            backgroundColor: '#333',
+            color: '#fff',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+          }}>
+            {toastMessage}
           </div>
+        )}
 
-          {/* Payment Method Switches */}
-          <div className="pt-2 border-t border-slate-100 space-y-4">
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight">Select Payment Method</h2>
-            
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-700">Google Pay</span>
-                <input
-                  type="checkbox"
-                  checked={upiData.Gpay}
-                  onChange={(e) => setUpiData({ ...upiData, Gpay: e.target.checked })}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-700">PhonePe</span>
-                <input
-                  type="checkbox"
-                  checked={upiData.Phonepe}
-                  onChange={(e) => setUpiData({ ...upiData, Phonepe: e.target.checked })}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-700">Paytm</span>
-                <input
-                  type="checkbox"
-                  checked={upiData.Paytm}
-                  onChange={(e) => setUpiData({ ...upiData, Paytm: e.target.checked })}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-700">BHIM UPI</span>
-                <input
-                  type="checkbox"
-                  checked={upiData.Bhim}
-                  onChange={(e) => setUpiData({ ...upiData, Bhim: e.target.checked })}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-slate-700">W-Pay</span>
-                <input
-                  type="checkbox"
-                  checked={upiData.WPay}
-                  onChange={(e) => setUpiData({ ...upiData, WPay: e.target.checked })}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300"
-                />
-              </div>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loadingUpi}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl active:scale-95 transition-all shadow-md text-sm"
-          >
-            {loadingUpi ? 'Submitting...' : 'Submit'}
+        {/* Navigation Bar */}
+        <nav className="navbar navbar-expand-lg navbar-light bg-light px-5">
+          <a className="navbar-brand" href="#">Admin</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+            <span className="navbar-toggler-icon"></span>
           </button>
-        </form>
-
-        {/* Pixel Add Form */}
-        <form onSubmit={handlePixelSubmit} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-black text-slate-900 tracking-tight">Add Pixel</h1>
-            <span className="text-xs font-black text-slate-400 bg-slate-50 px-3 py-1 rounded-full uppercase tracking-wider">
-              order : {orderCount}
-            </span>
+          <div className="navbar-nav flex-row gap-3">
+            <a className="nav-item nav-link" href="/admin/products">Product</a>
+            <a className="nav-item nav-link active" href="/settings">Setting</a>
           </div>
+        </nav>
 
-          <div className="space-y-1">
-            <label htmlFor="pixelId" className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pixel ID / Script</label>
-            <textarea
-              id="pixelId"
-              value={pixelId}
-              onChange={(e) => setPixelId(e.target.value)}
-              rows={5}
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs font-bold outline-none focus:border-slate-400 transition-all font-mono"
-              placeholder="<!-- Meta Pixel Code -->"
+        {/* Form 1: UPI Add */}
+        <form onSubmit={handleUpiSubmit} className="product-form mx-auto my-4 px-4" style={{ maxWidth: '480px' }}>
+          <h1 className="h3 mb-3 fw-bold">UPI Add</h1>
+          
+          <div className="mb-3">
+            <label htmlFor="upi" className="form-label">UPI:</label>
+            <input
+              id="upi"
+              name="upi"
+              type="text"
+              className="form-control"
+              value={upiData.upi}
+              onChange={(e) => setUpiData({ ...upiData, upi: e.target.value })}
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loadingPixel}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-2xl active:scale-95 transition-all shadow-md text-sm"
-          >
-            {loadingPixel ? 'Submitting...' : 'Submit'}
-          </button>
+          <div className="mb-3">
+            <label htmlFor="upi2" className="form-label">UPI:</label>
+            <input
+              id="upi2"
+              name="upi2"
+              type="text"
+              className="form-control"
+              value={upiData.upi2}
+              onChange={(e) => setUpiData({ ...upiData, upi2: e.target.value })}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="upi3" className="form-label">UPI:</label>
+            <input
+              id="upi3"
+              name="upi3"
+              type="text"
+              className="form-control"
+              value={upiData.upi3}
+              onChange={(e) => setUpiData({ ...upiData, upi3: e.target.value })}
+            />
+          </div>
+
+          <div className="container mt-4 px-0">
+            <h2 className="h5 mb-3 fw-bold">Select Payment Method</h2>
+            
+            <div className="form-check form-switch d-flex align-items-center justify-content-between py-1 border-bottom">
+              <label className="form-check-label" htmlFor="googlePaySwitch"><b>Google Pay</b></label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="googlePaySwitch"
+                checked={upiData.Gpay}
+                onChange={(e) => setUpiData({ ...upiData, Gpay: e.target.checked })}
+              />
+            </div>
+
+            <div className="form-check form-switch d-flex align-items-center justify-content-between py-1 border-bottom">
+              <label className="form-check-label" htmlFor="phonePaySwitch"><b>PhonePe</b></label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="phonePaySwitch"
+                checked={upiData.Phonepe}
+                onChange={(e) => setUpiData({ ...upiData, Phonepe: e.target.checked })}
+              />
+            </div>
+
+            <div className="form-check form-switch d-flex align-items-center justify-content-between py-1 border-bottom">
+              <label className="form-check-label" htmlFor="paytmSwitch"><b>Paytm</b></label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="paytmSwitch"
+                checked={upiData.Paytm}
+                onChange={(e) => setUpiData({ ...upiData, Paytm: e.target.checked })}
+              />
+            </div>
+
+            <div className="form-check form-switch d-flex align-items-center justify-content-between py-1 border-bottom">
+              <label className="form-check-label" htmlFor="bhimUPIswitch"><b>BHIM UPI</b></label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="bhimUPIswitch"
+                checked={upiData.Bhim}
+                onChange={(e) => setUpiData({ ...upiData, Bhim: e.target.checked })}
+              />
+            </div>
+
+            <div className="form-check form-switch d-flex align-items-center justify-content-between py-1 border-bottom">
+              <label className="form-check-label" htmlFor="wPaySwitch"><b>W-Pay</b></label>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="wPaySwitch"
+                checked={upiData.WPay}
+                onChange={(e) => setUpiData({ ...upiData, WPay: e.target.checked })}
+              />
+            </div>
+          </div>
+
+          <button type="submit" className="btn btn-primary my-3 w-100 py-2">Submit</button>
         </form>
 
+        {/* Form 2: Add Pixel */}
+        <form onSubmit={handlePixelSubmit} className="product-form mx-auto mt-4 mb-5 px-4" style={{ maxWidth: '480px' }}>
+          <h1 className="h3 mb-1 fw-bold">Add Pixel</h1>
+          <h2 className="h6 mb-3 text-secondary">order : {orderCount}</h2>
+          
+          <div className="mb-3">
+            <label htmlFor="pixelId" className="form-label">Pixel ID:</label>
+            <textarea
+              id="pixelId"
+              name="pixelId"
+              className="form-control font-monospace"
+              rows={5}
+              value={pixelId}
+              onChange={(e) => setPixelId(e.target.value)}
+            />
+          </div>
+          
+          <button type="submit" className="btn btn-primary my-2 w-100 py-2">Submit</button>
+        </form>
       </div>
-    </div>
+    </>
   );
 }

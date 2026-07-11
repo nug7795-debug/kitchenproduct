@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Sidebar } from "../../components/admin/Sidebar";
 import { cn } from "../../lib/utils";
-import { Lock, Mail, Eye, EyeOff, KeyRound, Loader2, ShieldCheck, Menu, X } from 'lucide-react';
+import { Lock, Eye, EyeOff, KeyRound, Loader2, ShieldCheck, Menu, X } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -11,7 +11,6 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
-  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -37,12 +36,12 @@ export default function AdminLayout({
 
     // Simulate network delay for a high-end feel
     setTimeout(() => {
-      if (email.trim().toLowerCase() === 'nug7795@gmail.com' && password === 'Hifjur@123') {
+      if (password === 'Hifjur@123') {
         localStorage.setItem('admin_session', 'authenticated');
         setIsAuthenticated(true);
         setError('');
       } else {
-        setError('Invalid admin email or password.');
+        setError('Invalid admin password.');
       }
       setLoading(false);
     }, 800);
@@ -77,28 +76,10 @@ export default function AdminLayout({
             ADMIN<span className="text-orange-500">PRO</span>
           </h2>
           <p className="text-xs text-slate-400 text-center mt-1.5 font-bold uppercase tracking-wider">
-            Sign in to access your dashboard
+            Enter password to access your dashboard
           </p>
 
           <form onSubmit={handleLogin} className="space-y-5 mt-8">
-            <div className="space-y-1.5">
-              <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">
-                Email Address
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 group-focus-within:text-orange-500 transition-colors duration-300">
-                  <Mail className="h-4 w-4" />
-                </div>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@kitchenpro.com"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-950/60 border border-slate-800/80 focus:border-orange-500/80 rounded-xl text-sm font-semibold text-white placeholder-slate-600 outline-none transition-all duration-300 focus:ring-4 focus:ring-orange-500/5"
-                />
-              </div>
-            </div>
 
             <div className="space-y-1.5">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest pl-1">

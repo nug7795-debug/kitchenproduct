@@ -84,6 +84,75 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    const migrateMockDbToSupabase = async () => {
+      try {
+        const localProductsRaw = localStorage.getItem('mock_db_products');
+        const localCategoriesRaw = localStorage.getItem('mock_db_categories');
+        const localImagesRaw = localStorage.getItem('mock_db_product_images');
+        const localVariantsRaw = localStorage.getItem('mock_db_product_variants');
+        const localSettingsRaw = localStorage.getItem('mock_db_settings');
+
+        if (!localProductsRaw && !localCategoriesRaw) {
+          return;
+        }
+
+        console.log('Found local mock database data! Migrating to Supabase cloud...');
+
+        if (localCategoriesRaw) {
+          const categories = JSON.parse(localCategoriesRaw);
+          if (categories.length > 0) {
+            const cleanCategories = categories.map(({ products: _, ...c }: any) => c);
+            await supabase.from('categories').upsert(cleanCategories, { onConflict: 'id' });
+          }
+        }
+
+        if (localProductsRaw) {
+          const productsData = JSON.parse(localProductsRaw);
+          if (productsData.length > 0) {
+            const cleanProducts = productsData.map(({ categories: _, product_images: _1, product_variants: _2, ...p }: any) => p);
+            await supabase.from('products').upsert(cleanProducts, { onConflict: 'id' });
+          }
+        }
+
+        if (localImagesRaw) {
+          const images = JSON.parse(localImagesRaw);
+          if (images.length > 0) {
+            await supabase.from('product_images').upsert(images, { onConflict: 'id' });
+          }
+        }
+
+        if (localVariantsRaw) {
+          const variants = JSON.parse(localVariantsRaw);
+          if (variants.length > 0) {
+            await supabase.from('product_variants').upsert(variants, { onConflict: 'id' });
+          }
+        }
+
+        if (localSettingsRaw) {
+          const settings = JSON.parse(localSettingsRaw);
+          if (settings.length > 0) {
+            await supabase.from('settings').upsert(settings, { onConflict: 'key' });
+          }
+        }
+
+        console.log('Migration to Supabase cloud completed successfully!');
+
+        localStorage.removeItem('mock_db_products');
+        localStorage.removeItem('mock_db_categories');
+        localStorage.removeItem('mock_db_product_images');
+        localStorage.removeItem('mock_db_product_variants');
+        localStorage.removeItem('mock_db_settings');
+
+        window.location.reload();
+      } catch (err) {
+        console.error('Error during Supabase migration:', err);
+      }
+    };
+
+    migrateMockDbToSupabase();
+  }, []);
+
+  React.useEffect(() => {
     // Attempt instant restore from localStorage cache for instant loads on slow networks
     try {
       const cached = localStorage.getItem('homepage_products_cache');

@@ -153,17 +153,6 @@ export default function Home() {
   }, []);
 
   React.useEffect(() => {
-    // Attempt instant restore from localStorage cache for instant loads on slow networks
-    try {
-      const cached = localStorage.getItem('homepage_products_cache');
-      if (cached) {
-        setProducts(shuffleArray(JSON.parse(cached)));
-        setLoading(false);
-      }
-    } catch (e) {
-      console.warn('Failed to load homepage products cache:', e);
-    }
-
     let active = true;
     const fetchData = async () => {
       try {
@@ -185,11 +174,6 @@ export default function Home() {
         if (error) throw error;
         if (active && data) {
           setProducts(shuffleArray(data));
-          try {
-            localStorage.setItem('homepage_products_cache', JSON.stringify(data));
-          } catch (e) {
-            console.warn('Failed to save homepage products cache:', e);
-          }
         }
       } catch (err) {
         console.error('Error fetching products:', err);

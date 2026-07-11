@@ -1213,9 +1213,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   {(product.total_ratings || 1428).toLocaleString()} Ratings & {(product.total_reviews || 234).toLocaleString()} Reviews
                 </span>
                 <img 
-                  src="https://akkskitchensalee.vercel.app/img/pry-3.png" 
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
                   alt="Assured" 
-                  className="h-[14px] w-auto ml-1.5 shrink-0"
+                  className="h-[14px] w-auto ml-1.5 shrink-0 select-none align-middle inline-block"
                 />
               </div>
 

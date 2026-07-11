@@ -116,6 +116,21 @@ export default function SettingsPage() {
         console.error('Supabase error:', error);
         throw error;
       }
+
+      // Also save merchant_upi settings for backwards compatibility
+      const merchantUpiValue = {
+        mode: 'manual',
+        upi_id: settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
+        merchant_code: settings.payment.mccCode || '4722',
+        merchant_name: settings.payment.payeeName || 'Jambucha Alpesh Kanjibhai'
+      };
+      await supabase
+        .from('settings')
+        .upsert({
+          key: 'merchant_upi',
+          value: merchantUpiValue,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'key' });
       
       alert('Global configuration saved to cloud successfully!');
     } catch (error: any) {
@@ -166,6 +181,7 @@ export default function SettingsPage() {
 
   const menuItems = [
     { id: 'store', label: 'Store Identity', icon: Globe },
+    { id: 'payment', label: 'Payment Gateways', icon: CreditCard },
     { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
     { id: 'notifications', label: 'Alerts & Notifications', icon: Bell },
     { id: 'security', label: 'Security & Access', icon: Shield },
@@ -265,6 +281,105 @@ export default function SettingsPage() {
           )}
 
 
+
+          {/* Section: Payment Gateways */}
+          {activeSection === 'payment' && (
+            <div className="space-y-6">
+              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
+                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
+                   <div className="h-10 w-10 rounded-xl bg-orange-600 flex items-center justify-center text-white shadow-lg shadow-orange-100"><CreditCard className="h-5 w-5" /></div>
+                   <h2 className="font-black text-slate-900 uppercase tracking-tight">Payment Gateways & UPI</h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Payment Method</p>
+                      <select 
+                         value={settings.payment.activeMethod} 
+                         onChange={(e) => updateNestedField('payment', 'activeMethod', e.target.value)}
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500"
+                      >
+                        <option value="upi_intent">UPI Intent (Direct P2P App Launch)</option>
+                        <option value="razorpay">Razorpay Gateway (Card/Netbanking)</option>
+                        <option value="manual_qr">Manual QR (Scan & Upload UTR)</option>
+                      </select>
+                   </div>
+
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Payee Name (Owner Name)</p>
+                      <input 
+                         type="text" 
+                         value={settings.payment.payeeName} 
+                         onChange={(e) => updateNestedField('payment', 'payeeName', e.target.value)}
+                         placeholder="e.g. Jambucha Alpesh Kanjibhai"
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500" 
+                      />
+                   </div>
+
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Default UPI ID (GPay / BHIM)</p>
+                      <input 
+                         type="text" 
+                         value={settings.payment.upi} 
+                         onChange={(e) => updateNestedField('payment', 'upi', e.target.value)}
+                         placeholder="e.g. paytm.s27z8uz@pty"
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500" 
+                      />
+                   </div>
+
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">PhonePe UPI ID (upi2)</p>
+                      <input 
+                         type="text" 
+                         value={settings.payment.upi2} 
+                         onChange={(e) => updateNestedField('payment', 'upi2', e.target.value)}
+                         placeholder="e.g. paytm.s27z8uz@pty"
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500" 
+                      />
+                   </div>
+
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Paytm UPI ID (upi3)</p>
+                      <input 
+                         type="text" 
+                         value={settings.payment.upi3} 
+                         onChange={(e) => updateNestedField('payment', 'upi3', e.target.value)}
+                         placeholder="e.g. paytm.s27z8uz@pty"
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500" 
+                      />
+                   </div>
+
+                   <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-3">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Merchant Category Code (MCC)</p>
+                      <input 
+                         type="text" 
+                         value={settings.payment.mccCode} 
+                         onChange={(e) => updateNestedField('payment', 'mccCode', e.target.value)}
+                         placeholder="e.g. 4722"
+                         className="w-full bg-white border-2 border-slate-200 rounded-xl p-3 text-sm font-black outline-none focus:border-orange-500" 
+                      />
+                   </div>
+                </div>
+
+                <div className="p-6 rounded-3xl bg-orange-50 border-2 border-orange-100 flex items-center justify-between">
+                   <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                         <CreditCard className="h-6 w-6 text-orange-600" />
+                      </div>
+                      <div>
+                         <p className="text-sm font-black text-slate-900 uppercase tracking-tight">Allow UPI Checkout</p>
+                         <p className="text-[10px] text-orange-600 font-bold uppercase">Toggle to enable/disable direct UPI checkout options.</p>
+                      </div>
+                   </div>
+                   <div 
+                     onClick={() => toggleSetting('payment', 'allowUpiCheckout')}
+                     className={cn("h-6 w-11 rounded-full relative cursor-pointer transition-all", settings.payment.allowUpiCheckout ? "bg-orange-600" : "bg-slate-200")}>
+                       <div className={cn("absolute top-1 h-4 w-4 bg-white rounded-full transition-all shadow-sm", settings.payment.allowUpiCheckout ? "right-1" : "left-1")} />
+                   </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Section: Notifications */}
           {activeSection === 'notifications' && (

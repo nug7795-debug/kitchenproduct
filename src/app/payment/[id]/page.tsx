@@ -315,11 +315,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [upiUrl, setUpiUrl] = useState("");
 
   const [activePayScreen, setActivePayScreen] = useState<'select' | 'phonepe' | 'paytm'>('select');
-  const [upiId, setUpiId] = useState('paytm.s29ckmp@pty');
-  const [merchantName, setMerchantName] = useState('Gohil Vikrambhai Kanabhai');
+  const [upiId, setUpiId] = useState('paytm.s27z8uz@pty');
+  const [merchantName, setMerchantName] = useState('Jambucha Alpesh Kanjibhai');
 
   const getInitials = (name: string) => {
-    if (!name) return "GK";
+    if (!name) return "JA";
     const parts = name.split(" ");
     if (parts.length >= 2) {
       return (parts[0][0] + parts[1][0]).toUpperCase();

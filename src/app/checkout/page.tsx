@@ -57,8 +57,8 @@ export default function CheckoutPage() {
   const [razorpayKeyId, setRazorpayKeyId] = React.useState('');
   
   // Dynamic Merchant details loaded from settings
-  const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'paytm.s29ckmp@pty');
-  const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Gohil Vikrambhai Kanabhai');
+  const [merchantVpa, setMerchantVpa] = React.useState(process.env.NEXT_PUBLIC_MERCHANT_UPI_ID || 'paytm.s27z8uz@pty');
+  const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Jambucha Alpesh Kanjibhai');
   const [mccCode, setMccCode] = React.useState('5722');
   const [isMobile, setIsMobile] = React.useState(false);
   const [selectedMethod, setSelectedMethod] = React.useState<'phonepe' | 'paytm'>('phonepe');

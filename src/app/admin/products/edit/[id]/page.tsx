@@ -230,17 +230,7 @@ export default function EditProductPage() {
           sale_price: parseFloat(formData.salePrice || '0'),
           stock_quantity: parseInt(formData.stock || '0'),
           category_id: formData.category || null,
-          is_active: isActive,
-          average_rating: parseFloat(formData.averageRating || '4.5'),
-          total_ratings: parseInt(formData.totalRatings || '1428'),
-          total_reviews: parseInt(formData.totalReviews || '234'),
-          star_distribution: {
-            "5": parseInt(formData.star5 || '980'),
-            "4": parseInt(formData.star4 || '320'),
-            "3": parseInt(formData.star3 || '98'),
-            "2": parseInt(formData.star2 || '20'),
-            "1": parseInt(formData.star1 || '10')
-          }
+          is_active: isActive
         })
         .eq('id', productId);
 

@@ -230,17 +230,7 @@ export default function AddProductPage() {
           is_new_arrival: formData.isNewArrival,
           is_best_seller: formData.isBestSeller,
           weight: formData.weight ? parseFloat(formData.weight) : null,
-          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') },
-          average_rating: parseFloat(formData.averageRating || '4.5'),
-          total_ratings: parseInt(formData.totalRatings || '1428'),
-          total_reviews: parseInt(formData.totalReviews || '234'),
-          star_distribution: {
-            "5": parseInt(formData.star5 || '980'),
-            "4": parseInt(formData.star4 || '320'),
-            "3": parseInt(formData.star3 || '98'),
-            "2": parseInt(formData.star2 || '20'),
-            "1": parseInt(formData.star1 || '10')
-          }
+          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') }
         })
         .select()
         .single();
@@ -319,17 +309,7 @@ export default function AddProductPage() {
           is_new_arrival: formData.isNewArrival,
           is_best_seller: formData.isBestSeller,
           weight: formData.weight ? parseFloat(formData.weight) : null,
-          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') },
-          average_rating: parseFloat(formData.averageRating || '4.5'),
-          total_ratings: parseInt(formData.totalRatings || '1428'),
-          total_reviews: parseInt(formData.totalReviews || '234'),
-          star_distribution: {
-            "5": parseInt(formData.star5 || '980'),
-            "4": parseInt(formData.star4 || '320'),
-            "3": parseInt(formData.star3 || '98'),
-            "2": parseInt(formData.star2 || '20'),
-            "1": parseInt(formData.star1 || '10')
-          }
+          dimensions: { length: parseFloat(formData.length || '0'), width: parseFloat(formData.width || '0'), height: parseFloat(formData.height || '0') }
         })
         .select()
         .single();

@@ -959,15 +959,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         star_distribution: distribution
       }));
 
-      await supabase
-        .from('products')
-        .update({
-          total_reviews: updatedTotalReviews,
-          total_ratings: updatedTotalRatings,
-          average_rating: updatedAverageRating,
-          star_distribution: distribution
-        })
-        .eq('id', id);
+      // Skip database update as aggregates columns do not exist in database schema
 
     } catch (err: any) {
       console.error(err);

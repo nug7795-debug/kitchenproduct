@@ -263,18 +263,7 @@ export default function ProductsPage() {
         "1": distribution["1"].toString()
       };
 
-      setGenerateProgress('Updating product details in database...');
-      const { error: updateError } = await supabase
-        .from('products')
-        .update({
-          total_reviews: totalReviews,
-          total_ratings: totalRatings,
-          average_rating: averageRating,
-          star_distribution: starDistribution
-        })
-        .eq('id', selectedProduct.id);
-
-      if (updateError) throw updateError;
+      // Skip database update as aggregates columns do not exist in database schema
 
       // Update local state product stats if applicable
       setProducts(prev => prev.map(p => {

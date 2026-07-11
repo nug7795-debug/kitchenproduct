@@ -164,8 +164,6 @@ export default function Home() {
             price,
             sale_price,
             is_active,
-            average_rating,
-            total_ratings,
             categories (name, slug),
             product_images (image_url, is_featured)
           `)

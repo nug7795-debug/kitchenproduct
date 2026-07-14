@@ -49,7 +49,7 @@ export const BottomNav = () => {
   );
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-200 flex items-center justify-around h-[54px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-200 flex items-center justify-around h-[60px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
         const isActive = pathname === item.activePath;
         const Icon = item.icon;
@@ -62,7 +62,7 @@ export const BottomNav = () => {
           >
             <div className="relative flex items-center justify-center">
               <Icon className={cn(
-                "h-[21px] w-[21px] transition-colors duration-150",
+                "h-[23px] w-[23px] transition-colors duration-150",
                 isActive 
                   ? "text-[#2874f0]" 
                   : "text-[#717478]",
@@ -75,7 +75,7 @@ export const BottomNav = () => {
               )}
             </div>
             <span className={cn(
-              "text-[10px] mt-0.5 transition-colors duration-150",
+              "text-[10.5px] mt-0.5 transition-colors duration-150",
               isActive 
                 ? "text-[#2874f0] font-bold" 
                 : "text-[#717478] font-medium"

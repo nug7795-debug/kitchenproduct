@@ -8,21 +8,16 @@ import { Button } from '../ui/button';
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
 
+const LOCAL_BANNERS = [
+  { id: '1', title: 'Sale 1', image_url: '/banners/banner1.png' },
+  { id: '2', title: 'Sale 2', image_url: '/banners/banner2.png' },
+  { id: '3', title: 'Sale 3', image_url: '/banners/banner3.png' },
+  { id: '4', title: 'Sale 4', image_url: '/banners/banner4.png' }
+];
+
 export const BannerSlider = () => {
   const [current, setCurrent] = React.useState(0);
-  const [banners, setBanners] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    // Set the provided local banner ads
-    setBanners([
-      { id: '1', title: 'Sale 1', image_url: '/banners/banner1.jpg' },
-      { id: '2', title: 'Sale 2', image_url: '/banners/banner2.jpg' },
-      { id: '3', title: 'Sale 3', image_url: '/banners/banner3.jpg' },
-      { id: '4', title: 'Sale 4', image_url: '/banners/banner4.jpg' }
-    ]);
-    setLoading(false);
-  }, []);
+  const [banners] = React.useState<any[]>(LOCAL_BANNERS);
 
   const next = () => {
     if (banners.length === 0) return;
@@ -37,6 +32,9 @@ export const BannerSlider = () => {
 
   return (
     <div className="w-full bg-[#f1f3f6]">
+      {/* Preload first banner image for instant rendering on slow networks */}
+      <link rel="preload" href="/banners/banner1.png" as="image" fetchPriority="high" />
+
       <div className="relative mx-3.5 mt-1.5 aspect-[2/1] overflow-hidden rounded-2xl bg-white shadow-3xs">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
@@ -51,7 +49,7 @@ export const BannerSlider = () => {
             <img
               src={banners[current]?.image_url}
               alt={banners[current]?.title || 'Banner'}
-              className="w-full h-full object-fill select-none pointer-events-none"
+              className="w-full h-full object-cover select-none pointer-events-none"
               referrerPolicy="no-referrer"
               crossOrigin="anonymous"
               draggable="false"

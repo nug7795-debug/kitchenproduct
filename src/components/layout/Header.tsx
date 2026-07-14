@@ -11,17 +11,12 @@ export const Header = () => {
   const router = useRouter();
   const [locationText, setLocationText] = React.useState('Detecting location...');
 
-  React.useEffect(() => {
-    // 1. Try local storage cache first for instant load
-    const cached = localStorage.getItem('user_live_location');
-    if (cached) {
-      setLocationText(cached);
-    }
-
-    // 2. Perform fast IP geolocation fallback (requires no browser prompt)
-    const resolveIPLocation = async () => {
-      try {
-        const res = await fetch('https://ipapi.co/json/');
+  // Perform fast IP geolocation fallback (requires no browser prompt)
+  const resolveIPLocation = React.useCallback(async () => {
+    // Try ipapi.co first
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      if (res.ok) {
         const data = await res.json();
         if (data && data.city) {
           const loc = `${data.city}, ${data.region_code || data.region}`;
@@ -29,18 +24,40 @@ export const Header = () => {
           localStorage.setItem('user_live_location', loc);
           return true;
         }
-      } catch (err) {
-        console.error('IP geolocator error:', err);
       }
-      return false;
-    };
-
-    // If no cache, start with IP baseline instantly
-    if (!cached) {
-      resolveIPLocation();
+    } catch (err) {
+      console.error('ipapi.co error:', err);
     }
 
-    // 3. Request high-accuracy GPS browser location
+    // Try freeipapi.com as fallback
+    try {
+      const res = await fetch('https://freeipapi.com/api/json');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.cityName) {
+          const loc = `${data.cityName}, ${data.regionName}`;
+          setLocationText(loc);
+          localStorage.setItem('user_live_location', loc);
+          return true;
+        }
+      }
+    } catch (err) {
+      console.error('freeipapi.com error:', err);
+    }
+    return false;
+  }, []);
+
+  React.useEffect(() => {
+    // 1. Try local storage cache first for instant load
+    const cached = localStorage.getItem('user_live_location');
+    if (cached) {
+      setLocationText(cached);
+    }
+
+    // Always fetch latest location via IP geolocator in background to refresh
+    resolveIPLocation();
+
+    // 2. Request high-accuracy GPS browser location
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -69,14 +86,11 @@ export const Header = () => {
         },
         (error) => {
           console.warn('Browser GPS permission denied or failed:', error);
-          if (!cached) {
-            resolveIPLocation();
-          }
         },
         { enableHighAccuracy: true, timeout: 8000, maximumAge: 3600000 }
       );
     }
-  }, []);
+  }, [resolveIPLocation]);
 
   const handleRefreshLocation = () => {
     setLocationText('Detecting...');
@@ -102,27 +116,15 @@ export const Header = () => {
               localStorage.setItem('user_live_location', finalLoc);
             }
           } catch (e) {
-            setLocationText('Error loading address');
+            resolveIPLocation();
           }
         },
-        async () => {
-          try {
-            const res = await fetch('https://ipapi.co/json/');
-            const data = await res.json();
-            if (data && data.city) {
-              const loc = `${data.city}, ${data.region}`;
-              setLocationText(loc);
-              localStorage.setItem('user_live_location', loc);
-            } else {
-              setLocationText('Location Denied');
-            }
-          } catch (e) {
-            setLocationText('Location Denied');
-          }
+        () => {
+          resolveIPLocation();
         }
       );
     } else {
-      setLocationText('Not Supported');
+      resolveIPLocation();
     }
   };
 

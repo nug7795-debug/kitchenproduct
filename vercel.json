@@ -4,7 +4,7 @@
   "outputDirectory": ".next",
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/((?!_next|banners|products|.*\\.(?:png|jpg|jpeg|gif|svg|ico|webp|js|css)$).*)",
       "headers": [
         {
           "key": "Cache-Control",

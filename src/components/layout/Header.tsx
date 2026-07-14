@@ -13,6 +13,12 @@ export const Header = () => {
 
   // Perform fast IP geolocation fallback (requires no browser prompt)
   const resolveIPLocation = React.useCallback(async () => {
+    // If we already have a high-accuracy GPS location, don't downgrade it to IP
+    const locationType = localStorage.getItem('user_location_type');
+    if (locationType === 'gps') {
+      return false;
+    }
+
     // Try ipapi.co first
     try {
       const res = await fetch('https://ipapi.co/json/');
@@ -22,6 +28,7 @@ export const Header = () => {
           const loc = `${data.city}, ${data.region_code || data.region}`;
           setLocationText(loc);
           localStorage.setItem('user_live_location', loc);
+          localStorage.setItem('user_location_type', 'ip');
           return true;
         }
       }
@@ -38,6 +45,7 @@ export const Header = () => {
           const loc = `${data.cityName}, ${data.regionName}`;
           setLocationText(loc);
           localStorage.setItem('user_live_location', loc);
+          localStorage.setItem('user_location_type', 'ip');
           return true;
         }
       }
@@ -50,18 +58,23 @@ export const Header = () => {
   React.useEffect(() => {
     // 1. Try local storage cache first for instant load
     const cached = localStorage.getItem('user_live_location');
+    const locationType = localStorage.getItem('user_location_type');
     if (cached) {
       setLocationText(cached);
     }
 
-    // Always fetch latest location via IP geolocator in background to refresh
-    resolveIPLocation();
+    // Only fetch IP location if we don't have a high-accuracy GPS location cached
+    if (locationType !== 'gps') {
+      resolveIPLocation();
+    }
 
     // 2. Request high-accuracy GPS browser location
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
+          
+          // 2a. Try Nominatim reverse geocode
           try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
             const data = await res.json();
@@ -79,9 +92,32 @@ export const Header = () => {
               
               setLocationText(finalLoc);
               localStorage.setItem('user_live_location', finalLoc);
+              localStorage.setItem('user_location_type', 'gps');
+              return;
             }
           } catch (e) {
-            console.error('Reverse geocode failed:', e);
+            console.error('Reverse geocode via Nominatim failed:', e);
+          }
+
+          // 2b. Fallback to BigDataCloud reverse geocode if Nominatim fails (due to rate limit/CORS)
+          try {
+            const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+            if (res.ok) {
+              const data = await res.json();
+              const localName = data.locality || data.city || '';
+              const regionName = data.principalSubdivision || '';
+              let finalLoc = '';
+              if (localName && regionName && localName !== regionName) {
+                finalLoc = `${localName}, ${regionName}`;
+              } else {
+                finalLoc = localName || regionName || 'Detected Location';
+              }
+              setLocationText(finalLoc);
+              localStorage.setItem('user_live_location', finalLoc);
+              localStorage.setItem('user_location_type', 'gps');
+            }
+          } catch (err) {
+            console.error('Fallback reverse geocode failed:', err);
           }
         },
         (error) => {
@@ -98,6 +134,8 @@ export const Header = () => {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
+          
+          // 1. Try Nominatim
           try {
             const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`);
             const data = await res.json();
@@ -114,10 +152,37 @@ export const Header = () => {
               }
               setLocationText(finalLoc);
               localStorage.setItem('user_live_location', finalLoc);
+              localStorage.setItem('user_location_type', 'gps');
+              return;
             }
           } catch (e) {
-            resolveIPLocation();
+            console.error('Nominatim failed:', e);
           }
+
+          // 2. Try BigDataCloud fallback
+          try {
+            const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+            if (res.ok) {
+              const data = await res.json();
+              const localName = data.locality || data.city || '';
+              const regionName = data.principalSubdivision || '';
+              let finalLoc = '';
+              if (localName && regionName && localName !== regionName) {
+                finalLoc = `${localName}, ${regionName}`;
+              } else {
+                finalLoc = localName || regionName || 'Detected Location';
+              }
+              setLocationText(finalLoc);
+              localStorage.setItem('user_live_location', finalLoc);
+              localStorage.setItem('user_location_type', 'gps');
+              return;
+            }
+          } catch (err) {
+            console.error('BigDataCloud failed:', err);
+          }
+
+          // Fallback to IP lookup if GPS geocoders both fail
+          resolveIPLocation();
         },
         () => {
           resolveIPLocation();

@@ -10,9 +10,7 @@ import { supabase } from '../../lib/supabase';
 
 const LOCAL_BANNERS = [
   { id: '1', title: 'Sale 1', image_url: '/banners/banner1.png' },
-  { id: '2', title: 'Sale 2', image_url: '/banners/banner2.png' },
-  { id: '3', title: 'Sale 3', image_url: '/banners/banner3.png' },
-  { id: '4', title: 'Sale 4', image_url: '/banners/banner4.png' }
+  { id: '2', title: 'Sale 2', image_url: '/banners/banner2.png' }
 ];
 
 export const BannerSlider = () => {

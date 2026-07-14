@@ -203,16 +203,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </span>
           </div>
 
-          {/* WOW! Bank Offer & Express Delivery Container (The perfect marked red box on ALL products!) */}
-          <div className="pt-1.5 border-t border-slate-100/60 space-y-1 select-none">
-            <div className="flex items-center gap-1 leading-none">
-              <WowIcon />
-              <span className="text-[12.5px] font-black text-[#1c54d4] align-middle">
-                ₹{bankOfferPrice.toLocaleString()}
-              </span>
-            </div>
-            <p className="text-[10px] font-bold text-[#1c54d4] leading-none pl-[1px]">with Bank offer</p>
-            
+          {/* Express Delivery Container */}
+          <div className="pt-1.5 border-t border-slate-100/60 select-none">
             {/* Express Delivery Truck & Tag Line */}
             <div className="flex items-center gap-1 pt-0.5 leading-none">
               <DeliveryTruckIcon />

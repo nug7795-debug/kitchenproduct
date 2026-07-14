@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, PlayCircle, Grid, User, ShoppingCart } from 'lucide-react';
+import { Home, SquarePlay, LayoutGrid, User, ShoppingCart } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface NavItem {
@@ -16,9 +16,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Home', icon: Home, href: '/', activePath: '/' },
-  { name: 'Play', icon: PlayCircle, href: '/', activePath: '/play' },
-  { name: 'Categories', icon: Grid, href: '/', activePath: '/categories' },
-  { name: 'Account', icon: User, href: '/', activePath: '/account' },
+  { name: 'Play', icon: SquarePlay, href: '/offers', activePath: '/offers' },
+  { name: 'Categories', icon: LayoutGrid, href: '/categories', activePath: '/categories' },
+  { name: 'Account', icon: User, href: '/settings', activePath: '/settings' },
   { name: 'Cart', icon: ShoppingCart, href: '/cart', activePath: '/cart' },
 ];
 
@@ -49,7 +49,7 @@ export const BottomNav = () => {
   );
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-100 flex items-center justify-around py-2 px-1 z-[60] shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-200 flex items-center justify-around h-[54px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
         const isActive = pathname === item.activePath;
         const Icon = item.icon;
@@ -58,28 +58,30 @@ export const BottomNav = () => {
           <Link 
             key={item.name} 
             href={item.href}
-            className="flex flex-col items-center gap-1 min-w-[64px] relative active:scale-90 transition-transform"
+            className="flex flex-col items-center justify-center h-full min-w-[64px] relative active:scale-95 transition-transform"
           >
-            <div className="relative">
+            <div className="relative flex items-center justify-center">
               <Icon className={cn(
-                "h-[22px] w-[22px] transition-all duration-200",
-                isActive ? "text-[#2874f0] fill-[#2874f0]" : "text-slate-500"
+                "h-[21px] w-[21px] transition-colors duration-150",
+                isActive 
+                  ? "text-[#2874f0]" 
+                  : "text-[#717478]",
+                isActive && item.name === 'Home' && "fill-[#2874f0]"
               )} />
               {item.badge && (
-                <span className="absolute -top-2 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#ff4343] text-[10px] font-black text-white border-[2px] border-white shadow-sm">
+                <span className="absolute -top-1.5 -right-2 flex h-[16px] min-w-[16px] px-1 items-center justify-center rounded-full bg-[#ff4343] text-[9px] font-black text-white border-[1.5px] border-white shadow-xs">
                   {item.badge}
                 </span>
               )}
             </div>
             <span className={cn(
-              "text-[10px] font-bold transition-all duration-200",
-              isActive ? "text-[#2874f0]" : "text-slate-500"
+              "text-[10px] mt-0.5 transition-colors duration-150",
+              isActive 
+                ? "text-[#2874f0] font-bold" 
+                : "text-[#717478] font-medium"
             )}>
               {item.name}
             </span>
-            {isActive && (
-              <div className="absolute -top-[10px] w-full h-[3px] bg-[#2874f0] rounded-full scale-x-50" />
-            )}
           </Link>
         );
       })}

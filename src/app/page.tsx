@@ -244,9 +244,6 @@ export default function Home() {
           </div>
         )}
       </section>
-
-      {/* Bottom Padding for Nav */}
-      <div className="h-24" />
     </div>
   );
 }

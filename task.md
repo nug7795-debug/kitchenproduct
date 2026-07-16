@@ -9,5 +9,10 @@
 - `[x]` Modify `src/components/layout/LayoutWrapper.tsx` to render the `<Footer />` component
 - `[x]` Remove `h-24` empty spacing div at the bottom of the homepage content
 - `[x]` Implement Flipkart-style location select bottom sheet drawer with pincode validation & GPS detection
+- `[x]` Modify payments page (`src/app/payment/[id]/page.tsx`) to match real Flipkart payments layout:
+  - Collapsible accordion sections for UPI (PhonePe, Paytm, Scan To Pay), Credit/Debit Card, and EMI.
+  - Added payment offers green banner.
+  - Added gift card option, Cash on Delivery (Unavailable) row, and 35 Crore happy customers trust banner.
+  - Added lock icon 100% secure badge to top header.
 - `[x]` Verify build compiles without errors
 - `[x]` Deploy live to Vercel (https://kitchenproduct.vercel.app)

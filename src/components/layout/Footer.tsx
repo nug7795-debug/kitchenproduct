@@ -2,97 +2,98 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { MessageCircle, Send, Camera, Video, Mail, Phone, MapPin, ArrowRight, ShieldCheck, Truck, RotateCcw, Headphones } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { ShieldCheck, MapPin, Mail } from 'lucide-react';
 
 export const Footer = () => {
+  const [settings, setSettings] = React.useState({
+    storeName: 'Kitchen Product',
+    supportEmail: 'hello@kitchenproduct.com'
+  });
+
+  React.useEffect(() => {
+    async function loadSettings() {
+      try {
+        const { data } = await supabase
+          .from('settings')
+          .select('*')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+        if (data?.value) {
+          setSettings({
+            storeName: data.value.storeName || 'Kitchen Product',
+            supportEmail: data.value.supportEmail || 'hello@kitchenproduct.com'
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    loadSettings();
+  }, []);
+
   return (
-    <footer className="bg-slate-900 text-white pt-20 pb-32">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Top Benefits */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-20 border-b border-slate-800">
-           {[
-             { icon: ShieldCheck, title: 'Secure Payment', desc: '100% Secure UPI & Cards' },
-             { icon: Truck, title: 'Fast Delivery', desc: 'Across India within 3-5 days' },
-             { icon: RotateCcw, title: 'Easy Returns', desc: '7-day replacement policy' },
-             { icon: Headphones, title: '24/7 Support', desc: 'Dedicated kitchen experts' },
-           ].map((benefit, i) => (
-             <div key={i} className="flex items-center gap-4 group">
-                <div className="h-12 w-12 rounded-2xl bg-slate-800 flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all shadow-lg shadow-black/20">
-                   <benefit.icon className="h-6 w-6" />
-                </div>
-                <div>
-                   <p className="font-black text-sm uppercase tracking-tight">{benefit.title}</p>
-                   <p className="text-xs text-slate-400 font-bold uppercase">{benefit.desc}</p>
-                </div>
-             </div>
-           ))}
+    <footer className="bg-slate-900 text-white pt-10 pb-20 mt-auto w-full">
+      <div className="px-6 space-y-8">
+        {/* Brand Header */}
+        <div className="space-y-3">
+          <Link href="/" className="text-xl font-black tracking-tight text-white flex items-center gap-1.5 uppercase">
+            <span className="text-[#fbde3b]">★</span> {settings.storeName}
+          </Link>
+          <p className="text-slate-400 text-xs font-bold leading-relaxed">
+            Your premium destination for kitchen tools, cookware, and professional appliances in India.
+          </p>
         </div>
 
-        {/* Main Links */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 py-20">
-           <div className="lg:col-span-4 space-y-8">
-              <Link href="/" className="text-2xl font-black tracking-tighter flex items-center">
-                FLIP<span className="text-[#fbde3b]">KART</span>
-              </Link>
-              <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-xs">
-                Your one-stop destination for everything you need. From electronics to fashion, find the best deals online.
-              </p>
-              <div className="flex gap-4">
-                 {[MessageCircle, Send, Camera, Video].map((Icon, i) => (
-                   <button key={i} className="h-10 w-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 hover:bg-orange-500 hover:text-white transition-all">
-                      <Icon className="h-5 w-5" />
-                   </button>
-                 ))}
-              </div>
-           </div>
+        {/* Navigation Links */}
+        <div className="grid grid-cols-2 gap-y-4 gap-x-6 border-t border-b border-slate-800 py-6">
+          <div className="space-y-3">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-500">Navigation</h4>
+            <ul className="space-y-2 text-xs font-bold text-slate-300">
+              <li><Link href="/" className="hover:text-orange-400 transition-colors">Home</Link></li>
+              <li><Link href="/about" className="hover:text-orange-400 transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-orange-400 transition-colors">Contact Us</Link></li>
+            </ul>
+          </div>
 
-           <div className="lg:col-span-2 space-y-6">
-              <h4 className="font-black text-xs uppercase tracking-widest text-slate-500">Shop</h4>
-              <ul className="space-y-4 text-sm font-bold text-slate-300">
-                 <li><Link href="/categories/appliances" className="hover:text-orange-500 transition-colors">Appliances</Link></li>
-                 <li><Link href="/categories/cookware" className="hover:text-orange-500 transition-colors">Cookware</Link></li>
-                 <li><Link href="/categories/accessories" className="hover:text-orange-500 transition-colors">Accessories</Link></li>
-                 <li><Link href="/offers" className="hover:text-orange-500 transition-colors text-orange-400">Exclusive Offers</Link></li>
-              </ul>
-           </div>
+          <div className="space-y-3">
+            <h4 className="text-[10px] font-black uppercase tracking-wider text-slate-500">Legal & Policies</h4>
+            <ul className="space-y-2 text-xs font-bold text-slate-300">
+              <li><Link href="/privacy" className="hover:text-orange-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-orange-400 transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="/disclaimer" className="hover:text-orange-400 transition-colors">Disclaimer</Link></li>
+              <li><Link href="/dmca" className="hover:text-orange-400 transition-colors">DMCA</Link></li>
+            </ul>
+          </div>
+        </div>
 
-           <div className="lg:col-span-2 space-y-6">
-              <h4 className="font-black text-xs uppercase tracking-widest text-slate-500">Company</h4>
-              <ul className="space-y-4 text-sm font-bold text-slate-300">
-                 <li><Link href="/about" className="hover:text-orange-500 transition-colors">Our Story</Link></li>
-                 <li><Link href="/contact" className="hover:text-orange-500 transition-colors">Contact Us</Link></li>
-                 <li><Link href="/blog" className="hover:text-orange-500 transition-colors">Culinary Blog</Link></li>
-                 <li><Link href="/privacy" className="hover:text-orange-500 transition-colors">Privacy Policy</Link></li>
-              </ul>
-           </div>
-
-           <div className="lg:col-span-4 space-y-8">
-              <div className="bg-slate-800 p-8 rounded-[2.5rem] border border-slate-700/50 space-y-6">
-                 <h4 className="font-black text-lg tracking-tight">Join the Inner Circle</h4>
-                 <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Get early access to drops & recipes.</p>
-                 <div className="relative">
-                    <input type="email" placeholder="chef@example.com" className="w-full bg-slate-900 border-2 border-slate-700 rounded-2xl py-4 px-6 text-sm font-bold outline-none focus:border-orange-500 transition-all" />
-                    <button className="absolute right-2 top-2 bottom-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-4 flex items-center justify-center transition-all">
-                       <ArrowRight className="h-5 w-5" />
-                    </button>
-                 </div>
-              </div>
-           </div>
+        {/* Support Box */}
+        <div className="bg-slate-800/50 border border-slate-800 p-4 rounded-xl flex gap-3 items-center">
+          <div className="h-8 w-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-500 shrink-0">
+            <Mail className="h-4 w-4" />
+          </div>
+          <div>
+            <p className="text-[9px] font-black text-slate-500 uppercase tracking-wider">Need help? Email us</p>
+            <a href={`mailto:${settings.supportEmail}`} className="text-xs font-bold text-slate-200 hover:underline">
+              {settings.supportEmail}
+            </a>
+          </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
-           <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-              © 2024 Flipkart India Private Limited. All Rights Reserved.
-           </p>
-           <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                 <ShieldCheck className="h-4 w-4 text-green-500" /> PCI-DSS COMPLIANT
-              </div>
-              <div className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                 <MapPin className="h-4 w-4 text-orange-500" /> MADE IN INDIA
-              </div>
-           </div>
+        <div className="space-y-4 pt-4">
+          <p className="text-[10px] font-bold text-slate-500 tracking-wide text-center">
+            © 2026 Kitchen Product. All Rights Reserved.
+          </p>
+          
+          <div className="flex items-center justify-center gap-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">
+            <div className="flex items-center gap-1">
+              <ShieldCheck className="h-3.5 w-3.5 text-[#388e3c]" /> PCI-DSS COMPLIANT
+            </div>
+            <div className="flex items-center gap-1">
+              <MapPin className="h-3.5 w-3.5 text-orange-500" /> MADE IN INDIA
+            </div>
+          </div>
         </div>
       </div>
     </footer>

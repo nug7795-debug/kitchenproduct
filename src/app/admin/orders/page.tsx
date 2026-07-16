@@ -139,10 +139,6 @@ export default function OrdersPage() {
                 utr: paymentObj.raw_response?.utr || ''
               } : null
             };
-          })
-          // Exclude draft/incomplete checkouts that do not have a linked address/customer profile
-          .filter((order: DbOrder) => {
-            return !!order.addresses;
           });
 
         console.log('fetchOrders: formatted orders count:', formatted.length);

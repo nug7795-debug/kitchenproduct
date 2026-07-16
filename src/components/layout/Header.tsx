@@ -7,9 +7,71 @@ import { useRouter } from 'next/navigation';
 import { ShoppingCart, Search, Camera, QrCode, ChevronDown, Bell, Smartphone, Shirt, Monitor, Plane, MapPin } from 'lucide-react';
 import { Button } from '../ui/button';
 
+const getStateCode = (stateName: string): string => {
+  const statesMap: { [key: string]: string } = {
+    'andhra pradesh': 'AP', 'arunachal pradesh': 'AR', 'assam': 'AS', 'bihar': 'BR',
+    'chhattisgarh': 'CG', 'goa': 'GA', 'gujarat': 'GJ', 'haryana': 'HR',
+    'himachal pradesh': 'HP', 'jammu and kashmir': 'JK', 'jharkhand': 'JH',
+    'karnataka': 'KA', 'kerala': 'KL', 'madhya pradesh': 'MP', 'maharashtra': 'MH',
+    'manipur': 'MN', 'meghalaya': 'ML', 'mizoram': 'MZ', 'nagaland': 'NL',
+    'odisha': 'OR', 'punjab': 'PB', 'rajasthan': 'RJ', 'sikkim': 'SK',
+    'tamil nadu': 'TN', 'telangana': 'TG', 'tripura': 'TR', 'uttar pradesh': 'UP',
+    'uttarakhand': 'UK', 'west bengal': 'WB', 'delhi': 'DL', 'puducherry': 'PY',
+    'chandigarh': 'CH', 'dadra and nagar haveli': 'DN', 'daman and diu': 'DD',
+    'lakshadweep': 'LD', 'ladakh': 'LA', 'andaman and nicobar islands': 'AN'
+  };
+  return statesMap[stateName.toLowerCase()] || stateName;
+};
+
 export const Header = () => {
   const router = useRouter();
   const [locationText, setLocationText] = React.useState('Detecting location...');
+  const [isLocationModalOpen, setIsLocationModalOpen] = React.useState(false);
+  const [pincode, setPincode] = React.useState('');
+  const [pincodeError, setPincodeError] = React.useState('');
+  const [pincodeLoading, setPincodeLoading] = React.useState(false);
+
+  const handlePincodeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!/^\d{6}$/.test(pincode)) {
+      setPincodeError('Enter a valid 6-digit pincode');
+      return;
+    }
+    setPincodeLoading(true);
+    setPincodeError('');
+    try {
+      const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data[0]?.Status === 'Success') {
+          const postOfficeList = data[0].PostOffice;
+          if (postOfficeList && postOfficeList.length > 0) {
+            const po = postOfficeList[0];
+            const city = po.District || po.Name;
+            const state = po.State;
+            const stateCode = getStateCode(state);
+            const resolvedLoc = `${city}, ${stateCode} - ${pincode}`;
+            setLocationText(resolvedLoc);
+            localStorage.setItem('user_live_location', resolvedLoc);
+            localStorage.setItem('user_location_type', 'pincode');
+            setIsLocationModalOpen(false);
+            setPincode('');
+          } else {
+            setPincodeError('Invalid Pincode. Please check and try again.');
+          }
+        } else {
+          setPincodeError('Invalid Pincode. Please check and try again.');
+        }
+      } else {
+        setPincodeError('Service error. Please try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      setPincodeError('Network error. Please try again.');
+    } finally {
+      setPincodeLoading(false);
+    }
+  };
 
   // Perform fast IP geolocation fallback (requires no browser prompt)
   const resolveIPLocation = React.useCallback(async () => {
@@ -213,7 +275,7 @@ export const Header = () => {
       {/* Address Bar - Clean dynamic version strictly matching Flipkart mobile web */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-[#2874f0]">
         <button 
-          onClick={handleRefreshLocation}
+          onClick={() => setIsLocationModalOpen(true)}
           className="flex items-center gap-1 min-w-0 bg-transparent text-left border-none p-0 outline-none active:opacity-80 transition-opacity"
         >
           <MapPin size={13} className="text-white shrink-0" />
@@ -342,6 +404,96 @@ export const Header = () => {
           <span className="text-[12px] text-[#424242] whitespace-nowrap font-medium">Furniture</span>
         </Link>
       </div>
+
+      {/* Location Selector Bottom Drawer */}
+      {isLocationModalOpen && (
+        <div className="fixed inset-0 z-[1000] flex items-end justify-center">
+          {/* Translucent Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300"
+            onClick={() => setIsLocationModalOpen(false)}
+          />
+          
+          {/* Drawer Body (styled exactly like Flipkart's location drawer) */}
+          <div className="relative bg-white text-slate-800 w-full max-w-[500px] rounded-t-[24px] p-6 pb-10 shadow-2xl z-10 transition-transform duration-300 translate-y-0 transform select-none border-t border-slate-100">
+            {/* Header indicator bar */}
+            <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-5" />
+
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-[17px] font-black text-slate-900 tracking-tight">Select Delivery Location</h3>
+              <button 
+                onClick={() => setIsLocationModalOpen(false)}
+                className="text-slate-400 hover:text-slate-650 p-1.5 hover:bg-slate-100 rounded-full transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
+            <p className="text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-4">
+              Enter a pincode to check delivery availability
+            </p>
+
+            <form onSubmit={handlePincodeSubmit} className="flex gap-2.5 mb-5">
+              <div className="flex-1 relative">
+                <input
+                  type="tel"
+                  maxLength={6}
+                  required
+                  value={pincode}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, '');
+                    setPincode(val);
+                    setPincodeError('');
+                  }}
+                  placeholder="Enter 6 digit pincode"
+                  className="w-full bg-slate-50 border-2 border-slate-200 focus:border-[#2874f0] focus:bg-white rounded-xl py-3.5 px-4 text-sm font-black text-slate-800 outline-none transition-all"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={pincodeLoading}
+                className="bg-[#2874f0] hover:bg-[#2874f0]/90 text-white font-black text-xs uppercase px-6 py-3.5 rounded-xl shadow-xs active:scale-[0.98] transition-all disabled:opacity-50"
+              >
+                {pincodeLoading ? 'Verifying...' : 'Submit'}
+              </button>
+            </form>
+
+            {pincodeError && (
+              <p className="text-[11px] font-bold text-red-500 mb-4 bg-red-50 border border-red-100 p-2.5 rounded-lg">
+                ⚠️ {pincodeError}
+              </p>
+            )}
+
+            {/* Current Active Location */}
+            <div className="bg-slate-50 border border-slate-100 p-3.5 rounded-xl mb-4 flex items-center justify-between text-xs font-bold text-slate-600">
+              <span>Current Location:</span>
+              <span className="text-slate-900 font-extrabold">{locationText}</span>
+            </div>
+
+            {/* Or Separator */}
+            <div className="relative flex items-center justify-center my-6">
+              <div className="flex-grow border-t border-slate-150" />
+              <span className="flex-shrink mx-4 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-white">OR</span>
+              <div className="flex-grow border-t border-slate-150" />
+            </div>
+
+            {/* Use Current GPS Location Option */}
+            <button
+              type="button"
+              onClick={() => {
+                setIsLocationModalOpen(false);
+                handleRefreshLocation();
+              }}
+              className="w-full bg-[#2874f0]/10 hover:bg-[#2874f0]/15 text-[#2874f0] font-black text-sm uppercase py-4 rounded-xl flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all"
+            >
+              <MapPin className="h-4.5 w-4.5 text-[#2874f0]" />
+              Use My Current Location
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

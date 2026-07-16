@@ -1059,8 +1059,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Polling / App Intent Verification Modal Overlay */}
-      {activePayScreen === 'select' && activeVerificationApp && (
+      {/* Polling / App Intent Verification Modal Overlay (Hidden) */}
+      {false && activePayScreen === 'select' && activeVerificationApp && (
         <div style={{ position: "fixed", inset: 0, zIndex: 1050, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
           <div style={{ background: "#fff", borderRadius: 16, padding: 24, maxWidth: 360, width: "100%", textAlign: "center", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
             <div style={{ position: "relative", width: 76, height: 76, margin: "0 auto 12px" }}>

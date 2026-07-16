@@ -667,6 +667,30 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         .animate-spin-custom {
           animation: spin 1s linear infinite;
         }
+        @keyframes shimmer-slide {
+          0% { transform: translateX(-150%) skewX(-25deg); }
+          50% { transform: translateX(250%) skewX(-25deg); }
+          100% { transform: translateX(250%) skewX(-25deg); }
+        }
+        .shimmer-banner {
+          position: relative;
+          overflow: hidden;
+        }
+        .shimmer-banner::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 60px;
+          height: 100%;
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.45) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          animation: shimmer-slide 2.5s infinite ease-in-out;
+        }
       `}} />
 
       {/* Header */}
@@ -719,7 +743,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
       {/* Flipkart Payment Offers Green Banner */}
-      <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3.5 px-5 flex items-center justify-between select-none">
+      <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3.5 px-5 flex items-center justify-between select-none shimmer-banner">
         <div className="flex flex-col">
           <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">5% Cashback</span>
           <span className="text-slate-500 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
@@ -951,13 +975,13 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* Cash on Delivery (Unavailable) Row */}
-          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none opacity-45">
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
               <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
-              <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
+              <span className="text-[15px] font-bold text-slate-450 font-sans">Cash on Delivery</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
-              <span>Unavailable</span>
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 select-none bg-slate-100/80 px-2.5 py-1 rounded border border-slate-200">
+              <span className="text-slate-500 mr-0.5">Unavailable</span>
               <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
             </div>
           </div>

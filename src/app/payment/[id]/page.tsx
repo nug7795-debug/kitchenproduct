@@ -992,35 +992,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
         </div>
-
-        {/* Dynamic Secure Badges with authentic icons */}
-        <div className="bg-white border-b border-slate-200 py-6 px-4">
-          <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col items-center justify-center">
-              <AuthenticBadgeIcon />
-              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">100% Brand Original</span>
-            </div>
-            
-            <div className="flex flex-col items-center justify-center border-l border-r border-slate-100">
-              <SecureShieldIcon />
-              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Secure UPI payments</span>
-            </div>
-            
-            <div className="flex flex-col items-center justify-center">
-              <EasyReturnsIcon />
-              <span className="text-[11px] font-bold text-slate-600 mt-2 leading-tight">Easy Returns</span>
-            </div>
-          </div>
-
-          {/* Secure Payment Brands Row */}
-          <div className="bg-[#f8fafc] border-t border-slate-200 py-4 px-5 flex items-center justify-between gap-3 flex-wrap mt-6">
-            <VisaLogo />
-            <MastercardLogo />
-            <RupayLogo />
-            <PciDssBadge />
-            <RazorpayLogo />
-          </div>
-        </div>
       </div>
 
       {/* Sticky Yellow/Orange Flipkart Continue Footer Bar */}

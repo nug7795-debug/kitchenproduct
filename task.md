@@ -8,5 +8,6 @@
 - `[x]` Modify `src/components/layout/Footer.tsx` with all options, copyright 2026, and "Kitchen Product" branding
 - `[x]` Modify `src/components/layout/LayoutWrapper.tsx` to render the `<Footer />` component
 - `[x]` Remove `h-24` empty spacing div at the bottom of the homepage content
+- `[x]` Implement Flipkart-style location select bottom sheet drawer with pincode validation & GPS detection
 - `[x]` Verify build compiles without errors
 - `[x]` Deploy live to Vercel (https://kitchenproduct.vercel.app)

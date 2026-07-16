@@ -963,17 +963,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
 
-        {/* 35 Crore happy customers and counting! Trust Banner */}
-        <div className="w-full bg-transparent py-10 px-6 flex flex-col items-center justify-center text-center space-y-3.5 select-none">
-          <p className="text-slate-400 text-sm font-black tracking-tight leading-snug uppercase">
-            35 Crore happy customers<br />
-            and counting!
-          </p>
-          <div className="h-11 w-11 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-350">
-            <Smile className="h-5 w-5 text-slate-350" strokeWidth={1.8} />
-          </div>
-        </div>
-
         {/* Pricing Summary Breakdown Box - FULL BLEED */}
         <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-0">
           <h3 className="text-[16px] font-bold text-slate-800 pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
@@ -990,6 +979,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <span>Amount Payable</span>
               <span>₹ {selling}</span>
             </div>
+          </div>
+        </div>
+
+        {/* 35 Crore happy customers and counting! Trust Banner */}
+        <div className="w-full bg-transparent py-10 px-6 flex flex-col items-center justify-center text-center space-y-3.5 select-none">
+          <p className="text-slate-400 text-sm font-black tracking-tight leading-snug uppercase">
+            35 Crore happy customers<br />
+            and counting!
+          </p>
+          <div className="h-11 w-11 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-350">
+            <Smile className="h-5 w-5 text-slate-350" strokeWidth={1.8} />
           </div>
         </div>
       </div>

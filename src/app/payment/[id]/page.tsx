@@ -993,16 +993,31 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between text-sm text-slate-600 font-medium">
               <span>Price (1 item)</span>
-              <span className="line-through text-slate-400 font-semibold">₹ {mrp || selling}</span>
+              <span>₹ {mrp || selling}</span>
             </div>
+
+            {mrp > selling && (
+              <div className="flex items-center justify-between text-sm text-[#388e3c] font-medium">
+                <span>Discount</span>
+                <span>- ₹ {mrp - selling}</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-between text-sm text-slate-650 font-medium">
               <span>Delivery Charges</span>
               <span className="text-green-600 font-bold">FREE</span>
             </div>
+
             <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-[16px] font-bold text-slate-800">
               <span>Amount Payable</span>
               <span>₹ {selling}</span>
             </div>
+
+            {mrp > selling && (
+              <div className="border-t border-dashed border-slate-200 pt-3 text-[13px] font-bold text-[#388e3c]">
+                You will save ₹ {mrp - selling} on this order
+              </div>
+            )}
           </div>
         </div>
 

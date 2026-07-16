@@ -161,10 +161,9 @@ export default function CheckoutPage() {
         }
       };
       fetchProduct();
-    } else {
       // Check if there are real cart items in localStorage
       try {
-        const storedCart = localStorage.getItem('cart');
+        const storedCart = localStorage.getItem('cart_items') || localStorage.getItem('cart');
         if (storedCart) {
           const parsed = JSON.parse(storedCart);
           if (Array.isArray(parsed) && parsed.length > 0) {
@@ -603,6 +602,7 @@ export default function CheckoutPage() {
 
       // Transition to secure pending verification step
       setStep('pending_verification');
+      localStorage.removeItem('cart_items');
       localStorage.removeItem('cart');
       localStorage.removeItem('active_transaction_id');
       localStorage.removeItem('active_upi_url');
@@ -637,6 +637,7 @@ export default function CheckoutPage() {
 
       // Transition to secure pending verification step and clear cart
       setStep('pending_verification');
+      localStorage.removeItem('cart_items');
       localStorage.removeItem('cart');
       localStorage.removeItem('active_transaction_id');
       localStorage.removeItem('active_upi_url');
@@ -672,6 +673,7 @@ export default function CheckoutPage() {
           clearInterval(interval);
           setStep('success');
           // Clear cart on payment success
+          localStorage.removeItem('cart_items');
           localStorage.removeItem('cart');
           localStorage.removeItem('active_transaction_id');
           localStorage.removeItem('active_upi_url');

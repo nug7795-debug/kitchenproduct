@@ -26,6 +26,7 @@ function PaymentConfirmationContent() {
 
     // Clear cart upon successful order
     try {
+      localStorage.removeItem('cart_items');
       localStorage.removeItem('cart');
       localStorage.removeItem('active_transaction_id');
       localStorage.removeItem('active_upi_url');

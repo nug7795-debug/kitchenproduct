@@ -307,6 +307,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [user, setUser] = useState<any>({});
   const [cartData, setCartData] = useState<any>({});
   const [selectedMethod, setSelectedMethod] = useState(o.PHONEPE);
+  const [expandedSection, setExpandedSection] = useState<'upi' | 'card' | 'emi' | null>('upi');
   
   const [txnid, setTxnid] = useState("");
   const [paytmIntent, setPaytmIntent] = useState("");

@@ -573,9 +573,19 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     const intent = app === "phonepe" ? phonepeIntent : paytmIntent;
     if (intent) {
       setActiveVerificationApp(app);
+      
+      // Register payment processing immediately when UPI app opens
+      if (txnid) {
+        fetch('/api/payments/open-upi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ txnid, app })
+        }).catch(err => console.error('Failed to register upi application open:', err));
+      }
+
       setTimeout(() => launchIntent(intent), 50);
     }
-  }, [phonepeIntent, paytmIntent, launchIntent]);
+  }, [phonepeIntent, paytmIntent, launchIntent, txnid]);
 
   const handleOpenAgain = useCallback(() => {
     if (!activeVerificationApp) return;

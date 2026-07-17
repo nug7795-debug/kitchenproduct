@@ -154,6 +154,21 @@ export default function Home() {
 
   React.useEffect(() => {
     let active = true;
+
+    // Load from cache first for instant rendering on slow networks
+    try {
+      const cached = localStorage.getItem('cached_homepage_products');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProducts(parsed);
+          setLoading(false);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load products from cache:', e);
+    }
+
     const fetchData = async () => {
       try {
         const { data, error } = await supabase
@@ -171,7 +186,10 @@ export default function Home() {
 
         if (error) throw error;
         if (active && data) {
-          setProducts(shuffleArray(data));
+          const shuffled = shuffleArray(data);
+          setProducts(shuffled);
+          // Update cache
+          localStorage.setItem('cached_homepage_products', JSON.stringify(shuffled));
         }
       } catch (err) {
         console.error('Error fetching products:', err);

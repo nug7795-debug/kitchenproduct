@@ -9,12 +9,34 @@ import { cn } from '../../lib/utils';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [showSplash, setShowSplash] = React.useState(false);
+  const [isFading, setIsFading] = React.useState(false);
 
   React.useEffect(() => {
     // Initialize shared offer ends time to 15 minutes from now on fresh load/refresh
     const endsAt = Date.now() + 15 * 60 * 1000;
     sessionStorage.setItem('shared_offer_ends_at', endsAt.toString());
-  }, []);
+
+    // Show splash screen on first visit of the session
+    const hasShownSplash = sessionStorage.getItem('splash_shown');
+    if (!hasShownSplash && pathname === '/') {
+      setShowSplash(true);
+      
+      const fadeTimer = setTimeout(() => {
+        setIsFading(true);
+      }, 1500); // Start fading out at 1.5s
+
+      const removeTimer = setTimeout(() => {
+        setShowSplash(false);
+        sessionStorage.setItem('splash_shown', 'true');
+      }, 1800); // Completely remove at 1.8s
+
+      return () => {
+        clearTimeout(fadeTimer);
+        clearTimeout(removeTimer);
+      };
+    }
+  }, [pathname]);
   
   // Hide layout elements on specialized pages
   const isCheckout = pathname?.startsWith('/checkout');
@@ -30,11 +52,21 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  const isHomepage = pathname === '/';
-
   return (
     <div className="flex flex-col min-h-screen items-center overflow-x-hidden bg-slate-100">
       <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
+        {showSplash && (
+          <div 
+            className="absolute inset-0 z-[9999] flex items-center justify-center bg-white select-none transition-opacity duration-300 pointer-events-none"
+            style={{ opacity: isFading ? 0 : 1 }}
+          >
+            <img
+              src="/flipkart_splash.jpg"
+              alt="Loading..."
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
         {pathname !== '/cart' && <Header />}
         <main className="flex-grow flex flex-col justify-between">
           <div>
@@ -42,7 +74,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
           </div>
           {pathname !== '/cart' && <Footer />}
         </main>
-        {/* {isHomepage && <BottomNav />} */}
+        {/* {pathname === '/' && <BottomNav />} */}
       </div>
     </div>
   );

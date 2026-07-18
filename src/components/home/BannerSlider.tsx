@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
 const BANNERS_DATA = [
   {
     id: '1',
-    title: 'COOKWARE FESTIVAL',
+    title: 'BIG BILLION DAYS',
     subtitle: 'Pressure Cookers & Cookware Sets',
     offer: '40% - 80% OFF',
     priceText: 'Starting from ₹399',
@@ -16,7 +16,7 @@ const BANNERS_DATA = [
   },
   {
     id: '2',
-    title: 'KITCHEN APPLIANCES',
+    title: 'BIG BILLION DAYS SPECIAL',
     subtitle: 'Premium Juicers & Mixers',
     offer: 'MIN 50% OFF',
     priceText: 'Extra 5% UPI Cashback',
@@ -25,16 +25,7 @@ const BANNERS_DATA = [
   },
   {
     id: '3',
-    title: 'SMART KITCHEN DEALS',
-    subtitle: 'Kettles, Choppers & Utilities',
-    offer: 'UNDER ₹499',
-    priceText: 'Best Prices of the Season',
-    bg: 'linear-gradient(135deg, #0d9488 0%, #0f766e 100%)',
-    productImg: 'https://images.unsplash.com/photo-1594385208974-2e75f9d8ca28?q=80&w=600&auto=format&fit=crop'
-  },
-  {
-    id: '4',
-    title: 'SUPER SAVER COMBOS',
+    title: 'BIG BILLION DAYS FESTIVE',
     subtitle: 'Kadai, Fry Pan & Tawa Combos',
     offer: 'FLAT 50% OFF',
     priceText: 'Free Delivery Today',
@@ -72,11 +63,6 @@ export const BannerSlider = () => {
           >
             {/* Left Content Column */}
             <div className="flex flex-col justify-center space-y-1.5 max-w-[62%] z-10">
-              {/* Flipkart Branding Header */}
-              <div className="flex items-center gap-1 bg-[#FFE11B] text-[#2874F0] px-2 py-0.5 rounded-full w-fit shadow-xs">
-                <span className="font-extrabold text-[9px] italic tracking-tight">f Flipkart</span>
-              </div>
-
               <div className="space-y-0.5 pt-1">
                 <span className="text-[10px] font-black tracking-widest text-[#FFE11B] block uppercase opacity-95">
                   {slide.title}

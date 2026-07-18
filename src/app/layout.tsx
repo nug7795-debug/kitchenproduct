@@ -4,8 +4,8 @@ import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
-  title: "Flipkart - Online Shopping for Electronics, Mobile, Fashion, etc.",
-  description: "Shop online for Electronics, Mobile, Fashion, Appliances and more on Flipkart.",
+  title: "Online Shopping for Electronics, Mobile, Fashion, etc.",
+  description: "Shop online for Electronics, Mobile, Fashion, Appliances and more.",
   manifest: "/manifest.json",
   icons: {
     icon: "/favicon.ico",

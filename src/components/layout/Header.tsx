@@ -257,6 +257,30 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
+      {/* Brand Tabs (Flipkart / Travel) matching mobile header */}
+      <div className="flex items-center gap-2 px-3 pt-3 pb-1 bg-[#2874f0]">
+        {/* Flipkart Tab */}
+        <Link 
+          href="/" 
+          className="flex-1 flex items-center justify-center gap-2 bg-[#ffd814] text-[#1752d5] rounded-xl h-10 shadow-xs active:scale-[0.98] transition-transform select-none"
+        >
+          {/* Flipkart tilted F logo */}
+          <svg viewBox="0 0 24 24" className="h-4.5 w-auto shrink-0 text-[#1752d5]" fill="currentColor">
+            <path d="M17.022 1c-1.895 0-3.328.473-4.298 1.419-.97.946-1.455 2.378-1.455 4.296v2.109H8.623v2.859h2.646V23h3.585v-11.317h3.292l.432-2.859h-3.724V7.202c0-.859.162-1.442.486-1.75.324-.307.828-.461 1.512-.461h2.208V1h-2.038z" />
+          </svg>
+          <span className="text-[14px] font-black italic tracking-tight font-sans text-[#1752d5]">Flipkart</span>
+        </Link>
+
+        {/* Travel Tab */}
+        <Link 
+          href="/travel" 
+          className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 rounded-xl h-10 border border-slate-200/50 shadow-xs active:scale-[0.98] transition-transform select-none"
+        >
+          <Plane className="h-4.5 w-4.5 text-orange-500 fill-orange-500 shrink-0 transform -rotate-45" />
+          <span className="text-[14px] font-black italic tracking-tight font-sans text-slate-800">Travel</span>
+        </Link>
+      </div>
+
       {/* Address Bar - Clean dynamic version strictly matching Flipkart mobile web */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-[#2874f0]">
         <button 

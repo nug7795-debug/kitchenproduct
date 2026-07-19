@@ -9,10 +9,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
-import { AsuredBadge } from '../../../components/ui/AsuredBadge';
 
 
-const AssuredBadgeBig = () => <AsuredBadge size="lg" className="ml-3" />;
+const AssuredBadgeBig = () => (
+  <img 
+    src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+    alt="fAssured" 
+    className="h-[21px] w-auto shrink-0 select-none align-middle inline-block ml-3" 
+  />
+);
 
 // Slanted WOW! bank offer badge
 const WowIcon = () => (
@@ -274,7 +279,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
               {/* Assured Badge */}
               <div className="mt-1.5 flex items-center h-[15px] select-none justify-between w-full">
-                <AsuredBadge size="sm" />
+                <img 
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                  alt="fAssured" 
+                  className="h-[15px] w-auto shrink-0 select-none align-middle inline-block" 
+                />
                 <span className="text-[10px] text-slate-400 font-medium">Free delivery</span>
               </div>
             </button>
@@ -1228,7 +1237,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <span className="text-[12px] text-slate-500 font-bold">
                   {(product.total_ratings || 1428).toLocaleString()} Ratings & {(product.total_reviews || 234).toLocaleString()} Reviews
                 </span>
-                <AsuredBadge size="sm" className="ml-1.5" />
+                <img 
+                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                  alt="Assured" 
+                  className="h-[14px] w-auto ml-1.5 shrink-0 select-none align-middle inline-block"
+                />
               </div>
 
               <div className="p-pricedet">

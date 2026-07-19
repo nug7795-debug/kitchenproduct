@@ -8,8 +8,14 @@ interface ProductCardProps {
   product: any;
 }
 
-import { AsuredBadge } from '../ui/AsuredBadge';
-const AssuredBadge = () => <AsuredBadge />;
+// Highly authentic inline AssuredBadge matching Flipkart
+const AssuredBadge = () => (
+  <img 
+    src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+    alt="fAssured" 
+    className="h-[15px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
+  />
+);
 
 // High-fidelity speech bubble slanted WOW! SVG badge matching Flipkart
 const WowIcon = () => (

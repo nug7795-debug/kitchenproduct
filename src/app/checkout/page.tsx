@@ -25,7 +25,6 @@ import {
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
 import { UPIPay } from '../../lib/upi-pay';
-import { AsuredBadge } from '../../components/ui/AsuredBadge';
 
 // High-Fidelity UPI Apps config
 const UPI_APPS = [
@@ -1137,7 +1136,12 @@ export default function CheckoutPage() {
                                 4.4 ★
                               </span>
                               <span className="text-slate-400 font-bold">(9,614)</span>
-                              <AsuredBadge size="sm" className="ml-1" />
+                              {/* Assured Emblem */}
+                              <img 
+                                src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                                alt="Assured" 
+                                className="h-3.5 w-auto object-contain ml-1 inline-block" 
+                              />
                             </div>
 
                             {/* Flipkart Prices Row */}

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ShieldCheck } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-import { AsuredBadge } from '../../components/ui/AsuredBadge';
 
 export default function CartPage() {
   const [items, setItems] = React.useState<any[]>([]);
@@ -194,7 +193,11 @@ export default function CartPage() {
                        <span className="text-[7px]">★</span>
                      </div>
                      <span className="text-[10px] text-slate-400 font-medium">(66)</span>
-                     <AsuredBadge size="sm" />
+                     <img 
+                       src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                       alt="fAssured" 
+                       className="h-[13px] w-auto inline shrink-0" 
+                     />
                   </div>
 
                   {/* Price Block with down green arrow percentage */}

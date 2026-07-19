@@ -973,16 +973,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           )}
 
-          {/* Have a Flipkart Gift Card? Row */}
-          <div className="w-full bg-white py-4 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
-            <div className="flex items-center gap-4">
-              <Gift className="h-5 w-8 text-slate-750 shrink-0" strokeWidth={1.8} />
-              <span className="text-[15px] font-bold text-slate-800 font-sans">Have a Flipkart Gift Card?</span>
-            </div>
-            <button type="button" className="text-sm font-black text-[#2874F0] hover:underline px-2 py-1 select-none">
-              Add
-            </button>
-          </div>
+
 
           {/* Cash on Delivery (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">

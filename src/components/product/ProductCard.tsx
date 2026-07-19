@@ -97,7 +97,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     categories,
     product_images,
     is_limited_time_deal,
-    is_trending
+    is_trending,
+    is_new_arrival,
+    is_best_seller
   } = product;
 
   // Handle both database object and flat props
@@ -165,6 +167,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {is_trending && (
             <span className="bg-[#ff9f00] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
               Trending Now
+            </span>
+          )}
+          {is_best_seller && (
+            <span className="bg-[#f47b20] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
+              Best Seller
+            </span>
+          )}
+          {is_new_arrival && (
+            <span className="bg-[#008cff] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
+              New Arrival
             </span>
           )}
         </div>

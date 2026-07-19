@@ -181,6 +181,8 @@ export default function Home() {
             is_active,
             is_limited_time_deal,
             is_trending,
+            is_new_arrival,
+            is_best_seller,
             categories (name, slug),
             product_images (image_url, is_featured)
           `)
@@ -201,6 +203,8 @@ export default function Home() {
                 price,
                 sale_price,
                 is_active,
+                is_new_arrival,
+                is_best_seller,
                 categories (name, slug),
                 product_images (image_url, is_featured)
               `)

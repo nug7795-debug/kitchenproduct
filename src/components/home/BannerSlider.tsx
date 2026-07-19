@@ -5,9 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 const BANNERS = [
-  '/banners/banner1.png',
-  '/banners/banner2.png',
-  '/banners/banner3.png'
+  '/banners/bbd_banner1.jpg',
+  '/banners/bbd_banner2.jpg'
 ];
 
 export const BannerSlider = () => {

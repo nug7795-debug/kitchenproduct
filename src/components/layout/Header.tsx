@@ -273,7 +273,7 @@ export const Header = () => {
 
         {/* Travel Tab */}
         <Link 
-          href="/travel" 
+          href="/" 
           className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 rounded-xl h-10 border border-slate-200/50 shadow-xs active:scale-[0.98] transition-transform select-none"
         >
           <Plane className="h-4.5 w-4.5 text-orange-500 fill-orange-500 shrink-0 transform -rotate-45" />

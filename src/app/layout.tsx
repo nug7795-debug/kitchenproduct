@@ -4,12 +4,17 @@ import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
-  title: "Kitchen & Home Products",
-  description: "Shop online for Kitchen & Home Products.",
+  title: "Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books & More. Best Offers!",
+  description: "Shop online for Mobiles, Tablets, Technology, Toys, Fashion, Home and Kitchen appliances at best prices on Flipkat. Free Shipping & COD options available.",
   manifest: "/manifest.json",
   icons: {
     icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>",
   },
+  openGraph: {
+    title: "Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books & More. Best Offers!",
+    description: "Shop online for Mobiles, Tablets, Technology, Toys, Fashion, Home and Kitchen appliances at best prices on Flipkat. Free Shipping & COD options available.",
+    type: "website",
+  }
 };
 
 export const viewport = {

@@ -95,7 +95,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     price,
     sale_price,
     categories,
-    product_images
+    product_images,
+    is_limited_time_deal,
+    is_trending
   } = product;
 
   // Handle both database object and flat props
@@ -152,6 +154,20 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           className="absolute inset-0 w-full h-full object-contain p-1.5 sm:p-3 transition-transform duration-500 group-hover:scale-103"
           loading="lazy"
         />
+
+        {/* Overlay Badges */}
+        <div className="absolute top-2 left-2 z-10 flex flex-col gap-1 max-w-[70%]">
+          {is_limited_time_deal && (
+            <span className="bg-[#e53935] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
+              Limited Time Deal
+            </span>
+          )}
+          {is_trending && (
+            <span className="bg-[#ff9f00] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
+              Trending Now
+            </span>
+          )}
+        </div>
 
         {/* Floating Wishlist Button */}
         <button 

@@ -4,11 +4,11 @@ import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
-  title: "Online Shopping for Electronics, Mobile, Fashion, etc.",
-  description: "Shop online for Electronics, Mobile, Fashion, Appliances and more.",
+  title: "Kitchen & Home Products",
+  description: "Shop online for Kitchen & Home Products.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/favicon.ico",
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>",
   },
 };
 

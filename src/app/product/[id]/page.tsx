@@ -1202,6 +1202,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <div className="bg-white flex flex-col">
             {/* product-data1 block */}
             <div className="product-data1 bg-white">
+              {/* Product Badges */}
+              {(product.is_limited_time_deal || product.is_trending) && (
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  {product.is_limited_time_deal && (
+                    <span className="bg-[#e53935] text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-[4px] tracking-wider shadow-xs select-none">
+                      Limited Time Deal
+                    </span>
+                  )}
+                  {product.is_trending && (
+                    <span className="bg-[#ff9f00] text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-[4px] tracking-wider shadow-xs select-none">
+                      Trending Now
+                    </span>
+                  )}
+                </div>
+              )}
               <div className="product-title">{product.name}</div>
               
               {/* Star ratings & Assured Row */}

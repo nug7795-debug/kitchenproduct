@@ -64,6 +64,7 @@ export const Footer = () => {
               <li><Link href="/disclaimer" className="hover:text-orange-400 transition-colors">Disclaimer</Link></li>
               <li><Link href="/dmca" className="hover:text-orange-400 transition-colors">DMCA</Link></li>
               <li><Link href="/return-refund" className="hover:text-orange-400 transition-colors">Return & Refund</Link></li>
+              <li><Link href="/affiliate-disclosure" className="hover:text-orange-400 transition-colors">Affiliate Disclosure</Link></li>
             </ul>
           </div>
         </div>
@@ -79,6 +80,16 @@ export const Footer = () => {
               {settings.supportEmail}
             </a>
           </div>
+        </div>
+
+        {/* Affiliate Disclosure */}
+        <div className="text-[10px] text-slate-500 leading-relaxed text-center border-t border-slate-800 pt-4 px-2">
+          <p className="font-bold mb-1 text-slate-400 uppercase tracking-wider">Affiliate Disclosure</p>
+          <p>
+            kitchenandhomeproducts.vercel.app is a participant in affiliate marketing programs. 
+            We may earn a small commission on qualifying purchases made through our links, 
+            at no extra cost to you.
+          </p>
         </div>
 
         {/* Bottom Bar */}

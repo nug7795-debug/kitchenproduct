@@ -171,7 +171,7 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        const { data, error } = await supabase
+        let response = await supabase
           .from('products')
           .select(`
             id,
@@ -179,10 +179,36 @@ export default function Home() {
             price,
             sale_price,
             is_active,
+            is_limited_time_deal,
+            is_trending,
             categories (name, slug),
             product_images (image_url, is_featured)
           `)
           .order('created_at', { ascending: false });
+
+        let data = response.data;
+        let error = response.error;
+
+        if (error) {
+          // Fallback if columns do not exist
+          if (error.message?.includes('is_limited_time_deal') || error.message?.includes('is_trending') || error.message?.includes('column')) {
+            console.warn('Columns is_limited_time_deal/is_trending not found, retrying fallback select...');
+            const fallbackResponse = await supabase
+              .from('products')
+              .select(`
+                id,
+                name,
+                price,
+                sale_price,
+                is_active,
+                categories (name, slug),
+                product_images (image_url, is_featured)
+              `)
+              .order('created_at', { ascending: false });
+            data = fallbackResponse.data;
+            error = fallbackResponse.error;
+          }
+        }
 
         if (error) throw error;
         if (active && data) {
@@ -229,14 +255,7 @@ export default function Home() {
           <span>Live Sale :</span>
           <LiveSaleTimer />
         </div>
-        
-        <div className="text-[12px] text-[#388e3c] font-semibold mt-2.5 flex items-center justify-center gap-1.5 leading-none">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#388e3c] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#388e3c]"></span>
-          </span>
-          <span>14,352 People watching this sale</span>
-        </div>
+
       </section>
 
       {/* Suggested For You Section Header */}

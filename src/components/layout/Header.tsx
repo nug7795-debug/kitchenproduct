@@ -257,21 +257,6 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
-      {/* Top Tabs */}
-      <div className="flex items-center gap-2 px-3 pt-3 pb-2 bg-[#2874f0]">
-        <button className="flex-1 flex items-center justify-center gap-1.5 bg-[#fbde3b] text-[#2874f0] h-10 rounded-[8px] font-black text-[14px] shadow-sm tracking-tight active:scale-95 transition-transform px-2 italic">
-          <span className="text-[#2874f0] font-black italic text-[16px]">f</span> Flipkart
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-1.5 bg-white text-slate-800 h-10 rounded-[8px] font-bold text-[13px] shadow-sm active:scale-95 transition-transform px-2">
-          <Plane className="text-[#ff4343] fill-[#ff4343] w-4 h-4" />
-          Travel
-        </button>
-        <button className="flex-1 flex items-center justify-center gap-1.5 bg-white text-slate-800 h-10 rounded-[8px] font-bold text-[13px] shadow-sm active:scale-95 transition-transform px-2">
-          <ShoppingCart className="text-[#388e3c] fill-[#388e3c] w-4 h-4" />
-          Grocery
-        </button>
-      </div>
-
       {/* Address Bar - Clean dynamic version strictly matching Flipkart mobile web */}
       <div className="flex items-center justify-between px-3 py-1.5 bg-[#2874f0]">
         <button 

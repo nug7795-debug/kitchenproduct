@@ -48,6 +48,8 @@ export default function EditProductPage() {
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
+    isLimitedTimeDeal: false,
+    isTrending: false,
     mrp: '',
     salePrice: '',
     costPrice: '',
@@ -119,6 +121,8 @@ export default function EditProductPage() {
             isFeatured: product.is_featured || false,
             isNewArrival: product.is_new_arrival || false,
             isBestSeller: product.is_best_seller || false,
+            isLimitedTimeDeal: product.is_limited_time_deal || false,
+            isTrending: product.is_trending || false,
             mrp: product.price?.toString() || '',
             salePrice: product.sale_price?.toString() || '',
             costPrice: '',
@@ -220,19 +224,42 @@ export default function EditProductPage() {
     setLoading(true);
     try {
       // 1. Update product
-      const { error: productError } = await supabase
+      const productPayload = {
+        name: formData.name,
+        slug: formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
+        description: formData.description,
+        price: parseFloat(formData.mrp || '0'),
+        sale_price: parseFloat(formData.salePrice || '0'),
+        stock_quantity: parseInt(formData.stock || '0'),
+        category_id: formData.category || null,
+        is_active: isActive,
+        is_featured: formData.isFeatured,
+        is_new_arrival: formData.isNewArrival,
+        is_best_seller: formData.isBestSeller,
+        is_limited_time_deal: formData.isLimitedTimeDeal,
+        is_trending: formData.isTrending
+      };
+
+      let { error: productError } = await supabase
         .from('products')
-        .update({
-          name: formData.name,
-          slug: formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
-          description: formData.description,
-          price: parseFloat(formData.mrp || '0'),
-          sale_price: parseFloat(formData.salePrice || '0'),
-          stock_quantity: parseInt(formData.stock || '0'),
-          category_id: formData.category || null,
-          is_active: isActive
-        })
+        .update(productPayload)
         .eq('id', productId);
+
+      if (productError) {
+        // Fallback: if columns is_limited_time_deal / is_trending do not exist in DB, retry without them
+        if (productError.message?.includes('is_limited_time_deal') || productError.message?.includes('is_trending') || productError.message?.includes('column')) {
+          const fallbackPayload = { ...productPayload };
+          delete (fallbackPayload as any).is_limited_time_deal;
+          delete (fallbackPayload as any).is_trending;
+          
+          const retryResult = await supabase
+            .from('products')
+            .update(fallbackPayload)
+            .eq('id', productId);
+          
+          productError = retryResult.error;
+        }
+      }
 
       if (productError) throw productError;
 
@@ -445,7 +472,7 @@ export default function EditProductPage() {
 
               <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm space-y-6">
                 <h3 className="font-black text-slate-800 text-sm uppercase tracking-tight">Display & Visibility</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                   <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
                     <input 
                       type="checkbox" 
@@ -483,6 +510,32 @@ export default function EditProductPage() {
                     <div>
                       <p className="text-xs font-black text-slate-900">Best Seller</p>
                       <p className="text-[10px] text-slate-500 font-bold uppercase">Top Performing</p>
+                    </div>
+                  </label>
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="isLimitedTimeDeal"
+                      checked={formData.isLimitedTimeDeal}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded-md text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Limited Time Deal</p>
+                      <p className="text-[10px] text-slate-500 font-bold uppercase">Promo Deal</p>
+                    </div>
+                  </label>
+                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      name="isTrending"
+                      checked={formData.isTrending}
+                      onChange={handleInputChange}
+                      className="h-5 w-5 rounded-md text-orange-500 border-slate-200" 
+                    />
+                    <div>
+                      <p className="text-xs font-black text-slate-900">Trending Now</p>
+                      <p className="text-[10px] text-slate-500 font-bold uppercase">Hot Choice</p>
                     </div>
                   </label>
                 </div>

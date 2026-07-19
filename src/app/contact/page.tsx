@@ -69,6 +69,18 @@ export default function ContactPage() {
             </div>
 
             <div className="flex items-center gap-3 text-slate-700">
+              <div className="h-9 w-9 bg-orange-500/10 rounded-lg flex items-center justify-center text-orange-500 shrink-0">
+                <Phone className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Phone Support</p>
+                <a href="tel:+918946084219" className="text-sm font-bold hover:underline">
+                  +91 8946084219
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 text-slate-700">
               <div className="h-9 w-9 bg-[#388e3c]/10 rounded-lg flex items-center justify-center text-[#388e3c] shrink-0">
                 <MapPin className="h-5 w-5" />
               </div>

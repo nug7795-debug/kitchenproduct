@@ -1,7 +1,7 @@
 {
-  "name": "Flipkart - Online Shopping for Electronics, Mobile, Fashion, etc.",
-  "short_name": "Flipkart",
-  "description": "Shop online for Electronics, Mobile, Fashion, Appliances and more on Flipkart.",
+  "name": "Kitchen & Home Products",
+  "short_name": "KitchenProduct",
+  "description": "Shop online for Kitchen & Home Products.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

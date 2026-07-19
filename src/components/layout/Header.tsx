@@ -281,23 +281,7 @@ export const Header = () => {
         </Link>
       </div>
 
-      {/* Address Bar - Clean dynamic version strictly matching Flipkart mobile web */}
-      <div className="flex items-center justify-between px-3 py-1.5 bg-[#2874f0]">
-        <button 
-          onClick={() => setIsLocationModalOpen(true)}
-          className="flex items-center gap-1 min-w-0 bg-transparent text-left border-none p-0 outline-none active:opacity-80 transition-opacity"
-        >
-          <MapPin size={13} className="text-white shrink-0" />
-          <span className="text-[12px] font-bold text-white truncate max-w-[260px] tracking-wide ml-0.5">
-            {locationText}
-          </span>
-          <ChevronDown size={14} className="text-white/90 shrink-0 mt-0.5" />
-        </button>
-        <div className="flex items-center gap-1.5 bg-black/20 px-2 py-1.5 rounded-full backdrop-blur-sm">
-           <div className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] text-white font-black">⚡</div>
-           <span className="text-[12px] font-black text-white">0</span>
-        </div>
-      </div>
+
 
       {/* Search Bar Row */}
       <div className="flex items-center gap-2 px-3 py-2.5">

@@ -28,7 +28,7 @@ export default function SettingsPage() {
   const [activeSection, setActiveSection] = React.useState('store');
   const [settings, setSettings] = React.useState({
     storeName: 'KitchenProduct Premium',
-    supportEmail: 'hello@kitchenproduct.com',
+    supportEmail: 'kitchenproduct@gmail.com',
     seoDescription: 'The most premium destination for kitchen tools and professional appliances in India.',
     maintenanceMode: true,
     shipping: {

@@ -7,7 +7,7 @@ import { Mail, MapPin, Phone, Send, CheckCircle } from 'lucide-react';
 export default function ContactPage() {
   const [settings, setSettings] = React.useState({
     storeName: 'Kitchen Product',
-    supportEmail: 'hello@kitchenproduct.com'
+    supportEmail: 'kitchenproduct@gmail.com'
   });
 
   const [form, setForm] = React.useState({ name: '', email: '', message: '' });
@@ -25,7 +25,7 @@ export default function ContactPage() {
         if (data?.value) {
           setSettings({
             storeName: data.value.storeName || 'Kitchen Product',
-            supportEmail: data.value.supportEmail || 'hello@kitchenproduct.com'
+            supportEmail: data.value.supportEmail || 'kitchenproduct@gmail.com'
           });
         }
       } catch (e) {

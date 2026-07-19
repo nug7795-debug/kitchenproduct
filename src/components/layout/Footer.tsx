@@ -8,7 +8,7 @@ import { ShieldCheck, MapPin, Mail } from 'lucide-react';
 export const Footer = () => {
   const [settings, setSettings] = React.useState({
     storeName: 'Kitchen Product',
-    supportEmail: 'hello@kitchenproduct.com'
+    supportEmail: 'kitchenproduct@gmail.com'
   });
 
   React.useEffect(() => {
@@ -22,7 +22,7 @@ export const Footer = () => {
         if (data?.value) {
           setSettings({
             storeName: data.value.storeName || 'Kitchen Product',
-            supportEmail: data.value.supportEmail || 'hello@kitchenproduct.com'
+            supportEmail: data.value.supportEmail || 'kitchenproduct@gmail.com'
           });
         }
       } catch (e) {

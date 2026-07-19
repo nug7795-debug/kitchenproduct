@@ -281,7 +281,12 @@ export const Header = () => {
         </Link>
       </div>
 
-
+      {/* Clickable Location Logo Row */}
+      <div className="px-3.5 pt-1.5 flex items-center bg-[#2874f0]">
+        <Link href="/" className="flex items-center text-white active:scale-95 transition-transform">
+          <MapPin size={16} className="text-white fill-white/10" />
+        </Link>
+      </div>
 
       {/* Search Bar Row */}
       <div className="flex items-center gap-2 px-3 py-2.5">

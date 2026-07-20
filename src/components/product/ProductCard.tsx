@@ -236,8 +236,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             {/* Express Delivery Truck & Tag Line */}
             <div className="flex items-center gap-1 pt-0.5 leading-none">
               <DeliveryTruckIcon />
-              <span className="text-[10px] font-black italic text-slate-800 tracking-tight">EXPRESS</span>
-              <span className="text-[10px] font-medium text-slate-500 ml-0.5">2 day delivery</span>
+              <span className="text-[10px] font-bold text-slate-600">Free Delivery in Two Days</span>
             </div>
           </div>
         </div>

@@ -27,6 +27,7 @@ export const Header = () => {
   const router = useRouter();
   const [locationText, setLocationText] = React.useState('Detecting location...');
   const [isLocationModalOpen, setIsLocationModalOpen] = React.useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const [pincode, setPincode] = React.useState('');
   const [pincodeError, setPincodeError] = React.useState('');
   const [pincodeLoading, setPincodeLoading] = React.useState(false);
@@ -300,7 +301,10 @@ export const Header = () => {
       <div className="flex items-center justify-between px-4 py-2.5 bg-[#2874f0]">
         <div className="flex items-center gap-3">
           {/* Hamburger Menu Icon */}
-          <button className="text-white active:scale-95 transition-transform cursor-pointer">
+          <button 
+            onClick={() => setIsDrawerOpen(true)} 
+            className="text-white active:scale-95 transition-transform cursor-pointer"
+          >
             <svg fill="#FFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
             </svg>
@@ -444,6 +448,136 @@ export const Header = () => {
               <MapPin className="h-4.5 w-4.5 text-[#2874f0]" />
               Use My Current Location
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Sidebar Navigation Drawer */}
+      {isDrawerOpen && (
+        <div className="fixed inset-0 z-[2000] flex">
+          {/* Translucent Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+          
+          {/* Drawer Body (Clean white background, no complex dark patterns) */}
+          <div className="relative bg-white text-slate-800 w-[280px] h-full shadow-2xl z-10 flex flex-col transition-transform duration-300 animate-slide-in-left">
+            {/* Header: Clean Menu header with Close icon */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
+              <span className="font-black text-sm uppercase tracking-wider text-slate-900">Menu</span>
+              <button 
+                onClick={() => setIsDrawerOpen(false)}
+                className="text-slate-400 hover:text-slate-650 p-1.5 hover:bg-slate-50 rounded-full transition-all cursor-pointer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Links List */}
+            <div className="flex-grow overflow-y-auto py-3">
+              <div className="px-5 py-2">
+                <p className="text-[10px] font-black uppercase tracking-wider text-slate-450 mb-2">Navigation</p>
+                <ul className="space-y-1">
+                  <li>
+                    <Link 
+                      href="/" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/about" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/contact" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border-t border-slate-100 my-2" />
+
+              <div className="px-5 py-2">
+                <p className="text-[10px] font-black uppercase tracking-wider text-slate-450 mb-2">Legal & Policies</p>
+                <ul className="space-y-1">
+                  <li>
+                    <Link 
+                      href="/privacy" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/terms" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Terms & Conditions
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/disclaimer" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Disclaimer
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/dmca" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      DMCA
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/return-refund" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Return & Refund
+                    </Link>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/affiliate-disclosure" 
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="flex items-center py-2.5 text-sm font-bold text-slate-700 hover:text-[#2874f0] transition-colors"
+                    >
+                      Affiliate Disclosure
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Footer inside drawer */}
+            <div className="p-5 border-t border-slate-100 bg-slate-50 text-[10px] font-bold text-slate-400 text-center">
+              © 12 Jul 2016 Kitchen Product
+            </div>
           </div>
         </div>
       )}

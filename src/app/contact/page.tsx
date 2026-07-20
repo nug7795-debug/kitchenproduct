@@ -47,8 +47,8 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[#f1f3f6] min-h-screen py-6 px-4">
-      <div className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/60 max-w-lg mx-auto">
+    <div className="bg-white min-h-screen py-6 px-4">
+      <div className="bg-white max-w-lg mx-auto">
         <h1 className="text-[22px] font-black text-slate-900 tracking-tight border-b border-slate-100 pb-4 mb-6">
           Contact Us
         </h1>

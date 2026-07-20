@@ -38,7 +38,7 @@ export default function DisclaimerPage() {
         </h1>
 
         <div className="text-slate-700 text-xs leading-relaxed space-y-4 font-semibold">
-          <p className="text-slate-500 font-bold">Last Updated: July 16, 2026</p>
+          <p className="text-slate-500 font-bold">Last Updated: 12 Jul 2016</p>
 
           <p>
             If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at{' '}

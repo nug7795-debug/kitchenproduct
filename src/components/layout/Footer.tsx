@@ -95,7 +95,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="space-y-4 pt-4">
           <p className="text-[10px] font-bold text-slate-500 tracking-wide text-center">
-            © 2026 Kitchen Product. All Rights Reserved.
+            © 12 Jul 2016 Kitchen Product. All Rights Reserved.
           </p>
           
           <div className="flex items-center justify-center gap-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">

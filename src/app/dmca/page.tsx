@@ -38,7 +38,7 @@ export default function DmcaPage() {
         </h1>
 
         <div className="text-slate-700 text-xs leading-relaxed space-y-4 font-semibold">
-          <p className="text-slate-500 font-bold">Last Updated: July 16, 2026</p>
+          <p className="text-slate-500 font-bold">Last Updated: 12 Jul 2016</p>
 
           <p>
             This Digital Millennium Copyright Act policy ("Policy") applies to the website and any of its related products and services (collectively, "Services") and outlines how this website operator ("Operator", "we", "us" or "our") addresses copyright infringement notifications and how you ("you" or "your") may submit a copyright infringement complaint.

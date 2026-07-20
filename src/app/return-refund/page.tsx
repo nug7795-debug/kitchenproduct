@@ -39,7 +39,7 @@ export default function ReturnRefundPage() {
         </h1>
 
         <div className="text-slate-700 text-xs leading-relaxed space-y-4 font-semibold">
-          <p className="text-slate-500 font-bold">Last Updated: July 16, 2026</p>
+          <p className="text-slate-500 font-bold">Last Updated: 12 Jul 2016</p>
 
           <p>
             At <span className="text-[#2874f0] font-bold">{settings.storeName}</span>, customer satisfaction is our top priority. We offer a transparent and easy return and refund policy to ensure you have a seamless shopping experience.

@@ -38,7 +38,7 @@ export default function AffiliateDisclosurePage() {
         </h1>
 
         <div className="text-slate-700 text-xs leading-relaxed space-y-4 font-semibold">
-          <p className="text-slate-500 font-bold">Last Updated: July 19, 2026</p>
+          <p className="text-slate-500 font-bold">Last Updated: 12 Jul 2016</p>
 
           <p>
             Welcome to <span className="text-[#2874f0] font-bold">{settings.storeName}</span>. In order to keep our website running and providing high-quality reviews, comparisons, and product listings, we participate in various affiliate marketing programs.

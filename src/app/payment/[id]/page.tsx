@@ -755,7 +755,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       {/* Flipkart Payment Offers Green Banner */}
       <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3.5 px-5 flex items-center justify-between select-none shimmer-banner">
         <div className="flex flex-col">
-          <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">5% Cashback</span>
+          <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% Cashback</span>
           <span className="text-slate-500 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
         </div>
         <div className="flex items-center gap-1.5 shrink-0 bg-white/75 px-2 py-1 rounded-md border border-slate-200/50">
@@ -792,7 +792,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex flex-col">
                 <span className="text-[15px] font-bold text-slate-800 font-sans leading-tight">UPI</span>
                 <span className="text-slate-400 text-xs font-semibold mt-0.5">Pay by any UPI app</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹75 cashback • 3 offers available</span>
+                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹80 cashback • 4 offers available</span>
               </div>
             </div>
             {expandedSection === 'upi' ? (
@@ -884,7 +884,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex flex-col">
                 <span className="text-[15px] font-bold text-slate-800 font-sans leading-tight">Credit / Debit / ATM Card</span>
                 <span className="text-slate-400 text-xs font-semibold mt-0.5">Add and secure cards as per RBI guidelines</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 5% cashback • 2 offers available</span>
+                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 20% cashback • 3 offers available</span>
               </div>
             </div>
             <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />

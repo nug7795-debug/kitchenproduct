@@ -155,28 +155,13 @@ export default function Home() {
   React.useEffect(() => {
     let active = true;
 
-    const filterKitchenHomeProducts = (items: any[]) => {
-      const whitelist = [
-        'cookware', 'cook', 'kitchen', 'pan', 'pot', 'grinder', 'mixer', 'stove', 'induction', 'casserole',
-        'kettle', 'gas', 'dinner set', 'dinner-set', 'tawa', 'juicer', 'knife', 'knives', 'cutting board', 
-        'rice cooker', 'appliances', 'home products', 'combo set', 'cooking', 'soup pot', 
-        'pressure cooker', 'lunch box', 'utensil', 'chopper', 'peeler', 'bottle', 'flask', 'thermosteel', 
-        'cooktop', 'fry pan', 'kadai', 'griddle', 'nonstick', 'non-stick', 'spoon', 'fork', 'crockery', 'plates',
-        'saucepan', 'kadhai', 'grate', 'chimney', 'blender', 'toaster'
-      ];
-      return items.filter((item: any) => {
-        const name = (item.name || '').toLowerCase();
-        return whitelist.some(kw => name.includes(kw));
-      });
-    };
-
     // Load from cache first for instant rendering on slow networks
     try {
       const cached = localStorage.getItem('cached_homepage_products');
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          setProducts(filterKitchenHomeProducts(parsed));
+          setProducts(parsed);
           setLoading(false);
         }
       }
@@ -233,8 +218,7 @@ export default function Home() {
 
         if (error) throw error;
         if (active && data) {
-          const filtered = filterKitchenHomeProducts(data);
-          const shuffled = shuffleArray(filtered);
+          const shuffled = shuffleArray(data);
           setProducts(shuffled);
           // Update cache
           localStorage.setItem('cached_homepage_products', JSON.stringify(shuffled));

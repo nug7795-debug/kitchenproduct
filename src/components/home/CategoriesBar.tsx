@@ -42,7 +42,11 @@ export const CategoriesBar = () => {
           .order('name');
 
         if (data) {
-          setCategories(data);
+          const filtered = data.filter((cat: any) => {
+            const name = (cat.name || '').toLowerCase();
+            return name.includes('home') || name.includes('kitchen') || name.includes('appliance');
+          });
+          setCategories(filtered);
         }
       } catch (err) {
         console.error('Error fetching categories:', err);

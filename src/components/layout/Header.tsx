@@ -322,7 +322,7 @@ export const Header = () => {
         </div>
 
         {/* Cart Icon with red badge */}
-        <Link href="/cart" className="relative p-2 flex items-center justify-center select-none active:scale-95 transition-transform">
+        <div className="relative p-2 flex items-center justify-center select-none">
           <svg width="18" height="18" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
             <g fill="#fff" fillRule="evenodd">
               <path d="m5.189 13.04c0 .996-.791 1.804-1.767 1.804-.976 0-1.767-.808-1.767-1.804 0-.996.791-1.804 1.767-1.804.976 0 1.767.808 1.767 1.804"></path>
@@ -332,12 +332,10 @@ export const Header = () => {
               <path d="m13.424 13.325c0 .837-.664 1.516-1.484 1.516-.82 0-1.484-.679-1.484-1.516 0-.837.664-1.516 1.484-1.516.82 0 1.484.679 1.484 1.516"></path>
             </g>
           </svg>
-          {cartCount > 0 && (
-            <span className="absolute top-0 right-0 bg-red-650 text-white rounded-full text-[9px] font-black h-4.5 w-4.5 flex items-center justify-center border border-[#2874f0]">
-              {cartCount}
-            </span>
-          )}
-        </Link>
+          <span className="absolute top-0 right-0 bg-[#ff1212] text-white rounded-full text-[9px] font-black h-4.5 w-4.5 flex items-center justify-center border border-[#2874f0]">
+            1
+          </span>
+        </div>
       </div>
 
       {/* Search Input Bar */}

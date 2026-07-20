@@ -1105,14 +1105,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11.1z" />
                 </svg>
               </button>
-              <Link href="/cart" className="relative flex items-center justify-center h-8 w-8">
+              <div className="relative flex items-center justify-center h-8 w-8 select-none">
                 <ShoppingCart className="h-5 w-5 text-white" />
-                {cartCount > 0 && (
-                  <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
+                <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">
+                  1
+                </span>
+              </div>
            </div>
         </div>
 

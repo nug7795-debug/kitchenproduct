@@ -224,6 +224,10 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
           const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
           const rating = parseFloat(item.average_rating) || 4.2;
 
+          // Split title into Brand and Description to match Homepage layout
+          const words = (item.name || '').split(' ');
+          const description = words.slice(1).join(' ') || item.name || 'Kitchen Product';
+
           return (
             <button
               key={item.id}
@@ -244,9 +248,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
               </div>
 
               {/* Product Title */}
-              <span className="text-[12px] font-bold text-slate-800 line-clamp-2 h-[34px] leading-tight mb-1 select-none overflow-hidden">
-                {item.name}
-              </span>
+              <div className="mb-1.5 leading-snug overflow-hidden w-full select-none">
+                <span className="block text-[12.5px] font-medium text-slate-800 truncate" title={description}>
+                  {description}
+                </span>
+              </div>
 
               {/* Ratings and Reviews */}
               <div className="flex items-center gap-1 mb-1 select-none">

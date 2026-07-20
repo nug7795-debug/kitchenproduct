@@ -1227,7 +1227,31 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   )}
                 </div>
               )}
-              <div className="product-title">{product.name}</div>
+              <div className="product-title">
+                {product.name.length > 55 && !showFullTitle ? (
+                  <>
+                    {product.name.substring(0, 52)}...
+                    <button 
+                      onClick={() => setShowFullTitle(true)}
+                      className="text-[#2874f0] font-black text-[12px] cursor-pointer ml-1 select-none hover:underline focus:outline-none"
+                    >
+                      More
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {product.name}
+                    {product.name.length > 55 && showFullTitle && (
+                      <button 
+                        onClick={() => setShowFullTitle(false)}
+                        className="text-[#2874f0] font-black text-[12px] cursor-pointer ml-1 select-none hover:underline focus:outline-none block mt-1"
+                      >
+                        Less
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
               
               {/* Star ratings & Assured Row */}
               <div className="flex items-center gap-1.5 mt-2 select-none flex-wrap">

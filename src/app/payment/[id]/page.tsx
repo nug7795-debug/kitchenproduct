@@ -877,10 +877,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
           {/* 2. Credit / Debit / ATM Card Accordion Row */}
           <div
-            onClick={() => setExpandedSection(expandedSection === 'card' ? null : 'card')}
-            className={`w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
-              expandedSection === 'card' ? 'bg-slate-50/50' : 'hover:bg-slate-50'
-            }`}
+            className="w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
           >
             <div className="flex items-start gap-4">
               <CreditCard className="h-5 w-8 text-slate-550 shrink-0 mt-0.5" strokeWidth={1.8} />
@@ -890,11 +887,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 5% cashback • 2 offers available</span>
               </div>
             </div>
-            {expandedSection === 'card' ? (
-              <ChevronUp className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
-            ) : (
-              <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
-            )}
+            <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
           </div>
 
           {/* Card Details Entry Drawer */}
@@ -947,10 +940,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
           {/* 3. EMI Accordion Row */}
           <div
-            onClick={() => setExpandedSection(expandedSection === 'emi' ? null : 'emi')}
-            className={`w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
-              expandedSection === 'emi' ? 'bg-slate-50/50' : 'hover:bg-slate-50'
-            }`}
+            className="w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
           >
             <div className="flex items-start gap-4">
               <Calendar className="h-5 w-8 text-slate-550 shrink-0 mt-0.5" strokeWidth={1.8} />
@@ -959,11 +949,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 <span className="text-[#388e3c] text-[11px] font-bold mt-1">Credit Card EMI</span>
               </div>
             </div>
-            {expandedSection === 'emi' ? (
-              <ChevronUp className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
-            ) : (
-              <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
-            )}
+            <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
           </div>
 
           {/* EMI Sub-Options Drawer */}

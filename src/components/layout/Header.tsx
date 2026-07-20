@@ -31,6 +31,45 @@ export const Header = () => {
   const [pincodeError, setPincodeError] = React.useState('');
   const [pincodeLoading, setPincodeLoading] = React.useState(false);
 
+  const [searchInput, setSearchInput] = React.useState('');
+  const [cartCount, setCartCount] = React.useState(0);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchInput.trim())}`);
+    }
+  };
+
+  React.useEffect(() => {
+    const updateCartCount = () => {
+      try {
+        const storedCart = localStorage.getItem('cart_items') || localStorage.getItem('cart');
+        if (storedCart) {
+          const parsed = JSON.parse(storedCart);
+          if (Array.isArray(parsed)) {
+            const count = parsed.reduce((sum: number, item: any) => sum + (item.quantity || 1), 0);
+            setCartCount(count);
+          }
+        } else {
+          setCartCount(0);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    updateCartCount();
+
+    window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cart-updated', updateCartCount);
+
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('cart-updated', updateCartCount);
+    };
+  }, []);
+
   const handlePincodeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^\d{6}$/.test(pincode)) {
@@ -257,70 +296,66 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
-      {/* Brand Tabs (Flipkart / Travel) matching mobile header */}
-      <div className="flex items-center gap-2 px-3 pt-3 pb-1 bg-[#2874f0]">
-        {/* Flipkart Tab */}
-        <Link 
-          href="/" 
-          className="flex-1 flex items-center justify-center gap-2 bg-[#ffd814] text-[#1752d5] rounded-xl h-10 shadow-xs active:scale-[0.98] transition-transform select-none"
-        >
-          {/* Flipkart tilted F logo */}
-          <svg viewBox="0 0 24 24" className="h-4.5 w-auto shrink-0 text-[#1752d5]" fill="currentColor">
-            <path d="M17.022 1c-1.895 0-3.328.473-4.298 1.419-.97.946-1.455 2.378-1.455 4.296v2.109H8.623v2.859h2.646V23h3.585v-11.317h3.292l.432-2.859h-3.724V7.202c0-.859.162-1.442.486-1.75.324-.307.828-.461 1.512-.461h2.208V1h-2.038z" />
+      {/* Top blue bar */}
+      <div className="flex items-center justify-between px-4 py-2.5 bg-[#2874f0]">
+        <div className="flex items-center gap-3">
+          {/* Hamburger Menu Icon */}
+          <button className="text-white active:scale-95 transition-transform cursor-pointer">
+            <svg fill="#FFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+            </svg>
+          </button>
+          
+          {/* Logo */}
+          <Link href="/" className="block select-none">
+            <img 
+              src="/uploads/Q18Ifxk.webp" 
+              alt="Flipkart Lite" 
+              style={{ width: '85px', height: 'auto' }} 
+              className="object-contain" 
+            />
+          </Link>
+        </div>
+
+        {/* Cart Icon with red badge */}
+        <Link href="/cart" className="relative p-2 flex items-center justify-center select-none active:scale-95 transition-transform">
+          <svg width="18" height="18" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+            <g fill="#fff" fillRule="evenodd">
+              <path d="m5.189 13.04c0 .996-.791 1.804-1.767 1.804-.976 0-1.767-.808-1.767-1.804 0-.996.791-1.804 1.767-1.804.976 0 1.767.808 1.767 1.804"></path>
+              <path d="m14.912 2.259h-14.298l2.247 6.917c.042.129.16.216.293.216h8.06c-.064.69-.629 1.841-1.702 1.841h-6.04l1.072 1.991h5.611c1.881 0 2.938-2.278 3.657-4.719.888-3.01 1.219-6.245 1.106-6.245"></path>
+              <path d="m.615 2.259l-.592-1.828c-.08-.207.069-.431.287-.431h1.482c.126 0 .24.079.287.198l.682 2.061c0 0-.63 1.642-1.942.066"></path>
+              <path d="m2.262.756c0 0 .498 1.503 2.234 1.503l-1.736.749-1.104-.749.607-1.503"></path>
+              <path d="m13.424 13.325c0 .837-.664 1.516-1.484 1.516-.82 0-1.484-.679-1.484-1.516 0-.837.664-1.516 1.484-1.516.82 0 1.484.679 1.484 1.516"></path>
+            </g>
           </svg>
-          <span className="text-[14px] font-black italic tracking-tight font-sans text-[#1752d5]">Flipkat</span>
-        </Link>
-
-        {/* Travel Tab */}
-        <Link 
-          href="/" 
-          className="flex-1 flex items-center justify-center gap-2 bg-white text-slate-800 rounded-xl h-10 border border-slate-200/50 shadow-xs active:scale-[0.98] transition-transform select-none"
-        >
-          <Plane className="h-4.5 w-4.5 text-orange-500 fill-orange-500 shrink-0 transform -rotate-45" />
-          <span className="text-[14px] font-black italic tracking-tight font-sans text-slate-800">Trevel</span>
+          {cartCount > 0 && (
+            <span className="absolute top-0 right-0 bg-red-650 text-white rounded-full text-[9px] font-black h-4.5 w-4.5 flex items-center justify-center border border-[#2874f0]">
+              {cartCount}
+            </span>
+          )}
         </Link>
       </div>
 
-      {/* Clickable Location Logo Row */}
-      <div className="px-3.5 pt-1.5 flex items-center bg-[#2874f0]">
-        <Link href="/" className="flex items-center text-white active:scale-95 transition-transform">
-          <MapPin size={16} className="text-white fill-white/10" />
-        </Link>
-      </div>
-
-      {/* Search Bar Row */}
-      <div className="flex items-center gap-2 px-3 py-2.5">
-        <div className="flex-1 relative flex items-center bg-white rounded-full h-[46px] shadow-md overflow-hidden">
-          <div className="absolute left-3 text-slate-500">
-            <Search size={20} strokeWidth={2.5} />
-          </div>
+      {/* Search Input Bar */}
+      <div className="px-3 pb-2 pt-0.5 bg-[#2874f0]">
+        <form onSubmit={handleSearch} className="w-full">
           <input
             type="text"
-            placeholder="tv"
-            className="w-full bg-transparent text-slate-800 py-3 pl-10 pr-12 text-[15px] font-medium focus:outline-none placeholder:text-slate-400"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search for Products, Brands and More"
+            className="w-full bg-white text-slate-800 text-[14px] px-3.5 py-1.5 rounded-[4px] outline-none placeholder:text-slate-400 border-none shadow-xs"
           />
-          <div className="absolute right-4 text-slate-500">
-            <Camera size={22} strokeWidth={2} />
-          </div>
-        </div>
-        <div className="flex items-center justify-center w-10 h-10 active:scale-95 transition-transform">
-           <QrCode size={26} className="text-white" strokeWidth={1.5} />
-        </div>
+        </form>
       </div>
 
       {/* Categories Row */}
-      <div className="flex overflow-x-auto bg-white py-3 px-2.5 gap-3.5 no-scrollbar border-b-[6px] border-[#f1f3f6] justify-center w-full">
-        {/* Home & Kitchen Products */}
-        <Link href="/" className="flex flex-col items-center gap-1 min-w-[58px] pb-2 border-b-[3px] border-[#2874f0] active:scale-95 transition-transform shrink-0">
-          <div className="w-[42px] h-[42px] flex items-center justify-center bg-[#d0e7ff] rounded-xl scale-90">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <path d="M9.93061 6.51562H22.0706C24.0006 6.51562 25.6206 7.98562 25.8306 9.92562L27.5106 25.2356C27.7606 27.5056 26.0006 29.4856 23.7506 29.4856H8.25061C5.99061 29.4856 4.24061 27.5056 4.49061 25.2356L6.17061 9.92562C6.38061 7.98562 8.00061 6.51562 9.93061 6.51562Z" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
-              <path d="M22.0507 11.7061C22.0507 15.0861 19.3407 17.8261 16.0107 17.8261C12.6807 17.8261 9.9707 15.0861 9.9707 11.7061" fill="#ffe51f"></path>
-              <path d="M22.0507 11.7061C22.0507 15.0861 19.3407 17.8261 16.0107 17.8261C12.6807 17.8261 9.9707 15.0861 9.9707 11.7061" stroke="#333333" strokeWidth="1.4" strokeMiterlimit="10" strokeLinecap="round"></path>
-            </svg>
-          </div>
-          <span className="text-[12px] text-black font-extrabold whitespace-nowrap">Home & Kitchen Products</span>
-        </Link>
+      <div className="w-full bg-white border-b border-slate-200">
+        <img 
+          src="/uploads/top-bg.a2aad345a2d903ce5659.jpg" 
+          alt="Categories" 
+          className="w-full h-auto object-cover select-none pointer-events-none" 
+        />
       </div>
 
       {/* Location Selector Bottom Drawer */}

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
+import { ProductCard } from '../../../components/product/ProductCard';
 
 
 const AssuredBadgeBig = () => (
@@ -218,83 +219,9 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
     <div className="w-full bg-[#f1f3f6] py-4">
       <h3 className="text-[16px] font-extrabold text-slate-900 mb-3 px-4 select-none">Similar Products</h3>
       <div className="grid grid-cols-2 gap-2 px-2">
-        {products.map((item) => {
-          const displayPrice = parseFloat(item.price) || 0;
-          const displaySalePrice = parseFloat(item.sale_price) || displayPrice;
-          const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
-          const rating = parseFloat(item.average_rating) || 4.2;
-
-          // Split title into Brand and Description to match Homepage layout
-          const words = (item.name || '').split(' ');
-          const description = words.slice(1).join(' ') || item.name || 'Kitchen Product';
-
-          return (
-            <button
-              key={item.id}
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: 'instant' });
-                router.push(`/product/${item.id}`);
-              }}
-              className="bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col text-left active:scale-[0.98] transition-transform duration-100 border border-slate-100"
-            >
-              {/* Product Image */}
-              <div className="w-full aspect-square relative rounded-lg overflow-hidden mb-2 bg-white flex items-center justify-center">
-                <img
-                  src={item.images[0]}
-                  alt={item.name}
-                  className="object-contain w-full h-full p-1"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Product Title */}
-              <div className="mb-1.5 leading-snug overflow-hidden w-full select-none">
-                <span className="block text-[12.5px] font-medium text-slate-800 truncate" title={description}>
-                  {description}
-                </span>
-              </div>
-
-              {/* Ratings and Reviews */}
-              <div className="flex items-center gap-1 mb-1 select-none">
-                <span className="bg-green-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-0.5 leading-none">
-                  {rating} <Star className="h-2 w-2 fill-current" />
-                </span>
-                <span className="text-[10px] text-slate-400 font-bold">
-                  ({(item.total_ratings || Math.floor(rating * 10 + 50)).toLocaleString()})
-                </span>
-              </div>
-
-              {/* Price section */}
-              <div className="mt-auto pt-1 select-none">
-                <div className="flex items-baseline gap-1 flex-wrap">
-                  <span className="text-[14px] font-black text-slate-900">
-                    ₹{parseInt(displaySalePrice.toString()).toLocaleString()}
-                  </span>
-                  {discount > 0 && (
-                    <span className="text-[10px] text-slate-400 line-through font-medium">
-                      ₹{parseInt(displayPrice.toString()).toLocaleString()}
-                    </span>
-                  )}
-                </div>
-                {discount > 0 && (
-                  <span className="text-[11px] text-green-600 font-extrabold block mt-0.5 leading-none">
-                    {discount}% off
-                  </span>
-                )}
-              </div>
-
-              {/* Assured Badge */}
-              <div className="mt-1.5 flex items-center h-[15px] select-none justify-between w-full">
-                <img 
-                  src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
-                  alt="fAssured" 
-                  className="h-[15px] w-auto shrink-0 select-none align-middle inline-block" 
-                />
-                <span className="text-[10px] text-slate-400 font-medium">Free delivery</span>
-              </div>
-            </button>
-          );
-        })}
+        {products.map((item) => (
+          <ProductCard key={item.id} product={item} />
+        ))}
       </div>
     </div>
   );

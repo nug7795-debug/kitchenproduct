@@ -26,6 +26,15 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const isProduct = pathname?.startsWith('/product');
   const shouldHide = isCheckout || isPayment || isAdmin || isSearch || isProduct;
 
+  const isFooterPage = pathname === '/about' ||
+                       pathname === '/privacy' ||
+                       pathname === '/terms' ||
+                       pathname === '/disclaimer' ||
+                       pathname === '/dmca' ||
+                       pathname === '/return-refund' ||
+                       pathname === '/affiliate-disclosure' ||
+                       pathname === '/contact';
+
   if (shouldHide) {
     return <>{children}</>;
   }
@@ -33,7 +42,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen items-center overflow-x-hidden bg-slate-100">
       <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
-        {pathname !== '/cart' && <Header />}
+        {pathname !== '/cart' && !isFooterPage && <Header />}
         <main className="flex-grow flex flex-col justify-between">
           <div>
             {children}

@@ -1029,15 +1029,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
            </div>
            <div className="flex items-center gap-4">
               <Search className="h-5 w-5 text-white" />
-              <button 
-                onClick={handleShare}
-                aria-label="Share product"
-                className="active:scale-90 transition-transform h-8 w-8 flex items-center justify-center rounded-full text-white hover:bg-blue-600/40"
-              >
-                <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
-                  <path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11.1z" />
-                </svg>
-              </button>
               <div className="relative flex items-center justify-center h-8 w-8 select-none">
                 <ShoppingCart className="h-5 w-5 text-white" />
                 <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">

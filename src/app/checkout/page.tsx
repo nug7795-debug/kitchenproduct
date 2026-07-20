@@ -1180,7 +1180,7 @@ export default function CheckoutPage() {
                   <div className="flex items-center gap-2">
                     <span className="text-sm">📦</span>
                     <h4 className="text-[11px] font-extrabold text-[#873e23] uppercase tracking-wide">
-                      Rest assured with Open Box Delivery
+                      Take a look at it with open box delivery
                     </h4>
                   </div>
                   <p className="text-[9.5px] text-slate-500 font-bold leading-normal pl-6">

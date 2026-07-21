@@ -311,7 +311,7 @@ export const Header = () => {
           </button>
           
           {/* Logo */}
-          <Link href="/" className="block select-none overflow-hidden" style={{ height: '20px' }}>
+          <Link href="/" className="block select-none overflow-hidden" style={{ height: '17px' }}>
             <img 
               src="/uploads/Q18Ifxk.webp" 
               alt="Flipkart Lite" 

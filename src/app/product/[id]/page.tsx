@@ -1149,7 +1149,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   )}
                 </div>
               )}
-              <div className="product-title">
+              <div className="product-title text-[#007185]">
                 {product.name.length > 55 && !showFullTitle ? (
                   <>
                     {product.name.substring(0, 52)}...

@@ -147,99 +147,132 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Link href={`/product/${id}`} className="group relative bg-white flex flex-col border-[0.5px] border-slate-100 overflow-hidden shadow-xs hover:shadow-sm transition-all pb-2 select-none">
-      {/* Product Image Box */}
-      <div className="relative aspect-[1/1] w-full bg-[#fdfdfd] overflow-hidden">
-        <img
-          src={imageUrl}
-          alt={name}
-          className="absolute inset-0 w-full h-full object-contain p-1.5 sm:p-3 transition-transform duration-500 group-hover:scale-103"
-          loading="lazy"
-        />
-
-        {/* Overlay Badges */}
-        <div className="absolute top-2 left-2 z-10 flex flex-col gap-1 max-w-[70%]">
-          {is_limited_time_deal && (
-            <span className="bg-[#e53935] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
-              Limited Time Deal
-            </span>
-          )}
-          {is_trending && (
-            <span className="bg-[#ff9f00] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
-              Trending Now
-            </span>
-          )}
-          {is_best_seller && (
-            <span className="bg-[#f47b20] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
-              Best Seller
-            </span>
-          )}
-          {is_new_arrival && (
-            <span className="bg-[#008cff] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs select-none w-fit">
-              New Arrival
-            </span>
-          )}
-        </div>
-
-        {/* Floating Wishlist Button */}
-        <button 
-          onClick={toggleWishlist}
-          className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-xs transition-all active:scale-90 hover:scale-105"
-          title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
-        >
-          <Heart 
-            className={`h-3.5 w-3.5 transition-colors duration-300 stroke-[2] ${
-              isWishlisted ? 'text-red-500 fill-red-500' : 'text-slate-400'
-            }`} 
+    <Link 
+      href={`/product/${id}`} 
+      className="Cs7ycL TcKeCe block" 
+      style={{ textDecoration: 'none', padding: '2px', margin: 'auto', width: '100%' }}
+    >
+      <div className="_2enssu px-3 relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '16px', display: 'block' }}>
+        
+        {/* Product Image wrapper */}
+        <div className="flex items-center justify-center bg-white" style={{ height: '100px' }}>
+          <img 
+            className="img-fluid" 
+            src={imageUrl} 
+            alt={name}
+            style={{ height: '100px', width: 'auto', objectFit: 'contain' }}
           />
+        </div>
+
+        {/* Product Title */}
+        <div 
+          className="_24B_AU _3SexMn" 
+          style={{ 
+            textOverflow: 'ellipsis', 
+            whiteSpace: 'nowrap', 
+            width: '100%', 
+            overflow: 'hidden', 
+            textAlign: 'left', 
+            marginTop: '15px', 
+            fontSize: '14px', 
+            color: '#007185', 
+            fontWeight: '700' 
+          }}
+          title={name}
+        >
+          {name}
+        </div>
+
+        {/* Discount Line */}
+        <div 
+          className="_24B_AU _1AQnZC" 
+          style={{ 
+            fontSize: '14px', 
+            color: '#388e3c', 
+            marginTop: '8px', 
+            textAlign: 'left' 
+          }}
+        >
+          {discount > 0 ? (
+            <>
+              - {discount}% Off
+              <span 
+                className="mrp" 
+                style={{ 
+                  color: '#9A9A9A', 
+                  margin: '0 5px', 
+                  textDecoration: 'line-through' 
+                }}
+              >
+                ₹{displayPrice}
+              </span>
+            </>
+          ) : (
+            <span>No discount</span>
+          )}
+        </div>
+
+        {/* Price & Assured Logo */}
+        <div 
+          className="_24B_AU _1AQnZC" 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            marginTop: '4px'
+          }}
+        >
+          <b 
+            className="selling-price" 
+            style={{ 
+              color: '#000', 
+              fontWeight: '600', 
+              fontSize: '16px',
+              marginRight: '5px'
+            }}
+          >
+            ₹{displaySalePrice}
+          </b>
+          <img 
+            src="https://i.ibb.co/t4RsPCf/SwOvZ3r.png" 
+            width="73px" 
+            alt="fAssured"
+            className="img-fluid" 
+            style={{ width: '73px', height: 'auto' }}
+          />
+        </div>
+
+        {/* Limited Time Deal Button */}
+        <button 
+          className="btn w-full mt-4" 
+          style={{ 
+            background: 'rgb(255, 194, 99)', 
+            color: 'rgb(0, 0, 0)',
+            width: '100%',
+            marginTop: '16px',
+            padding: '6px 12px',
+            fontSize: '13px',
+            fontWeight: 'bold',
+            borderRadius: '4px',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Limited time deal
         </button>
-      </div>
 
-      {/* Product Details Area */}
-      <div className="px-2.5 pb-2.5 pt-2 sm:p-3 flex flex-col flex-1">
-        {/* Brand/Description Title (Single-line truncation) */}
-        <div className="mb-1.5 leading-snug overflow-hidden">
-          <span className="block text-[12.5px] font-bold text-[#007185] truncate" title={description}>
-            {description}
-          </span>
+        {/* Delivery text */}
+        <div 
+          className="_3Nxu4r delivery-txt text-dark" 
+          style={{ 
+            marginTop: '10px', 
+            fontSize: '12px',
+            color: '#333',
+            textAlign: 'left'
+          }}
+        >
+          Free Delivery in Two Days
         </div>
 
-        {/* Star Rating & Assured Badge Row on ALL products */}
-        <div className="flex items-center gap-1.5 mb-1.5 leading-none select-none">
-          <div className="flex items-center gap-0.5 bg-[#388e3c] text-white px-1.5 py-0.5 rounded-[4px] text-[10px] font-bold shrink-0">
-             {ratingVal} <span className="text-[8px] font-bold">★</span>
-          </div>
-          <span className="text-[10px] font-bold text-slate-400">({totalRatingsStr})</span>
-          <AssuredBadge />
-        </div>
-
-        <div className="mt-auto space-y-1.5">
-          {/* Pricing Section (Lined up horizontally on a single line matching cooker category) */}
-          <div className="flex items-center gap-1.5 leading-none pt-0.5 select-none">
-            {displaySalePrice && displaySalePrice < displayPrice && (
-              <>
-                <span className="text-[12.5px] font-extrabold text-[#388e3c] flex items-center shrink-0">
-                  <span className="text-[11px] font-bold mr-[1px]">↓</span>{discount}%
-                </span>
-                <span className="text-[11.5px] text-slate-400 line-through font-semibold shrink-0">
-                  ₹{displayPrice?.toLocaleString()}
-                </span>
-              </>
-            )}
-            <span className="text-[13.5px] font-black text-slate-900 shrink-0">
-              ₹{(displaySalePrice || displayPrice)?.toLocaleString()}
-            </span>
-          </div>
-
-          {/* Express Delivery Container */}
-          <div className="pt-1.5 border-t border-slate-100/60 select-none">
-            {/* Express Delivery Truck & Tag Line */}
-            <div className="flex items-center gap-1 pt-0.5 leading-none">
-              <DeliveryTruckIcon />
-              <span className="text-[10px] font-bold text-slate-600">Free Delivery in Two Days</span>
-            </div>
-          </div>
-        </div>
       </div>
     </Link>
   );

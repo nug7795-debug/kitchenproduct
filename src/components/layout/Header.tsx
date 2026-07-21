@@ -311,11 +311,11 @@ export const Header = () => {
           </button>
           
           {/* Logo */}
-          <Link href="/" className="block select-none">
+          <Link href="/" className="block select-none overflow-hidden" style={{ height: '20px' }}>
             <img 
               src="/uploads/Q18Ifxk.webp" 
               alt="Flipkart Lite" 
-              style={{ width: '85px', height: 'auto' }} 
+              style={{ width: '75px', height: 'auto', display: 'block' }} 
               className="object-contain" 
             />
           </Link>

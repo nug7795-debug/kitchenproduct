@@ -1122,7 +1122,7 @@ export default function CheckoutPage() {
 
                           {/* Product Info */}
                           <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                            <h4 className="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
+                            <h4 className="text-xs font-bold text-[#007185] line-clamp-2 leading-snug">
                               {item.name}
                             </h4>
                             

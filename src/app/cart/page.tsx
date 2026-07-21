@@ -183,7 +183,7 @@ export default function CartPage() {
 
                {/* Right Column: Detailed Product Info */}
                <div className="flex-1 space-y-1">
-                  <h3 className="text-xs font-semibold text-slate-800 line-clamp-2 leading-tight">{item.name}</h3>
+                  <h3 className="text-xs font-bold text-[#007185] line-clamp-2 leading-tight">{item.name}</h3>
                   <p className="text-[10px] text-slate-400 font-medium">Premium Edition, {item.seller || 'KitchenPro Retail'}</p>
                   
                   {/* Rating & Assured Badge */}

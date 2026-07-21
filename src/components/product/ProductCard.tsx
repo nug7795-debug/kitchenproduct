@@ -199,7 +199,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <div className="px-2.5 pb-2.5 pt-2 sm:p-3 flex flex-col flex-1">
         {/* Brand/Description Title (Single-line truncation) */}
         <div className="mb-1.5 leading-snug overflow-hidden">
-          <span className="block text-[12.5px] font-medium text-slate-800 truncate" title={description}>
+          <span className="block text-[12.5px] font-bold text-[#007185] truncate" title={description}>
             {description}
           </span>
         </div>

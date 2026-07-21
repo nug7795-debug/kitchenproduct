@@ -298,32 +298,32 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
       {/* Top blue bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#2874f0]">
-        <div className="flex items-center gap-3">
+      <div className="pt-2 bg-[#2874f0] flex justify-between select-none items-center">
+        <div className="flex w-[65%] items-center mx-4 my-2 gap-3">
           {/* Hamburger Menu Icon */}
           <button 
             onClick={() => setIsDrawerOpen(true)} 
             className="text-white active:scale-95 transition-transform cursor-pointer"
           >
-            <svg fill="#FFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <svg fill="#FFF" height="36" viewBox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
             </svg>
           </button>
           
           {/* Logo */}
-          <Link href="/" className="block select-none overflow-hidden" style={{ height: '17px' }}>
+          <Link href="/" className="block select-none overflow-hidden" style={{ width: '85px', height: '28px', paddingTop: '2px' }}>
             <img 
               src="/uploads/Q18Ifxk.webp" 
               alt="Flipkart Lite" 
-              style={{ width: '75px', height: 'auto', display: 'block' }} 
+              style={{ width: '85px', maxHeight: '30px', display: 'block' }} 
               className="object-contain" 
             />
           </Link>
         </div>
 
         {/* Cart Icon with red badge */}
-        <div className="relative p-2 flex items-center justify-center select-none">
-          <svg width="18" height="18" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+        <div className="relative p-2 flex items-center justify-center select-none mr-4 my-2">
+          <svg width="16" height="16" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
             <g fill="#fff" fillRule="evenodd">
               <path d="m5.189 13.04c0 .996-.791 1.804-1.767 1.804-.976 0-1.767-.808-1.767-1.804 0-.996.791-1.804 1.767-1.804.976 0 1.767.808 1.767 1.804"></path>
               <path d="m14.912 2.259h-14.298l2.247 6.917c.042.129.16.216.293.216h8.06c-.064.69-.629 1.841-1.702 1.841h-6.04l1.072 1.991h5.611c1.881 0 2.938-2.278 3.657-4.719.888-3.01 1.219-6.245 1.106-6.245"></path>
@@ -332,7 +332,7 @@ export const Header = () => {
               <path d="m13.424 13.325c0 .837-.664 1.516-1.484 1.516-.82 0-1.484-.679-1.484-1.516 0-.837.664-1.516 1.484-1.516.82 0 1.484.679 1.484 1.516"></path>
             </g>
           </svg>
-          <span className="absolute top-0 right-0 bg-[#ff1212] text-white rounded-full text-[9px] font-black h-4.5 w-4.5 flex items-center justify-center border border-[#2874f0]">
+          <span className="absolute top-2.5 right-1.5 bg-[#d32f2f] text-white rounded-full text-[8px] font-bold h-4 w-4 flex items-center justify-center border-[2px] border-white select-none">
             1
           </span>
         </div>
@@ -340,13 +340,14 @@ export const Header = () => {
 
       {/* Search Input Bar */}
       <div className="px-3 pb-2 pt-0.5 bg-[#2874f0]">
-        <form onSubmit={handleSearch} className="w-full">
+        <form onSubmit={handleSearch} className="w-full flex justify-center">
           <input
             type="text"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search for Products, Brands and More"
-            className="w-full bg-white text-slate-800 text-[14px] px-3.5 py-1.5 rounded-[4px] outline-none placeholder:text-slate-400 border-none shadow-xs"
+            style={{ width: '95%', fontSize: '14px', padding: '7px 10px', margin: '3px auto', border: 'none', borderRadius: '5px' }}
+            className="outline-none placeholder:text-slate-400 bg-white"
           />
         </form>
       </div>

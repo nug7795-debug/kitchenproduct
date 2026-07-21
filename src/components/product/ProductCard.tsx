@@ -152,7 +152,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       className="Cs7ycL TcKeCe block" 
       style={{ textDecoration: 'none', padding: '2px', margin: 'auto', width: '100%' }}
     >
-      <div className="_2enssu px-3 relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '12px 10px', display: 'block' }}>
+      <div className="_2enssu px-3 relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '16px 12px', display: 'block' }}>
         
         {/* Product Image wrapper */}
         <div className="flex items-center justify-center bg-white" style={{ height: '100px' }}>
@@ -265,11 +265,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           className="_3Nxu4r delivery-txt text-dark" 
           style={{ 
             marginTop: '10px', 
-            fontSize: '10.5px',
-            color: '#333',
+            fontSize: '12px',
+            color: '#212529',
             textAlign: 'left',
-            whiteSpace: 'nowrap',
-            letterSpacing: '-0.2px'
+            letterSpacing: '-0.3px'
           }}
         >
           Free Delivery in Two Days

@@ -675,19 +675,7 @@ export default function AddProductPage() {
                       <p className="text-[10px] text-slate-500 font-bold uppercase">Top Performing</p>
                     </div>
                   </label>
-                  <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      name="isLimitedTimeDeal"
-                      checked={formData.isLimitedTimeDeal}
-                      onChange={handleInputChange}
-                      className="h-5 w-5 rounded-md text-orange-500 border-slate-200" 
-                    />
-                    <div>
-                      <p className="text-xs font-black text-slate-900">Limited Time Deal</p>
-                      <p className="text-[10px] text-slate-500 font-bold uppercase">Promo Deal</p>
-                    </div>
-                  </label>
+
                   <label className="flex items-center gap-4 p-4 rounded-2xl border-2 border-slate-50 hover:bg-slate-50 transition-all cursor-pointer">
                     <input 
                       type="checkbox" 

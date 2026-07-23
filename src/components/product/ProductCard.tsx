@@ -241,24 +241,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           />
         </div>
 
-        {/* Limited Time Deal Button */}
-        <button 
-          className="btn w-full mt-4" 
-          style={{ 
-            background: 'rgb(255, 194, 99)', 
-            color: 'rgb(0, 0, 0)',
-            width: '100%',
-            marginTop: '16px',
-            padding: '6px 12px',
-            fontSize: '13px',
-            fontWeight: 'bold',
-            borderRadius: '4px',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-        >
-          Limited time deal
-        </button>
+
 
         {/* Delivery text */}
         <div 

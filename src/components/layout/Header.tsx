@@ -296,69 +296,79 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full flex flex-col bg-[#2874f0] text-white">
-      {/* Top blue bar */}
-      <div className="pt-2 bg-[#2874f0] flex justify-between select-none items-center">
-        <div className="flex w-[65%] items-center mx-4 my-2 gap-3">
-          {/* Hamburger Menu Icon */}
-          <button 
-            onClick={() => setIsDrawerOpen(true)} 
-            className="text-white active:scale-95 transition-transform cursor-pointer"
-          >
-            <svg fill="#FFF" height="36" viewBox="0 0 24 24" width="21" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
-            </svg>
-          </button>
-          
-          {/* Logo */}
-          <Link href="/" className="block select-none overflow-hidden" style={{ width: '85px', height: '28px', paddingTop: '2px' }}>
-            <img 
-              src="/uploads/Q18Ifxk.webp" 
-              alt="Flipkart Lite" 
-              style={{ width: '85px', maxHeight: '30px', display: 'block' }} 
-              className="object-contain" 
-            />
+    <header className="sticky top-0 z-50 w-full flex flex-col bg-white text-slate-800 shadow-sm">
+      {/* Top Gradient Area */}
+      <div 
+        className="w-full flex flex-col pb-2 select-none"
+        style={{ background: 'linear-gradient(to bottom, #d2e5fc 0%, #ecf4fe 60%, #ffffff 100%)' }}
+      >
+        {/* Pills row */}
+        <div className="flex items-center justify-between px-3.5 pt-3 gap-2">
+          {/* Pill 1: Flipkart */}
+          <Link href="/" className="flex-1 bg-[#FFE11B] text-black rounded-xl h-[38px] flex items-center justify-center font-bold text-xs select-none shadow-xs border border-transparent">
+            <span className="flex items-center">
+              <svg viewBox="0 0 24 24" className="h-[18px] w-auto mr-1.5" style={{ transform: 'skewX(-10deg)' }}>
+                <path d="M4 2 L20 2 L17 22 L1 22 Z" fill="#1c54d4" />
+                <text x="8" y="17" fill="#ffe11b" fontSize="15" fontWeight="900" fontStyle="italic">f</text>
+              </svg>
+              <span className="font-extrabold text-[13px] italic tracking-tight text-slate-900">Flipkart</span>
+            </span>
           </Link>
+
+          {/* Pill 2: Travel */}
+          <div className="flex-1 bg-white text-slate-850 rounded-xl h-[38px] border border-slate-200/80 flex items-center justify-center font-extrabold text-[13px] select-none shadow-xs">
+            <Plane className="h-4 w-4 text-indigo-500 mr-1.5 stroke-[2.5]" />
+            Travel
+          </div>
+
+          {/* Pill 3: Pay */}
+          <div className="flex-1 bg-white text-slate-850 rounded-xl h-[38px] border border-slate-200/80 flex items-center justify-center font-extrabold text-[13px] select-none shadow-xs">
+            <QrCode className="h-4 w-4 text-blue-600 mr-1.5 stroke-[2.5]" />
+            Pay
+          </div>
         </div>
 
-        {/* Cart Icon with red badge */}
-        <div className="relative p-2 flex items-center justify-center select-none mr-4 my-2">
-          <svg width="16" height="16" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
-            <g fill="#fff" fillRule="evenodd">
-              <path d="m5.189 13.04c0 .996-.791 1.804-1.767 1.804-.976 0-1.767-.808-1.767-1.804 0-.996.791-1.804 1.767-1.804.976 0 1.767.808 1.767 1.804"></path>
-              <path d="m14.912 2.259h-14.298l2.247 6.917c.042.129.16.216.293.216h8.06c-.064.69-.629 1.841-1.702 1.841h-6.04l1.072 1.991h5.611c1.881 0 2.938-2.278 3.657-4.719.888-3.01 1.219-6.245 1.106-6.245"></path>
-              <path d="m.615 2.259l-.592-1.828c-.08-.207.069-.431.287-.431h1.482c.126 0 .24.079.287.198l.682 2.061c0 0-.63 1.642-1.942.066"></path>
-              <path d="m2.262.756c0 0 .498 1.503 2.234 1.503l-1.736.749-1.104-.749.607-1.503"></path>
-              <path d="m13.424 13.325c0 .837-.664 1.516-1.484 1.516-.82 0-1.484-.679-1.484-1.516 0-.837.664-1.516 1.484-1.516.82 0 1.484.679 1.484 1.516"></path>
-            </g>
-          </svg>
-          <span className="absolute top-2.5 right-1.5 bg-[#d32f2f] text-white rounded-full text-[8px] font-bold h-4 w-4 flex items-center justify-center border-[2px] border-white select-none">
-            1
+        {/* Location selector bar */}
+        <div 
+          onClick={() => setIsLocationModalOpen(true)} 
+          className="flex items-center gap-1.5 px-4 py-1.5 mt-1.5 cursor-pointer active:opacity-85 select-none w-fit"
+        >
+          <MapPin className="h-4 w-4 text-slate-900 stroke-[2.5]" />
+          <span className="text-[11.5px] font-extrabold text-slate-900">Location not set</span>
+          <span className="text-[11.5px] font-extrabold text-blue-600 flex items-center">
+            Select delivery location
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-0.5 mt-0.5 text-blue-600 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
           </span>
         </div>
-      </div>
 
-      {/* Search Input Bar */}
-      <div className="px-3 pb-2 pt-0.5 bg-[#2874f0]">
-        <form onSubmit={handleSearch} className="w-full flex justify-center">
-          <input
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search for Products, Brands and More"
-            style={{ width: '95%', fontSize: '14px', padding: '7px 10px', margin: '3px auto', border: 'none', borderRadius: '5px' }}
-            className="outline-none placeholder:text-slate-400 bg-white"
-          />
-        </form>
-      </div>
+        {/* Brand Mall & Search bar row */}
+        <div className="flex items-center justify-between px-3.5 mt-1.5 gap-2.5">
+          {/* Brand Mall OFF Toggle */}
+          <div className="flex items-center gap-1.5 select-none shrink-0 pl-1">
+            <span className="text-[10px] font-extrabold text-slate-700 leading-none">Brand Mall</span>
+            <div className="w-10 h-5 bg-slate-200/80 rounded-full p-0.5 flex items-center justify-start cursor-pointer border border-slate-300 relative select-none">
+              <div className="absolute right-1 text-[7px] font-black text-slate-500">OFF</div>
+              <div className="h-3.5 w-3.5 bg-white rounded-full shadow-md z-10" />
+            </div>
+          </div>
 
-      {/* Categories Row */}
-      <div className="w-full bg-white border-b border-slate-200">
-        <img 
-          src="/uploads/top-bg.a2aad345a2d903ce5659.jpg" 
-          alt="Categories" 
-          className="w-full h-auto object-cover select-none pointer-events-none" 
-        />
+          {/* Search Bar */}
+          <div className="flex-1 py-1">
+            <form onSubmit={handleSearch} className="w-full relative flex items-center bg-white border border-slate-300 rounded-xl px-3 py-2 shadow-xs">
+              <Search className="h-4.5 w-4.5 text-slate-400 mr-2 shrink-0" />
+              <input 
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="mobiles"
+                className="w-full bg-white text-slate-800 text-[13.5px] outline-none placeholder:text-slate-400 font-medium"
+              />
+              <Camera className="h-4.5 w-4.5 text-slate-400 ml-2 shrink-0" />
+            </form>
+          </div>
+        </div>
       </div>
 
       {/* Location Selector Bottom Drawer */}

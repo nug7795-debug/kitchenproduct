@@ -294,10 +294,10 @@ export default function Home() {
             { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
             { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
           ].map((cat) => (
-            <Link key={cat.name} href={`/search?q=${cat.name}`} className="flex flex-col items-center justify-center text-center">
+            <div key={cat.name} className="flex flex-col items-center justify-center text-center">
               <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
               <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

@@ -296,78 +296,45 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full flex flex-col bg-white text-slate-800 shadow-sm">
-      {/* Top Gradient Area */}
-      <div 
-        className="w-full flex flex-col pb-2 select-none"
-        style={{ background: 'linear-gradient(to bottom, #d2e5fc 0%, #ecf4fe 60%, #ffffff 100%)' }}
-      >
-        {/* Pills row */}
-        <div className="flex items-center justify-between px-3.5 pt-3 gap-2">
-          {/* Pill 1: Flipkart */}
-          <Link href="/" className="flex-1 bg-[#FFE11B] text-black rounded-xl h-[38px] flex items-center justify-center font-bold text-xs select-none shadow-xs border border-transparent">
-            <span className="flex items-center">
-              <svg viewBox="0 0 24 24" className="h-[18px] w-auto mr-1.5" style={{ transform: 'skewX(-10deg)' }}>
-                <path d="M4 2 L20 2 L17 22 L1 22 Z" fill="#1c54d4" />
-                <text x="8" y="17" fill="#ffe11b" fontSize="15" fontWeight="900" fontStyle="italic">f</text>
-              </svg>
-              <span className="font-extrabold text-[13px] italic tracking-tight text-slate-900">Flipkart</span>
-            </span>
-          </Link>
+    <header className="sticky top-0 z-50 w-full flex flex-col bg-white text-slate-800 shadow-sm select-none">
+      {/* Cropped Header Image with overlays */}
+      <div className="relative w-full aspect-[460/165]">
+        <img 
+          src="/uploads/cropped_header.jpg" 
+          alt="Flipkart Header" 
+          className="w-full h-auto block pointer-events-none" 
+        />
+        
+        {/* Transparent Location Drawer Overlay Button */}
+        <button
+          onClick={() => setIsLocationModalOpen(true)}
+          className="absolute inset-x-0 cursor-pointer bg-transparent hover:bg-black/5 active:bg-black/10 transition-colors"
+          style={{ top: '33%', height: '24%', outline: 'none', border: 'none' }}
+          title="Select Location"
+        />
 
-          {/* Pill 2: Travel */}
-          <div className="flex-1 bg-white text-slate-850 rounded-xl h-[38px] border border-slate-200/80 flex items-center justify-center font-extrabold text-[13px] select-none shadow-xs">
-            <Plane className="h-4 w-4 text-indigo-500 mr-1.5 stroke-[2.5]" />
-            Travel
-          </div>
-
-          {/* Pill 3: Pay */}
-          <div className="flex-1 bg-white text-slate-850 rounded-xl h-[38px] border border-slate-200/80 flex items-center justify-center font-extrabold text-[13px] select-none shadow-xs">
-            <QrCode className="h-4 w-4 text-blue-600 mr-1.5 stroke-[2.5]" />
-            Pay
-          </div>
-        </div>
-
-        {/* Location selector bar */}
+        {/* Brand Mall OFF Toggle Overlay */}
         <div 
-          onClick={() => setIsLocationModalOpen(true)} 
-          className="flex items-center gap-1.5 px-4 py-1.5 mt-1.5 cursor-pointer active:opacity-85 select-none w-fit"
+          className="absolute cursor-pointer bg-transparent hover:bg-black/5 active:bg-black/10 transition-colors"
+          style={{ left: '0%', top: '57%', width: '24%', height: '43%' }}
+          title="Brand Mall Toggle"
+        />
+
+        {/* Transparent Search Input Overlay */}
+        <div 
+          className="absolute flex items-center bg-transparent"
+          style={{ left: '24%', top: '57%', width: '76%', height: '43%' }}
         >
-          <MapPin className="h-4 w-4 text-slate-900 stroke-[2.5]" />
-          <span className="text-[11.5px] font-extrabold text-slate-900">Location not set</span>
-          <span className="text-[11.5px] font-extrabold text-blue-600 flex items-center">
-            Select delivery location
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-0.5 mt-0.5 text-blue-600 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </span>
-        </div>
-
-        {/* Brand Mall & Search bar row */}
-        <div className="flex items-center justify-between px-3.5 mt-1.5 gap-2.5">
-          {/* Brand Mall OFF Toggle */}
-          <div className="flex items-center gap-1.5 select-none shrink-0 pl-1">
-            <span className="text-[10px] font-extrabold text-slate-700 leading-none">Brand Mall</span>
-            <div className="w-10 h-5 bg-slate-200/80 rounded-full p-0.5 flex items-center justify-start cursor-pointer border border-slate-300 relative select-none">
-              <div className="absolute right-1 text-[7px] font-black text-slate-500">OFF</div>
-              <div className="h-3.5 w-3.5 bg-white rounded-full shadow-md z-10" />
-            </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="flex-1 py-1">
-            <form onSubmit={handleSearch} className="w-full relative flex items-center bg-white border border-slate-300 rounded-xl px-3 py-2 shadow-xs">
-              <Search className="h-4.5 w-4.5 text-slate-400 mr-2 shrink-0" />
-              <input 
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="mobiles"
-                className="w-full bg-white text-slate-800 text-[13.5px] outline-none placeholder:text-slate-400 font-medium"
-              />
-              <Camera className="h-4.5 w-4.5 text-slate-400 ml-2 shrink-0" />
-            </form>
-          </div>
+          <form onSubmit={handleSearch} className="w-full h-full flex items-center">
+            <input 
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Search mobiles..."
+              className="w-full h-full bg-transparent text-[13px] text-slate-800 outline-none font-medium placeholder:text-transparent"
+              style={{ paddingLeft: '32px', paddingRight: '32px' }}
+            />
+          </form>
         </div>
       </div>
 

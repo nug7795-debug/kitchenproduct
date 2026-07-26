@@ -263,124 +263,38 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      {/* Banner Slider */}
-      <div className="w-full relative overflow-hidden group select-none aspect-[800/311] bg-slate-100">
-        <div 
-          className="flex transition-transform duration-500 ease-out" 
-          style={{ transform: `translateX(-${activeSlide * 100}%)`, width: `${banners.length * 100}%` }}
-        >
-          {banners.map((src, index) => (
-            <div key={index} className="w-full relative shrink-0 aspect-[800/311]">
-              <img 
-                src={src} 
-                alt={`Banner ${index + 1}`} 
-                className="w-full h-full object-cover block select-none pointer-events-none" 
-              />
-            </div>
-          ))}
-        </div>
+      {/* Banner Area (Cropped Banner Image) */}
+      <div className="w-full select-none aspect-[460/190]">
+        <img 
+          src="/uploads/cropped_banner.jpg" 
+          alt="BBD Smartphone Banner" 
+          className="w-full h-auto block pointer-events-none" 
+        />
+      </div>
+
+      {/* Categories Row (Cropped Categories Image) */}
+      <div className="w-full select-none aspect-[460/100]">
+        <img 
+          src="/uploads/cropped_categories.jpg" 
+          alt="Categories" 
+          className="w-full h-auto block pointer-events-none" 
+        />
+      </div>
+
+      {/* Deals of the Day Timer Row using Cropped Image and Dynamic Overlay */}
+      <section className="w-full relative select-none aspect-[460/75] border-b border-slate-100">
+        <img 
+          src="/uploads/cropped_deals.jpg" 
+          alt="Deals of the Day" 
+          className="w-full h-auto block pointer-events-none" 
+        />
         
-        {/* Left Arrow */}
-        <button 
-          onClick={() => setActiveSlide((prev) => (prev - 1 + banners.length) % banners.length)}
-          className="absolute left-2.5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 rounded-full p-1.5 shadow-md active:scale-95 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+        {/* Dynamic Timer Overlay */}
+        <div 
+          className="absolute bg-white flex items-center justify-start text-[#2874f0] font-extrabold text-[14.5px]"
+          style={{ left: '42.5%', top: '28%', width: '13%', height: '40%' }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        {/* Right Arrow */}
-        <button 
-          onClick={() => setActiveSlide((prev) => (prev + 1) % banners.length)}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-slate-800 rounded-full p-1.5 shadow-md active:scale-95 transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Categories Row */}
-      <div className="w-full bg-white py-3.5 px-3.5 flex items-center justify-between border-b border-slate-100 select-none">
-        {/* Mobiles */}
-        <div className="flex flex-col items-center gap-1.5 cursor-pointer active:opacity-80">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-500 flex items-center justify-center shadow-xs">
-            <Smartphone className="h-6 w-6 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-[11px] font-extrabold text-slate-700">Mobiles</span>
-        </div>
-
-        {/* Electronics */}
-        <div className="flex flex-col items-center gap-1.5 cursor-pointer active:opacity-80">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-400 to-pink-500 flex items-center justify-center shadow-xs">
-            <Monitor className="h-6 w-6 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-[11px] font-extrabold text-slate-700">Electronics</span>
-        </div>
-
-        {/* Appliances */}
-        <div className="flex flex-col items-center gap-1.5 cursor-pointer active:opacity-80">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center shadow-xs">
-            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.5}>
-              <rect x="4" y="2" width="16" height="20" rx="2" />
-              <circle cx="12" cy="8" r="3" />
-              <line x1="8" y1="17" x2="16" y2="17" />
-            </svg>
-          </div>
-          <span className="text-[11px] font-extrabold text-slate-700">Appliances</span>
-        </div>
-
-        {/* Furniture */}
-        <div className="flex flex-col items-center gap-1.5 cursor-pointer active:opacity-80">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center shadow-xs">
-            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.5}>
-              <path d="M19 11V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v5" />
-              <path d="M3 11h18a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z" />
-              <path d="M6 18v3M18 21v-3" />
-            </svg>
-          </div>
-          <span className="text-[11px] font-extrabold text-slate-700">Furniture</span>
-        </div>
-
-        {/* Grocery */}
-        <div className="flex flex-col items-center gap-1.5 cursor-pointer active:opacity-80">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center shadow-xs">
-            <svg viewBox="0 0 24 24" className="h-6 w-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.5}>
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
-            </svg>
-          </div>
-          <span className="text-[11px] font-extrabold text-slate-700">Grocery</span>
-        </div>
-      </div>
-
-      {/* Deals of the Day Timer Row */}
-      <section className="w-full bg-white border-b border-slate-100/60 px-4 py-3 flex items-center justify-between select-none">
-        <div className="flex items-center gap-2">
-          <h2 className="text-[15.5px] font-extrabold text-[#2874f0] tracking-tight leading-none">
-            Deals of the Day
-          </h2>
-          <div className="flex items-center text-[#2874f0] text-[14px] font-extrabold leading-none gap-1.5">
-            <svg 
-              stroke="currentColor" 
-              fill="currentColor" 
-              strokeWidth="0" 
-              viewBox="0 0 512 512" 
-              className="w-[17px] h-[17px] text-[#2874f0]" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M403.1 108.9c-81.2-81.2-212.9-81.2-294.2 0-81.3 81.2-81.2 212.9 0 294.2 81.2 81.2 212.9 81.2 294.2 0 81.2-81.2 81.2-213 0-294.2zm-16.5 53.2c7.6-4.4 17.5-1.8 21.9 5.9 4.4 7.6 1.8 17.5-5.9 21.9-7.6 4.4-17.5 1.8-21.9-5.9-4.4-7.6-1.8-17.5 5.9-21.9zM80 256c0-8.8 7.2-16 16-16s16 7.2 16 16-7.2 16-16 16-16-7.2-16-16zm45.4 93.9c-7.6 4.4-17.5 1.8-21.9-5.9-4.4-7.6-1.8-17.5 5.9-21.9 7.6-4.4 17.5-1.8 21.9 5.9 4.4 7.6 1.8 17.5-5.9 21.9zm5.9-165.9c-4.4 7.6-14.2 10.3-21.9 5.9-7.6-4.4-10.3-14.2-5.9-21.9 4.4-7.6 14.2-10.3 21.9-5.9 7.7 4.4 10.3 14.3 5.9 21.9zm36.7-80.4c7.6-4.4 17.5-1.8 21.9 5.9 4.4 7.6 1.8 17.5-5.9 21.9s-17.5 1.8-21.9-5.9-4.4-7.7-1.7-17.5 5.9-21.9zm-7.8 110.7l15.6-26.6 95.2 56.9V384h-31V260.6l-79.8-46.3zm29.7 188.3c-4.4 7.6-14.2 10.3-21.9 5.9s-10.3-14.2-5.9-21.9c4.4-7.6 14.2-10.3 21.9-5.9 7.6 4.4 10.3 14.2 5.9 21.9zM256 432c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm0-320c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16zm88 296.4c-7.6 4.4-17.5 1.8-21.9-5.9-4.4-7.6-1.8-17.5 5.9-21.9 7.6-4.4 17.5-1.8 21.9 5.9 4.4 7.7 1.7 17.5-5.9 21.9zm5.9-283c-4.4 7.6-14.2 10.3-21.9 5.9s-10.3-14.2-5.9-21.9c4.4-7.6 14.2-10.3 21.9-5.9s10.3 14.3 5.9 21.9zM408.4 344c-4.4 7.6-14.2 10.3-21.9 5.9-7.6-4.4-10.3-14.2-5.9-21.9 4.4-7.6 14.2-10.3 21.9-5.9 7.7 4.4 10.3 14.3 5.9 21.9zm7.6-72c-8.8 0-16-7.2-16-16s7.2-16 16-16 16 7.2 16 16-7.2 16-16 16z" />
-            </svg>
-            <LiveSaleTimer />
-          </div>
-        </div>
-        <div>
-          <button className="bg-[#d32f2f] text-white font-extrabold text-[11px] tracking-wide px-3.5 py-1.5 rounded-md shadow-sm uppercase flex items-center gap-1.5 select-none pointer-events-none">
-            SALE LIVE
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          </button>
+          <LiveSaleTimer />
         </div>
       </section>
 

@@ -85,8 +85,9 @@ export default function Home() {
   const [activeSlide, setActiveSlide] = React.useState(0);
 
   const banners = [
-    '/banners/bbd_banner1.jpg',
-    '/banners/bbd_banner2.jpg'
+    '/uploads/lapalop1.webp',
+    '/uploads/lapalop2.webp',
+    '/uploads/lapalop3.webp'
   ];
 
   React.useEffect(() => {
@@ -263,38 +264,50 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      {/* Banner Area (Cropped Banner Image) */}
-      <div className="w-full select-none aspect-[460/190]">
-        <img 
-          src="/uploads/cropped_banner.jpg" 
-          alt="BBD Smartphone Banner" 
-          className="w-full h-auto block pointer-events-none" 
-        />
+      {/* Banner Area (Sliding Banners with rounded corners) */}
+      <div className="w-full bg-white pt-2.5 pb-1.5 px-3">
+        <div className="relative w-full overflow-hidden rounded-xl aspect-[1200/533] select-none">
+          {banners.map((src, index) => (
+            <img 
+              key={src}
+              src={src} 
+              alt={`Banner ${index + 1}`} 
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${index === activeSlide ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Categories Row (Cropped Categories Image) */}
-      <div className="w-full select-none aspect-[460/100]">
-        <img 
-          src="/uploads/cropped_categories.jpg" 
-          alt="Categories" 
-          className="w-full h-auto block pointer-events-none" 
-        />
+      {/* Categories Row */}
+      <div className="bg-white px-2 py-3.5 select-none border-b border-slate-100">
+        <div className="grid grid-cols-5 gap-1">
+          {[
+            { name: 'Mobiles', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/86a19de055a5ae2c.jpg' },
+            { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
+            { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
+            { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
+            { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
+          ].map((cat) => (
+            <Link key={cat.name} href={`/search?q=${cat.name}`} className="flex flex-col items-center justify-center text-center">
+              <img src={cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
+              <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
+            </Link>
+          ))}
+        </div>
       </div>
 
-      {/* Deals of the Day Timer Row using Cropped Image and Dynamic Overlay */}
-      <section className="w-full relative select-none aspect-[460/75] border-b border-slate-100">
-        <img 
-          src="/uploads/cropped_deals.jpg" 
-          alt="Deals of the Day" 
-          className="w-full h-auto block pointer-events-none" 
-        />
-        
-        {/* Dynamic Timer Overlay */}
-        <div 
-          className="absolute bg-white flex items-center justify-start text-[#2874f0] font-extrabold text-[14.5px]"
-          style={{ left: '42.5%', top: '28%', width: '13%', height: '40%' }}
-        >
+      {/* Deals of the Day Timer Row */}
+      <section className="bg-white border-b border-slate-150 py-3 px-4 flex items-center justify-between select-none">
+        <div className="flex items-center gap-2">
+          <span className="text-[14px] font-semibold text-slate-900">Deals of the Day</span>
+          <img src="/uploads/clock.svg" alt="Clock" className="w-[14px] h-[14px]" />
           <LiveSaleTimer />
+        </div>
+        <div>
+          <button className="bg-[#f44336] text-white text-[12px] font-bold px-2 py-1 rounded flex items-center gap-1.5 shadow-sm uppercase tracking-wider">
+            Sale Live
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          </button>
         </div>
       </section>
 

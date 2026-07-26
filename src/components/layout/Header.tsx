@@ -298,9 +298,9 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col bg-white text-slate-800 shadow-sm select-none">
       {/* Cropped Header Image with overlays */}
-      <div className="relative w-full aspect-[460/165]">
+      <div className="relative w-full aspect-[4133/1585]">
         <img 
-          src="/uploads/cropped_header.jpg" 
+          src="/uploads/upor5.webp" 
           alt="Flipkart Header" 
           className="w-full h-auto block pointer-events-none" 
         />

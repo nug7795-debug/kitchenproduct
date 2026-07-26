@@ -267,14 +267,20 @@ export default function Home() {
       {/* Banner Area (Sliding Banners with rounded corners) */}
       <div className="w-full bg-white pt-2.5 pb-1.5 px-3">
         <div className="relative w-full overflow-hidden rounded-xl aspect-[1200/533] select-none">
-          {banners.map((src, index) => (
-            <img 
-              key={src}
-              src={src} 
-              alt={`Banner ${index + 1}`} 
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${index === activeSlide ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ))}
+          <div 
+            className="flex w-full h-full transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+          >
+            {banners.map((src, index) => (
+              <div key={src} className="w-full h-full flex-shrink-0 relative">
+                <img 
+                  src={src} 
+                  alt={`Banner ${index + 1}`} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -286,10 +292,10 @@ export default function Home() {
             { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
             { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
             { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
-            { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
+            { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
           ].map((cat) => (
             <Link key={cat.name} href={`/search?q=${cat.name}`} className="flex flex-col items-center justify-center text-center">
-              <img src={cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
+              <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
               <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
             </Link>
           ))}
@@ -299,7 +305,7 @@ export default function Home() {
       {/* Deals of the Day Timer Row */}
       <section className="bg-white border-b border-slate-150 py-3 px-4 flex items-center justify-between select-none">
         <div className="flex items-center gap-2">
-          <span className="text-[14px] font-semibold text-slate-900">Deals of the Day</span>
+          <span className="text-[14px] font-semibold text-[#2874f0]">Deals of the Day</span>
           <img src="/uploads/clock.svg" alt="Clock" className="w-[14px] h-[14px]" />
           <LiveSaleTimer />
         </div>

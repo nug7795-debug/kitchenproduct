@@ -305,13 +305,6 @@ export const Header = () => {
           className="w-full h-auto block pointer-events-none" 
         />
         
-        {/* Transparent Location Drawer Overlay Button */}
-        <button
-          onClick={() => setIsLocationModalOpen(true)}
-          className="absolute inset-x-0 cursor-pointer bg-transparent hover:bg-black/5 active:bg-black/10 transition-colors"
-          style={{ top: '33%', height: '24%', outline: 'none', border: 'none' }}
-          title="Select Location"
-        />
 
         {/* Brand Mall OFF Toggle Overlay */}
         <div 

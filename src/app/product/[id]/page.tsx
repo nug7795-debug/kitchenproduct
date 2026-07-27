@@ -441,6 +441,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [cartCount, setCartCount] = React.useState(0);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
   
+  // Header visibility scroll states
+  const [showHeader, setShowHeader] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
+  
   // Custom Timer for product-data2 countdown timer
   const [timeLeft, setTimeLeft] = React.useState(15 * 60);
 
@@ -892,6 +896,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     };
   }, [id]);
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setShowHeader(false);
+      } else {
+        setShowHeader(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
   const handleAddToCart = () => {
     if (!isInCart) {
       const cached = localStorage.getItem('cart_items');
@@ -942,25 +963,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px] items-center">
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         {/* Top Header strictly matching Flipkart mobile web style (White Navbar with Black Icons) */}
-        <div className="sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full">
+        <div className={`sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
            <div className="flex items-center gap-3">
-             <Link href="/" className="flex items-center justify-center cursor-pointer p-1">
+             <div className="flex items-center justify-center p-1">
                <svg width="19" height="16" viewBox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                  <path d="M17.556 7.847H1M7.45 1L1 7.877l6.45 6.817" stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                </svg>
-             </Link>
-             <Link href="/">
+             </div>
+             <div>
                <img 
                  src="/uploads/fliplpogo.png" 
                  alt="Flipkart Logo" 
-                 className="h-[30px] w-auto object-contain cursor-pointer"
+                 className="h-[30px] w-auto object-contain"
                />
-             </Link>
+             </div>
            </div>
            
            <div className="flex items-center gap-4">
               {/* Search Icon */}
-              <div className="cursor-pointer flex items-center justify-center p-1">
+              <div className="flex items-center justify-center p-1">
                 <svg height="24" viewBox="0 0 32 32" width="24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.0012 21.9999C18.8671 21.9999 22.0011 18.8659 22.0011 14.9999C22.0011 11.134 18.8671 8 15.0012 8C11.1352 8 8.00122 11.134 8.00122 14.9999C8.00122 18.8659 11.1352 21.9999 15.0012 21.9999Z" stroke="#111112" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                   <path d="M19.9524 19.95L24.0024 24" stroke="#111112" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -968,24 +989,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
               
               {/* Shopping Cart Icon with Badge */}
-              <Link href="/cart">
-                <div className="relative flex items-center justify-center h-8 w-8 cursor-pointer">
-                  <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 23H8.56185C8.32766 23 8.1009 22.9178 7.9211 22.7678C7.7413 22.6177 7.61987 22.4093 7.57797 22.1789L4.2402 3.82112C4.19831 3.5907 4.07688 3.3823 3.89708 3.23225C3.71728 3.08219 3.49052 3 3.25633 3H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M9 28C10.3807 28 11.5 26.8807 11.5 25.5C11.5 24.1193 10.3807 23 9 23C7.61929 23 6.5 24.1193 6.5 25.5C6.5 26.8807 7.61929 28 9 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M24 28C25.3807 28 26.5 26.8807 26.5 25.5C26.5 24.1193 25.3807 23 24 23C22.6193 23 21.5 24.1193 21.5 25.5C21.5 26.8807 22.6193 28 24 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.7678C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
-                  {cartCount > 0 && (
-                    <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
-              </Link>
+              <div className="relative flex items-center justify-center h-8 w-8">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M24 23H8.56185C8.32766 23 8.1009 22.9178 7.9211 22.7678C7.7413 22.6177 7.61987 22.4093 7.57797 22.1789L4.2402 3.82112C4.19831 3.5907 4.07688 3.3823 3.89708 3.23225C3.71728 3.08219 3.49052 3 3.25633 3H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path d="M9 28C10.3807 28 11.5 26.8807 11.5 25.5C11.5 24.1193 10.3807 23 9 23C7.61929 23 6.5 24.1193 6.5 25.5C6.5 26.8807 7.61929 28 9 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path d="M24 28C25.3807 28 26.5 26.8807 26.5 25.5C26.5 24.1193 25.3807 23 24 23C22.6193 23 21.5 24.1193 21.5 25.5C21.5 26.8807 22.6193 28 24 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.7678C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
+                </svg>
+                {cartCount > 0 && (
+                  <span className="header-cart bg-red-600 text-white text-[9px] font-extrabold px-1 rounded-full absolute -top-0.5 -right-1 min-w-[15px] h-[15px] flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
               
               {/* Profile Icon */}
-              <div className="cursor-pointer flex items-center justify-center p-1">
+              <div className="flex items-center justify-center p-1">
                 <svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.70068 9.56354C9.90982 9.56354 11.7007 7.77268 11.7007 5.56354C11.7007 3.3544 9.90982 1.56354 7.70068 1.56354C5.49154 1.56354 3.70068 3.3544 3.70068 5.56354C3.70068 7.77268 5.49154 9.56354 7.70068 9.56354Z" stroke="black" strokeWidth="1.2" strokeMiterlimit="10"></path>
                   <path d="M1.63818 13.0635C2.25252 11.9993 3.1362 11.1155 4.2004 10.501C5.26461 9.88649 6.47182 9.56299 7.70068 9.56299C8.28364 9.56299 8.86172 9.63579 9.42198 9.77792C9.78986 9.87125 10.1501 9.99447 10.4989 10.1466" stroke="black" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"></path>

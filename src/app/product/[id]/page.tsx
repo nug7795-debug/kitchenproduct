@@ -11,6 +11,24 @@ import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
 import { ProductCard } from '../../../components/product/ProductCard';
 
+const formatReviewDate = (dateStr: string) => {
+  if (!dateStr) return 'Today';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const dDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffTime = nowDate.getTime() - dDate.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    return 'Today';
+  } else if (diffDays === 1) {
+    return 'Yesterday';
+  } else {
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+};
+
 
 const AssuredBadgeBig = () => (
   <img 
@@ -317,20 +335,21 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
   };
 
   const comments = CATEGORY_COMMENTS[type];
-  const reviewsCount = Math.max(totalReviews || 12, 12);
+  const reviewsCount = Math.max(totalReviews || 30, 30);
   const list: MockReview[] = [];
 
   for (let i = 0; i < reviewsCount; i++) {
     const seedStr = `${productName}-${i}`;
     const rng = createRandom(seedStr);
     
-    const nameIdx = Math.floor(rng() * INDIAN_NAMES.length);
+    // Vary names and cities using offset indices to ensure variety
+    const nameIdx = (i + Math.floor(rng() * 15)) % INDIAN_NAMES.length;
     const reviewerName = INDIAN_NAMES[nameIdx];
     
-    const cityIdx = Math.floor(rng() * CITIES.length);
+    const cityIdx = (i + Math.floor(rng() * 15)) % CITIES.length;
     const location = `Certified Buyer, ${CITIES[cityIdx]}`;
     
-    const rating = rng() > 0.3 ? 5 : 4;
+    const rating = rng() > 0.35 ? 5 : 4;
     const titleList = rating === 5 ? TITLES_5 : TITLES_4;
     const titleIdx = Math.floor(rng() * titleList.length);
     const title = titleList[titleIdx];
@@ -341,7 +360,15 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     const likes = Math.round(rng() * 40 + 2);
     const dislikes = Math.round(rng() * 4);
     
-    const daysAgo = Math.floor(rng() * 60 + 1);
+    // Set first few to Today/Yesterday specifically, and mix others
+    let daysAgo = 0;
+    if (i === 0 || i === 2 || i === 5 || i === 8) {
+      daysAgo = 0; // Today
+    } else if (i === 1 || i === 3 || i === 6 || i === 9) {
+      daysAgo = 1; // Yesterday
+    } else {
+      daysAgo = Math.floor(rng() * 45 + 2); // 2 to 47 days ago
+    }
     const created_at = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000).toISOString();
     
     const hasImage = i === 0 || (i % 7 === 3 && rng() > 0.5);
@@ -1275,10 +1302,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
                               </span>
                               <span className="location">, {review.location ? review.location.replace('Certified Buyer, ', '') : 'Kolkata'}</span>
+                              <span className="text-[10px] text-slate-400 mt-0.5">
+                                {formatReviewDate(review.created_at)}
+                              </span>
                             </div>
-                            <span className="text-[10px] text-slate-400 mt-0.5">
-                              {review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}
-                            </span>
                           </div>
                           
                           {/* Helpful Likes/Dislikes Votes */}
@@ -1539,7 +1566,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                           <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
                         </span>
                         <span>•</span>
-                        <span>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '2 days ago'}</span>
+                        <span>{formatReviewDate(review.created_at)}</span>
                       </div>
                       <div className="flex items-center gap-4">
                         <button 

@@ -144,11 +144,8 @@ body {
 /* Reference site akkskitchensalee.vercel.app Review Classes */
 .review-card {
   background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px #0000000d;
-  margin: 7px;
-  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 12px;
 }
 .rating {
   display: flex;

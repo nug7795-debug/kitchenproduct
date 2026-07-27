@@ -1301,7 +1301,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                               <span className="verified">
                                 <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
                               </span>
-                              <span className="location">, {review.location ? review.location.replace('Certified Buyer, ', '') : 'Kolkata'}</span>
+
                               <span className="text-[10px] text-slate-400 mt-0.5">
                                 {formatReviewDate(review.created_at)}
                               </span>
@@ -1338,7 +1338,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     }}
                     className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
                   >
-                    All {(product.total_reviews || 2).toLocaleString()} reviews
+                    All reviews
                     <ChevronRight className="h-4 w-4" />
                  </button>
             </div>
@@ -1563,7 +1563,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                       <div className="flex items-center gap-2 text-slate-400 font-semibold">
                         <span className="font-black text-slate-700">{review.reviewer_name}</span>
                         <span className="flex items-center gap-1 text-slate-400">
-                          <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> {review.location || 'Certified Buyer'}
+                          <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> Certified Buyer
                         </span>
                         <span>•</span>
                         <span>{formatReviewDate(review.created_at)}</span>

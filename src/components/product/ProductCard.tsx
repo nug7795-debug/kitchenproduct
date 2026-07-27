@@ -150,17 +150,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     <Link 
       href={`/product/${id}`} 
       className="Cs7ycL TcKeCe block" 
-      style={{ textDecoration: 'none', padding: '2px', margin: 'auto', width: '100%' }}
+      style={{ textDecoration: 'none', padding: '1px', margin: 'auto', width: '100%' }}
     >
-      <div className="_2enssu px-3 relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '16px 12px', display: 'block' }}>
+      <div className="_2enssu relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '12px 8px', display: 'block' }}>
         
         {/* Product Image wrapper */}
-        <div className="flex items-center justify-center bg-white" style={{ height: '100px' }}>
+        <div className="flex items-center justify-center bg-white w-full" style={{ height: '150px' }}>
           <img 
             className="img-fluid" 
             src={imageUrl} 
             alt={name}
-            style={{ height: '100px', width: 'auto', objectFit: 'contain' }}
+            style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }}
           />
         </div>
 

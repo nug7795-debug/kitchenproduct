@@ -477,7 +477,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   React.useEffect(() => {
     const getOrSetOfferEndTime = () => {
-      const stored = sessionStorage.getItem('shared_offer_ends_at');
+      const stored = localStorage.getItem('shared_offer_ends_at');
       const now = Date.now();
       
       if (stored) {
@@ -489,7 +489,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       }
       
       const endsAt = now + 15 * 60 * 1000;
-      sessionStorage.setItem('shared_offer_ends_at', endsAt.toString());
+      localStorage.setItem('shared_offer_ends_at', endsAt.toString());
       return { endsAt, remaining: 15 * 60 };
     };
 
@@ -498,7 +498,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
     const timer = setInterval(() => {
       const now = Date.now();
-      const stored = sessionStorage.getItem('shared_offer_ends_at');
+      const stored = localStorage.getItem('shared_offer_ends_at');
       if (stored) {
         const endsAt = parseInt(stored, 10);
         const remaining = Math.floor((endsAt - now) / 1000);
@@ -506,12 +506,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           setTimeLeft(remaining);
         } else {
           const newEndsAt = now + 15 * 60 * 1000;
-          sessionStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+          localStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
           setTimeLeft(15 * 60);
         }
       } else {
         const newEndsAt = now + 15 * 60 * 1000;
-        sessionStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+        localStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
         setTimeLeft(15 * 60);
       }
     }, 1000);

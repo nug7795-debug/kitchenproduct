@@ -149,10 +149,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link 
       href={`/product/${id}`} 
-      className="Cs7ycL TcKeCe block" 
-      style={{ textDecoration: 'none', padding: '1px', margin: 'auto', width: '100%' }}
+      className="Cs7ycL TcKeCe block w-full h-full" 
+      style={{ textDecoration: 'none' }}
     >
-      <div className="_2enssu relative overflow-hidden bg-white border border-[#f0f0f0]" style={{ padding: '12px 8px', display: 'block' }}>
+      <div className="_2enssu relative overflow-hidden bg-white h-full" style={{ padding: '12px 8px', display: 'block' }}>
         
         {/* Product Image wrapper */}
         <div className="flex items-center justify-center bg-white w-full" style={{ height: '150px' }}>

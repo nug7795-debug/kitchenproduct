@@ -83,14 +83,14 @@ function SearchContent() {
       </div>
 
       {/* Results Content */}
-      <div className="p-2">
+      <div className="bg-[#f1f3f6] min-h-screen">
         {loading ? (
           <div className="py-20 flex flex-col items-center gap-4">
             <div className="h-10 w-10 border-4 border-slate-200 border-t-[#2874f0] rounded-full animate-spin" />
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Searching Flipkart...</p>
           </div>
         ) : results.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-[1px]">
             {results.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

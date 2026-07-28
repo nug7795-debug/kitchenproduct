@@ -325,15 +325,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white px-3 pb-6">
+      <section className="bg-[#f1f3f6] pb-6">
         {loading ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-[1px]">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] sm:aspect-[2/3] bg-slate-50 animate-pulse border border-slate-100" />
+              <div key={i} className="aspect-[3/4] sm:aspect-[2/3] bg-white animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-[1px]">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

@@ -137,11 +137,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   if (loading) {
     return (
-      <div className="w-full bg-[#f1f3f6] py-4 px-2">
-        <h3 className="text-[15px] font-extrabold text-slate-900 mb-3 px-2 select-none">Similar Products</h3>
-        <div className="grid grid-cols-2 gap-2">
+      <div className="w-full bg-[#f1f3f6] py-4">
+        <h3 className="text-[16px] font-extrabold text-slate-900 mb-3 px-4 select-none">Similar Products</h3>
+        <div className="grid grid-cols-2 gap-[1px]">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border border-slate-100 rounded-xl p-2.5 bg-white shadow-sm flex flex-col animate-pulse">
+            <div key={i} className="p-2.5 bg-white flex flex-col animate-pulse" style={{ height: '280px' }}>
               <div className="w-full aspect-square bg-slate-100 rounded-lg mb-2" />
               <div className="h-3.5 bg-slate-100 rounded w-5/6 mb-1" />
               <div className="h-3.5 bg-slate-100 rounded w-2/3 mb-2" />
@@ -159,7 +159,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   return (
     <div className="w-full bg-[#f1f3f6] py-4">
       <h3 className="text-[16px] font-extrabold text-slate-900 mb-3 px-4 select-none">Similar Products</h3>
-      <div className="grid grid-cols-2 gap-2 px-2">
+      <div className="grid grid-cols-2 gap-[1px]">
         {products.map((item) => (
           <ProductCard key={item.id} product={item} />
         ))}

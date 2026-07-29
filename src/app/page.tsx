@@ -324,15 +324,15 @@ export default function Home() {
         <ChevronRight className="h-5 w-5 text-black" strokeWidth={2.5} />
       </section>
 
-      <section className="bg-[#f1f3f6] pb-6">
+      <section className="bg-[#f1f3f6] pb-6 pt-0 border-t border-[#f1f3f6]">
         {loading ? (
-          <div className="grid grid-cols-2 gap-[1px]">
+          <div className="grid grid-cols-2 gap-[1px] mt-0 pt-0">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="aspect-[3/4] sm:aspect-[2/3] bg-white animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-[1px]">
+          <div className="grid grid-cols-2 gap-[1px] mt-0 pt-0">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

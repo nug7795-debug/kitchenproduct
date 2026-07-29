@@ -1018,15 +1018,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
            
            <div className="flex items-center gap-4">
               {/* Search Icon */}
-              <Link href="/search" className="flex items-center justify-center p-1 cursor-pointer active:scale-95 transition-all rounded-full hover:bg-slate-100">
+              <div className="flex items-center justify-center p-1">
                 <svg height="24" viewBox="0 0 32 32" width="24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.0012 21.9999C18.8671 21.9999 22.0011 18.8659 22.0011 14.9999C22.0011 11.134 18.8671 8 15.0012 8C11.1352 8 8.00122 11.134 8.00122 14.9999C8.00122 18.8659 11.1352 21.9999 15.0012 21.9999Z" stroke="#111112" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                   <path d="M19.9524 19.95L24.0024 24" stroke="#111112" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                 </svg>
-              </Link>
+              </div>
               
               {/* Shopping Cart Icon with Badge */}
-              <Link href="/cart" className="relative flex items-center justify-center h-8 w-8 cursor-pointer active:scale-95 transition-all rounded-full hover:bg-slate-100">
+              <div className="relative flex items-center justify-center h-8 w-8">
                 <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24 23H8.56185C8.32766 23 8.1009 22.9178 7.9211 22.7678C7.7413 22.6177 7.61987 22.4093 7.57797 22.1789L4.2402 3.82112C4.19831 3.5907 4.07688 3.3823 3.89708 3.23225C3.71728 3.08219 3.49052 3 3.25633 3H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                   <path d="M9 28C10.3807 28 11.5 26.8807 11.5 25.5C11.5 24.1193 10.3807 23 9 23C7.61929 23 6.5 24.1193 6.5 25.5C6.5 26.8807 7.61929 28 9 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
@@ -1038,16 +1038,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     {cartCount}
                   </span>
                 )}
-              </Link>
+              </div>
               
               {/* Profile Icon */}
-              <Link href="/admin" className="flex items-center justify-center p-1 cursor-pointer active:scale-95 transition-all rounded-full hover:bg-slate-100">
+              <div className="flex items-center justify-center p-1">
                 <svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.70068 9.56354C9.90982 9.56354 11.7007 7.77268 11.7007 5.56354C11.7007 3.3544 9.90982 1.56354 7.70068 1.56354C5.49154 1.56354 3.70068 3.3544 3.70068 5.56354C3.70068 7.77268 5.49154 9.56354 7.70068 9.56354Z" stroke="black" strokeWidth="1.2" strokeMiterlimit="10"></path>
                   <path d="M1.63818 13.0635C2.25252 11.9993 3.1362 11.1155 4.2004 10.501C5.26461 9.88649 6.47182 9.56299 7.70068 9.56299C8.28364 9.56299 8.86172 9.63579 9.42198 9.77792C9.78986 9.87125 10.1501 9.99447 10.4989 10.1466" stroke="black" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"></path>
                   <path d="M14.5877 10.5123L10.7383 14.3618L8.8136 12.437" stroke="black" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"></path>
                 </svg>
-              </Link>
+              </div>
            </div>
         </div>
 

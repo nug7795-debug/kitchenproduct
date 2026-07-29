@@ -253,5 +253,30 @@ body {
   animation: slideInLeft 0.3s ease-out forwards;
 }
 
+@keyframes saleSlideRight {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0.2;
+  }
+  30% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(40px);
+    opacity: 0.2;
+  }
+}
+
+.animate-sale-slide {
+  display: inline-flex;
+  align-items: center;
+  animation: saleSlideRight 4s ease-in-out infinite;
+}
+
 
 

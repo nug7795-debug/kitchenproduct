@@ -305,7 +305,7 @@ export default function Home() {
 
       {/* Deals of the Day Timer Row */}
       <section className="bg-white border-b border-slate-150 py-3.5 px-4 flex items-center justify-between select-none">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 animate-sale-slide">
           {/* Blinking Red Dot */}
           <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
           <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>

@@ -320,7 +320,7 @@ export default function Home() {
 
       <section className="bg-[#f1f3f6] pb-6">
         {/* Recommended for You Section Header */}
-        <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none border-b border-slate-150">
+        <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
           <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>
           <ChevronRight className="h-5 w-5 text-black" strokeWidth={2.5} />
         </div>

@@ -310,7 +310,7 @@ export default function Home() {
           <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
           <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center mr-5">
           <span className="text-[13px] font-semibold text-slate-500 mr-2">Ends in</span>
           <div className="bg-slate-100 px-2.5 py-1 rounded-[6px] flex items-center justify-center">
             <LiveSaleTimer className="text-[13px] font-extrabold text-black" />

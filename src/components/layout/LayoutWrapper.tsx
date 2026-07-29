@@ -40,7 +40,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen items-center overflow-x-hidden bg-slate-100">
+    <div className="flex flex-col min-h-screen items-center overflow-x-clip bg-slate-100">
       <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
         {pathname !== '/cart' && !isFooterPage && <Header />}
         <main className="flex-grow flex flex-col justify-between">

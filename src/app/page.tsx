@@ -8,7 +8,7 @@ import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight, Smartphone, Monitor } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-const LiveSaleTimer = () => {
+const LiveSaleTimer = ({ className = "text-[#2874f0] font-bold text-[15px]" }: { className?: string }) => {
   const [timeLeft, setTimeLeft] = React.useState(15 * 60);
 
   React.useEffect(() => {
@@ -60,10 +60,11 @@ const LiveSaleTimer = () => {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const secondsStr = seconds < 10 ? `0${seconds}` : seconds;
+  const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
 
   return (
-    <span className="text-[#2874f0] font-bold text-[15px]">
-      {minutes}:{secondsStr}
+    <span className={className}>
+      {minutesStr}:{secondsStr}
     </span>
   );
 };
@@ -303,26 +304,27 @@ export default function Home() {
       </div>
 
       {/* Deals of the Day Timer Row */}
-      <section className="bg-white border-b border-slate-150 py-3 px-4 flex items-center justify-between select-none">
+      <section className="bg-white border-t border-slate-100 py-3.5 px-4 flex items-center justify-between select-none">
         <div className="flex items-center gap-2">
-          <span className="text-[14px] font-semibold text-[#2874f0]">Deals of the Day</span>
-          <img src="/uploads/clock.svg" alt="Clock" className="w-[14px] h-[14px]" />
-          <LiveSaleTimer />
+          {/* Blinking Red Dot */}
+          <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
+          <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>
         </div>
-        <div>
-          <button className="bg-[#f44336] text-white text-[12px] font-bold px-2 py-1 rounded flex items-center gap-1.5 shadow-sm uppercase tracking-wider">
-            Sale Live
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-          </button>
+        <div className="flex items-center">
+          <span className="text-[13px] font-semibold text-slate-500 mr-2">Ends in</span>
+          <div className="bg-slate-100 px-2.5 py-1 rounded-[6px] flex items-center justify-center">
+            <LiveSaleTimer className="text-[13px] font-extrabold text-black" />
+          </div>
         </div>
       </section>
 
-      {/* Suggested For You Section Header */}
-      <section className="bg-white w-full pt-4 pb-2 px-4 flex items-center justify-between select-none">
-        <h2 className="text-[17px] font-extrabold text-[#111111] tracking-tight">Suggested For You</h2>
-        <div className="bg-black rounded-full p-1.5 flex items-center justify-center cursor-pointer hover:bg-slate-900 active:scale-95 transition-all">
-          <ArrowRight className="h-4 w-4 text-white" strokeWidth={3} />
-        </div>
+      {/* Gray Divider Block */}
+      <div className="h-[8px] bg-[#f1f3f6] border-t border-b border-slate-150" />
+
+      {/* Recommended for You Section Header */}
+      <section className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none border-b border-slate-150">
+        <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>
+        <ChevronRight className="h-5 w-5 text-black" strokeWidth={2.5} />
       </section>
 
       <section className="bg-[#f1f3f6] pb-6">

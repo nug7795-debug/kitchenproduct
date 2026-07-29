@@ -304,7 +304,7 @@ export default function Home() {
       </div>
 
       {/* Deals of the Day Timer Row */}
-      <section className="bg-white border-b border-slate-150 py-3.5 px-4 flex items-center justify-between select-none">
+      <section className="bg-white border-b border-slate-150 py-3.5 px-4 flex items-center justify-between select-none shimmer-sale-banner">
         <div className="flex items-center gap-2">
           {/* Blinking Red Dot */}
           <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />

@@ -304,7 +304,7 @@ export default function Home() {
       </div>
 
       {/* Deals of the Day Timer Row */}
-      <section className="bg-white border-b border-slate-150 py-3.5 px-4 flex items-center justify-between select-none">
+      <div className="bg-white border-b border-slate-150 py-3.5 px-4 flex items-center justify-between select-none">
         <div className="flex items-center gap-2 shimmer-sale-banner px-1.5 py-0.5 rounded">
           {/* Blinking Red Dot */}
           <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
@@ -316,9 +316,9 @@ export default function Home() {
             <LiveSaleTimer className="text-[13px] font-extrabold text-black" />
           </div>
         </div>
-      </section>
+      </div>
 
-      <section className="bg-[#f1f3f6] pb-6">
+      <div className="bg-[#f1f3f6] pb-6">
         {/* Recommended for You Section Header */}
         <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
           <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>
@@ -338,7 +338,7 @@ export default function Home() {
             ))}
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }

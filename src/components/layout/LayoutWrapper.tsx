@@ -49,7 +49,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
           </div>
           {pathname !== '/' && pathname !== '/cart' && <Footer />}
         </main>
-        {/* {pathname === '/' && <BottomNav />} */}
+        {pathname === '/' && <BottomNav />}
       </div>
     </div>
   );

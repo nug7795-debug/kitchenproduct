@@ -318,7 +318,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-[#f1f3f6] pb-6">
+      <div className="bg-[#f1f3f6] pb-20">
         {/* Recommended for You Section Header */}
         <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
           <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>

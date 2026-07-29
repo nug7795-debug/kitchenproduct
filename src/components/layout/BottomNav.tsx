@@ -51,22 +51,21 @@ export const BottomNav = () => {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-200 flex items-center justify-around h-[60px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
-        const isActive = pathname === item.activePath;
+        const isActive = item.name === 'Home';
         const Icon = item.icon;
         
         return (
-          <Link 
+          <div 
             key={item.name} 
-            href={item.href}
-            className="flex flex-col items-center justify-center h-full min-w-[64px] relative active:scale-95 transition-transform"
+            className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none"
           >
             <div className="relative flex items-center justify-center">
               <Icon className={cn(
                 "h-[23px] w-[23px] transition-colors duration-150",
                 isActive 
-                  ? "text-[#2874f0]" 
-                  : "text-[#717478]",
-                isActive && item.name === 'Home' && "fill-[#2874f0]"
+                  ? "text-[#1d62d6]" 
+                  : "text-[#555964]",
+                isActive && item.name === 'Home' && "fill-[#1d62d6]"
               )} />
               {item.badge && (
                 <span className="absolute -top-1.5 -right-2 flex h-[16px] min-w-[16px] px-1 items-center justify-center rounded-full bg-[#ff4343] text-[9px] font-black text-white border-[1.5px] border-white shadow-xs">
@@ -77,12 +76,12 @@ export const BottomNav = () => {
             <span className={cn(
               "text-[10.5px] mt-0.5 transition-colors duration-150",
               isActive 
-                ? "text-[#2874f0] font-bold" 
-                : "text-[#717478] font-medium"
+                ? "text-[#1d62d6] font-bold" 
+                : "text-[#555964] font-medium"
             )}>
               {item.name}
             </span>
-          </Link>
+          </div>
         );
       })}
     </nav>

@@ -323,10 +323,10 @@ export default function Home() {
 
       {/* Deals of the Day Timer Row (Styled like a green ticket) */}
       <div className="bg-white py-2 px-2.5 select-none">
-        <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-xs">
+        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)]">
           {/* Ticket Cutouts */}
-          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-r-full border-l-0 z-10" />
-          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-l-full border-r-0 z-10" />
+          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
+          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
 
           {/* Left: SALE IS LIVE */}
           <div className="flex items-center gap-1.5 shimmer-sale-banner px-1 py-0.5 rounded ml-1 shrink-0 whitespace-nowrap">

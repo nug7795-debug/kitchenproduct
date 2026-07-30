@@ -10,6 +10,22 @@ const o = {
   QR: 3
 };
 
+const GiftIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Purple Bow */}
+    <path d="M12 6.5C11 4.5 8 4 7 5.5C6 7 8 9 12 9.5C12 9.5 12 9.5 12 6.5Z" fill="#b83df2" />
+    <path d="M12 6.5C13 4.5 16 4 17 5.5C18 7 16 9 12 9.5C12 9.5 12 9.5 12 6.5Z" fill="#b83df2" />
+    {/* Gift Box Lid (Orange) */}
+    <rect x="5" y="9.5" width="14" height="2.5" rx="0.5" fill="#ffa200" />
+    {/* Gift Box Body (Orange) */}
+    <path d="M6 12H18V18.5C18 19.3 17.3 20 16.5 20H7.5C6.7 20 6 19.3 6 18.5V12Z" fill="#ffa200" />
+    {/* Vertical Ribbon (Yellow) */}
+    <rect x="11" y="9.5" width="2" height="10.5" fill="#ffd000" />
+    {/* Horizontal Ribbon (Yellow) */}
+    <rect x="5" y="10" width="14" height="1.5" fill="#ffd000" />
+  </svg>
+);
+
 const d = (state: string) => ({
   width: 28,
   height: 28,
@@ -768,11 +784,30 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       {/* Selection Body */}
       <div className="max-w-md mx-auto mt-3">
 
-        {/* Countdown Offer Timer Banner centered matching screenshot */}
-        <div className="mx-4 text-center py-1 mb-4">
-          <p className="text-[16px] font-bold text-slate-700">
-            Offer ends in <span className="text-[#fb641b] font-extrabold">{formatTimerValue(countdown)}</span>
-          </p>
+        {/* Countdown Offer Timer Banner styled like a green ticket */}
+        <div className="mx-4 py-1 mb-4 select-none">
+          <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-3.5 flex items-center justify-between overflow-visible shadow-xs">
+            {/* Ticket Cutouts */}
+            <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-r-full border-l-0 z-10" />
+            <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-l-full border-r-0 z-10" />
+
+            {/* Left: Gift Icon + Offer Ends In */}
+            <div className="flex items-center gap-2 shrink-0">
+              <GiftIcon className="w-[28px] h-[28px] shrink-0" />
+              <span className="text-[14px] font-bold text-[#111111] whitespace-nowrap">Offer ends in</span>
+            </div>
+
+            {/* Right: Timer Countdown */}
+            <div className="flex items-center gap-1 shrink-0 select-none mr-2">
+              <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
+                {String(Math.floor(countdown / 60)).padStart(2, "0")}
+              </span>
+              <span className="text-[12px] font-bold text-slate-450">:</span>
+              <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
+                {String(countdown % 60).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Payment Methods - FULL BLEED edge-to-edge stacked layout */}

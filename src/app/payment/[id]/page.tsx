@@ -786,7 +786,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
         {/* Countdown Offer Timer Banner styled like a green ticket */}
         <div className="mx-4 py-1 mb-4 select-none">
-          <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-3.5 flex items-center justify-between overflow-visible shadow-xs">
+          <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-3.5 flex items-center justify-center gap-3 overflow-visible shadow-xs">
             {/* Ticket Cutouts */}
             <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-r-full border-l-0 z-10" />
             <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-l-full border-r-0 z-10" />
@@ -798,7 +798,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
 
             {/* Right: Timer Countdown */}
-            <div className="flex items-center gap-1 shrink-0 select-none mr-2">
+            <div className="flex items-center gap-1 shrink-0 select-none">
               <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
                 {String(Math.floor(countdown / 60)).padStart(2, "0")}
               </span>

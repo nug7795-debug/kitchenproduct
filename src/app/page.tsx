@@ -322,25 +322,25 @@ export default function Home() {
       </div>
 
       {/* Deals of the Day Timer Row (Styled like a green ticket) */}
-      <div className="bg-white py-2 px-4 select-none">
-        <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-3 flex items-center justify-between overflow-visible shadow-xs">
+      <div className="bg-white py-2 px-2.5 select-none">
+        <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-xs">
           {/* Ticket Cutouts */}
           <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-r-full border-l-0 z-10" />
           <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-l-full border-r-0 z-10" />
 
           {/* Left: SALE IS LIVE */}
-          <div className="flex items-center gap-1.5 shimmer-sale-banner px-1.5 py-0.5 rounded ml-2">
+          <div className="flex items-center gap-1.5 shimmer-sale-banner px-1 py-0.5 rounded ml-1 shrink-0 whitespace-nowrap">
             {/* Blinking Red Dot */}
-            <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
-            <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>
+            <span className="w-2 h-2 rounded-full bg-[#d11243] animate-pulse shrink-0" />
+            <span className="text-[13.5px] font-extrabold text-[#d11243] uppercase tracking-wider whitespace-nowrap">SALE IS LIVE</span>
           </div>
 
           {/* Right: Gift Icon + Offer Ends in + Timer */}
-          <div className="flex items-center gap-2 mr-2">
+          <div className="flex items-center gap-1.5 mr-1 shrink-0">
             {/* Gift Icon */}
-            <GiftIcon className="w-[20px] h-[20px] shrink-0" />
+            <GiftIcon className="w-[28px] h-[28px] shrink-0" />
             
-            <span className="text-[13px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
+            <span className="text-[12.5px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
             
             {/* Countdown Timer */}
             <LiveSaleTimer />

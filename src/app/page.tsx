@@ -80,14 +80,9 @@ const LiveSaleTimer = () => {
 
   return (
     <div className="flex items-center gap-1 shrink-0 select-none">
-      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">00</span>
-      <span className="text-[11px] font-bold text-slate-500">h</span>
+      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">{minutesStr}</span>
       <span className="text-[12px] font-bold text-slate-450">:</span>
-      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">{minutesStr}</span>
-      <span className="text-[11px] font-bold text-slate-500">m</span>
-      <span className="text-[12px] font-bold text-slate-450">:</span>
-      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">{secondsStr}</span>
-      <span className="text-[11px] font-bold text-slate-500">s</span>
+      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">{secondsStr}</span>
     </div>
   );
 };

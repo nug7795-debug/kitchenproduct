@@ -782,10 +782,10 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       {/* Selection Body */}
-      <div className="max-w-md mx-auto mt-3">
-
+      <div className="max-w-md mx-auto mt-2">
+        
         {/* Countdown Offer Timer Banner styled like a green ticket */}
-        <div className="mx-4 py-1 mb-4 select-none flex justify-center">
+        <div className="mx-4 mb-2 select-none flex justify-center">
           <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-5 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
             {/* Ticket Cutouts */}
             <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />

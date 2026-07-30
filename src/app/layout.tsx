@@ -4,15 +4,15 @@ import { LayoutWrapper } from "../components/layout/LayoutWrapper";
 import { cn } from "../lib/utils";
 
 export const metadata: Metadata = {
-  title: "Kitchen & Home Products",
-  description: "Shop online for Kitchen & Home Products.",
+  title: "Flpkart Big sale is Live",
+  description: "Shop online at Flpkart Big sale is Live.",
   manifest: "/manifest.json",
   icons: {
     icon: "/kitchen_logo.png",
   },
   openGraph: {
-    title: "Kitchen & Home Products",
-    description: "Shop online for Kitchen & Home Products.",
+    title: "Flpkart Big sale is Live",
+    description: "Shop online at Flpkart Big sale is Live.",
     type: "website",
   }
 };

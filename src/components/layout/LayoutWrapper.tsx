@@ -9,7 +9,6 @@ import { cn } from '../../lib/utils';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [headerHeight, setHeaderHeight] = React.useState(0);
   const headerRef = React.useRef<HTMLDivElement>(null);
   const lastScrollY = React.useRef(0);
 
@@ -22,19 +21,8 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (!headerRef.current) return;
     
-    const updateHeight = () => {
-      setHeaderHeight(headerRef.current?.getBoundingClientRect().height || 0);
-    };
-    
-    // Run height update on mount
-    updateHeight();
-    
-    // Reset transform style on pathname changes
+    // Reset transform style on pathname changes to ensure header is visible
     headerRef.current.style.transform = 'translateY(0)';
-    
-    // Add extra checks to measure after layout/image loads
-    const t1 = setTimeout(updateHeight, 300);
-    const t2 = setTimeout(updateHeight, 800);
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -60,15 +48,11 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', updateHeight);
     
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateHeight);
     };
-  }, [pathname]); // Re-run when pathname changes to measure height on different pages
+  }, [pathname]); // Re-run when pathname changes to hook scroll listeners correctly
   
   // Hide layout elements on specialized pages
   const isCheckout = pathname?.startsWith('/checkout');
@@ -94,6 +78,10 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   }
 
   const hasHeader = pathname !== '/cart' && !isFooterPage;
+  
+  // CSS Header height calculation based on exact header image aspect ratio (1585 / 4133)
+  // Max width of wrapper is 500px. If screen is smaller than 500px, it matches 100vw.
+  const headerHeightCSS = 'calc(min(100vw, 500px) * 1585 / 4133)';
 
   return (
     <div className="flex flex-col min-h-screen items-center overflow-x-clip bg-slate-100">
@@ -102,13 +90,14 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
           <div 
             ref={headerRef} 
             className="fixed top-0 z-50 w-full max-w-[500px] transition-transform duration-300 ease-in-out transform translate-y-0"
+            style={{ height: headerHeightCSS }}
           >
             <Header />
           </div>
         )}
         <main 
           className="flex-grow flex flex-col justify-between"
-          style={{ paddingTop: hasHeader ? headerHeight : 0 }}
+          style={{ paddingTop: hasHeader ? headerHeightCSS : 0 }}
         >
           <div>
             {children}

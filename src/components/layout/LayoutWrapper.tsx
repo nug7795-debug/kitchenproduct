@@ -10,7 +10,6 @@ import { cn } from '../../lib/utils';
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [headerHeight, setHeaderHeight] = React.useState(0);
-  const [isVisible, setIsVisible] = React.useState(true);
   const headerRef = React.useRef<HTMLDivElement>(null);
   const lastScrollY = React.useRef(0);
 
@@ -30,23 +29,31 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     // Run height update on mount
     updateHeight();
     
+    // Reset transform style on pathname changes
+    headerRef.current.style.transform = 'translateY(0)';
+    
     // Add extra checks to measure after layout/image loads
     const t1 = setTimeout(updateHeight, 300);
     const t2 = setTimeout(updateHeight, 800);
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const diff = currentScrollY - lastScrollY.current;
       
-      // If scroll position is near the top, always show the header
-      if (currentScrollY < 80) {
-        setIsVisible(true);
-      } else {
-        // Scroll down (push screen up) -> Hide header
-        // Scroll up (pull screen down) -> Show header
-        if (currentScrollY > lastScrollY.current) {
-          setIsVisible(false);
+      if (headerRef.current) {
+        if (currentScrollY < 80) {
+          headerRef.current.style.transform = 'translateY(0)';
         } else {
-          setIsVisible(true);
+          // Use a small 5px threshold to prevent micro-vibrations from toggling the header
+          if (Math.abs(diff) > 5) {
+            if (diff > 0) {
+              // Scrolling down -> Hide header instantly/smoothly
+              headerRef.current.style.transform = 'translateY(-100%)';
+            } else {
+              // Scrolling up -> Show header instantly/smoothly
+              headerRef.current.style.transform = 'translateY(0)';
+            }
+          }
         }
       }
       lastScrollY.current = currentScrollY;
@@ -94,9 +101,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
         {hasHeader && (
           <div 
             ref={headerRef} 
-            className={`fixed top-0 z-50 w-full max-w-[500px] transition-transform duration-300 ease-in-out ${
-              isVisible ? 'translate-y-0' : '-translate-y-full'
-            }`}
+            className="fixed top-0 z-50 w-full max-w-[500px] transition-transform duration-300 ease-in-out transform translate-y-0"
           >
             <Header />
           </div>

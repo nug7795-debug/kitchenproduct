@@ -63,9 +63,9 @@ export const BottomNav = () => {
               <Icon className={cn(
                 "h-[23px] w-[23px] transition-colors duration-150",
                 isActive 
-                  ? "text-[#1d62d6]" 
-                  : "text-[#555964]",
-                isActive && item.name === 'Home' && "fill-[#1d62d6]"
+                  ? "text-[#2874f0]" 
+                  : "text-[#71748a]",
+                isActive && item.name === 'Home' && "fill-[#2874f0]"
               )} />
               {item.badge && (
                 <span className="absolute -top-1.5 -right-2 flex h-[16px] min-w-[16px] px-1 items-center justify-center rounded-full bg-[#ff4343] text-[9px] font-black text-white border-[1.5px] border-white shadow-xs">
@@ -76,8 +76,8 @@ export const BottomNav = () => {
             <span className={cn(
               "text-[10.5px] mt-0.5 transition-colors duration-150",
               isActive 
-                ? "text-[#1d62d6] font-bold" 
-                : "text-[#555964] font-medium"
+                ? "text-[#2874f0] font-bold" 
+                : "text-[#71748a] font-medium"
             )}>
               {item.name}
             </span>

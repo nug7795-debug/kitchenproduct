@@ -8,7 +8,23 @@ import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight, Smartphone, Monitor } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-const LiveSaleTimer = ({ className = "text-[#2874f0] font-bold text-[15px]" }: { className?: string }) => {
+const GiftIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Purple Bow */}
+    <path d="M12 6.5C11 4.5 8 4 7 5.5C6 7 8 9 12 9.5C12 9.5 12 9.5 12 6.5Z" fill="#b83df2" />
+    <path d="M12 6.5C13 4.5 16 4 17 5.5C18 7 16 9 12 9.5C12 9.5 12 9.5 12 6.5Z" fill="#b83df2" />
+    {/* Gift Box Lid (Orange) */}
+    <rect x="5" y="9.5" width="14" height="2.5" rx="0.5" fill="#ffa200" />
+    {/* Gift Box Body (Orange) */}
+    <path d="M6 12H18V18.5C18 19.3 17.3 20 16.5 20H7.5C6.7 20 6 19.3 6 18.5V12Z" fill="#ffa200" />
+    {/* Vertical Ribbon (Yellow) */}
+    <rect x="11" y="9.5" width="2" height="10.5" fill="#ffd000" />
+    {/* Horizontal Ribbon (Yellow) */}
+    <rect x="5" y="10" width="14" height="1.5" fill="#ffd000" />
+  </svg>
+);
+
+const LiveSaleTimer = () => {
   const [timeLeft, setTimeLeft] = React.useState(15 * 60);
 
   React.useEffect(() => {
@@ -63,9 +79,16 @@ const LiveSaleTimer = ({ className = "text-[#2874f0] font-bold text-[15px]" }: {
   const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
 
   return (
-    <span className={className}>
-      {minutesStr}:{secondsStr}
-    </span>
+    <div className="flex items-center gap-1 shrink-0 select-none">
+      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">00</span>
+      <span className="text-[11px] font-bold text-slate-500">h</span>
+      <span className="text-[12px] font-bold text-slate-450">:</span>
+      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">{minutesStr}</span>
+      <span className="text-[11px] font-bold text-slate-500">m</span>
+      <span className="text-[12px] font-bold text-slate-450">:</span>
+      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-1.5 py-0.5 rounded-[4px] min-w-[22px] text-center">{secondsStr}</span>
+      <span className="text-[11px] font-bold text-slate-500">s</span>
+    </div>
   );
 };
 
@@ -303,17 +326,29 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Deals of the Day Timer Row */}
-      <div className="bg-white py-3.5 px-4 flex items-center justify-between select-none">
-        <div className="flex items-center gap-2 shimmer-sale-banner px-1.5 py-0.5 rounded">
-          {/* Blinking Red Dot */}
-          <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
-          <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>
-        </div>
-        <div className="flex items-center mr-5">
-          <span className="text-[13px] font-semibold text-slate-500 mr-2">Ends in</span>
-          <div className="bg-slate-100 px-2.5 py-1 rounded-[6px] flex items-center justify-center">
-            <LiveSaleTimer className="text-[13px] font-extrabold text-black" />
+      {/* Deals of the Day Timer Row (Styled like a green ticket) */}
+      <div className="bg-white py-2 px-4 select-none">
+        <div className="relative bg-[#f6fffa] border border-[#03a685] rounded-[8px] py-2 px-3 flex items-center justify-between overflow-visible shadow-xs">
+          {/* Ticket Cutouts */}
+          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-r-full border-l-0 z-10" />
+          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border border-[#03a685] rounded-l-full border-r-0 z-10" />
+
+          {/* Left: SALE IS LIVE */}
+          <div className="flex items-center gap-1.5 shimmer-sale-banner px-1.5 py-0.5 rounded ml-2">
+            {/* Blinking Red Dot */}
+            <span className="w-2.5 h-2.5 rounded-full bg-[#d11243] animate-pulse" />
+            <span className="text-[14px] font-extrabold text-[#d11243] uppercase tracking-wider">SALE IS LIVE</span>
+          </div>
+
+          {/* Right: Gift Icon + Offer Ends in + Timer */}
+          <div className="flex items-center gap-2 mr-2">
+            {/* Gift Icon */}
+            <GiftIcon className="w-[20px] h-[20px] shrink-0" />
+            
+            <span className="text-[13px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
+            
+            {/* Countdown Timer */}
+            <LiveSaleTimer />
           </div>
         </div>
       </div>

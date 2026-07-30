@@ -174,7 +174,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full flex flex-col bg-white text-slate-800 shadow-sm select-none">
+    <header className="relative w-full flex flex-col bg-white text-slate-800 shadow-sm select-none">
       {/* Cropped Header Image with overlays */}
       <div className="relative w-full aspect-[4133/1585]">
         <img 

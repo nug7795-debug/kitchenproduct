@@ -303,47 +303,50 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Categories Row */}
-      <div className="bg-white px-2 py-3.5 select-none border-b border-slate-100">
-        <div className="grid grid-cols-5 gap-1">
-          {[
-            { name: 'Mobiles', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/86a19de055a5ae2c.jpg' },
-            { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
-            { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
-            { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
-            { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
-          ].map((cat) => (
-            <div key={cat.name} className="flex flex-col items-center justify-center text-center">
-              <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
-              <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Deals of the Day Timer Row (Styled like a green ticket) */}
-      <div className="bg-white py-2 px-2.5 select-none">
-        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)]">
-          {/* Ticket Cutouts */}
-          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
-          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
-
-          {/* Left: SALE IS LIVE */}
-          <div className="flex items-center gap-1.5 shimmer-sale-banner px-1 py-0.5 rounded ml-1 shrink-0 whitespace-nowrap">
-            {/* Blinking Red Dot */}
-            <span className="w-2 h-2 rounded-full bg-[#d11243] animate-pulse shrink-0" />
-            <span className="text-[13.5px] font-extrabold text-[#d11243] uppercase tracking-wider whitespace-nowrap">SALE IS LIVE</span>
+      {/* Sticky Categories & Timer Row Container */}
+      <div className="sticky-nav-container bg-white">
+        {/* Categories Row */}
+        <div className="bg-white px-2 py-3.5 select-none border-b border-slate-100">
+          <div className="grid grid-cols-5 gap-1">
+            {[
+              { name: 'Mobiles', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/86a19de055a5ae2c.jpg' },
+              { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
+              { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
+              { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
+              { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
+            ].map((cat) => (
+              <div key={cat.name} className="flex flex-col items-center justify-center text-center">
+                <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
+                <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Right: Gift Icon + Offer Ends in + Timer */}
-          <div className="flex items-center gap-1.5 mr-1 shrink-0">
-            {/* Gift Icon */}
-            <GiftIcon className="w-[28px] h-[28px] shrink-0" />
-            
-            <span className="text-[12.5px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
-            
-            {/* Countdown Timer */}
-            <LiveSaleTimer />
+        {/* Deals of the Day Timer Row (Styled like a green ticket) */}
+        <div className="bg-white py-2 px-2.5 select-none">
+          <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)]">
+            {/* Ticket Cutouts */}
+            <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
+            <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
+
+            {/* Left: SALE IS LIVE */}
+            <div className="flex items-center gap-1.5 shimmer-sale-banner px-1 py-0.5 rounded ml-1 shrink-0 whitespace-nowrap">
+              {/* Blinking Red Dot */}
+              <span className="w-2 h-2 rounded-full bg-[#d11243] animate-pulse shrink-0" />
+              <span className="text-[13.5px] font-extrabold text-[#d11243] uppercase tracking-wider whitespace-nowrap">SALE IS LIVE</span>
+            </div>
+
+            {/* Right: Gift Icon + Offer Ends in + Timer */}
+            <div className="flex items-center gap-1.5 mr-1 shrink-0">
+              {/* Gift Icon */}
+              <GiftIcon className="w-[28px] h-[28px] shrink-0" />
+              
+              <span className="text-[12.5px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
+              
+              {/* Countdown Timer */}
+              <LiveSaleTimer />
+            </div>
           </div>
         </div>
       </div>

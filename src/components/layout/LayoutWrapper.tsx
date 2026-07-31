@@ -21,8 +21,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (!headerRef.current) return;
     
-    // Reset transform style on pathname changes to ensure header is visible
+    // Reset transform style and body class on pathname changes to ensure header is visible
     headerRef.current.style.transform = 'translateY(0)';
+    document.body.classList.remove('header-hidden');
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -31,15 +32,18 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       if (headerRef.current) {
         if (currentScrollY < 80) {
           headerRef.current.style.transform = 'translateY(0)';
+          document.body.classList.remove('header-hidden');
         } else {
           // Use a small 5px threshold to prevent micro-vibrations from toggling the header
           if (Math.abs(diff) > 5) {
             if (diff > 0) {
               // Scrolling down -> Hide header instantly/smoothly
               headerRef.current.style.transform = 'translateY(-100%)';
+              document.body.classList.add('header-hidden');
             } else {
               // Scrolling up -> Show header instantly/smoothly
               headerRef.current.style.transform = 'translateY(0)';
+              document.body.classList.remove('header-hidden');
             }
           }
         }
@@ -51,6 +55,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.body.classList.remove('header-hidden');
     };
   }, [pathname]); // Re-run when pathname changes to hook scroll listeners correctly
   

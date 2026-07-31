@@ -280,17 +280,7 @@ body {
   animation: shimmer-slide 2.2s infinite ease-in-out;
 }
 
-/* Sticky Categories + Timer Container */
-.sticky-nav-container {
-  position: sticky;
-  z-index: 40;
-  transition: top 300ms ease-in-out;
-  top: -200px;
-}
 
-body.header-hidden .sticky-nav-container {
-  top: 0;
-}
 
 
 

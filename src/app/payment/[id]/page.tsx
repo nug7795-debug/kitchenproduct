@@ -823,8 +823,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       </div>
 
       {/* Countdown Offer Timer Banner styled like a green ticket - MOVED ABOVE 20% CASHBACK */}
-      <div className="w-full bg-white py-1.5 border-b border-[#eaeaf2] select-none flex justify-center">
-        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-1 px-4 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
+      <div className="w-full bg-white py-2.5 border-b border-[#eaeaf2] select-none flex justify-center">
+        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-1.5 px-4 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
           {/* Ticket Cutouts */}
           <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
           <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
@@ -850,7 +850,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
       {/* Flipkart Payment Offers Green Banner */}
-      <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-2 px-5 flex items-center justify-between select-none shimmer-banner">
+      <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3 px-5 flex items-center justify-between select-none shimmer-banner">
         <div className="flex flex-col">
           <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% Cashback</span>
           <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
@@ -871,7 +871,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 1. UPI Header Accordion Row */}
           <div
             onClick={() => setExpandedSection(expandedSection === 'upi' ? null : 'upi')}
-            className={`w-full bg-white py-2.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
+            className={`w-full bg-white py-3.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
               expandedSection === 'upi' ? 'bg-slate-50/50' : 'hover:bg-slate-50'
             }`}
           >
@@ -898,7 +898,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               {/* PhonePe */}
               <div
                 onClick={() => setSelectedMethod(o.PHONEPE)}
-                className="w-full py-2.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
+                className="w-full py-3.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
@@ -922,7 +922,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               {/* Paytm */}
               <div
                 onClick={() => setSelectedMethod(o.PAYTM)}
-                className="w-full py-2.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
+                className="w-full py-3.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
@@ -946,7 +946,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               {/* Scan To Pay */}
               <div
                 onClick={() => setSelectedMethod(o.QR)}
-                className="w-full py-2.5 px-6 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
+                className="w-full py-3.5 px-6 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
@@ -967,7 +967,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
           {/* 2. Credit / Debit / ATM Card Accordion Row */}
           <div
-            className="w-full bg-white py-2.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
+            className="w-full bg-white py-3.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
           >
             <div className="flex items-start gap-4">
               <CreditCard className="h-5 w-8 text-slate-700 shrink-0 mt-0.5" strokeWidth={1.8} />
@@ -1030,7 +1030,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
           {/* 3. Have a Flpkart Gift Card? Row */}
           {/* 3. Have a Flpkart Gift Card? Row */}
-          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
+          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
             <div className="flex items-center gap-4">
               <GiftCardIcon className="h-5 w-8 text-[#111111] shrink-0" />
               <span className="text-[15px] font-bold text-[#111111] font-sans">Have a Flpkart Gift Card?</span>
@@ -1039,7 +1039,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 4. EMI (Unavailable) Row */}
-          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
+          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
               <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
@@ -1051,7 +1051,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 5. Cash on Delivery (Unavailable) Row */}
-          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
+          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
               <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
@@ -1064,8 +1064,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}
-        <div className="bg-white border-t border-b border-slate-200 py-2.5 px-5 mb-0">
-          <h3 className="text-[16px] font-bold text-[#111111] pb-1.5 border-b border-slate-200 mb-2">Price Details</h3>
+        <div className="bg-white border-t border-b border-slate-200 py-3.5 px-5 mb-0">
+          <h3 className="text-[16px] font-bold text-[#111111] pb-2 border-b border-slate-200 mb-2.5">Price Details</h3>
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between text-sm text-slate-800 font-semibold">
               <span>Price (1 item)</span>

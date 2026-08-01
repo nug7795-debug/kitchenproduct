@@ -1030,7 +1030,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
           {/* 3. Have a Flpkart Gift Card? Row */}
           {/* 3. Have a Flpkart Gift Card? Row */}
-          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
             <div className="flex items-center gap-4">
               <GiftCardIcon className="h-5 w-8 text-[#111111] shrink-0" />
               <span className="text-[15px] font-bold text-[#111111] font-sans">Have a Flpkart Gift Card?</span>
@@ -1039,7 +1039,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 4. EMI (Unavailable) Row */}
-          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
               <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
@@ -1051,7 +1051,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 5. Cash on Delivery (Unavailable) Row */}
-          <div className="w-full bg-white py-3.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
               <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>

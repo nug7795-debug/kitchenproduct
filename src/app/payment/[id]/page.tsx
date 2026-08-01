@@ -858,7 +858,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         <div className="flex items-center gap-1.5 shrink-0 bg-white/75 px-2 py-1 rounded-md border border-slate-200/50">
           <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-3 w-7 object-contain" />
           <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" className="h-3.5 w-6 object-contain" />
-          <span className="text-[10px] font-black text-slate-700 bg-slate-100 px-1 rounded-sm border border-slate-250">+3</span>
+          <span className="text-[10px] font-black text-slate-700 bg-slate-100 px-1 rounded-sm border border-slate-250">+4</span>
         </div>
       </div>
 

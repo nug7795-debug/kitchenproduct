@@ -882,7 +882,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex flex-col">
                 <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">UPI</span>
                 <span className="text-slate-600 text-xs font-semibold mt-0.5">Pay by any UPI app</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹80 cashback • 4 offers available</span>
+                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹80 cashback • Hurry, offer ends soon!</span>
               </div>
             </div>
             {expandedSection === 'upi' ? (
@@ -974,7 +974,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex flex-col">
                 <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">Credit / Debit / ATM Card</span>
                 <span className="text-slate-600 text-xs font-semibold mt-0.5">Add and secure cards as per RBI guidelines</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 20% cashback • 3 offers available</span>
+                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 20% cashback • Hurry, offer ends soon!</span>
               </div>
             </div>
             <ChevronDown className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />

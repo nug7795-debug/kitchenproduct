@@ -1029,7 +1029,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           )}
 
           {/* 3. Have a Flpkart Gift Card? Row */}
-          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none cursor-pointer">
+          {/* 3. Have a Flpkart Gift Card? Row */}
+          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
             <div className="flex items-center gap-4">
               <GiftCardIcon className="h-5 w-8 text-[#111111] shrink-0" />
               <span className="text-[15px] font-bold text-[#111111] font-sans">Have a Flpkart Gift Card?</span>
@@ -1038,7 +1039,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 4. EMI (Unavailable) Row */}
-          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
+          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
               <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
@@ -1050,7 +1051,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
 
           {/* 5. Cash on Delivery (Unavailable) Row */}
-          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
+          <div className="w-full bg-white py-2.5 px-5 border-b border-slate-200 flex items-center justify-between select-none">
             <div className="flex items-center gap-4">
               <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
               <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
@@ -1063,8 +1064,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}
-        <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-0">
-          <h3 className="text-[16px] font-bold text-[#111111] pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
+        <div className="bg-white border-t border-b border-slate-200 py-2.5 px-5 mb-0">
+          <h3 className="text-[16px] font-bold text-[#111111] pb-1.5 border-b border-slate-200 mb-2">Price Details</h3>
           <div className="space-y-3 pt-1">
             <div className="flex items-center justify-between text-sm text-slate-800 font-semibold">
               <span>Price (1 item)</span>

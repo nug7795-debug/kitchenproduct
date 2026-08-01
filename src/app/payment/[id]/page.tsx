@@ -26,6 +26,28 @@ const GiftIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const GiftCardIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="5" width="18" height="14" rx="2" ry="2" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+    <line x1="12" y1="10" x2="12" y2="19" />
+    <path d="M12 10c0-1.5-1-2.5-2.5-2.5S7 8.5 7 10h5z" fill="currentColor" fillOpacity="0.15" />
+    <path d="M12 10c0-1.5 1-2.5 2.5-2.5S17 8.5 17 10h-5z" fill="currentColor" fillOpacity="0.15" />
+  </svg>
+);
+
+const EmiIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+    <line x1="16" y1="2" x2="16" y2="6" />
+    <line x1="8" y1="2" x2="8" y2="6" />
+    <line x1="3" y1="10" x2="21" y2="10" />
+    <line x1="15" y1="13" x2="9" y2="19" />
+    <circle cx="10" cy="14" r="1.2" fill="currentColor" />
+    <circle cx="14" cy="18" r="1.2" fill="currentColor" />
+  </svg>
+);
+
 const d = (state: string) => ({
   width: 28,
   height: 28,
@@ -973,34 +995,32 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           )}
 
-          {/* 3. EMI Accordion Row */}
-          <div
-            className="w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
-          >
-            <div className="flex items-start gap-4">
-              <Calendar className="h-5 w-8 text-slate-550 shrink-0 mt-0.5" strokeWidth={1.8} />
-              <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-slate-800 font-sans leading-tight">EMI (Easy Installments)</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Credit Card EMI</span>
-              </div>
+          {/* 3. Have a Flipkart Gift Card? Row */}
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none cursor-pointer">
+            <div className="flex items-center gap-4">
+              <GiftCardIcon className="h-5 w-8 text-slate-800 shrink-0" />
+              <span className="text-[15px] font-bold text-slate-800 font-sans">Have a Flipkart Gift Card?</span>
             </div>
-            <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
+            <span className="text-[14px] font-extrabold text-[#2874f0] select-none hover:text-[#2874f0]/80">Add</span>
           </div>
 
-          {/* EMI Sub-Options Drawer */}
-          {expandedSection === 'emi' && (
-            <div className="bg-slate-50/30 border-b border-slate-200 p-5 text-center text-xs font-bold text-slate-500">
-              ⚠️ No EMI options are available for this order amount. Minimum value is ₹ 3,000.
-            </div>
-          )}
-
-
-
-          {/* Cash on Delivery (Unavailable) Row */}
+          {/* 4. Cash on Delivery (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
               <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
               <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
+              <span>Unavailable</span>
+              <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
+            </div>
+          </div>
+
+          {/* 5. EMI (Unavailable) Row */}
+          <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
+            <div className="flex items-center gap-4">
+              <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
+              <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
             </div>
             <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
               <span>Unavailable</span>

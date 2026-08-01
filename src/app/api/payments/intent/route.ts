@@ -28,7 +28,7 @@ export async function POST(request: Request) {
           {
             id: orderId,
             total_amount: Number(amount),
-            status: 'pending',
+            status: 'draft',
             created_at: new Date().toISOString()
           }
         ])
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
         .single();
       
       if (insertError || !newOrder) {
-        order = { id: orderId, total_amount: Number(amount), status: 'pending' };
+        order = { id: orderId, total_amount: Number(amount), status: 'draft' };
       } else {
         order = newOrder;
       }

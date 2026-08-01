@@ -107,6 +107,7 @@ export default function OrdersPage() {
             raw_response
           )
         `)
+        .neq('status', 'draft')
         .order('created_at', { ascending: false })
         .limit(100);
 

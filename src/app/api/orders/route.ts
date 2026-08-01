@@ -16,6 +16,7 @@ export async function GET(request: Request) {
       .from('orders')
       .select('*, order_items(*, products(*))')
       .eq('user_id', user.id)
+      .neq('status', 'draft')
       .order('created_at', { ascending: false });
 
     if (error) throw error;

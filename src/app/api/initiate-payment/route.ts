@@ -56,7 +56,7 @@ export async function POST(request: Request) {
           total_amount: Number(amount),
           discount_amount: 0,
           shipping_charge: 0,
-          status: 'pending'
+          status: 'draft'
         }])
         .select()
         .single();

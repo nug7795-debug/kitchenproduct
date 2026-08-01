@@ -508,7 +508,7 @@ export default function CheckoutPage() {
           discount_amount: totalDiscount,
           shipping_charge: 0,
           address_id: finalAddressId,
-          status: 'pending'
+          status: 'draft'
         }])
         .select()
         .single();

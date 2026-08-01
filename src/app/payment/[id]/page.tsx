@@ -1111,18 +1111,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               if (isLoaded) {
                 if (selectedMethod === o.QR) {
                   setShowQrModal(true);
+                  if (txnid) {
+                    fetch('/api/payments/open-upi', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ txnid, app: 'qr' })
+                    }).catch(err => console.error('Failed to register upi QR open:', err));
+                  }
                 } else if (selectedMethod === o.PHONEPE) {
-                  setActiveVerificationApp('phonepe');
-                  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                  if (isMobile && phonepeIntent) {
-                    launchIntent(phonepeIntent);
-                  }
+                  handleAppPay('phonepe');
                 } else if (selectedMethod === o.PAYTM) {
-                  setActiveVerificationApp('paytm');
-                  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                  if (isMobile && paytmIntent) {
-                    launchIntent(paytmIntent);
-                  }
+                  handleAppPay('paytm');
                 }
               }
             }}

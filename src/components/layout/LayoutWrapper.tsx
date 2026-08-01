@@ -11,9 +11,16 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   React.useEffect(() => {
-    // Initialize shared offer ends time to 15 minutes from now on fresh load/refresh
+    // Initialize shared offer ends time to 15 minutes from now on fresh load/refresh if not exists
+    const stored = localStorage.getItem('shared_offer_ends_at');
+    if (stored) {
+      const endsAt = parseInt(stored, 10);
+      if (endsAt > Date.now()) {
+        return; // Valid timer exists
+      }
+    }
     const endsAt = Date.now() + 15 * 60 * 1000;
-    sessionStorage.setItem('shared_offer_ends_at', endsAt.toString());
+    localStorage.setItem('shared_offer_ends_at', endsAt.toString());
   }, [pathname]);
   
   // Hide layout elements on specialized pages

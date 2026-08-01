@@ -408,7 +408,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [showQrModal, setShowQrModal] = useState(false);
   const [showAlternativeMethod, setShowAlternativeMethod] = useState(false);
   
-  const [countdown, setCountdown] = useState(300);
+  const [countdown, setCountdown] = useState(15 * 60);
   const pollingRef = useRef(false);
   const initiatingRef = useRef(false);
 
@@ -422,17 +422,50 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     }
   }, []);
 
-  // Countdown timer
+  // Shared countdown timer
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
+    const getOrSetLiveSaleTime = () => {
+      const stored = localStorage.getItem('shared_offer_ends_at');
+      const now = Date.now();
+
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          return { endsAt, remaining };
         }
-        return prev - 1;
-      });
+      }
+
+      // Generate new 15 minute duration if none exists or has expired
+      const endsAt = now + 15 * 60 * 1000;
+      localStorage.setItem('shared_offer_ends_at', endsAt.toString());
+      return { endsAt, remaining: 15 * 60 };
+    };
+
+    const init = getOrSetLiveSaleTime();
+    setCountdown(init.remaining);
+
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const stored = localStorage.getItem('shared_offer_ends_at');
+      if (stored) {
+        const endsAt = parseInt(stored, 10);
+        const remaining = Math.floor((endsAt - now) / 1000);
+        if (remaining > 0) {
+          setCountdown(remaining);
+        } else {
+          // Reset to 15 minutes if expired
+          const newEndsAt = now + 15 * 60 * 1000;
+          localStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+          setCountdown(15 * 60);
+        }
+      } else {
+        const newEndsAt = now + 15 * 60 * 1000;
+        localStorage.setItem('shared_offer_ends_at', newEndsAt.toString());
+        setCountdown(15 * 60);
+      }
     }, 1000);
+
     return () => clearInterval(timer);
   }, []);
 
@@ -789,6 +822,32 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
+      {/* Countdown Offer Timer Banner styled like a green ticket - MOVED ABOVE 20% CASHBACK */}
+      <div className="w-full bg-white py-3.5 border-b border-[#eaeaf2] select-none flex justify-center">
+        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-5 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
+          {/* Ticket Cutouts */}
+          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
+          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
+
+          {/* Left: Gift Icon + Offer Ends In */}
+          <div className="flex items-center gap-2 shrink-0">
+            <GiftIcon className="w-[28px] h-[28px] shrink-0" />
+            <span className="text-[14px] font-bold text-[#111111] whitespace-nowrap">Offer ends in</span>
+          </div>
+
+          {/* Right: Timer Countdown */}
+          <div className="flex items-center gap-1 shrink-0 select-none">
+            <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
+              {String(Math.floor(countdown / 60)).padStart(2, "0")}
+            </span>
+            <span className="text-[12px] font-bold text-slate-600">:</span>
+            <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
+              {String(countdown % 60).padStart(2, "0")}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
       {/* Flipkart Payment Offers Green Banner */}
       <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3.5 px-5 flex items-center justify-between select-none shimmer-banner">
@@ -805,32 +864,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* Selection Body */}
       <div className="max-w-md mx-auto mt-2">
-        
-        {/* Countdown Offer Timer Banner styled like a green ticket */}
-        <div className="mx-4 mb-2 select-none flex justify-center">
-          <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-5 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
-            {/* Ticket Cutouts */}
-            <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
-            <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
-
-            {/* Left: Gift Icon + Offer Ends In */}
-            <div className="flex items-center gap-2 shrink-0">
-              <GiftIcon className="w-[28px] h-[28px] shrink-0" />
-              <span className="text-[14px] font-bold text-[#111111] whitespace-nowrap">Offer ends in</span>
-            </div>
-
-            {/* Right: Timer Countdown */}
-            <div className="flex items-center gap-1 shrink-0 select-none">
-              <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
-                {String(Math.floor(countdown / 60)).padStart(2, "0")}
-              </span>
-              <span className="text-[12px] font-bold text-slate-600">:</span>
-              <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
-                {String(countdown % 60).padStart(2, "0")}
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Payment Methods - FULL BLEED edge-to-edge stacked layout */}
         <div className="space-y-0 mb-0 border-t border-slate-200">

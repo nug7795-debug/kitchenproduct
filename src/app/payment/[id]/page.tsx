@@ -1040,24 +1040,24 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 4. EMI (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
-              <EmiIcon className="h-5 w-8 text-slate-600 shrink-0" />
-              <span className="text-[15px] font-bold text-slate-600 font-sans">EMI</span>
+              <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
+              <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 select-none">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
               <span>Unavailable</span>
-              <HelpCircle className="h-4 w-4 text-slate-600" strokeWidth={2} />
+              <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
             </div>
           </div>
 
           {/* 5. Cash on Delivery (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
-              <Banknote className="h-5 w-8 text-slate-600 shrink-0" strokeWidth={1.8} />
-              <span className="text-[15px] font-bold text-slate-600 font-sans">Cash on Delivery</span>
+              <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
+              <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 select-none">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
               <span>Unavailable</span>
-              <HelpCircle className="h-4 w-4 text-slate-600" strokeWidth={2} />
+              <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
             </div>
           </div>
         </div>

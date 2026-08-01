@@ -748,10 +748,10 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <button onClick={() => router.push("/")} className="mr-4 active:scale-95 transition-transform">
               <ArrowLeft className="h-6 w-6 text-black" />
             </button>
-            <h1 className="text-lg font-black text-slate-900 tracking-tight">Payments</h1>
+            <h1 className="text-lg font-black text-[#111111] tracking-tight">Payments</h1>
           </div>
-          <div className="flex items-center gap-1 border border-slate-200 bg-slate-50 rounded-md px-2.5 py-1 text-[11px] font-black text-slate-500 uppercase tracking-tight shadow-3xs">
-            <Lock className="h-3.5 w-3.5 text-slate-400" strokeWidth={2.5} />
+          <div className="flex items-center gap-1 border border-slate-200 bg-slate-50 rounded-md px-2.5 py-1 text-[11px] font-black text-slate-700 uppercase tracking-tight shadow-3xs">
+            <Lock className="h-3.5 w-3.5 text-slate-600" strokeWidth={2.5} />
             <span>100% Secure</span>
           </div>
         </div>
@@ -794,12 +794,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3.5 px-5 flex items-center justify-between select-none shimmer-banner">
         <div className="flex flex-col">
           <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% Cashback</span>
-          <span className="text-slate-500 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
+          <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
         </div>
         <div className="flex items-center gap-1.5 shrink-0 bg-white/75 px-2 py-1 rounded-md border border-slate-200/50">
           <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-3 w-7 object-contain" />
           <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" className="h-3.5 w-6 object-contain" />
-          <span className="text-[10px] font-black text-slate-500 bg-slate-100 px-1 rounded-sm border border-slate-250">+3</span>
+          <span className="text-[10px] font-black text-slate-700 bg-slate-100 px-1 rounded-sm border border-slate-250">+3</span>
         </div>
       </div>
 
@@ -824,7 +824,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
                 {String(Math.floor(countdown / 60)).padStart(2, "0")}
               </span>
-              <span className="text-[12px] font-bold text-slate-450">:</span>
+              <span className="text-[12px] font-bold text-slate-600">:</span>
               <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
                 {String(countdown % 60).padStart(2, "0")}
               </span>
@@ -843,19 +843,19 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             }`}
           >
             <div className="flex items-start gap-4">
-              <div className="h-6 w-8 border border-slate-300 rounded flex items-center justify-center text-[10px] font-black text-slate-700 bg-slate-50 tracking-tighter shrink-0 mt-0.5 select-none">
+              <div className="h-6 w-8 border border-slate-350 rounded flex items-center justify-center text-[10px] font-black text-slate-800 bg-slate-50 tracking-tighter shrink-0 mt-0.5 select-none">
                 UPI
               </div>
               <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-slate-800 font-sans leading-tight">UPI</span>
-                <span className="text-slate-400 text-xs font-semibold mt-0.5">Pay by any UPI app</span>
+                <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">UPI</span>
+                <span className="text-slate-600 text-xs font-semibold mt-0.5">Pay by any UPI app</span>
                 <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹80 cashback • 4 offers available</span>
               </div>
             </div>
             {expandedSection === 'upi' ? (
-              <ChevronUp className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
+              <ChevronUp className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
             ) : (
-              <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
+              <ChevronDown className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
             )}
           </div>
 
@@ -937,14 +937,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             className="w-full bg-white py-4 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
           >
             <div className="flex items-start gap-4">
-              <CreditCard className="h-5 w-8 text-slate-550 shrink-0 mt-0.5" strokeWidth={1.8} />
+              <CreditCard className="h-5 w-8 text-slate-700 shrink-0 mt-0.5" strokeWidth={1.8} />
               <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-slate-800 font-sans leading-tight">Credit / Debit / ATM Card</span>
-                <span className="text-slate-400 text-xs font-semibold mt-0.5">Add and secure cards as per RBI guidelines</span>
+                <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">Credit / Debit / ATM Card</span>
+                <span className="text-slate-600 text-xs font-semibold mt-0.5">Add and secure cards as per RBI guidelines</span>
                 <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 20% cashback • 3 offers available</span>
               </div>
             </div>
-            <ChevronDown className="h-5 w-5 text-slate-400 shrink-0 mt-0.5" />
+            <ChevronDown className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
           </div>
 
           {/* Card Details Entry Drawer */}
@@ -980,7 +980,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   id="secure-card-chk"
                   className="mt-1 cursor-pointer accent-[#2874F0]"
                 />
-                <label htmlFor="secure-card-chk" className="text-[11px] text-slate-500 font-bold leading-normal cursor-pointer select-none">
+                <label htmlFor="secure-card-chk" className="text-[11px] text-slate-700 font-bold leading-normal cursor-pointer select-none">
                   Secure this card as per RBI guidelines for faster future checkout.
                 </label>
               </div>
@@ -995,62 +995,62 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           )}
 
-          {/* 3. Have a Flipkart Gift Card? Row */}
+          {/* 3. Have a Flpkart Gift Card? Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none cursor-pointer">
             <div className="flex items-center gap-4">
-              <GiftCardIcon className="h-5 w-8 text-slate-800 shrink-0" />
-              <span className="text-[15px] font-bold text-slate-800 font-sans">Have a Flipkart Gift Card?</span>
+              <GiftCardIcon className="h-5 w-8 text-[#111111] shrink-0" />
+              <span className="text-[15px] font-bold text-[#111111] font-sans">Have a Flpkart Gift Card?</span>
             </div>
             <span className="text-[14px] font-extrabold text-[#2874f0] select-none hover:text-[#2874f0]/80">Add</span>
           </div>
 
-          {/* 4. Cash on Delivery (Unavailable) Row */}
+          {/* 4. EMI (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
-              <Banknote className="h-5 w-8 text-slate-400 shrink-0" strokeWidth={1.8} />
-              <span className="text-[15px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
+              <EmiIcon className="h-5 w-8 text-slate-600 shrink-0" />
+              <span className="text-[15px] font-bold text-slate-600 font-sans">EMI</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 select-none">
               <span>Unavailable</span>
-              <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
+              <HelpCircle className="h-4 w-4 text-slate-600" strokeWidth={2} />
             </div>
           </div>
 
-          {/* 5. EMI (Unavailable) Row */}
+          {/* 5. Cash on Delivery (Unavailable) Row */}
           <div className="w-full bg-white py-4.5 px-5 border-b border-slate-200 flex items-center justify-between min-h-[64px] select-none">
             <div className="flex items-center gap-4">
-              <EmiIcon className="h-5 w-8 text-slate-400 shrink-0" />
-              <span className="text-[15px] font-bold text-slate-400 font-sans">EMI</span>
+              <Banknote className="h-5 w-8 text-slate-600 shrink-0" strokeWidth={1.8} />
+              <span className="text-[15px] font-bold text-slate-600 font-sans">Cash on Delivery</span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 select-none">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600 select-none">
               <span>Unavailable</span>
-              <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
+              <HelpCircle className="h-4 w-4 text-slate-600" strokeWidth={2} />
             </div>
           </div>
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}
         <div className="bg-white border-t border-b border-slate-200 py-4 px-5 mb-0">
-          <h3 className="text-[16px] font-bold text-slate-800 pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
+          <h3 className="text-[16px] font-bold text-[#111111] pb-2.5 border-b border-slate-200 mb-3">Price Details</h3>
           <div className="space-y-3 pt-1">
-            <div className="flex items-center justify-between text-sm text-slate-600 font-medium">
+            <div className="flex items-center justify-between text-sm text-slate-800 font-semibold">
               <span>Price (1 item)</span>
               <span>₹ {mrp || selling}</span>
             </div>
 
             {mrp > selling && (
-              <div className="flex items-center justify-between text-sm text-[#388e3c] font-medium">
+              <div className="flex items-center justify-between text-sm text-[#388e3c] font-semibold">
                 <span>Discount</span>
                 <span>- ₹ {mrp - selling}</span>
               </div>
             )}
 
-            <div className="flex items-center justify-between text-sm text-slate-650 font-medium">
+            <div className="flex items-center justify-between text-sm text-slate-800 font-semibold">
               <span>Delivery Charges</span>
               <span className="text-green-600 font-bold">FREE</span>
             </div>
 
-            <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-[16px] font-bold text-slate-800">
+            <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-[16px] font-bold text-[#111111]">
               <span>Amount Payable</span>
               <span>₹ {selling}</span>
             </div>
@@ -1069,7 +1069,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex flex-col">
             {mrp > selling && (
-              <span className="line-through text-slate-400 text-xs font-semibold">₹ {mrp}</span>
+              <span className="line-through text-slate-600 text-xs font-semibold">₹ {mrp}</span>
             )}
             <span className="text-[#212121] text-xl font-black">₹ {selling}</span>
           </div>

@@ -526,9 +526,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const getDeliveryDateStr = () => {
     const d = new Date();
     d.setDate(d.getDate() + 2); // 2 days delivery
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+    return d.toLocaleString('en-US', { day: "numeric", month: "short", weekday: "short" });
   };
 
   
@@ -1213,76 +1211,47 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* product-data2 block: Replaced with dynamic Flipkart Delivery, Wow Deal, and Trust Badges */}
-            <div className="w-full bg-white border-t border-b border-slate-100 flex flex-col mt-0 mb-3 select-none">
-              
-              {/* Delivery info block */}
-              <div className="flex items-start gap-4 p-4">
-                <Truck className="h-5 w-5 text-slate-500 shrink-0 mt-0.5" />
-                <div className="flex flex-col">
-                  <div className="text-[14px] font-bold text-slate-900 leading-snug">
-                    Express <span className="text-[#388e3c]">Free</span> <span className="line-through text-slate-400 font-normal">₹40</span> <span className="text-slate-500 font-normal">Delivery</span>
-                  </div>
-                  <div className="text-[12px] text-slate-500 mt-1">
-                    Delivery by <span className="font-bold text-slate-900">{getDeliveryDateStr()}</span>
-                  </div>
-                  <div className="text-[12px] text-slate-500 mt-0.5">
-                    Offer ends in <span className="text-[#d11243] font-bold">{timeStr}</span>
-                  </div>
+            {/* Replaced product-data2 countdown timer block with exact copies from goats-sale.com */}
+            
+            {/* 1. Delivery Banner */}
+            <div className="bg-white border border-slate-200 rounded-[6px] mt-2 shadow-sm select-none">
+              <div className="flex p-3 gap-3.5 items-center">
+                <div>
+                  <img src="https://i.ibb.co/cK2M2f5z/truck.webp" alt="Truck" style={{ width: '40px' }} className="shrink-0" />
+                </div>
+                <div>
+                  <p className="text-[14px] m-0 text-slate-800 font-medium">
+                    <span className="text-[15px] text-black font-bold">Express</span> <span className="text-green-600 font-semibold">Free</span> <del className="text-slate-400">₹40</del> Delivery
+                  </p>
+                  <p className="text-[13px] m-0.5 text-slate-800">
+                    Delivery by <span className="font-bold text-[#212121]">{getDeliveryDateStr()}</span>
+                  </p>
+                  <p className="text-[12px] text-slate-500 m-0">
+                    Offer ends in <span style={{ color: 'rgba(199,0,85,1)', fontWeight: '600' }}>{timeStr}</span>
+                  </p>
                 </div>
               </div>
-
-              {/* Wow Deal block */}
-              <div className="flex items-center gap-4 p-4 border-t border-slate-100">
-                <div className="flex flex-col items-center justify-center border-2 border-[#102a83] rounded px-1.5 py-0.5 select-none shrink-0" style={{ transform: 'skewX(-6deg)' }}>
-                  <span className="text-[13px] font-black text-[#102a83] leading-none italic">WOW!</span>
-                  <span className="text-[9px] font-black bg-[#102a83] text-white px-1 rounded-[2px] mt-0.5 leading-none tracking-wider">DEAL</span>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-[14px] font-bold text-slate-900">
-                    Get at <span className="text-[#388e3c]">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
-                  </div>
-                  <div className="text-[12px] text-slate-500 mt-0.5">
-                    With UPI Payment & More
-                  </div>
-                </div>
+            </div>
+            
+            {/* 2. WOW Price Strip */}
+            <div className="w-full bg-white mt-2 flex items-center p-3 select-none" style={{ fontFamily: 'Arial, sans-serif' }}>
+              <img src="https://i.ibb.co/4MtgWPp/Wow-Deal300ppi.png" alt="Wow" style={{ height: '35px', marginRight: '15px' }} className="shrink-0" />
+              <div>
+                <div style={{ color: '#000', fontWeight: 'bold', fontSize: '17px', display: 'inline' }}>Get at </div>
+                <span style={{ fontSize: '18px', fontWeight: 'bold', color: 'rgb(0,140,0)', marginLeft: '4px' }}>
+                  <span>₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
+                </span>
+                <div style={{ color: '#878787', fontSize: '11px' }}>With UPI Payment & More</div>
               </div>
+            </div>
 
-              {/* Trust Badges row (Replaced 1 Year Warranty block completely as requested) */}
-              <div className="flex items-start justify-around p-4 border-t border-slate-100 bg-[#fafafa]">
-                
-                {/* 7-day brand support */}
-                <div className="flex flex-col items-center text-center max-w-[90px]">
-                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
-                    <Wrench className="h-4.5 w-4.5" />
-                  </div>
-                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
-                    7-day<br />brand support &gt;
-                  </span>
-                </div>
-
-                {/* No cash on delivery */}
-                <div className="flex flex-col items-center text-center max-w-[90px]">
-                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
-                    <CircleSlash className="h-4.5 w-4.5" />
-                  </div>
-                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
-                    No cash<br />on delivery &gt;
-                  </span>
-                </div>
-
-                {/* Flipkart Assured */}
-                <div className="flex flex-col items-center text-center max-w-[90px]">
-                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
-                    <ShieldCheck className="h-4.5 w-4.5" />
-                  </div>
-                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
-                    Flipkart<br />Assured &gt;
-                  </span>
-                </div>
-
-              </div>
-
+            {/* 3. Trust Badges (Exact copied image from goats-sale.com without the warranty header row) */}
+            <div className="w-full bg-white mt-2 select-none border border-slate-200 rounded-[6px] shadow-sm overflow-hidden p-3">
+              <img 
+                src="https://i.ibb.co/h1HLgdM7/Screenshot-20251109-233352.jpg" 
+                alt="Trust Badges" 
+                style={{ width: '100%', display: 'block' }} 
+              />
             </div>
 
             {/* product-data3 & product-data4 block: Upgraded combined Pay Later & Trust Badges banner */}

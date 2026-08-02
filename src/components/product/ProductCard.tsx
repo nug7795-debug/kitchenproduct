@@ -137,7 +137,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       suffix = 'th'; // 4th, 5th, 6th, 7th Aug
     }
     
-    return `Delivery by ${dateNum}${suffix} ${monthName}`;
+    return `${dateNum}${suffix} ${monthName}`;
   };
 
   // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
@@ -284,7 +284,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             fontWeight: 500
           }}
         >
-          {getDynamicDeliveryDate(id)}
+          Delivery by <span className="text-[#2874f0] font-bold">{getDynamicDeliveryDate(id)}</span>
         </div>
 
       </div>

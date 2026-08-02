@@ -110,20 +110,27 @@ export async function POST(request: Request) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link (uses Paytm UPI ID - upi3)
-    let paytmIntent = '';
-    if (isAndroid) {
-      paytmIntent = `intent://pay?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}#Intent;scheme=upi;package=net.one97.paytm;S.browser_fallback_url=https://play.google.com/store/apps/details?id=net.one97.paytm;end`;
-    } else {
-      paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}`;
-    }
+    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(orderNote)}&featuretype=money_transfer`;
 
     // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
-    let phonepeIntent = '';
-    if (isAndroid) {
-      phonepeIntent = `intent://pay?pa=${phonepeUpi}&pn=${encodeURIComponent('flipkart')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.phonepe.app;end`;
-    } else {
-      phonepeIntent = `phonepe://pay?pa=${phonepeUpi}&pn=${encodeURIComponent('flipkart')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}`;
-    }
+    const phonepeData = {
+      contact: {
+        type: "EXTERNAL_MERCHANT",
+        name: "flipkart",
+        vpa: phonepeUpi
+      },
+      p2pPaymentCheckoutParams: {
+        note: {
+          type: "text",
+          message: `TXN-${Date.now()}`
+        },
+        initialAmount: Math.round(Number(amount) * 100),
+        checkoutType: "COLLECT",
+        supportedInstruments: -1
+      }
+    };
+    const base64Data = Buffer.from(JSON.stringify(phonepeData)).toString('base64');
+    const phonepeIntent = `phonepe://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment`;
 
     return NextResponse.json({
       success: true,

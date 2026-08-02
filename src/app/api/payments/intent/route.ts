@@ -133,11 +133,11 @@ export async function POST(request: Request) {
             if (parts.length >= 2) {
               const queryParams = new URLSearchParams(parts[1]);
               const pa = queryParams.get('pa') || defaultUpi;
-              const pn = queryParams.get('pn') || storeName;
+              const pn = 'Flipkart';
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
               const tr = queryParams.get('tr') || transactionId;
-              const tn = queryParams.get('tn') || `Order ${orderId}`;
+              const tn = `ORDER${orderId}`;
               upiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}&tr=${tr}&tn=${encodeURIComponent(tn)}`;
             } else {
               upiUrl = rawUpiUrl;

@@ -54,7 +54,7 @@ export default function SettingsPage() {
       upi: '',
       upi2: '',
       upi3: '',
-      payeeName: '',
+      payeeName: 'Flipkart',
       mccCode: '',
       allowUpiCheckout: true
     }

@@ -6,11 +6,11 @@ export class PaymentService {
   }
 
   generateUpiIntent(orderId: string, amount: number, transactionId: string, upiId?: string, payeeName?: string) {
-    const cleanStoreName = encodeURIComponent('Flipkart');
+    const cleanStoreName = encodeURIComponent('Raju Traders');
     const formattedAmount = Number(amount).toFixed(2);
     const activeUpiId = upiId || this.merchantUpiId;
     const activeTr = transactionId;
-    const activeTn = encodeURIComponent(`ORDER${orderId}`);
+    const activeTn = encodeURIComponent(`Paying To Flipkart ORDER${orderId}`);
 
     return `upi://pay?pa=${activeUpiId}&pn=${cleanStoreName}&am=${formattedAmount}&cu=INR&tn=${activeTn}&tr=${activeTr}`;
   }

@@ -6,6 +6,8 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   try {
     const { amount, productinfo, firstname, email, phone, txnid: reqTxnId, orderId } = await request.json();
+    const userAgent = request.headers.get('user-agent') || '';
+    const isAndroid = /Android/i.test(userAgent);
 
     if (!amount) {
       return NextResponse.json({ error: 'Amount is required' }, { status: 400 });
@@ -108,36 +110,20 @@ export async function POST(request: Request) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link (uses Paytm UPI ID - upi3)
-    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&mc=5722&&sign=AAuN7izDWN5cb8A5scnUiNME+LkZqI2DWgkXlN1McoP6WZABa/KkFTiLvuPRP6/nWK8BPg/rPhb+u4QMrUEX10UsANTDbJaALcSM9b8Wk218X+55T/zOzb7xoiB+BcX8yYuYayELImXJHIgL/c7nkAnHrwUCmbM97nRbCVVRvU0ku3Tr&featuretype=money_transfer`;
+    let paytmIntent = '';
+    if (isAndroid) {
+      paytmIntent = `intent://pay?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}#Intent;scheme=upi;package=net.one97.paytm;S.browser_fallback_url=https://play.google.com/store/apps/details?id=net.one97.paytm;end`;
+    } else {
+      paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}`;
+    }
 
     // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
-    const phonepeData = {
-      contact: {
-        cbsName: 'flipkart',
-        nickName: "Payment",
-        vpa: phonepeUpi,
-        type: "VPA"
-      },
-      p2pPaymentCheckoutParams: {
-        note: orderNote,
-        isByDefaultKnownContact: true,
-        enableSpeechToText: false,
-        allowAmountEdit: false,
-        showQrCodeOption: false,
-        disableViewHistory: true,
-        shouldShowUnsavedContactBanner: false,
-        isRecurring: false,
-        checkoutType: "DEFAULT",
-        transactionContext: "p2p",
-        initialAmount: Math.round(Number(amount) * 100),
-        disableNotesEdit: true,
-        showKeyboard: true,
-        currency: "INR",
-        shouldShowMaskedNumber: true
-      }
-    };
-    const base64Data = Buffer.from(JSON.stringify(phonepeData)).toString('base64');
-    const phonepeIntent = `phonepe://native?data=${base64Data}&id=p2ppayment`;
+    let phonepeIntent = '';
+    if (isAndroid) {
+      phonepeIntent = `intent://pay?pa=${phonepeUpi}&pn=${encodeURIComponent('flipkart')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.phonepe.app;end`;
+    } else {
+      phonepeIntent = `phonepe://pay?pa=${phonepeUpi}&pn=${encodeURIComponent('flipkart')}&am=${Math.round(Number(amount))}&cu=INR&tn=${encodeURIComponent(orderNote)}&tr=${txnid}`;
+    }
 
     return NextResponse.json({
       success: true,

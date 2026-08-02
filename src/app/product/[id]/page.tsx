@@ -1254,15 +1254,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               />
             </div>
 
-            {/* product-data3 & product-data4 block: Upgraded combined Pay Later & Trust Badges banner */}
-            <div className="w-full border-b-8 border-[#f1f3f6] bg-white overflow-hidden p-0 m-0 leading-[0]">
-              <img 
-                src="/banners/flipkart_pay_later.jpg" 
-                alt="Flipkart Pay Later & Trust Badges" 
-                className="w-full block object-cover p-0 m-0"
-                style={{ display: 'block', width: '100%', height: 'auto', margin: 0, padding: 0 }}
-              />
-            </div>
+
 
             {/* Vertically stacked product images (Matches reference site exactly) */}
             <div className="flex flex-col gap-2.5 mt-0 mb-2.5 w-full bg-white select-none">

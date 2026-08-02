@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown, X, Upload, Share2 } from 'lucide-react';
+import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown, X, Upload, Share2, Wrench, CircleSlash, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
@@ -522,6 +522,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
   const timeStr = `${minutes}min ${seconds.toString().padStart(2, '0')}sec`;
+
+  const getDeliveryDateStr = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 2); // 2 days delivery
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+  };
 
   
   const getDynamicHighlights = () => {
@@ -1205,11 +1213,76 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* product-data2 block */}
-            <div className="product-data2">
-              <h4 className="offer-time">
-                Offer ends in <span>{timeStr}</span>
-              </h4>
+            {/* product-data2 block: Replaced with dynamic Flipkart Delivery, Wow Deal, and Trust Badges */}
+            <div className="w-full bg-white border-t border-b border-slate-100 flex flex-col mt-0 mb-3 select-none">
+              
+              {/* Delivery info block */}
+              <div className="flex items-start gap-4 p-4">
+                <Truck className="h-5 w-5 text-slate-500 shrink-0 mt-0.5" />
+                <div className="flex flex-col">
+                  <div className="text-[14px] font-bold text-slate-900 leading-snug">
+                    Express <span className="text-[#388e3c]">Free</span> <span className="line-through text-slate-400 font-normal">₹40</span> <span className="text-slate-500 font-normal">Delivery</span>
+                  </div>
+                  <div className="text-[12px] text-slate-500 mt-1">
+                    Delivery by <span className="font-bold text-slate-900">{getDeliveryDateStr()}</span>
+                  </div>
+                  <div className="text-[12px] text-slate-500 mt-0.5">
+                    Offer ends in <span className="text-[#d11243] font-bold">{timeStr}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Wow Deal block */}
+              <div className="flex items-center gap-4 p-4 border-t border-slate-100">
+                <div className="flex flex-col items-center justify-center border-2 border-[#102a83] rounded px-1.5 py-0.5 select-none shrink-0" style={{ transform: 'skewX(-6deg)' }}>
+                  <span className="text-[13px] font-black text-[#102a83] leading-none italic">WOW!</span>
+                  <span className="text-[9px] font-black bg-[#102a83] text-white px-1 rounded-[2px] mt-0.5 leading-none tracking-wider">DEAL</span>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-[14px] font-bold text-slate-900">
+                    Get at <span className="text-[#388e3c]">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
+                  </div>
+                  <div className="text-[12px] text-slate-500 mt-0.5">
+                    With UPI Payment & More
+                  </div>
+                </div>
+              </div>
+
+              {/* Trust Badges row (Replaced 1 Year Warranty block completely as requested) */}
+              <div className="flex items-start justify-around p-4 border-t border-slate-100 bg-[#fafafa]">
+                
+                {/* 7-day brand support */}
+                <div className="flex flex-col items-center text-center max-w-[90px]">
+                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
+                    <Wrench className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
+                    7-day<br />brand support &gt;
+                  </span>
+                </div>
+
+                {/* No cash on delivery */}
+                <div className="flex flex-col items-center text-center max-w-[90px]">
+                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
+                    <CircleSlash className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
+                    No cash<br />on delivery &gt;
+                  </span>
+                </div>
+
+                {/* Flipkart Assured */}
+                <div className="flex flex-col items-center text-center max-w-[90px]">
+                  <div className="w-9 h-9 rounded-full bg-white shadow-sm border border-slate-150 flex items-center justify-center text-[#2874f0] mb-2 shrink-0">
+                    <ShieldCheck className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="text-[10px] font-medium text-slate-600 leading-tight">
+                    Flipkart<br />Assured &gt;
+                  </span>
+                </div>
+
+              </div>
+
             </div>
 
             {/* product-data3 & product-data4 block: Upgraded combined Pay Later & Trust Badges banner */}

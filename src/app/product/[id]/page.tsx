@@ -1246,11 +1246,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* 3. Trust Badges (Exact copied image from goats-sale.com without the warranty header row) */}
-            <div className="w-full bg-white mt-2 select-none border border-slate-200 rounded-[6px] shadow-sm overflow-hidden p-3">
+            <div className="w-full bg-white mt-2 select-none">
               <img 
                 src="https://i.ibb.co/h1HLgdM7/Screenshot-20251109-233352.jpg" 
                 alt="Trust Badges" 
-                style={{ width: '100%', display: 'block' }} 
+                style={{ width: '100%', display: 'block', height: 'auto' }} 
               />
             </div>
 

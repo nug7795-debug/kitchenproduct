@@ -111,6 +111,35 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const discount = (displaySalePrice && displayPrice && displayPrice > displaySalePrice) ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
   const bankOfferPrice = Math.round((displaySalePrice || displayPrice || 0) * 0.95);
 
+  const getDynamicDeliveryDate = (productId: string | number) => {
+    let hash = 0;
+    const idStr = String(productId);
+    for (let i = 0; i < idStr.length; i++) {
+      hash = idStr.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const offset = Math.abs(hash % 5) + 1; // 1, 2, 3, 4, or 5
+    
+    const d = new Date();
+    d.setDate(d.getDate() + offset); // Add offset days
+    
+    const dateNum = d.getDate();
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthName = monthNames[d.getMonth()];
+    
+    let suffix = '';
+    if (dateNum === 1 || dateNum === 21 || dateNum === 31) {
+      suffix = 'st';
+    } else if (dateNum === 2 || dateNum === 22) {
+      suffix = 'nd';
+    } else if (dateNum === 3 || dateNum === 23) {
+      suffix = ''; // 3 Aug
+    } else {
+      suffix = 'th'; // 4th, 5th, 6th, 7th Aug
+    }
+    
+    return `Delivery by ${dateNum}${suffix} ${monthName}`;
+  };
+
   // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
   const numericId = typeof id === 'number' ? id : (id?.charCodeAt(0) || 0);
   const ratingVal = parseFloat(product.average_rating || (4.0 + (numericId % 5) * 0.1)).toFixed(1);
@@ -251,10 +280,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             fontSize: '12px',
             color: '#212529',
             textAlign: 'left',
-            letterSpacing: '-0.3px'
+            letterSpacing: '-0.3px',
+            fontWeight: 500
           }}
         >
-          Free Delivery in Two Days
+          {getDynamicDeliveryDate(id)}
         </div>
 
       </div>

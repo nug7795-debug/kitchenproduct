@@ -284,7 +284,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             fontWeight: 500
           }}
         >
-          Delivery by <span className="text-[#2874f0] font-bold">{getDynamicDeliveryDate(id)}</span>
+          Delivery by <span className="text-[#212121] font-bold">{getDynamicDeliveryDate(id)}</span>
         </div>
 
       </div>

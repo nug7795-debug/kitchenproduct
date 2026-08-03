@@ -10,6 +10,7 @@ import { Button } from '../../../components/ui/button';
 import { cn } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
 import { ProductCard } from '../../../components/product/ProductCard';
+import { applyDynamicBadges } from '../../../lib/badge-helper';
 
 const formatReviewDate = (dateStr: string) => {
   if (!dateStr) return 'Today';
@@ -104,6 +105,21 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
     const fetchSimilarProducts = async () => {
       try {
         setLoading(true);
+        // Fetch global settings
+        const settingsRes = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+
+        const badgesConfig = settingsRes.data?.value?.badges || {
+          enableDynamicBadges: true,
+          trendingCount: 15,
+          newArrivalCount: 5,
+          bestSellerCount: 5
+        };
+
+        // Fetch all active products
         const response = await supabase
           .from('products')
           .select(`
@@ -111,12 +127,14 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
             categories (name, slug),
             product_images (image_url, is_featured)
           `)
-          .eq('is_active', true)
-          .neq('id', currentProductId)
-          .order('created_at', { ascending: false });
+          .eq('is_active', true);
 
         if (response.data) {
-          const formatted = response.data.map((item: any) => ({
+          // Process all active products to calculate correct dynamic badges
+          const processed = applyDynamicBadges(response.data, badgesConfig);
+          // Filter out the current product
+          const filtered = processed.filter((p: any) => p.id !== currentProductId);
+          const formatted = filtered.map((item: any) => ({
             ...item,
             categoryName: item.categories?.name || categoryName || 'Kitchen',
             images: item.product_images?.length > 0 
@@ -862,6 +880,51 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const fetchProduct = async () => {
     setLoading(true);
+    try {
+      // Fetch global settings
+      const settingsRes = await supabase
+        .from('settings')
+        .select('value')
+        .eq('key', 'global_settings')
+        .maybeSingle();
+
+      const badgesConfig = settingsRes.data?.value?.badges || {
+        enableDynamicBadges: true,
+        trendingCount: 15,
+        newArrivalCount: 5,
+        bestSellerCount: 5
+      };
+
+      // Fetch all active products to determine correct dynamic badges
+      const { data: allProducts, error: allErr } = await supabase
+        .from('products')
+        .select(`
+          *,
+          categories (name, slug),
+          product_images (image_url, is_featured)
+        `)
+        .eq('is_active', true);
+
+      if (allProducts && !allErr) {
+        const processed = applyDynamicBadges(allProducts, badgesConfig);
+        const currentProd = processed.find((p: any) => p.id === id);
+        if (currentProd) {
+          setProduct({
+            ...currentProd,
+            categoryName: currentProd.categories?.name || 'Kitchen',
+            images: currentProd.product_images?.length > 0 
+              ? currentProd.product_images.map((img: any) => img.image_url)
+              : ['https://via.placeholder.com/600']
+          });
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (err) {
+      console.error('Error calculating dynamic badges in fetchProduct:', err);
+    }
+
+    // Fallback: If not found, fetch single product directly
     const { data, error } = await supabase
       .from('products')
       .select(`

@@ -7,6 +7,7 @@ import { ProductCard } from '../components/product/ProductCard';
 import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight, Smartphone, Monitor } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { applyDynamicBadges } from '../lib/badge-helper';
 
 const GiftIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -204,6 +205,20 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
+        // Fetch global settings for badges configuration
+        const settingsRes = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+
+        const badgesConfig = settingsRes.data?.value?.badges || {
+          enableDynamicBadges: true,
+          trendingCount: 15,
+          newArrivalCount: 5,
+          bestSellerCount: 5
+        };
+
         let response = await supabase
           .from('products')
           .select(`
@@ -251,7 +266,8 @@ export default function Home() {
 
         if (error) throw error;
         if (active && data) {
-          const shuffled = shuffleArray(data);
+          const processed = applyDynamicBadges(data, badgesConfig);
+          const shuffled = shuffleArray(processed);
           setProducts(shuffled);
           // Update cache
           localStorage.setItem('cached_homepage_products', JSON.stringify(shuffled));

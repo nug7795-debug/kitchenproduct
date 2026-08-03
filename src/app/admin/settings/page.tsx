@@ -57,6 +57,12 @@ export default function SettingsPage() {
       payeeName: 'Flipkart',
       mccCode: '',
       allowUpiCheckout: true
+    },
+    badges: {
+      enableDynamicBadges: true,
+      trendingCount: 15,
+      newArrivalCount: 5,
+      bestSellerCount: 5
     }
   });
 
@@ -92,6 +98,15 @@ export default function SettingsPage() {
           notifications: {
             ...prev.notifications,
             ...(data.value.notifications || {})
+          },
+          badges: {
+            ...prev.badges,
+            ...(data.value.badges || {
+              enableDynamicBadges: true,
+              trendingCount: 15,
+              newArrivalCount: 5,
+              bestSellerCount: 5
+            })
           }
         }));
       }
@@ -181,6 +196,7 @@ export default function SettingsPage() {
 
   const menuItems = [
     { id: 'store', label: 'Store Identity', icon: Globe },
+    { id: 'badges', label: 'Product Badges', icon: Settings },
     { id: 'payment', label: 'Payment Gateways', icon: CreditCard },
     { id: 'shipping', label: 'Shipping & Delivery', icon: Truck },
     { id: 'notifications', label: 'Alerts & Notifications', icon: Bell },
@@ -280,7 +296,73 @@ export default function SettingsPage() {
             </div>
           )}
 
+          {/* Section: Product Badges */}
+          {activeSection === 'badges' && (
+            <div className="space-y-6">
+              <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-8">
+                <div className="flex items-center gap-3 border-b border-slate-50 pb-6">
+                   <div className="h-10 w-10 rounded-xl bg-orange-500 flex items-center justify-center text-white shadow-lg shadow-orange-100"><Settings className="h-5 w-5" /></div>
+                   <h2 className="font-black text-slate-900 uppercase tracking-tight">Auto-Badges Configuration</h2>
+                </div>
 
+                <div className="p-6 bg-slate-900 rounded-[2rem] flex items-center justify-between text-white overflow-hidden relative group">
+                  <div className="relative z-10">
+                     <p className="text-xs font-black text-orange-400 uppercase tracking-widest mb-1">Enable Automatic Product Badges</p>
+                     <p className="text-sm font-bold opacity-80">Enable auto-assignment of Trending Now, New Arrival, and Best Seller badges.</p>
+                  </div>
+                  <div 
+                    onClick={() => toggleSetting('badges', 'enableDynamicBadges')}
+                    className={cn("h-8 w-14 rounded-full relative cursor-pointer z-10 border-2 transition-all shrink-0", settings.badges.enableDynamicBadges ? "bg-orange-500 border-orange-400" : "bg-slate-800 border-slate-700")}>
+                      <div className={cn("absolute h-5 w-5 bg-white rounded-full transition-all shadow-lg", settings.badges.enableDynamicBadges ? "right-1 top-1" : "left-1 top-1")} />
+                  </div>
+                  <Database className="absolute -right-8 -bottom-8 h-32 w-32 text-white/5 rotate-12" />
+                </div>
+
+                {settings.badges.enableDynamicBadges && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Trending Now count</label>
+                      <input 
+                        type="number" 
+                        min={0}
+                        max={100}
+                        value={settings.badges.trendingCount} 
+                        onChange={(e) => updateNestedField('badges', 'trendingCount', parseInt(e.target.value) || 0)}
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                      <p className="text-[11px] text-slate-400">Default is 15. The top N highest priced products will get the Trending badge.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">New Arrival count</label>
+                      <input 
+                        type="number" 
+                        min={0}
+                        max={100}
+                        value={settings.badges.newArrivalCount} 
+                        onChange={(e) => updateNestedField('badges', 'newArrivalCount', parseInt(e.target.value) || 0)}
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                      <p className="text-[11px] text-slate-400">Default is 5. These products will get the New Arrival badge.</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Best Seller count</label>
+                      <input 
+                        type="number" 
+                        min={0}
+                        max={100}
+                        value={settings.badges.bestSellerCount} 
+                        onChange={(e) => updateNestedField('badges', 'bestSellerCount', parseInt(e.target.value) || 0)}
+                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-sm font-bold outline-none focus:border-orange-500 transition-all" 
+                      />
+                      <p className="text-[11px] text-slate-400">Default is 5. These products will get the Best Seller badge.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Section: Payment Gateways */}
           {activeSection === 'payment' && (

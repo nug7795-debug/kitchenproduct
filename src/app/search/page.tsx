@@ -7,6 +7,7 @@ import { supabase } from '../../lib/supabase';
 import { ProductCard } from '../../components/product/ProductCard';
 import { Button } from '../../components/ui/button';
 import Link from 'next/link';
+import { applyDynamicBadges } from '../../lib/badge-helper';
 
 function SearchContent() {
   const router = useRouter();
@@ -23,19 +24,43 @@ function SearchContent() {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase
-      .from('products')
-      .select(`
-        *,
-        product_images (
-          image_url,
-          is_featured
-        )
-      `)
-      .ilike('name', `%${q}%`)
-      .eq('is_active', true);
+    try {
+      // Fetch global settings
+      const settingsRes = await supabase
+        .from('settings')
+        .select('value')
+        .eq('key', 'global_settings')
+        .maybeSingle();
 
-    if (data) setResults(data);
+      const badgesConfig = settingsRes.data?.value?.badges || {
+        enableDynamicBadges: true,
+        trendingCount: 15,
+        newArrivalCount: 5,
+        bestSellerCount: 5
+      };
+
+      // Fetch all active products
+      const { data, error } = await supabase
+        .from('products')
+        .select(`
+          *,
+          product_images (
+            image_url,
+            is_featured
+          )
+        `)
+        .eq('is_active', true);
+
+      if (data && !error) {
+        // Process all active products to calculate correct dynamic badges
+        const processed = applyDynamicBadges(data, badgesConfig);
+        // Filter search results locally
+        const filtered = processed.filter(p => p.name?.toLowerCase().includes(q.toLowerCase()));
+        setResults(filtered);
+      }
+    } catch (err) {
+      console.error('Error fetching search results with badges:', err);
+    }
     setLoading(false);
   };
 

@@ -30,7 +30,7 @@ const ForYouIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.5" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -46,7 +46,7 @@ const FashionIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.6" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -60,7 +60,7 @@ const MobilesIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.6" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -75,7 +75,7 @@ const ElectronicsIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.6" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -91,7 +91,7 @@ const BeautyIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.6" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -107,7 +107,7 @@ const HomeIcon = ({ className }: { className?: string }) => (
     viewBox="0 0 24 24" 
     className={className} 
     fill="none" 
-    stroke="#212121" 
+    stroke="currentColor" 
     strokeWidth="1.6" 
     strokeLinecap="round" 
     strokeLinejoin="round"
@@ -414,7 +414,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-[#e8f4fd] px-2 pt-3 pb-1 select-none border-b border-[#d0e7f9]">
+      <div className="bg-gradient-to-b from-[#3ba2ff] to-[#2874f0] text-white px-2 pt-3 pb-1 select-none border-b border-[#1b62db]">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },
@@ -427,12 +427,12 @@ export default function Home() {
             <div key={cat.name} className="flex flex-col items-center justify-between text-center">
               <div className="flex flex-col items-center justify-center">
                 <cat.icon className="w-[30px] h-[30px] mb-1.5" />
-                <span className="text-[11.5px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
+                <span className="text-[11.5px] font-semibold text-white leading-tight">{cat.name}</span>
               </div>
               <div 
                 style={{ 
                   height: '3px', 
-                  backgroundColor: cat.name === 'For You' ? '#000000' : 'transparent', 
+                  backgroundColor: cat.name === 'For You' ? '#ffffff' : 'transparent', 
                   width: '32px', 
                   marginTop: '6px', 
                   borderRadius: '2px' 

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ShieldCheck } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import { getDynamicDeliveryDate } from '@/lib/utils';
 
 export default function CartPage() {
   const [items, setItems] = React.useState<any[]>([]);
@@ -244,7 +245,7 @@ export default function CartPage() {
             {/* Delivery Promise Row */}
             <div className="mt-3.5 flex items-center gap-1.5 text-[11px] text-slate-500 font-medium border-t border-slate-50 pt-2.5 pb-1 select-none">
                <span className="text-slate-800 font-black italic tracking-tighter text-[10px]">⚡ EXPRESS</span>
-               <span>Delivery by tomorrow, 11 PM</span>
+               <span>Delivery by {getDynamicDeliveryDate(item.id)}</span>
             </div>
 
             {/* Bottom Row Horizontal Separated Action Buttons */}

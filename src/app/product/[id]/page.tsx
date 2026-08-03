@@ -1323,11 +1323,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               />
             </div>
 
+            {/* Similar Products (Moved above Product details) */}
+            <SimilarProducts 
+              currentProductId={product.id} 
+              categoryId={product.category_id} 
+              categoryName={product.categoryName} 
+              currentProductName={product.name}
+            />
+
             {/* Gray divider section block (gap) */}
             <div className="w-full h-2 bg-[#f1f3f6] mt-2" />
 
             <div className="w-full bg-white px-4 pt-4 select-none">
-              <h3 className="text-[15px] font-extrabold text-slate-900">Product details</h3>
+              <h3 className="text-[17px] font-black text-slate-900">Product details</h3>
             </div>
 
             {/* Vertically stacked product images (Matches reference site exactly) */}
@@ -1461,13 +1469,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                  </button>
             </div>
 
-            {/* Similar Products */}
-            <SimilarProducts 
-              currentProductId={product.id} 
-              categoryId={product.category_id} 
-              categoryName={product.categoryName} 
-              currentProductName={product.name}
-            />
+
           </div>
         </div>
       </div>

@@ -4,7 +4,6 @@ import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { BottomNav } from './BottomNav';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -61,7 +60,6 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
           </div>
           {pathname !== '/' && pathname !== '/cart' && <Footer />}
         </main>
-        {pathname === '/' && <BottomNav />}
       </div>
     </div>
   );

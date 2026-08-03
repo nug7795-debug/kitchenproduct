@@ -175,13 +175,16 @@ export const Header = () => {
   };
 
   return (
-    <header className="relative w-full flex flex-col bg-white text-slate-800 shadow-sm select-none">
+    <header className="relative w-full flex flex-col bg-[#2874f0] text-slate-800 shadow-sm select-none">
       {/* Cropped Header Image with overlays */}
-      <div className="relative w-full aspect-[4133/1585]">
-        <img 
+      <div className="relative w-full aspect-[4133/1585] bg-[#2874f0]">
+        <Image 
           src={headerImage} 
           alt="Flipkart Header" 
-          className="w-full h-auto block pointer-events-none" 
+          fill
+          priority
+          sizes="(max-width: 500px) 100vw, 500px"
+          className="object-contain pointer-events-none" 
         />
         
 

@@ -277,7 +277,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           className="_3Nxu4r delivery-txt text-dark" 
           style={{ 
             marginTop: '10px', 
-            fontSize: '12px',
+            fontSize: '14px',
             color: '#212529',
             textAlign: 'left',
             letterSpacing: '-0.3px',

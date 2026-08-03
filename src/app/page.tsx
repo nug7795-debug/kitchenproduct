@@ -414,7 +414,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-white px-2 pt-3 pb-1 select-none border-b border-slate-100">
+      <div className="bg-[#e8f4fd] px-2 pt-3 pb-1 select-none border-b border-[#d0e7f9]">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },

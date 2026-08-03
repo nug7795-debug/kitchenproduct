@@ -477,10 +477,13 @@ export default function Home() {
       </div>
 
       <div className="bg-[#f1f3f6] pb-20">
-        {/* Recommended for You Section Header */}
         <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
           <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>
-          <ChevronRight className="h-5 w-5 text-black" strokeWidth={2.5} />
+          <button className="w-9 h-6.5 bg-[#212121] rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors text-white text-xs font-bold shrink-0">
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
         </div>
 
         {loading ? (

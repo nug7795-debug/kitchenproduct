@@ -156,7 +156,10 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   if (loading) {
     return (
       <div className="w-full bg-[#f1f3f6] py-3.5">
-        <h3 className="text-[15px] font-extrabold text-slate-900 mb-2 px-4 select-none">Similar Products</h3>
+        <div className="flex items-center justify-between px-4 mb-2 select-none">
+          <h3 className="text-[15px] font-extrabold text-slate-900">Similar Products</h3>
+          <div className="w-9 h-6.5 bg-slate-200 rounded-full animate-pulse shrink-0" />
+        </div>
         <div className="flex flex-row overflow-x-auto gap-2 px-4 select-none no-scrollbar">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="w-[155px] shrink-0 p-2.5 bg-white rounded-lg border border-slate-100/60 flex flex-col animate-pulse" style={{ height: '270px' }}>
@@ -176,7 +179,14 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   return (
     <div className="w-full bg-[#f1f3f6] py-3.5">
-      <h3 className="text-[15px] font-extrabold text-slate-900 mb-2 px-4 select-none">Similar Products</h3>
+      <div className="flex items-center justify-between px-4 mb-2 select-none">
+        <h3 className="text-[15px] font-extrabold text-slate-900">Similar Products</h3>
+        <button className="w-9 h-6.5 bg-[#212121] rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors text-white text-xs font-bold shrink-0">
+          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </button>
+      </div>
       <div className="flex flex-row overflow-x-auto gap-2.5 px-4 pb-1.5 select-none no-scrollbar snap-x snap-mandatory scroll-smooth">
         {products.map((item) => (
           <div key={item.id} className="w-[155px] shrink-0 snap-start bg-white rounded-lg overflow-hidden border border-slate-100 shadow-[0_1px_4px_rgba(0,0,0,0.03)] flex flex-col">
@@ -1314,13 +1324,49 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* 3. Trust Badges (Exact copied image from goats-sale.com without the warranty header row) */}
-            <div className="w-full bg-white mt-2 select-none">
-              <img 
-                src="https://i.ibb.co/h1HLgdM7/Screenshot-20251109-233352.jpg" 
-                alt="Trust Badges" 
-                style={{ width: '100%', display: 'block', height: 'auto' }} 
-              />
+            {/* 3. Trust Badges */}
+            <div className="w-full bg-white mt-2 py-4 px-4 select-none border-y border-slate-100/80">
+              <div className="flex items-center justify-between gap-2">
+                {/* 10-Day Return */}
+                <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
+                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
+                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                      <polyline points="3 12 7 12 7 16" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    10-Day <br/> Return <span className="text-[8px] text-slate-400 font-black ml-0.5">❯</span>
+                  </span>
+                </div>
+
+                {/* No cash on delivery */}
+                <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
+                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
+                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="6" width="20" height="12" rx="2" />
+                      <circle cx="12" cy="12" r="2" />
+                      <line x1="2" y1="6" x2="22" y2="18" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    No cash <br/> on delivery <span className="text-[8px] text-slate-400 font-black ml-0.5">❯</span>
+                  </span>
+                </div>
+
+                {/* Flipkart Assured */}
+                <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
+                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
+                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      <path d="M9 11l3 3L17 9" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-semibold text-slate-700 leading-tight">
+                    Flipkart <br/> Assured <span className="text-[8px] text-slate-400 font-black ml-0.5">❯</span>
+                  </span>
+                </div>
+              </div>
             </div>
 
             {/* Similar Products (Moved above Product details) */}

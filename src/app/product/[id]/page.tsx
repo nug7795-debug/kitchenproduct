@@ -155,16 +155,16 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   if (loading) {
     return (
-      <div className="w-full bg-[#f1f3f6] py-4">
-        <h3 className="text-[16px] font-extrabold text-slate-900 mb-1 px-4 select-none">Similar Products</h3>
-        <div className="grid grid-cols-2 gap-[1px] mt-0 pt-0">
+      <div className="w-full bg-[#f1f3f6] py-3.5">
+        <h3 className="text-[15px] font-extrabold text-slate-900 mb-2 px-4 select-none">Similar Products</h3>
+        <div className="flex flex-row overflow-x-auto gap-2 px-4 select-none no-scrollbar">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="p-2.5 bg-white flex flex-col animate-pulse" style={{ height: '280px' }}>
-              <div className="w-full aspect-square bg-slate-100 rounded-lg mb-2" />
-              <div className="h-3.5 bg-slate-100 rounded w-5/6 mb-1" />
-              <div className="h-3.5 bg-slate-100 rounded w-2/3 mb-2" />
-              <div className="h-3 bg-slate-100 rounded w-1/3 mb-2" />
-              <div className="h-4 bg-slate-100 rounded w-1/2" />
+            <div key={i} className="w-[155px] shrink-0 p-2.5 bg-white rounded-lg border border-slate-100/60 flex flex-col animate-pulse" style={{ height: '270px' }}>
+              <div className="w-full h-[130px] bg-slate-100 rounded-md mb-2" />
+              <div className="h-3 bg-slate-100 rounded w-5/6 mb-1.5" />
+              <div className="h-3 bg-slate-100 rounded w-2/3 mb-2" />
+              <div className="h-2.5 bg-slate-100 rounded w-1/3 mb-2" />
+              <div className="h-3.5 bg-slate-100 rounded w-1/2" />
             </div>
           ))}
         </div>
@@ -175,11 +175,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-[#f1f3f6] py-4">
-      <h3 className="text-[16px] font-extrabold text-slate-900 mb-1 px-4 select-none">Similar Products</h3>
-      <div className="grid grid-cols-2 gap-[1px] mt-0 pt-0">
+    <div className="w-full bg-[#f1f3f6] py-3.5">
+      <h3 className="text-[15px] font-extrabold text-slate-900 mb-2 px-4 select-none">Similar Products</h3>
+      <div className="flex flex-row overflow-x-auto gap-2.5 px-4 pb-1.5 select-none no-scrollbar snap-x snap-mandatory scroll-smooth">
         {products.map((item) => (
-          <ProductCard key={item.id} product={item} />
+          <div key={item.id} className="w-[155px] shrink-0 snap-start bg-white rounded-lg overflow-hidden border border-slate-100 shadow-[0_1px_4px_rgba(0,0,0,0.03)] flex flex-col">
+            <ProductCard product={item} />
+          </div>
         ))}
       </div>
     </div>

@@ -142,7 +142,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
   // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
   const numericId = typeof id === 'number' ? id : (id?.charCodeAt(0) || 0);
-  const ratingVal = parseFloat(product.average_rating || (4.0 + (numericId % 5) * 0.1)).toFixed(1);
+  const ratingOffsets = [5.0, 4.9, 4.8, 4.7, 4.5, 4.1, 4.0];
+  const ratingVal = parseFloat(product.average_rating || String(ratingOffsets[Math.abs(numericId % ratingOffsets.length)]));
   const totalRatings = product.total_ratings || ((numericId * 73) % 400 + 80);
   const totalRatingsStr = totalRatings >= 1000 ? `${(totalRatings / 1000).toFixed(1)}k` : `${totalRatings}`;
 
@@ -271,7 +272,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             alignItems: 'center', 
             gap: '4px', 
             marginTop: '6px',
-            minHeight: '16px'
+            minHeight: '18px'
           }}
         >
           {/* Green stars display */}
@@ -279,14 +280,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className="stars" 
             style={{ 
               color: '#26a541', 
-              fontSize: '12px', 
+              fontSize: '15px', 
               display: 'flex', 
               gap: '1px'
             }}
           >
             {Array.from({ length: 5 }).map((_, idx) => {
               const starNum = idx + 1;
-              const isFilled = starNum <= Math.round(parseFloat(ratingVal));
+              const isFilled = starNum <= (ratingVal >= 4.8 ? 5 : 4);
               return (
                 <span key={idx} style={{ color: isFilled ? '#26a541' : '#e2e8f0' }}>
                   ★
@@ -294,6 +295,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               );
             })}
           </div>
+
+          {/* Rating value text (e.g. 4.9, 4.8, etc.) */}
+          <span style={{ fontSize: '12px', color: '#212121', marginLeft: '4px', fontWeight: 'bold' }}>
+            {ratingVal.toFixed(1)}
+          </span>
+
+          {/* Total Ratings Count */}
+          <span style={{ fontSize: '11px', color: '#878787', marginLeft: '2px' }}>
+            ({totalRatingsStr})
+          </span>
 
           {/* Conditional F-Assured Logo next to stars (Based on numericId % 3) */}
           {(numericId % 3 === 0) && (

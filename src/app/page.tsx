@@ -414,7 +414,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-gradient-to-b from-[#3ba2ff] to-[#2874f0] text-white px-2 pt-3 pb-1 select-none border-b border-[#1b62db]">
+      <div className="bg-gradient-to-r from-[#b3d7ff] to-[#e8f4fd] text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#a9cff5]">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },
@@ -425,14 +425,14 @@ export default function Home() {
             { name: 'Home', icon: HomeIcon }
           ].map((cat) => (
             <div key={cat.name} className="flex flex-col items-center justify-between text-center">
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center text-[#212121]">
                 <cat.icon className="w-[30px] h-[30px] mb-1.5" />
-                <span className="text-[11.5px] font-semibold text-white leading-tight">{cat.name}</span>
+                <span className="text-[11.5px] font-semibold leading-tight">{cat.name}</span>
               </div>
               <div 
                 style={{ 
                   height: '3px', 
-                  backgroundColor: cat.name === 'For You' ? '#ffffff' : 'transparent', 
+                  backgroundColor: cat.name === 'For You' ? '#000000' : 'transparent', 
                   width: '32px', 
                   marginTop: '6px', 
                   borderRadius: '2px' 

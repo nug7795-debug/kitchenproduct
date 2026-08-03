@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown, X, Upload, Share2, Wrench, CircleSlash, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/ui/button';
-import { cn } from "../../../lib/utils";
+import { cn, getDynamicDeliveryDate } from "../../../lib/utils";
 import { supabase } from '../../../lib/supabase';
 import { ProductCard } from '../../../components/product/ProductCard';
 import { applyDynamicBadges } from '../../../lib/badge-helper';
@@ -547,9 +547,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const timeStr = `${minutes}min ${seconds.toString().padStart(2, '0')}sec`;
 
   const getDeliveryDateStr = () => {
-    const d = new Date();
-    d.setDate(d.getDate() + 2); // 2 days delivery
-    return d.toLocaleString('en-US', { day: "numeric", month: "short", weekday: "short" });
+    if (!product) return '';
+    return getDynamicDeliveryDate(product.id);
   };
 
   

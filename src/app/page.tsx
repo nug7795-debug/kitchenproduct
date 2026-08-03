@@ -35,6 +35,7 @@ const ForYouIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <circle cx="12" cy="13" r="3.5" fill="#ffe51f" stroke="none" />
     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
     <line x1="3" y1="6" x2="21" y2="6" />
     <path d="M16 10a4 4 0 0 1-8 0" />
@@ -51,6 +52,7 @@ const FashionIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <rect x="7.5" y="17.5" width="9" height="3.5" fill="#ffe51f" stroke="none" />
     <path d="M15 22H9a2 2 0 0 1-2-2v-5l-4-2.5V7l4 1.5V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4.5l4-1.5v5.5L17 15v5a2 2 0 0 1-2 2z" />
   </svg>
 );
@@ -65,6 +67,7 @@ const MobilesIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <rect x="7.2" y="4" width="9.6" height="12" fill="#ffe51f" stroke="none" />
     <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
     <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5" />
   </svg>
@@ -80,6 +83,7 @@ const ElectronicsIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <rect x="3.5" y="12" width="17" height="3" fill="#ffe51f" stroke="none" />
     <rect x="2" y="3" width="20" height="13" rx="2" ry="2" />
     <line x1="2" y1="20" x2="22" y2="20" strokeWidth="2.2" />
     <line x1="12" y1="17" x2="12" y2="17" strokeWidth="2.5" />
@@ -96,6 +100,7 @@ const BeautyIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <path d="M9.5 7l1.5-5h2l1.5 5" fill="#ffe51f" stroke="none" />
     <rect x="8" y="11" width="8" height="11" rx="1" />
     <rect x="9.5" y="7" width="5" height="4" />
     <path d="M9.5 7l1.5-5h2l1.5 5" />
@@ -112,6 +117,7 @@ const HomeIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round" 
     strokeLinejoin="round"
   >
+    <path d="M8 2h8l2 8H6z" fill="#ffe51f" stroke="none" />
     <path d="M8 2h8l2 8H6z" />
     <line x1="12" y1="10" x2="12" y2="20" />
     <line x1="8" y1="20" x2="16" y2="20" />

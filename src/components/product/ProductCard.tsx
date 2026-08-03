@@ -244,7 +244,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             alignItems: 'center', 
             gap: '4px', 
             marginTop: '6px',
-            minHeight: '18px'
+            minHeight: '18px',
+            flexWrap: 'nowrap'
           }}
         >
           {/* Green stars display */}
@@ -252,7 +253,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             className="stars" 
             style={{ 
               color: '#26a541', 
-              fontSize: '15px', 
+              fontSize: '13px', 
               display: 'flex', 
               gap: '1px'
             }}
@@ -268,18 +269,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             })}
           </div>
 
-          {/* Rating value text (e.g. 4.9, 4.8, etc.) */}
-          <span style={{ fontSize: '12px', color: '#212121', marginLeft: '4px', fontWeight: 'bold' }}>
-            {ratingVal.toFixed(1)}
-          </span>
-
           {/* Conditional F-Assured Logo next to stars (Based on numericId % 5 !== 0 for 80% coverage) */}
           {(numericId % 5 !== 0) && (
             <img 
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
               alt="fAssured" 
               className="assured shrink-0"
-              style={{ height: '14px', width: 'auto', marginLeft: '4px', flexShrink: 0 }} 
+              style={{ height: '13px', width: 'auto', marginLeft: '2px', flexShrink: 0 }} 
             />
           )}
         </div>

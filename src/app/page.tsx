@@ -25,6 +25,22 @@ const GiftIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const ForYouIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.5" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <path d="M16 10a4 4 0 0 1-8 0" />
+  </svg>
+);
+
 const LiveSaleTimer = () => {
   const [timeLeft, setTimeLeft] = React.useState(15 * 60);
 
@@ -323,14 +339,18 @@ export default function Home() {
       <div className="bg-white px-2 py-3.5 select-none border-b border-slate-100">
         <div className="grid grid-cols-5 gap-1">
           {[
-            { name: 'Mobiles', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/86a19de055a5ae2c.jpg' },
+            { name: 'For You', isIcon: true },
             { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
             { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
             { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
             { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
           ].map((cat) => (
             <div key={cat.name} className="flex flex-col items-center justify-center text-center">
-              <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
+              {cat.isIcon ? (
+                <ForYouIcon className="w-[42px] h-[42px] mb-1.5" />
+              ) : (
+                <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
+              )}
               <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
             </div>
           ))}

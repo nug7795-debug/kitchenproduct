@@ -34,11 +34,11 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       if (currentScrollY <= 10) {
         setHeaderVisible(true);
       } else if (currentScrollY > lastScrollY) {
-        // Scrolling down -> Show header
-        setHeaderVisible(true);
-      } else {
-        // Scrolling up -> Hide header
+        // Scrolling down (product goes up) -> Hide header
         setHeaderVisible(false);
+      } else {
+        // Scrolling up (product goes down) -> Show header
+        setHeaderVisible(true);
       }
       lastScrollYRef.current = currentScrollY;
     };

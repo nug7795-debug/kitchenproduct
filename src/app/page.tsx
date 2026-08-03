@@ -41,6 +41,84 @@ const ForYouIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const FashionIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.6" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M15 22H9a2 2 0 0 1-2-2v-5l-4-2.5V7l4 1.5V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4.5l4-1.5v5.5L17 15v5a2 2 0 0 1-2 2z" />
+  </svg>
+);
+
+const MobilesIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.6" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+    <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5" />
+  </svg>
+);
+
+const ElectronicsIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.6" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="3" width="20" height="13" rx="2" ry="2" />
+    <line x1="2" y1="20" x2="22" y2="20" strokeWidth="2.2" />
+    <line x1="12" y1="17" x2="12" y2="17" strokeWidth="2.5" />
+  </svg>
+);
+
+const BeautyIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.6" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <rect x="8" y="11" width="8" height="11" rx="1" />
+    <rect x="9.5" y="7" width="5" height="4" />
+    <path d="M9.5 7l1.5-5h2l1.5 5" />
+  </svg>
+);
+
+const HomeIcon = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={className} 
+    fill="none" 
+    stroke="#212121" 
+    strokeWidth="1.6" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M8 2h8l2 8H6z" />
+    <line x1="12" y1="10" x2="12" y2="20" />
+    <line x1="8" y1="20" x2="16" y2="20" />
+  </svg>
+);
+
+
 const LiveSaleTimer = () => {
   const [timeLeft, setTimeLeft] = React.useState(15 * 60);
 
@@ -336,22 +414,30 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-white px-2 py-3.5 select-none border-b border-slate-100">
-        <div className="grid grid-cols-5 gap-1">
+      <div className="bg-white px-2 pt-3 pb-1 select-none border-b border-slate-100">
+        <div className="grid grid-cols-6 gap-1">
           {[
-            { name: 'For You', isIcon: true },
-            { name: 'Electronics', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/9af2825c1882cb09.jpg' },
-            { name: 'Appliances', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/cba3261ad6af85cf.png' },
-            { name: 'Furniture', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/15d49cf205683c05.jpg' },
-            { name: 'Grocery', img: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d-copy.png', fallback: 'https://rukminim2.flixcart.com/fk-p-flap/106/106/image/987e8204a510854d.png' }
+            { name: 'For You', icon: ForYouIcon },
+            { name: 'Fashion', icon: FashionIcon },
+            { name: 'Mobiles', icon: MobilesIcon },
+            { name: 'Electronics', icon: ElectronicsIcon },
+            { name: 'Beauty', icon: BeautyIcon },
+            { name: 'Home', icon: HomeIcon }
           ].map((cat) => (
-            <div key={cat.name} className="flex flex-col items-center justify-center text-center">
-              {cat.isIcon ? (
-                <ForYouIcon className="w-[42px] h-[42px] mb-1.5" />
-              ) : (
-                <img src={cat.fallback || cat.img} alt={cat.name} className="w-[42px] h-[42px] object-contain mb-1.5" />
-              )}
-              <span className="text-[12px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
+            <div key={cat.name} className="flex flex-col items-center justify-between text-center">
+              <div className="flex flex-col items-center justify-center">
+                <cat.icon className="w-[30px] h-[30px] mb-1.5" />
+                <span className="text-[11.5px] font-semibold text-slate-700 leading-tight">{cat.name}</span>
+              </div>
+              <div 
+                style={{ 
+                  height: '3px', 
+                  backgroundColor: cat.name === 'For You' ? '#000000' : 'transparent', 
+                  width: '32px', 
+                  marginTop: '6px', 
+                  borderRadius: '2px' 
+                }} 
+              />
             </div>
           ))}
         </div>

@@ -275,7 +275,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
               alt="fAssured" 
               className="assured shrink-0"
-              style={{ height: '13px', width: 'auto', marginLeft: '2px', flexShrink: 0 }} 
+              style={{ height: '15px', width: 'auto', marginLeft: '8px', flexShrink: 0 }} 
             />
           )}
         </div>
@@ -286,11 +286,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <div 
           className="_3Nxu4r delivery-txt text-dark" 
           style={{ 
-            marginTop: '10px', 
-            fontSize: '14px',
-            color: '#212529',
+            marginTop: '6px', 
+            fontSize: '12px',
+            color: '#565656',
             textAlign: 'left',
-            letterSpacing: '-0.3px',
+            letterSpacing: '-0.2px',
             fontWeight: 500
           }}
         >

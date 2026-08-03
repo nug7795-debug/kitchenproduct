@@ -1254,7 +1254,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               />
             </div>
 
-
+            {/* Gray divider section block (gap) */}
+            <div className="w-full h-2 bg-[#f1f3f6] mt-2" />
 
             {/* Vertically stacked product images (Matches reference site exactly) */}
             <div className="flex flex-col gap-2.5 mt-0 mb-2.5 w-full bg-white select-none">

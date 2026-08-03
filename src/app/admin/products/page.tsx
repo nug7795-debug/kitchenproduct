@@ -296,9 +296,37 @@ export default function ProductsPage() {
     // Optimistic UI update
     setProducts(products.filter(p => p.id !== id));
     
-    const { error } = await supabase.from('products').delete().eq('id', id);
-    if (error) {
-      alert('Error deleting product: ' + error.message);
+    try {
+      // 1. Delete associated product images first to clear metadata
+      await supabase.from('product_images').delete().eq('product_id', id);
+      
+      // 2. Delete reviews first
+      await supabase.from('reviews').delete().eq('product_id', id);
+      
+      // 3. Attempt hard delete
+      const { error } = await supabase.from('products').delete().eq('id', id);
+      
+      if (error) {
+        // If foreign key constraint violates (error code 23503 or message pattern)
+        if (error.code === '23503' || error.message?.toLowerCase().includes('foreign key')) {
+          // Fallback to soft delete by setting is_active = false
+          const { error: updateError } = await supabase
+            .from('products')
+            .update({ is_active: false })
+            .eq('id', id);
+            
+          if (updateError) throw updateError;
+          
+          alert('This product is linked to existing order histories, so it has been deactivated and hidden from the store instead of being permanently deleted.');
+        } else {
+          throw error;
+        }
+      }
+    } catch (err: any) {
+      console.error('Error deleting product:', err);
+      alert('Error deleting product: ' + err.message);
+      // Reload page to restore optimistic UI state on failure
+      window.location.reload();
     }
   };
 
@@ -328,7 +356,9 @@ export default function ProductsPage() {
         }
 
         if (data) {
-          const transformed = data.map(p => {
+          const transformed = data
+            .filter((p: any) => p.is_active !== false)
+            .map(p => {
             let categoryName = 'Uncategorized';
             if (p.categories) {
               if (Array.isArray(p.categories)) {

@@ -414,7 +414,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-gradient-to-r from-[#b3d7ff] to-[#e8f4fd] text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#a9cff5]">
+      <div className="bg-gradient-to-b from-[#e8f4fd] to-white text-[#212121] px-2 pt-3 pb-1 select-none border-b border-slate-100">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },

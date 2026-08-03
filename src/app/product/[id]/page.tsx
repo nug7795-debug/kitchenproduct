@@ -1326,6 +1326,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* Gray divider section block (gap) */}
             <div className="w-full h-2 bg-[#f1f3f6] mt-2" />
 
+            <div className="w-full bg-white px-4 pt-4 select-none">
+              <h3 className="text-[15px] font-extrabold text-slate-900">Product details</h3>
+            </div>
+
             {/* Vertically stacked product images (Matches reference site exactly) */}
             <div className="flex flex-col gap-2.5 mt-0 mb-2.5 w-full bg-white select-none">
               {product.images && product.images.map((imgUrl: string, idx: number) => (

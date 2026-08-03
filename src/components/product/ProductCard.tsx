@@ -301,18 +301,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             {ratingVal.toFixed(1)}
           </span>
 
-          {/* Total Ratings Count */}
-          <span style={{ fontSize: '11px', color: '#878787', marginLeft: '2px' }}>
-            ({totalRatingsStr})
-          </span>
-
           {/* Conditional F-Assured Logo next to stars (Based on numericId % 3) */}
           {(numericId % 3 === 0) && (
             <img 
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
               alt="fAssured" 
-              className="assured"
-              style={{ height: '14px', width: 'auto', marginLeft: '2px' }} 
+              className="assured shrink-0"
+              style={{ height: '14px', width: 'auto', marginLeft: '4px', flexShrink: 0 }} 
             />
           )}
         </div>

@@ -241,7 +241,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           )}
         </div>
 
-        {/* Price & Assured Logo */}
+        {/* Price Row (Without Assured Logo here, matches goats-sale.com) */}
         <div 
           className="_24B_AU _1AQnZC" 
           style={{ 
@@ -261,13 +261,49 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           >
             ₹{displaySalePrice}
           </b>
-          <img 
-            src="https://i.ibb.co/t4RsPCf/SwOvZ3r.png" 
-            width="73px" 
-            alt="fAssured"
-            className="img-fluid" 
-            style={{ width: '73px', height: 'auto' }}
-          />
+        </div>
+
+        {/* Rating & Assured Row (Copy from goats-sale.com) */}
+        <div 
+          className="rating-row" 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '4px', 
+            marginTop: '6px',
+            minHeight: '16px'
+          }}
+        >
+          {/* Green stars display */}
+          <div 
+            className="stars" 
+            style={{ 
+              color: '#26a541', 
+              fontSize: '12px', 
+              display: 'flex', 
+              gap: '1px'
+            }}
+          >
+            {Array.from({ length: 5 }).map((_, idx) => {
+              const starNum = idx + 1;
+              const isFilled = starNum <= Math.round(parseFloat(ratingVal));
+              return (
+                <span key={idx} style={{ color: isFilled ? '#26a541' : '#e2e8f0' }}>
+                  ★
+                </span>
+              );
+            })}
+          </div>
+
+          {/* Conditional F-Assured Logo next to stars (Based on numericId % 3) */}
+          {(numericId % 3 === 0) && (
+            <img 
+              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+              alt="fAssured" 
+              className="assured"
+              style={{ height: '14px', width: 'auto', marginLeft: '2px' }} 
+            />
+          )}
         </div>
 
 

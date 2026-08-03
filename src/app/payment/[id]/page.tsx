@@ -822,32 +822,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Countdown Offer Timer Banner styled like a green ticket - MOVED ABOVE 20% CASHBACK */}
-      <div className="w-full bg-white py-2.5 border-b border-[#eaeaf2] select-none flex justify-center">
-        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-1.5 px-4 flex items-center justify-center gap-3 overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)] max-w-max">
-          {/* Ticket Cutouts */}
-          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
-          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
-
-          {/* Left: Gift Icon + Offer Ends In */}
-          <div className="flex items-center gap-2 shrink-0">
-            <GiftIcon className="w-[28px] h-[28px] shrink-0" />
-            <span className="text-[14px] font-bold text-[#111111] whitespace-nowrap">Offer ends in</span>
-          </div>
-
-          {/* Right: Timer Countdown */}
-          <div className="flex items-center gap-1 shrink-0 select-none">
-            <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
-              {String(Math.floor(countdown / 60)).padStart(2, "0")}
-            </span>
-            <span className="text-[12px] font-bold text-slate-600">:</span>
-            <span className="bg-[#ffece2] text-[#fb641b] text-[13.5px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">
-              {String(countdown % 60).padStart(2, "0")}
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
       {/* Flipkart Payment Offers Green Banner */}
       <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3 px-5 flex items-center justify-between select-none shimmer-banner">

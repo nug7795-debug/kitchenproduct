@@ -204,20 +204,11 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
   const [activeSlide, setActiveSlide] = React.useState(0);
 
-  const [banners, setBanners] = React.useState([
+  const banners = [
     '/uploads/lapalop1.webp',
     '/uploads/lapalop2.webp',
     '/uploads/lapalop3.webp'
-  ]);
-
-  React.useEffect(() => {
-    const timestamp = Date.now();
-    setBanners([
-      `/uploads/lapalop1.webp?t=${timestamp}`,
-      `/uploads/lapalop2.webp?t=${timestamp}`,
-      `/uploads/lapalop3.webp?t=${timestamp}`
-    ]);
-  }, []);
+  ];
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -429,7 +420,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-gradient-to-b from-[#8ec9ff] to-[#e8f4fd] text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#b8dcff]">
+      <div className="bg-gradient-to-b from-[#eef5fd] to-white text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#e2eeff]">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },

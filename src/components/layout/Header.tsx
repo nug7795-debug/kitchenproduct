@@ -34,11 +34,7 @@ export const Header = () => {
 
   const [searchInput, setSearchInput] = React.useState('');
   const [cartCount, setCartCount] = React.useState(0);
-  const [headerImage, setHeaderImage] = React.useState('/uploads/upor5.webp');
-
-  React.useEffect(() => {
-    setHeaderImage(`/uploads/upor5.webp?t=${Date.now()}`);
-  }, []);
+  const headerImage = '/uploads/upor5.webp';
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

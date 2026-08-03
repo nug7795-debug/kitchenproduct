@@ -394,7 +394,7 @@ export default function Home() {
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
       {/* Banner Area (Sliding Banners with rounded corners) */}
-      <div className="w-full bg-white pt-2.5 pb-1.5 px-3">
+      <div className="w-full bg-[#e8f4fd] pt-2.5 pb-1.5 px-3">
         <div className="relative w-full overflow-hidden rounded-xl aspect-[1200/533] select-none">
           <div 
             className="flex w-full h-full transition-transform duration-500 ease-in-out"

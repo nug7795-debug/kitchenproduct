@@ -485,6 +485,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [isInCart, setIsInCart] = React.useState(false);
   const [cartCount, setCartCount] = React.useState(0);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
+  const [logoSrc, setLogoSrc] = React.useState('/uploads/fliplpogo.png');
+
+  React.useEffect(() => {
+    setLogoSrc(`/uploads/fliplpogo.png?t=${Date.now()}`);
+  }, []);
   
   // Header visibility scroll states
   const [showHeader, setShowHeader] = React.useState(true);
@@ -1078,7 +1083,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </button>
              <Link href="/" className="flex-shrink-0">
                <img 
-                 src="/uploads/fliplpogo.png" 
+                 src={logoSrc} 
                  alt="Flipkart Logo" 
                  className="h-[30px] w-auto object-contain cursor-pointer"
                />

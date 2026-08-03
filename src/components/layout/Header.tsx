@@ -34,6 +34,11 @@ export const Header = () => {
 
   const [searchInput, setSearchInput] = React.useState('');
   const [cartCount, setCartCount] = React.useState(0);
+  const [headerImage, setHeaderImage] = React.useState('/uploads/upor5.webp');
+
+  React.useEffect(() => {
+    setHeaderImage(`/uploads/upor5.webp?t=${Date.now()}`);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -178,7 +183,7 @@ export const Header = () => {
       {/* Cropped Header Image with overlays */}
       <div className="relative w-full aspect-[4133/1585]">
         <img 
-          src="/uploads/upor5.webp" 
+          src={headerImage} 
           alt="Flipkart Header" 
           className="w-full h-auto block pointer-events-none" 
         />

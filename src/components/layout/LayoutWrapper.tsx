@@ -22,7 +22,31 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     const endsAt = Date.now() + 15 * 60 * 1000;
     localStorage.setItem('shared_offer_ends_at', endsAt.toString());
   }, [pathname]);
-  
+
+  const [headerVisible, setHeaderVisible] = React.useState(true);
+  const lastScrollYRef = React.useRef(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const lastScrollY = lastScrollYRef.current;
+
+      if (currentScrollY <= 10) {
+        setHeaderVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down -> Show header
+        setHeaderVisible(true);
+      } else {
+        // Scrolling up -> Hide header
+        setHeaderVisible(false);
+      }
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Hide layout elements on specialized pages
   const isCheckout = pathname?.startsWith('/checkout');
   const isPayment = pathname?.toLowerCase()?.startsWith('/payment') || 
@@ -52,7 +76,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col min-h-screen items-center overflow-x-clip bg-slate-100">
       <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
         {hasHeader && (
-          <div className="w-full max-w-[500px] shrink-0 sticky top-0 z-50">
+          <div className={cn("w-full max-w-[500px] shrink-0 sticky top-0 z-50 transition-all duration-300 ease-in-out transform", headerVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none")}>
             <Header />
           </div>
         )}

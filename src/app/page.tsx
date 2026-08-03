@@ -198,18 +198,27 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
   const [activeSlide, setActiveSlide] = React.useState(0);
 
-  const banners = [
+  const [banners, setBanners] = React.useState([
     '/uploads/lapalop1.webp',
     '/uploads/lapalop2.webp',
     '/uploads/lapalop3.webp'
-  ];
+  ]);
+
+  React.useEffect(() => {
+    const timestamp = Date.now();
+    setBanners([
+      `/uploads/lapalop1.webp?t=${timestamp}`,
+      `/uploads/lapalop2.webp?t=${timestamp}`,
+      `/uploads/lapalop3.webp?t=${timestamp}`
+    ]);
+  }, []);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % banners.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners.length]);
 
   React.useEffect(() => {
     const migrateMockDbToSupabase = async () => {

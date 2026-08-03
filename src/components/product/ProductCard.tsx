@@ -301,8 +301,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             {ratingVal.toFixed(1)}
           </span>
 
-          {/* Conditional F-Assured Logo next to stars (Based on numericId % 3) */}
-          {(numericId % 3 === 0) && (
+          {/* Conditional F-Assured Logo next to stars (Based on numericId % 5 !== 0 for 80% coverage) */}
+          {(numericId % 5 !== 0) && (
             <img 
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
               alt="fAssured" 

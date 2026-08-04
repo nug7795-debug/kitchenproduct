@@ -1325,9 +1325,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <p className="text-[13px] m-0.5 text-slate-800">
                     Delivery by <span className="font-bold text-[#212121]">{getDeliveryDateStr()}</span>
                   </p>
-                  <p className="text-[12px] text-slate-500 m-0">
-                    Offer ends in <span style={{ color: 'rgba(199,0,85,1)', fontWeight: '600' }}>{timeStr}</span>
-                  </p>
                 </div>
               </div>
             </div>
@@ -1385,9 +1382,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Warranty Banner */}
-            <div className="w-full bg-[#f1f3f6] py-1.5 px-2.5 select-none">
-              <div className="w-full bg-white border border-[#e0e0e0] rounded-sm py-3 px-4 flex items-center justify-center gap-2.5 shadow-xs">
+            {/* Warranty, Pay Later & Warehouse Block */}
+            <div className="w-full bg-white select-none border-t border-[#e0e0e0] flex flex-col mt-2">
+              
+              {/* Warranty Row */}
+              <div className="w-full py-3.5 px-4 flex items-center justify-center gap-2.5 border-b border-[#e0e0e0]">
                 <img 
                   src="https://flipart-offers.com/bag/public/storage/uploads/JupXjzRqRcLo8ptSqkTFq2QrZaXIxWQma4U8VmXy.webp" 
                   alt="Warranty" 
@@ -1395,11 +1394,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 />
                 <span className="text-[13.5px] font-black text-slate-800 tracking-tight">1 Year Manufacturer Warranty</span>
               </div>
-            </div>
 
-            {/* Flipkart Pay Later Banner */}
-            <div className="w-full bg-[#f1f3f6] pb-1.5 px-2.5 select-none">
-              <div className="relative w-full bg-white border border-[#e0e0e0] rounded-sm p-3.5 pr-4 flex items-center justify-between shadow-xs">
+              {/* Flipkart Pay Later Row */}
+              <div className="relative w-full p-4 pr-5 flex items-center justify-between border-b border-[#e0e0e0]">
                 {/* Left Section: Logo & Icon */}
                 <div className="flex items-center gap-2">
                   <svg className="w-11 h-9 shrink-0" viewBox="0 0 60 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1435,11 +1432,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 {/* T&C Apply */}
                 <span className="absolute bottom-1 right-2 text-[5.5px] text-slate-400 font-extrabold tracking-tighter uppercase select-none">*T&C APPLY</span>
               </div>
-            </div>
 
-            {/* Flipkart Warehouse Section */}
-            <div className="w-full bg-[#f1f3f6] pb-2 px-2.5 select-none">
-              <div className="w-full bg-white border border-[#e0e0e0] rounded-sm p-3.5 flex flex-col gap-3 shadow-xs">
+              {/* Flipkart Warehouse Row */}
+              <div className="w-full p-4 flex flex-col gap-3 border-b border-[#e0e0e0]">
                 {/* Header Row */}
                 <div className="flex items-center justify-between cursor-pointer">
                   <div className="flex items-center gap-3">

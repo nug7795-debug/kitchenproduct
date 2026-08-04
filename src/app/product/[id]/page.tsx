@@ -1231,26 +1231,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className="bg-white flex flex-col">
             {/* product-data1 block */}
             <div className="product-data1 bg-white">
-              {/* Product Badges */}
-              {(product.is_trending || product.is_best_seller || product.is_new_arrival) && (
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {product.is_trending && (
-                    <span className="bg-[#ff9f00] text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-[4px] tracking-wider shadow-xs select-none">
-                      Trending Now
-                    </span>
-                  )}
-                  {product.is_best_seller && (
-                    <span className="bg-[#f47b20] text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-[4px] tracking-wider shadow-xs select-none">
-                      Best Seller
-                    </span>
-                  )}
-                  {product.is_new_arrival && (
-                    <span className="bg-[#008cff] text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-[4px] tracking-wider shadow-xs select-none">
-                      New Arrival
-                    </span>
-                  )}
-                </div>
-              )}
               <div className="product-title text-[#007185]">
                 {product.name.length > 55 && !showFullTitle ? (
                   <>

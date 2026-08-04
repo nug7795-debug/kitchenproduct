@@ -155,6 +155,26 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       style={{ textDecoration: 'none' }}
     >
       <div className="_2enssu relative overflow-hidden bg-white h-full" style={{ padding: '12px 8px', display: 'block' }}>
+        {/* Badges Overlay at the top-left of the card */}
+        {(is_trending || is_best_seller || is_new_arrival) && (
+          <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1 pointer-events-none select-none">
+            {is_trending && (
+              <span className="bg-[#ff9f00] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs leading-none">
+                Trending Now
+              </span>
+            )}
+            {is_best_seller && (
+              <span className="bg-[#f47b20] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs leading-none">
+                Best Seller
+              </span>
+            )}
+            {is_new_arrival && (
+              <span className="bg-[#008cff] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded-[3px] tracking-wide shadow-xs leading-none">
+                New Arrival
+              </span>
+            )}
+          </div>
+        )}
         
         {/* Product Image wrapper */}
         <div className="flex items-center justify-center bg-white w-full" style={{ height: '150px' }}>

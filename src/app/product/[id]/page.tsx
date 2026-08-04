@@ -1219,8 +1219,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             )}
            </div>
 
-          {/* Product Info Section */}
-          <div className="bg-white flex flex-col">
+            {/* 3300 people ordered trend banner */}
+            <div className="w-full bg-[#f1f3f6] py-3 flex items-center justify-center gap-2.5 select-none border-t border-slate-100 mt-2.5">
+              <img height="28px" src="https://flipart-offers.com/bag/public/static/sold-trend.png" alt="Trend" className="h-7 w-auto shrink-0 object-contain" />
+              <span className="text-[12.5px] text-slate-800 leading-none">
+                <b className="font-extrabold text-slate-900">3300</b> people ordered this in the last 30 days
+              </span>
+            </div>
+
+            {/* Product Info Section */}
+            <div className="bg-white flex flex-col">
             {/* product-data1 block */}
             <div className="product-data1 bg-white">
               {/* Product Badges */}
@@ -1289,6 +1297,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 {discount > 0 && <span className="mrp">₹{Math.round(displayPrice).toLocaleString('en-IN')}</span>}
                 <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
               </div>
+            </div>
+
+            {/* Offers Ends In Countdown Banner */}
+            <div className="w-full bg-[#fff9f5] border-y border-[#ffe3d1] py-2.5 px-4 flex items-center justify-center select-none mt-2">
+              <span className="text-[13.5px] font-black text-[#ff6f2e] tracking-tight flex items-center gap-1.5">
+                Offers Ends In <span className="font-black bg-[#ff6f2e] text-white px-2 py-0.5 rounded-md text-[13px] tracking-wide tabular-nums">{timeStr}</span>
+              </span>
             </div>
 
             {/* Replaced product-data2 countdown timer block with exact copies from goats-sale.com */}
@@ -1366,8 +1381,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Flipkart Pay Later Banner */}
+            {/* Warranty Banner */}
             <div className="w-full bg-[#f1f3f6] py-1.5 px-2.5 select-none">
+              <div className="w-full bg-white border border-[#e0e0e0] rounded-sm py-3 px-4 flex items-center justify-center gap-2.5 shadow-xs">
+                <img 
+                  src="https://flipart-offers.com/bag/public/storage/uploads/JupXjzRqRcLo8ptSqkTFq2QrZaXIxWQma4U8VmXy.webp" 
+                  alt="Warranty" 
+                  className="h-7 w-auto shrink-0 object-contain" 
+                />
+                <span className="text-[13.5px] font-black text-slate-800 tracking-tight">1 Year Manufacturer Warranty</span>
+              </div>
+            </div>
+
+            {/* Flipkart Pay Later Banner */}
+            <div className="w-full bg-[#f1f3f6] pb-1.5 px-2.5 select-none">
               <div className="relative w-full bg-white border border-[#e0e0e0] rounded-sm p-3.5 pr-4 flex items-center justify-between shadow-xs">
                 {/* Left Section: Logo & Icon */}
                 <div className="flex items-center gap-2">
@@ -1403,6 +1430,58 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                 {/* T&C Apply */}
                 <span className="absolute bottom-1 right-2 text-[5.5px] text-slate-400 font-extrabold tracking-tighter uppercase select-none">*T&C APPLY</span>
+              </div>
+            </div>
+
+            {/* Flipkart Warehouse Section */}
+            <div className="w-full bg-[#f1f3f6] pb-2 px-2.5 select-none">
+              <div className="w-full bg-white border border-[#e0e0e0] rounded-sm p-3.5 flex flex-col gap-3 shadow-xs">
+                {/* Header Row */}
+                <div className="flex items-center justify-between cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 bg-slate-900 rounded-full flex items-center justify-center shrink-0">
+                      <svg className="h-4.5 w-4.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20 20a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1" />
+                        <path d="M2 3h20" />
+                        <path d="M6 20V12h12v8" />
+                        <path d="M10 12h4" />
+                      </svg>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <span className="text-[12.5px] font-black text-slate-800 leading-tight">Flipkart Warehouse</span>
+                      <div className="flex items-center gap-1.5 mt-0.5 leading-none">
+                        <div className="flex items-center gap-0.5 text-[#2874f0] text-[9.5px]">
+                          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <span className="text-[10px] font-black text-[#2874f0] mt-0.5">4.9</span>
+                        <span className="text-[10px] text-slate-350">•</span>
+                        <span className="text-[10px] font-bold text-slate-500 mt-0.5">15 Years in Flipkart</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <span className="text-slate-400 text-[11px] font-black">❯</span>
+                </div>
+
+                {/* Divider */}
+                <div className="w-full h-px bg-slate-100" />
+
+                {/* Metrics Row */}
+                <div className="flex items-center justify-between text-center">
+                  <div className="flex-1 flex flex-col items-center border-r border-slate-100 last:border-0">
+                    <span className="text-[13px] font-black text-slate-800">19cr+</span>
+                    <span className="text-[9px] font-bold text-slate-400 mt-0.5">Product Sold</span>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center border-r border-slate-100 last:border-0">
+                    <span className="text-[13px] font-black text-slate-800">99%</span>
+                    <span className="text-[9px] font-bold text-slate-400 mt-0.5">Quality Score</span>
+                  </div>
+                  <div className="flex-1 flex flex-col items-center">
+                    <span className="text-[13px] font-black text-slate-800">98%</span>
+                    <span className="text-[9px] font-bold text-slate-400 mt-0.5">Speed Score</span>
+                  </div>
+                </div>
               </div>
             </div>
 

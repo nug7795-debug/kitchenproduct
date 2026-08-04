@@ -1366,6 +1366,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
+            {/* Flipkart Pay Later Banner */}
+            <div className="w-full bg-[#f1f3f6] py-1.5 px-2.5 select-none">
+              <img 
+                src="/uploads/flipkart_pay_later.png" 
+                alt="Flipkart Pay Later" 
+                className="w-full h-auto object-contain" 
+              />
+            </div>
+
             {/* Similar Products (Moved above Product details) */}
             <SimilarProducts 
               currentProductId={product.id} 

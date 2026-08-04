@@ -1368,11 +1368,42 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
             {/* Flipkart Pay Later Banner */}
             <div className="w-full bg-[#f1f3f6] py-1.5 px-2.5 select-none">
-              <img 
-                src="/uploads/flipkart_pay_later.png" 
-                alt="Flipkart Pay Later" 
-                className="w-full h-auto object-contain" 
-              />
+              <div className="relative w-full bg-white border border-[#e0e0e0] rounded-sm p-3.5 pr-4 flex items-center justify-between shadow-xs">
+                {/* Left Section: Logo & Icon */}
+                <div className="flex items-center gap-2">
+                  <svg className="w-11 h-9 shrink-0" viewBox="0 0 60 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Motion lines */}
+                    <line x1="4" y1="18" x2="10" y2="18" stroke="#1c54d4" strokeWidth="2.5" strokeLinecap="round" />
+                    <line x1="2" y1="24" x2="8" y2="24" stroke="#ffc200" strokeWidth="2.5" strokeLinecap="round" />
+                    <line x1="5" y1="30" x2="11" y2="30" stroke="#1c54d4" strokeWidth="2.5" strokeLinecap="round" />
+                    {/* Cart body */}
+                    <path d="M12 12H16L20 34H46L50 18H21" stroke="#1c54d4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Yellow basket fill */}
+                    <rect x="21" y="18" width="24" height="11" rx="1" fill="#ffc200" stroke="#1c54d4" strokeWidth="2" strokeLinejoin="round" />
+                    {/* Wheels */}
+                    <circle cx="24" cy="40" r="3.5" fill="#1c54d4" />
+                    <circle cx="42" cy="40" r="3.5" fill="#1c54d4" />
+                  </svg>
+                  
+                  <div className="flex flex-col justify-center leading-none">
+                    <span className="text-[12px] font-black text-slate-900 tracking-tight">Flipkart</span>
+                    <span className="text-[12px] font-black text-[#1c54d4] tracking-tight mt-0.5">Pay Later</span>
+                  </div>
+                </div>
+
+                {/* Right Section: Details & Action */}
+                <div className="text-right flex flex-col items-end leading-tight pr-1">
+                  <span className="text-[11px] font-black text-slate-800">Credit Up to ₹1 Lakh*</span>
+                  <span className="text-[8.5px] font-extrabold text-slate-500 mt-0.5">Shop Now & Pay Next Month or in EMIs</span>
+                  <div className="flex items-center gap-0.5 mt-1 cursor-pointer text-[#1c54d4] hover:underline">
+                    <span className="text-[9.5px] font-black">Activate Now</span>
+                    <span className="text-[7.5px] font-black">❯</span>
+                  </div>
+                </div>
+
+                {/* T&C Apply */}
+                <span className="absolute bottom-1 right-2 text-[5.5px] text-slate-400 font-extrabold tracking-tighter uppercase select-none">*T&C APPLY</span>
+              </div>
             </div>
 
             {/* Similar Products (Moved above Product details) */}

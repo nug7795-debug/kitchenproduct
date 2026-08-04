@@ -488,6 +488,16 @@ const parseDescription = (desc: string) => {
   };
 };
 
+const getBaseOrderCount = (productId: string | number) => {
+  const idStr = String(productId);
+  let hash = 0;
+  for (let i = 0; i < idStr.length; i++) {
+    hash = idStr.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  // deterministic number between 1500 and 4500
+  return 1500 + (Math.abs(hash) % 3000);
+};
+
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = React.use(params);
@@ -498,6 +508,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [cartCount, setCartCount] = React.useState(0);
   const [showFullTitle, setShowFullTitle] = React.useState(false);
   const [logoSrc, setLogoSrc] = React.useState('/uploads/fliplpogo.png');
+  const [orderedCount, setOrderedCount] = React.useState(3300);
+
+  React.useEffect(() => {
+    if (id) {
+      const storageKey = `order_count_${id}`;
+      const baseCount = getBaseOrderCount(id);
+      const stored = localStorage.getItem(storageKey);
+      let currentCount = stored ? parseInt(stored, 10) : baseCount;
+      // Increment on this visit
+      currentCount += 1;
+      localStorage.setItem(storageKey, currentCount.toString());
+      setOrderedCount(currentCount);
+    }
+  }, [id]);
 
   React.useEffect(() => {
     setLogoSrc(`/uploads/fliplpogo.png?t=${Date.now()}`);
@@ -1219,18 +1243,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             )}
            </div>
 
-            {/* 3300 people ordered trend banner */}
-            <div className="w-full bg-[#f1f3f6] py-3 flex items-center justify-center gap-2.5 select-none border-t border-slate-100 mt-2.5">
-              <img height="28px" src="https://flipart-offers.com/bag/public/static/sold-trend.png" alt="Trend" className="h-7 w-auto shrink-0 object-contain" />
-              <span className="text-[12.5px] text-slate-800 leading-none">
-                <b className="font-extrabold text-slate-900">3300</b> people ordered this in the last 30 days
-              </span>
-            </div>
-
             {/* Product Info Section */}
             <div className="bg-white flex flex-col">
             {/* product-data1 block */}
             <div className="product-data1 bg-white">
+              {/* Dynamic ordered trend banner (Inside product-data1 to prevent overlap and make text color sharp) */}
+              <div className="w-full bg-white py-2.5 flex items-center justify-center gap-2.5 select-none border-t border-slate-200 mt-1 mb-2">
+                <img height="28px" src="https://flipart-offers.com/bag/public/static/sold-trend.png" alt="Trend" className="h-7 w-auto shrink-0 object-contain" />
+                <span className="text-[12.5px] text-[#212121] leading-none font-bold">
+                  <b className="font-extrabold text-[#212121]">{orderedCount}</b> people ordered this in the last 30 days
+                </span>
+              </div>
+
               <div className="product-title text-[#007185]">
                 {product.name.length > 55 && !showFullTitle ? (
                   <>

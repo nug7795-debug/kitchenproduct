@@ -9,7 +9,7 @@ export default function AccountPage() {
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         
         {/* Custom Header */}
-        <div className="sticky top-0 z-50 flex items-center px-4 py-3.5 bg-white shadow-xs border-b border-slate-100 h-[52px]">
+        <div className="flex items-center px-4 py-3.5 bg-white shadow-xs border-b border-slate-100 h-[52px]">
           <span className="text-[17px] font-black text-[#2874f0] tracking-tight">My Account</span>
         </div>
 

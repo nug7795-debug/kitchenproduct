@@ -161,6 +161,7 @@ export default function CheckoutPage() {
         }
       };
       fetchProduct();
+    } else {
       // Check if there are real cart items in localStorage
       try {
         const storedCart = localStorage.getItem('cart_items') || localStorage.getItem('cart');

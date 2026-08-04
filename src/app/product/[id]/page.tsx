@@ -1632,7 +1632,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Brand Footer Section (Matching flipart-offers.com seofooter, completely non-clickable) */}
-            <div className="w-full bg-white select-none mt-2 pb-24 border-t border-slate-100">
+            <div className="w-full bg-white select-none pb-[72px] border-t border-slate-100">
               {/* Top 2x2 grid menu */}
               <div className="grid grid-cols-2 gap-y-3.5 gap-x-4 px-5 py-4.5">
                 {/* Become a Seller */}

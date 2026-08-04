@@ -476,7 +476,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="bg-[#f1f3f6] pb-20">
+      <div className="bg-[#f1f3f6] pb-[60px]">
         <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
           <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Recommended for You</h2>
           <button className="w-9 h-6.5 bg-[#212121] rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors text-white text-xs font-bold shrink-0">
@@ -501,7 +501,7 @@ export default function Home() {
         )}
 
         {/* Brand Footer Section (Matching flipart-offers.com seofooter) */}
-        <footer className="w-full bg-white select-none mt-4.5 border-t border-slate-100 pb-4">
+        <footer className="w-full bg-white select-none mt-0 border-t border-slate-100 pb-4">
           {/* Top 2x2 grid menu */}
           <div className="grid grid-cols-2 gap-y-3.5 gap-x-4 px-5 py-4.5">
             {/* Become a Seller */}

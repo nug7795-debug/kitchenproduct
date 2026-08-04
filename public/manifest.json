@@ -8,14 +8,14 @@
   "theme_color": "#2874f0",
   "icons": [
     {
-      "src": "/kitchen_logo.png",
+      "src": "/fk_logo.jpg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/jpeg"
     },
     {
-      "src": "/kitchen_logo.png",
+      "src": "/fk_logo.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ]
 }

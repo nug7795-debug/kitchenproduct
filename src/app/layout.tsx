@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Shop online at Flpkart Big sale is Live.",
   manifest: "/manifest.json",
   icons: {
-    icon: "/kitchen_logo.png",
+    icon: "/fk_logo.jpg",
   },
   openGraph: {
     title: "Flpkart Big sale is Live",

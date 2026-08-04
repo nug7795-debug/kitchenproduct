@@ -500,8 +500,11 @@ export default function Home() {
           </div>
         )}
 
+        {/* Grey Section Separator gap */}
+        <div className="w-full h-2.5 bg-[#f1f3f6]" />
+
         {/* Brand Footer Section (Matching flipart-offers.com seofooter) */}
-        <footer className="w-full bg-white select-none mt-0 border-t border-slate-100 pb-4">
+        <footer className="w-full bg-white select-none mt-0 border-t border-slate-100 pb-2">
           {/* Top 2x2 grid menu */}
           <div className="grid grid-cols-2 gap-y-3.5 gap-x-4 px-5 py-4.5">
             {/* Become a Seller */}

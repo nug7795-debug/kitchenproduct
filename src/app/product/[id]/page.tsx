@@ -1073,7 +1073,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
 
   return (
-    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[60px] items-center">
+    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[72px] items-center">
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         {/* Top Header strictly matching Flipkart mobile web style (White Navbar with Black Icons) */}
         <div className={`sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
@@ -1631,8 +1631,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                  </button>
             </div>
 
+            {/* Grey Section Separator gap */}
+            <div className="w-full h-2.5 bg-[#f1f3f6]" />
+
             {/* Brand Footer Section (Matching flipart-offers.com seofooter, completely non-clickable) */}
-            <div className="w-full bg-white select-none pb-[72px] border-t border-slate-100">
+            <div className="w-full bg-white select-none pb-4 border-t border-slate-100">
               {/* Top 2x2 grid menu */}
               <div className="grid grid-cols-2 gap-y-3.5 gap-x-4 px-5 py-4.5">
                 {/* Become a Seller */}

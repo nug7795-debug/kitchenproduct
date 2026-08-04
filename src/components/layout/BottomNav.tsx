@@ -56,13 +56,10 @@ export const BottomNav = () => {
                          (item.activePath === '/' && pathname === '/');
         const Icon = item.icon;
         
-        return (
-          <Link 
-            key={item.name} 
-            href={item.href}
-            className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none cursor-pointer"
-            style={{ textDecoration: 'none' }}
-          >
+        const isClickable = item.name !== 'Play' && item.name !== 'Categories';
+        
+        const content = (
+          <>
             <div className="relative flex items-center justify-center">
               <Icon className={cn(
                 "h-[23px] w-[23px] transition-colors duration-150",
@@ -85,8 +82,30 @@ export const BottomNav = () => {
             )}>
               {item.name}
             </span>
-          </Link>
+          </>
         );
+
+        if (isClickable) {
+          return (
+            <Link 
+              key={item.name} 
+              href={item.href}
+              className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none cursor-pointer"
+              style={{ textDecoration: 'none' }}
+            >
+              {content}
+            </Link>
+          );
+        } else {
+          return (
+            <div 
+              key={item.name} 
+              className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none cursor-default"
+            >
+              {content}
+            </div>
+          );
+        }
       })}
     </nav>
   );

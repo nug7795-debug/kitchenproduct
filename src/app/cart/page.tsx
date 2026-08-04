@@ -54,9 +54,9 @@ export default function CartPage() {
     return (
       <div className="flex flex-col min-h-screen bg-[#f1f3f6]">
         {/* Header */}
-        <div className="bg-[#2874f0] text-white px-4 py-3 flex items-center gap-4 sticky top-0 z-50">
-          <Link href="/"><ChevronLeft className="h-6 w-6" /></Link>
-          <h1 className="text-lg font-medium">My Cart</h1>
+        <div className="bg-white text-slate-900 border-b border-slate-100 px-4 py-3.5 flex items-center gap-4 sticky top-0 z-50">
+          <Link href="/" className="text-slate-800 hover:text-slate-900"><ChevronLeft className="h-6 w-6" /></Link>
+          <h1 className="text-[17px] font-black tracking-tight">My Cart</h1>
         </div>
         <div className="flex-1 flex items-center justify-center">
           <div className="h-8 w-8 border-4 border-[#2874f0] border-t-transparent rounded-full animate-spin" />
@@ -70,9 +70,9 @@ export default function CartPage() {
     return (
       <div className="flex flex-col min-h-screen bg-[#f1f3f6]">
         {/* Header */}
-        <div className="bg-[#2874f0] text-white px-4 py-3 flex items-center gap-4 sticky top-0 z-50">
-          <Link href="/"><ChevronLeft className="h-6 w-6" /></Link>
-          <h1 className="text-lg font-medium">My Cart</h1>
+        <div className="bg-white text-slate-900 border-b border-slate-100 px-4 py-3.5 flex items-center gap-4 sticky top-0 z-50">
+          <Link href="/" className="text-slate-800 hover:text-slate-900"><ChevronLeft className="h-6 w-6" /></Link>
+          <h1 className="text-[17px] font-black tracking-tight">My Cart</h1>
         </div>
 
         {/* Empty Cart Container */}
@@ -127,24 +127,9 @@ export default function CartPage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#f1f3f6] pb-24">
       {/* Header */}
-      <div className="bg-[#2874f0] text-white px-4 py-3 flex items-center gap-4 sticky top-0 z-50">
-        <Link href="/"><ChevronLeft className="h-6 w-6" /></Link>
-        <h1 className="text-lg font-medium">My Cart</h1>
-      </div>
-
-      {/* Address Bar */}
-      <div className="bg-white px-4 py-4.5 flex items-center justify-between border-b border-slate-100 select-none">
-         <div className="text-xs">
-            <p className="text-slate-500 font-medium">Deliver to: <span className="text-slate-900 font-bold">{resolvedLocation}</span></p>
-         </div>
-         <Button variant="outline" size="sm" className="h-8 px-4 rounded-[4px] text-[#2874f0] border-[#2874f0] text-[10px] font-black uppercase" asChild>
-            <Link href="/">Change</Link>
-         </Button>
-      </div>
-
-      {/* Orders location banner */}
-      <div className="bg-[#f0f5ff] text-[#2874f0] px-4 py-2 text-[11px] font-semibold border-b border-[#d0e0ff] flex items-center gap-1.5 select-none">
-        <span className="font-extrabold">10,000+</span> orders from <span className="font-bold">{resolvedLocation.split(',')[0] || 'Guwahati'}</span> in the last 30 days
+      <div className="bg-white text-slate-900 border-b border-slate-150 px-4 py-3.5 flex items-center gap-4 sticky top-0 z-50 shadow-sm">
+        <Link href="/" className="text-slate-800 hover:text-slate-900"><ChevronLeft className="h-6 w-6" /></Link>
+        <h1 className="text-[17px] font-black tracking-tight">My Cart</h1>
       </div>
 
       {/* Cart Items */}

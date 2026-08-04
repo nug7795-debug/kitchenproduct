@@ -303,25 +303,13 @@ export default function ProductsPage() {
       // 2. Delete reviews first
       await supabase.from('reviews').delete().eq('product_id', id);
       
-      // 3. Attempt hard delete
+      // 3. Delete order items linked to this product to clear foreign key references
+      await supabase.from('order_items').delete().eq('product_id', id);
+      
+      // 4. Attempt hard delete
       const { error } = await supabase.from('products').delete().eq('id', id);
       
-      if (error) {
-        // If foreign key constraint violates (error code 23503 or message pattern)
-        if (error.code === '23503' || error.message?.toLowerCase().includes('foreign key')) {
-          // Fallback to soft delete by setting is_active = false
-          const { error: updateError } = await supabase
-            .from('products')
-            .update({ is_active: false })
-            .eq('id', id);
-            
-          if (updateError) throw updateError;
-          
-          alert('This product is linked to existing order histories, so it has been deactivated and hidden from the store instead of being permanently deleted.');
-        } else {
-          throw error;
-        }
-      }
+      if (error) throw error;
     } catch (err: any) {
       console.error('Error deleting product:', err);
       alert('Error deleting product: ' + err.message);

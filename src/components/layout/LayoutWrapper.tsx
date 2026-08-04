@@ -4,6 +4,7 @@ import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { BottomNav } from './BottomNav';
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -54,12 +55,13 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
             <Header />
           </div>
         )}
-        <main className="flex-grow flex flex-col justify-between">
+        <main className="flex-grow flex flex-col justify-between pb-[60px]">
           <div>
             {children}
           </div>
           {pathname !== '/' && pathname !== '/cart' && <Footer />}
         </main>
+        <BottomNav />
       </div>
     </div>
   );

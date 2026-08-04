@@ -16,9 +16,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Home', icon: Home, href: '/', activePath: '/' },
-  { name: 'Play', icon: SquarePlay, href: '/', activePath: '/offers' },
-  { name: 'Categories', icon: LayoutGrid, href: '/', activePath: '/categories' },
-  { name: 'Account', icon: User, href: '/', activePath: '/settings' },
+  { name: 'Play', icon: SquarePlay, href: '/offers', activePath: '/offers' },
+  { name: 'Categories', icon: LayoutGrid, href: '/categories', activePath: '/categories' },
+  { name: 'Account', icon: User, href: '/settings', activePath: '/settings' },
   { name: 'Cart', icon: ShoppingCart, href: '/cart', activePath: '/cart' },
 ];
 
@@ -51,13 +51,17 @@ export const BottomNav = () => {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[500px] bg-white border-t border-slate-200 flex items-center justify-around h-[60px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
-        const isActive = item.name === 'Home';
+        const isActive = pathname === item.activePath || 
+                         (item.activePath !== '/' && pathname.startsWith(item.activePath)) ||
+                         (item.activePath === '/' && pathname === '/');
         const Icon = item.icon;
         
         return (
-          <div 
+          <Link 
             key={item.name} 
-            className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none"
+            href={item.href}
+            className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none cursor-pointer"
+            style={{ textDecoration: 'none' }}
           >
             <div className="relative flex items-center justify-center">
               <Icon className={cn(
@@ -65,7 +69,7 @@ export const BottomNav = () => {
                 isActive 
                   ? "text-[#2874f0]" 
                   : "text-[#71748a]",
-                isActive && item.name === 'Home' && "fill-[#2874f0]"
+                isActive && (item.name === 'Home' || item.name === 'Play') && "fill-[#2874f0]"
               )} />
               {item.badge && (
                 <span className="absolute -top-1.5 -right-2 flex h-[16px] min-w-[16px] px-1 items-center justify-center rounded-full bg-[#ff4343] text-[9px] font-black text-white border-[1.5px] border-white shadow-xs">
@@ -81,7 +85,7 @@ export const BottomNav = () => {
             )}>
               {item.name}
             </span>
-          </div>
+          </Link>
         );
       })}
     </nav>

@@ -4,6 +4,127 @@ import * as React from 'react';
 import { ChevronRight } from 'lucide-react';
 
 export default function AccountPage() {
+  const [showOrdersHistory, setShowOrdersHistory] = React.useState(false);
+  const [ordersList, setOrdersList] = React.useState<any[]>([]);
+
+  // Load orders list from localStorage on mount and when view changes
+  React.useEffect(() => {
+    try {
+      const list = localStorage.getItem('placed_orders_list');
+      if (list) {
+        setOrdersList(JSON.parse(list));
+      }
+    } catch (e) {
+      console.error('Failed to load orders history', e);
+    }
+  }, [showOrdersHistory]);
+
+  // Check URL query parameters on mount to auto-toggle orders view if redirected
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('showOrders') === 'true') {
+        setShowOrdersHistory(true);
+      }
+    }
+  }, []);
+
+  if (showOrdersHistory) {
+    return (
+      <div className="w-full bg-[#f1f3f6] min-h-screen flex flex-col items-center pb-[72px]">
+        <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
+          
+          {/* Custom Header with Back Button */}
+          <div className="flex items-center px-4 py-3.5 bg-white shadow-xs border-b border-slate-100 h-[52px] gap-3">
+            <button 
+              onClick={() => setShowOrdersHistory(false)}
+              className="text-slate-600 hover:text-slate-900 active:scale-95 transition-all outline-none"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <span className="text-[17px] font-black text-[#2874f0] tracking-tight">My Orders</span>
+          </div>
+
+          {/* Orders History Content */}
+          <div className="flex-1 bg-[#f1f3f6] p-3 flex flex-col gap-3 select-none">
+            {ordersList.length === 0 ? (
+              <div className="flex-grow flex flex-col items-center justify-center py-20 bg-white rounded-lg border border-slate-200 px-6 text-center">
+                <svg className="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+                <h3 className="text-base font-black text-slate-800 mb-1">No Orders Found</h3>
+                <p className="text-xs text-slate-500 font-bold mb-6">You haven't placed any orders yet.</p>
+                <a 
+                  href="/"
+                  className="bg-[#2874f0] text-white text-[13px] font-black py-2.5 px-6 rounded-md shadow-xs"
+                  style={{ textDecoration: 'none' }}
+                >
+                  Shop Now
+                </a>
+              </div>
+            ) : (
+              ordersList.map((order: any) => (
+                <div key={order.id} className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs flex flex-col gap-3">
+                  
+                  {/* Top Header Card Info */}
+                  <div className="flex justify-between items-center text-xs pb-2 border-b border-slate-100">
+                    <div className="flex flex-col">
+                      <span className="text-slate-400 font-bold">Order ID</span>
+                      <span className="font-mono font-black text-slate-700">{order.id}</span>
+                    </div>
+                    <span className="bg-green-100 text-green-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">
+                      {order.status || 'Confirmed'}
+                    </span>
+                  </div>
+
+                  {/* Order Items List */}
+                  <div className="flex flex-col gap-3">
+                    {order.items && order.items.length > 0 ? (
+                      order.items.map((item: any, idx: number) => (
+                        <div key={idx} className="flex gap-3">
+                          <div className="w-14 h-14 bg-white border border-slate-100 rounded flex-shrink-0 flex items-center justify-center p-1">
+                            <img 
+                              src={item.imageUrl || item.image || '/uploads/lapalop1.webp'} 
+                              alt={item.name} 
+                              className="max-h-full max-w-full object-contain"
+                            />
+                          </div>
+                          <div className="flex flex-col justify-center leading-tight flex-1">
+                            <span className="text-xs font-black text-[#1c54d4] line-clamp-2">
+                              {item.name}
+                            </span>
+                            <span className="text-[10px] text-slate-400 font-bold mt-1">
+                              Qty: {item.quantity || item.qty || 1}
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-xs text-slate-500 font-bold">Kitchen Appliances Pack</div>
+                    )}
+                  </div>
+
+                  {/* Summary row */}
+                  <div className="flex justify-between items-center text-xs pt-2 border-t border-slate-100 mt-1">
+                    <span className="text-slate-400 font-bold">Ordered on {order.date}</span>
+                    <div className="flex items-center gap-1">
+                      <span className="text-slate-400 font-bold">Total:</span>
+                      <span className="text-slate-800 font-black text-[13px]">₹{order.amount}</span>
+                    </div>
+                  </div>
+
+                </div>
+              ))
+            )}
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full bg-[#f1f3f6] min-h-screen flex flex-col items-center pb-[72px]">
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
@@ -35,7 +156,10 @@ export default function AccountPage() {
           <div className="grid grid-cols-2 gap-2.5 px-3">
             
             {/* Orders Card */}
-            <div className="bg-white border border-[#e0e0e0] rounded-md p-3.5 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors shadow-xs">
+            <div 
+              onClick={() => setShowOrdersHistory(true)}
+              className="bg-white border border-[#e0e0e0] rounded-md p-3.5 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors shadow-xs"
+            >
               <svg className="w-6.5 h-6.5 text-[#1c54d4] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                 <polyline points="3.27 6.96 12 12.01 20.73 6.96" />

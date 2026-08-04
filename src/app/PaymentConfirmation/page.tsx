@@ -24,12 +24,50 @@ function PaymentConfirmationContent() {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', month: 'short', day: 'numeric' };
     setDeliveryDate(date.toLocaleDateString('en-US', options));
 
+    // Save to orders history list before clearing cart
+    try {
+      const tx = searchParams.get('transactionId') || '';
+      const amt = searchParams.get('amount') || '0';
+      const ref = searchParams.get('utr') || '';
+      
+      if (tx) {
+        const cartStr = localStorage.getItem('cart_items') || localStorage.getItem('cart');
+        let itemsList: any[] = [];
+        if (cartStr) {
+          try {
+            itemsList = JSON.parse(cartStr);
+          } catch (err) {}
+        }
+        
+        const newLocalOrder = {
+          id: tx,
+          amount: amt,
+          utr: ref,
+          date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+          items: itemsList,
+          status: 'Confirmed'
+        };
+        
+        const existing = localStorage.getItem('placed_orders_list');
+        const list = existing ? JSON.parse(existing) : [];
+        
+        if (!list.some((o: any) => o.id === tx)) {
+          list.unshift(newLocalOrder);
+          localStorage.setItem('placed_orders_list', JSON.stringify(list));
+        }
+      }
+    } catch (e) {
+      console.error('Error saving order history', e);
+    }
+
     // Clear cart upon successful order
     try {
       localStorage.removeItem('cart_items');
       localStorage.removeItem('cart');
       localStorage.removeItem('active_transaction_id');
       localStorage.removeItem('active_upi_url');
+      localStorage.removeItem('active_merchant_vpa');
+      localStorage.removeItem('active_payee_name');
     } catch (e) {}
   }, [searchParams]);
 
@@ -99,7 +137,7 @@ function PaymentConfirmationContent() {
           </button>
           
           <button 
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/settings?showOrders=true')}
             className="w-full bg-white border border-[#2874f0] text-[#2874f0] py-3.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
           >
             Go to My Orders <ChevronRight className="w-4 h-4" />

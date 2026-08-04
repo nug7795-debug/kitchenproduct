@@ -205,9 +205,11 @@ export default function Home() {
   const [activeSlide, setActiveSlide] = React.useState(0);
 
   const banners = [
-    '/uploads/lapalop1.webp',
-    '/uploads/lapalop2.webp',
-    '/uploads/lapalop3.webp'
+    '/banners/banner1.png',
+    '/banners/banner2.png',
+    '/banners/banner3.png',
+    '/banners/banner4.png',
+    '/banners/bbd_banner1.jpg'
   ];
 
   React.useEffect(() => {

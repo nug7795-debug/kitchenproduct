@@ -563,7 +563,7 @@ export default function Home() {
 
           {/* Blue Copyright Banner */}
           <div className="w-full bg-[#2874f0] text-white py-3 flex items-center justify-center font-extrabold text-[13.5px] tracking-wide select-none">
-            © 2007-2025
+            © 2007-2025 Flipkart.com
           </div>
 
           {/* Payment Methods Graphic */}

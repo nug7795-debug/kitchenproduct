@@ -1325,14 +1325,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* 3. Trust Badges */}
-            <div className="w-full bg-white mt-2 py-4 px-4 select-none border-y border-slate-100/80">
+            <div className="w-full bg-white mt-2 py-4.5 px-4 select-none border-y border-slate-100">
               <div className="flex items-center justify-between gap-2">
                 {/* 10-Day Return */}
                 <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
-                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
-                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-                      <polyline points="3 12 7 12 7 16" />
+                  <div className="w-[36px] h-[36px] bg-[#2874f0] rounded-full flex items-center justify-center mb-2 shadow-[0_2px_6px_rgba(40,116,240,0.25)]">
+                    <svg className="w-[20px] h-[20px] text-white" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      {/* Isometric box package */}
+                      <polygon points="12 7.5 16 9.5 16 14.5 12 16.5 8 14.5 8 9.5" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="12" y1="7.5" x2="12" y2="16.5" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="12" y1="12" x2="16" y2="9.5" stroke="currentColor" strokeWidth="1.5" />
+                      <line x1="12" y1="12" x2="8" y2="9.5" stroke="currentColor" strokeWidth="1.5" />
+                      {/* Return arrow */}
+                      <path d="M19 12a7 7 0 0 1-1.5 4.3" stroke="currentColor" strokeWidth="1.8" />
+                      <path d="M5 12a7 7 0 0 1 12.3-4.5" stroke="currentColor" strokeWidth="1.8" />
+                      <polyline points="14.5 9.5 17.5 7.5 19.5 10.5" stroke="currentColor" strokeWidth="1.8" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-semibold text-slate-700 leading-tight">
@@ -1342,11 +1349,13 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                 {/* No cash on delivery */}
                 <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
-                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
-                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="6" width="20" height="12" rx="2" />
-                      <circle cx="12" cy="12" r="2" />
-                      <line x1="2" y1="6" x2="22" y2="18" />
+                  <div className="w-[36px] h-[36px] bg-[#2874f0] rounded-full flex items-center justify-center mb-2 shadow-[0_2px_6px_rgba(40,116,240,0.25)]">
+                    <svg className="w-[20px] h-[20px] text-white" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      {/* Banknote */}
+                      <rect x="5" y="8" width="14" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                      <circle cx="12" cy="12" r="1.5" stroke="currentColor" strokeWidth="1.5" />
+                      {/* Diagonal cross */}
+                      <line x1="4" y1="19" x2="20" y2="5" stroke="currentColor" strokeWidth="2" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-semibold text-slate-700 leading-tight">
@@ -1356,10 +1365,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                 {/* Flipkart Assured */}
                 <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
-                  <div className="w-[38px] h-[38px] bg-[#eef5fd] rounded-full flex items-center justify-center mb-1.5">
-                    <svg className="w-[20px] h-[20px] text-[#2874f0]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                      <path d="M9 11l3 3L17 9" />
+                  <div className="w-[36px] h-[36px] bg-[#2874f0] rounded-full flex items-center justify-center mb-2 shadow-[0_2px_6px_rgba(40,116,240,0.25)]">
+                    <svg className="w-[20px] h-[20px] text-white" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      {/* Shield with checkmark */}
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="currentColor" stroke="none" />
+                      <path d="M9 11.5l2 2 4.5-4.5" stroke="#2874f0" strokeWidth="2.5" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-semibold text-slate-700 leading-tight">

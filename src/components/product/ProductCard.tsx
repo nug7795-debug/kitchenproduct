@@ -148,10 +148,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     }
   };
 
-  // Determine offer price and low stock warning determinants to match goats-sale.com style
+  // Determine offer price and low stock warning
   const offerPrice = Math.round((displayPrice || 132470) * 0.6923);
-  const isLowStock = (numericId % 2 === 0);
-  const stockLeft = (numericId % 10) + 5;
+  const isUnder1000 = displaySalePrice < 1000;
+  const isLowStock = isUnder1000 || (numericId % 2 === 0);
+  const stockLeft = isUnder1000 ? 1 : (numericId % 10) + 5;
 
   return (
     <Link 

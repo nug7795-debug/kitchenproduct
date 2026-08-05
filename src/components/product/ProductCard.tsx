@@ -148,14 +148,20 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     }
   };
 
+  // Determine offer price and low stock warning determinants to match goats-sale.com style
+  const offerPrice = Math.round((displayPrice || 132470) * 0.6923);
+  const isLowStock = (numericId % 2 === 0);
+  const stockLeft = (numericId % 10) + 5;
+
   return (
     <Link 
       href={`/product/${id}`} 
       className="Cs7ycL TcKeCe block w-full h-full" 
       style={{ textDecoration: 'none' }}
     >
-      <div className="_2enssu relative overflow-hidden bg-white h-full" style={{ padding: '12px 8px', display: 'block' }}>
-        {/* Product Image wrapper */}
+      <div className="_2enssu relative bg-white h-full flex flex-col justify-between border-b border-r border-slate-100 select-none" style={{ padding: '12px 10px' }}>
+        
+        {/* Product Image */}
         <div className="flex items-center justify-center bg-white w-full" style={{ height: '150px' }}>
           <img 
             className="img-fluid" 
@@ -165,135 +171,67 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           />
         </div>
 
-        {/* Product Title */}
-        <div 
-          className="_24B_AU _3SexMn" 
-          style={{ 
-            textOverflow: 'ellipsis', 
-            whiteSpace: 'nowrap', 
-            width: '100%', 
-            overflow: 'hidden', 
-            textAlign: 'left', 
-            marginTop: '15px', 
-            fontSize: '14px', 
-            color: '#007185', 
-            fontWeight: '700' 
-          }}
-          title={name}
-        >
-          {name}
-        </div>
-
-        {/* Discount Line */}
-        <div 
-          className="_24B_AU _1AQnZC" 
-          style={{ 
-            fontSize: '14px', 
-            color: '#388e3c', 
-            marginTop: '8px', 
-            textAlign: 'left' 
-          }}
-        >
-          {discount > 0 ? (
-            <>
-              - {discount}% Off
-              <span 
-                className="mrp" 
-                style={{ 
-                  color: '#9A9A9A', 
-                  margin: '0 5px', 
-                  textDecoration: 'line-through' 
-                }}
-              >
-                ₹{displayPrice}
-              </span>
-            </>
-          ) : (
-            <span>No discount</span>
-          )}
-        </div>
-
-        {/* Price Row (Without Assured Logo here, matches goats-sale.com) */}
-        <div 
-          className="_24B_AU _1AQnZC" 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center',
-            marginTop: '4px'
-          }}
-        >
-          <b 
-            className="selling-price" 
-            style={{ 
-              color: '#000', 
-              fontWeight: '600', 
-              fontSize: '16px',
-              marginRight: '5px'
-            }}
-          >
-            ₹{displaySalePrice}
-          </b>
-        </div>
-
-        {/* Rating & Assured Row (Copy from goats-sale.com) */}
-        <div 
-          className="rating-row" 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '4px', 
-            marginTop: '6px',
-            minHeight: '18px',
-            flexWrap: 'nowrap'
-          }}
-        >
-          {/* Green stars display */}
+        {/* Product Details Section */}
+        <div className="flex flex-col flex-grow justify-end mt-3 text-left">
+          {/* Product Title */}
           <div 
-            className="stars" 
-            style={{ 
-              color: '#26a541', 
-              fontSize: '13px', 
-              display: 'flex', 
-              gap: '1px'
-            }}
+            className="text-[13px] text-[#212121] font-medium leading-tight line-clamp-2 min-h-[34px] overflow-hidden"
+            title={name}
           >
-            {Array.from({ length: 5 }).map((_, idx) => {
-              const starNum = idx + 1;
-              const isFilled = starNum <= (ratingVal >= 4.8 ? 5 : 4);
-              return (
-                <span key={idx} style={{ color: isFilled ? '#26a541' : '#e2e8f0' }}>
-                  ★
-                </span>
-              );
-            })}
+            {name}
           </div>
 
-          {/* Conditional F-Assured Logo next to stars (Based on numericId % 5 !== 0 for 80% coverage) */}
-          {(numericId % 5 !== 0) && (
+          {/* Rating & Review Stars */}
+          <div className="flex items-center gap-1 mt-1 text-[11px]">
+            <div className="flex text-[#26a541] gap-[0.5px] font-bold">
+              ★ ★ ★ ★ ★
+            </div>
+            <span className="text-[#878787] font-medium">({totalRatingsStr})</span>
+          </div>
+
+          {/* F-Assured Logo on its own line below stars */}
+          <div className="mt-1 min-h-[16px]">
             <img 
               src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
               alt="fAssured" 
-              className="assured shrink-0"
-              style={{ height: '15px', width: 'auto', marginLeft: '8px', flexShrink: 0 }} 
+              className="h-[15px] w-auto select-none inline-block" 
             />
-          )}
-        </div>
+          </div>
 
+          {/* Discount Line */}
+          <div className="flex items-center gap-1 mt-1 text-[12.5px]">
+            <span className="font-extrabold text-[#388e3c] flex items-center gap-[1px]">
+              <span className="text-[13px]">↓</span>{discount > 0 ? discount : 99}%
+            </span>
+            <span className="text-[#878787] line-through font-medium">
+              ₹{(displayPrice || 132470).toLocaleString('en-IN')}
+            </span>
+          </div>
 
+          {/* Selling Price */}
+          <div className="text-[18px] font-black text-[#212121] mt-0.5 leading-none">
+            ₹{displaySalePrice.toLocaleString('en-IN')}
+          </div>
 
-        {/* Delivery text */}
-        <div 
-          className="_3Nxu4r delivery-txt text-dark" 
-          style={{ 
-            marginTop: '6px', 
-            fontSize: '12px',
-            color: '#565656',
-            textAlign: 'left',
-            letterSpacing: '-0.2px',
-            fontWeight: 500
-          }}
-        >
-          Delivery by <span className="text-[#212121] font-bold">{getDynamicDeliveryDate(id)}</span>
+          {/* Offer Banner (WOW! badge + offer price) */}
+          <div className="flex items-center gap-1 mt-1.5 select-none">
+            <div className="px-1.5 py-[1px] rounded-[3px] border border-[#1c54d4] text-[8px] font-black text-[#1c54d4] bg-white italic uppercase tracking-tighter shrink-0 leading-none flex items-center justify-center">
+              WOW!
+            </div>
+            <span className="text-[11.5px] font-extrabold text-[#1c54d4] tracking-tight">
+              ₹{offerPrice.toLocaleString('en-IN')} with offer
+            </span>
+          </div>
+
+          {/* Stock quantity warning */}
+          <div className="mt-1 text-[11.5px] font-bold" style={{ color: isLowStock ? '#d32f2f' : '#388e3c' }}>
+            {isLowStock ? `Only ${stockLeft} left` : 'Best deals'}
+          </div>
+
+          {/* Delivery text */}
+          <div className="mt-1.5 text-[11.5px] text-[#717478] font-medium tracking-tight">
+            Delivery by <span className="text-[#212121] font-bold">{getDynamicDeliveryDate(id)}</span>
+          </div>
         </div>
 
       </div>

@@ -198,6 +198,61 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   );
 };
 
+const MoreProductsForYou = ({ currentProductId }: { currentProductId: string }) => {
+  const [products, setProducts] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        setLoading(true);
+        const settingsRes = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'global_settings')
+          .maybeSingle();
+        const badgesConfig = settingsRes.data?.value?.badges || { enableDynamicBadges: true, trendingCount: 15, newArrivalCount: 5, bestSellerCount: 5 };
+
+        const response = await supabase
+          .from('products')
+          .select('*, categories (name, slug), product_images (image_url, is_featured)')
+          .eq('is_active', true);
+
+        if (response.data) {
+          const processed = applyDynamicBadges(response.data, badgesConfig);
+          const filtered = processed.filter((p: any) => p.id !== currentProductId);
+          setProducts(filtered.map((item: any) => ({
+            ...item,
+            categoryName: item.categories?.name || 'Kitchen',
+            images: item.product_images?.length > 0 ? item.product_images.map((img: any) => img.image_url) : ['https://via.placeholder.com/600']
+          })));
+        }
+      } catch (err) {
+        console.error('Error fetching more products:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAll();
+  }, [currentProductId]);
+
+  if (loading) return null;
+  if (products.length === 0) return null;
+
+  return (
+    <div className="w-full bg-[#f1f3f6] pb-0">
+      <div className="bg-white w-full py-3.5 px-4 select-none">
+        <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">More products for you</h2>
+      </div>
+      <div className="grid grid-cols-2 gap-[1px]">
+        {products.map((p) => (
+          <ProductCard key={p.id} product={p} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 interface MockReview {
   id: string;
@@ -1649,6 +1704,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
       </div>
+
+      {/* More products for you - below All Reviews */}
+      <MoreProductsForYou currentProductId={id} />
 
       {/* Sticky Bottom Bar (Flipkart style matching user screenshots) */}
       <div className="footer-btn z-[100]">

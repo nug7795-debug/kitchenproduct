@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS products (
     is_best_seller BOOLEAN DEFAULT false,
     is_active BOOLEAN DEFAULT true,
     upi_eligible BOOLEAN DEFAULT true,
-    weight DECIMAL(10,2),
     dimensions JSONB, -- { "length": 0, "width": 0, "height": 0 }
+    highlights TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

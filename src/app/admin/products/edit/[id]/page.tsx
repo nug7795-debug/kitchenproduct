@@ -45,6 +45,7 @@ export default function EditProductPage() {
     type: 'physical',
     shortDescription: '',
     description: '',
+    highlights: '',
     isFeatured: false,
     isNewArrival: false,
     isBestSeller: false,
@@ -118,6 +119,7 @@ export default function EditProductPage() {
             type: 'physical',
             shortDescription: product.short_description || '',
             description: product.description || '',
+            highlights: product.highlights || '',
             isFeatured: product.is_featured || false,
             isNewArrival: product.is_new_arrival || false,
             isBestSeller: product.is_best_seller || false,
@@ -228,6 +230,8 @@ export default function EditProductPage() {
         name: formData.name,
         slug: formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
         description: formData.description,
+        short_description: formData.shortDescription,
+        highlights: formData.highlights || null,
         price: parseFloat(formData.mrp || '0'),
         sale_price: parseFloat(formData.salePrice || '0'),
         stock_quantity: parseInt(formData.stock || '0'),
@@ -464,6 +468,18 @@ export default function EditProductPage() {
                       onChange={handleInputChange}
                       rows={6} 
                       placeholder="Describe product features, box contents, and specifications..." 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Highlights (Optional, one per line)</label>
+                    <textarea 
+                      name="highlights"
+                      value={formData.highlights || ''}
+                      onChange={handleInputChange}
+                      rows={4} 
+                      placeholder="e.g.&#10;8 GB RAM | 128 GB ROM&#10;17.02 cm (6.7 inch) Super Retina XDR Display&#10;50MP + 12MP Camera" 
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
                     />
                   </div>

@@ -45,6 +45,7 @@ export default function AddProductPage() {
     status: 'published', // Draft, Published, Hidden
     shortDescription: '',
     description: '',
+    highlights: '',
     tags: '',
     isFeatured: false,
     isNewArrival: false,
@@ -219,6 +220,7 @@ export default function AddProductPage() {
         slug: formData.slug || formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
         description: formData.description,
         short_description: formData.shortDescription,
+        highlights: formData.highlights || null,
         sku: formData.sku,
         brand: formData.brand,
         price: parseFloat(formData.mrp || '0'),
@@ -320,6 +322,7 @@ export default function AddProductPage() {
         slug: formData.slug || formData.name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''),
         description: formData.description,
         short_description: formData.shortDescription,
+        highlights: formData.highlights || null,
         sku: formData.sku,
         brand: formData.brand,
         price: parseFloat(formData.mrp || '0'),
@@ -627,6 +630,18 @@ export default function AddProductPage() {
                       onChange={handleInputChange}
                       rows={6} 
                       placeholder="Describe product features, box contents, and specifications..." 
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
+                    />
+                  </div>
+
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Product Highlights (Optional, one per line)</label>
+                    <textarea 
+                      name="highlights"
+                      value={formData.highlights || ''}
+                      onChange={handleInputChange}
+                      rows={4} 
+                      placeholder="e.g.&#10;8 GB RAM | 128 GB ROM&#10;17.02 cm (6.7 inch) Super Retina XDR Display&#10;50MP + 12MP Camera" 
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-4 text-sm font-bold focus:border-orange-500 outline-none transition-all" 
                     />
                   </div>

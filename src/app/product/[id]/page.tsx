@@ -1495,6 +1495,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* Gray divider section block (gap) */}
             <div className="w-full h-2 bg-[#f1f3f6] mt-2" />
 
+            {/* Highlights Section */}
+            {product.highlights && product.highlights.trim() && (
+              <>
+                <div className="w-full bg-white px-4 pt-4 pb-3 select-none">
+                  <h3 className="text-[15px] font-extrabold text-slate-900 mb-2">Highlights</h3>
+                  <ul className="list-disc pl-5 space-y-1.5 text-[13px] text-slate-700">
+                    {product.highlights.split('\n').map((line: string) => line.trim()).filter(Boolean).map((item: string, idx: number) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="w-full h-2 bg-[#f1f3f6]" />
+              </>
+            )}
+
             <div className="w-full bg-white px-4 pt-4 select-none">
               <h3 className="text-[17px] font-black text-slate-900">Product details</h3>
             </div>

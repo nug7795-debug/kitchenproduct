@@ -174,11 +174,9 @@ const LiveSaleTimer = () => {
   const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
 
   return (
-    <div className="flex items-center gap-1 shrink-0 select-none">
-      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">{minutesStr}</span>
-      <span className="text-[12px] font-bold text-slate-450">:</span>
-      <span className="bg-[#ffece2] text-[#fb641b] text-[13px] font-extrabold px-2 py-0.5 rounded-[4px] min-w-[24px] text-center">{secondsStr}</span>
-    </div>
+    <span className="text-[#fb641b] text-[13.5px] font-black tracking-tight select-none">
+      {minutesStr}:{secondsStr}
+    </span>
   );
 };
 
@@ -444,31 +442,25 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Deals of the Day Timer Row (Styled like a green ticket) */}
-      <div className="bg-white py-2 px-2.5 select-none">
-        <div className="relative bg-[#f0fff7] border-[1.5px] border-[#02be98] rounded-[8px] py-2 px-2.5 flex items-center justify-between overflow-visible shadow-[0_2px_8px_rgba(2,190,152,0.15)]">
-          {/* Ticket Cutouts */}
-          <div className="absolute -left-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-r-full border-l-0 z-10" />
-          <div className="absolute -right-[6.5px] top-1/2 -translate-y-1/2 w-[12px] h-[20px] bg-white border-[1.5px] border-[#02be98] rounded-l-full border-r-0 z-10" />
-
-          {/* Left: SALE IS LIVE */}
-          <div className="flex items-center gap-1.5 shimmer-sale-banner px-1 py-0.5 rounded ml-1 shrink-0 whitespace-nowrap">
-            {/* Blinking Red Dot */}
-            <span className="w-2 h-2 rounded-full bg-[#d11243] animate-pulse shrink-0" />
-            <span className="text-[13.5px] font-extrabold text-[#d11243] uppercase tracking-wider whitespace-nowrap">SALE IS LIVE</span>
-          </div>
-
-          {/* Right: Gift Icon + Offer Ends in + Timer */}
-          <div className="flex items-center gap-1.5 mr-1 shrink-0">
-            {/* Gift Icon */}
-            <GiftIcon className="w-[28px] h-[28px] shrink-0" />
-            
-            <span className="text-[12.5px] font-bold text-[#111111] whitespace-nowrap">Offer Ends in</span>
-            
-            {/* Countdown Timer */}
-            <LiveSaleTimer />
-          </div>
+      {/* Deals of the Day Timer Row (Styled like goats-sale.com) */}
+      <div className="bg-white py-2.5 px-4 select-none border-b border-slate-100/50 flex items-center justify-between w-full">
+        {/* Left Side: Green Dot, SALE LIVE, Ends in, Timer */}
+        <div className="flex items-center gap-1.5">
+          {/* Pulsing Green Dot */}
+          <span className="w-2.5 h-2.5 rounded-full bg-[#00c853] shrink-0 animate-pulse" />
+          <span className="text-[13.5px] font-black text-[#007aff] tracking-tight uppercase">SALE LIVE</span>
+          <span className="text-slate-350 text-[11px]">•</span>
+          <span className="text-[12.5px] font-extrabold text-[#717478]">Ends in</span>
+          <LiveSaleTimer />
         </div>
+
+        {/* Right Side: Shop Now Button */}
+        <button className="bg-[#007aff] text-white px-3.5 py-1.5 rounded-full text-[11.5px] font-black flex items-center gap-1 hover:bg-[#0062cc] transition-colors shadow-xs tracking-tight shrink-0 select-none">
+          Shop Now
+          <svg className="w-2.5 h-2.5 text-white stroke-[3.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
       </div>
 
       <div className="bg-[#f1f3f6] pb-0">

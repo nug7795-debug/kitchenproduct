@@ -793,6 +793,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       const clean = url.trim();
       if (!clean) return false;
       if (clean.includes('via.placeholder.com') || clean.includes('placeholder.png') || clean.includes('truck.webp')) return false;
+      // Filter out invalid relative paths like /uploads/ that 404 on Vercel
+      if (clean.startsWith('/uploads/') || clean.startsWith('uploads/')) return false;
       return true;
     };
 
@@ -840,7 +842,30 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       } catch {}
     }
 
-    return img || '';
+    // Default category fallback if image URL is 404 or relative path
+    const prodNameLower = (cartData?.name || '').toLowerCase();
+    const isMobile = (
+      prodNameLower.includes('realme') ||
+      prodNameLower.includes('poco') ||
+      prodNameLower.includes('iqoo') ||
+      prodNameLower.includes('samsung') ||
+      prodNameLower.includes('iphone') ||
+      prodNameLower.includes('vivo') ||
+      prodNameLower.includes('oppo') ||
+      prodNameLower.includes('oneplus') ||
+      prodNameLower.includes('redmi') ||
+      prodNameLower.includes('xiaomi') ||
+      prodNameLower.includes('mobile') ||
+      prodNameLower.includes('phone') ||
+      prodNameLower.includes('5g') ||
+      prodNameLower.includes('gb')
+    );
+
+    if (isMobile) {
+      return "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&auto=format&fit=crop&q=80";
+    }
+
+    return "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&auto=format&fit=crop&q=80";
   };
 
   return (
@@ -943,17 +968,28 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  try {
-                    const cached = JSON.parse(localStorage.getItem('cached_homepage_products') || '[]');
-                    const currentName = (cartData?.name || '').toLowerCase().trim();
-                    const matched = cached.find((p: any) => p.name && (p.name.toLowerCase().includes(currentName) || currentName.includes(p.name.toLowerCase())));
-                    if (matched) {
-                      const mImg = matched.image || matched.imageUrl || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
-                      if (mImg && (e.target as HTMLImageElement).src !== mImg) {
-                        (e.target as HTMLImageElement).src = mImg;
-                      }
-                    }
-                  } catch {}
+                  const prodNameLower = (cartData?.name || '').toLowerCase();
+                  const isMobile = (
+                    prodNameLower.includes('realme') ||
+                    prodNameLower.includes('poco') ||
+                    prodNameLower.includes('iqoo') ||
+                    prodNameLower.includes('samsung') ||
+                    prodNameLower.includes('iphone') ||
+                    prodNameLower.includes('vivo') ||
+                    prodNameLower.includes('oppo') ||
+                    prodNameLower.includes('oneplus') ||
+                    prodNameLower.includes('redmi') ||
+                    prodNameLower.includes('xiaomi') ||
+                    prodNameLower.includes('mobile') ||
+                    prodNameLower.includes('phone') ||
+                    prodNameLower.includes('5g') ||
+                    prodNameLower.includes('gb')
+                  );
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = isMobile 
+                    ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&auto=format&fit=crop&q=80"
+                    : "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&auto=format&fit=crop&q=80";
                 }}
               />
             </div>

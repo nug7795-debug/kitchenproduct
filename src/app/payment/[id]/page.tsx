@@ -737,20 +737,25 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
-  // Comprehensive Product Image Resolution Cascade
+  // Comprehensive Product Image Resolution Cascade with 404 Prevention
   const getProductImage = () => {
     let img = cartData?.image || cartData?.imageUrl || cartData?.product?.image;
-    if (img && typeof img === 'string' && !img.includes('via.placeholder.com') && !img.includes('truck.webp')) {
-      return img;
-    }
+
+    const isValidImg = (url?: string) => {
+      if (!url || typeof url !== 'string') return false;
+      const clean = url.trim();
+      if (!clean) return false;
+      if (clean.includes('via.placeholder.com') || clean.includes('placeholder.png') || clean.includes('truck.webp')) return false;
+      return true;
+    };
+
+    if (isValidImg(img)) return img!;
 
     if (typeof window !== 'undefined') {
       try {
         const stored = JSON.parse(localStorage.getItem('data') || '{}');
         const sImg = stored?.image || stored?.imageUrl;
-        if (sImg && typeof sImg === 'string' && !sImg.includes('via.placeholder.com') && !sImg.includes('truck.webp')) {
-          return sImg;
-        }
+        if (isValidImg(sImg)) return sImg;
       } catch {}
 
       try {
@@ -758,9 +763,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         if (Array.isArray(items) && items.length > 0) {
           const item = items[0];
           const itemImg = item?.imageUrl || item?.image || item?.product?.image || (Array.isArray(item?.images) ? item?.images[0] : '');
-          if (itemImg && typeof itemImg === 'string' && !itemImg.includes('via.placeholder.com') && !itemImg.includes('truck.webp')) {
-            return itemImg;
-          }
+          if (isValidImg(itemImg)) return itemImg;
         }
       } catch {}
 
@@ -773,16 +776,19 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           );
           if (matched) {
             const mImg = matched.image || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
-            if (mImg) return mImg;
+            if (isValidImg(mImg)) return mImg;
           }
-          const first = cached[0];
-          const fImg = first?.image || first?.product_images?.[0]?.image_url || (Array.isArray(first?.images) ? first?.images[0] : '');
-          if (fImg) return fImg;
         }
       } catch {}
     }
 
-    return img || '/uploads/placeholder.png';
+    // Default category-based high quality fallback images if image URL is 404 or missing
+    const prodNameLower = (cartData?.name || '').toLowerCase();
+    if (prodNameLower.includes('poco') || prodNameLower.includes('realme') || prodNameLower.includes('samsung') || prodNameLower.includes('phone') || prodNameLower.includes('mobile') || prodNameLower.includes('5g')) {
+      return "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80";
+    }
+    
+    return "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300&auto=format&fit=crop&q=80";
   };
 
   return (
@@ -884,6 +890,13 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 src={getProductImage()} 
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
+                onError={(e) => {
+                  const prodNameLower = (cartData?.name || '').toLowerCase();
+                  const fallbackUrl = (prodNameLower.includes('poco') || prodNameLower.includes('realme') || prodNameLower.includes('samsung') || prodNameLower.includes('phone') || prodNameLower.includes('mobile') || prodNameLower.includes('5g'))
+                    ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80"
+                    : "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300&auto=format&fit=crop&q=80";
+                  (e.target as HTMLImageElement).src = fallbackUrl;
+                }}
               />
             </div>
             <div className="flex-1 min-w-0">

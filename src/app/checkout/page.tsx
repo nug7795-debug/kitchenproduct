@@ -562,7 +562,8 @@ export default function CheckoutPage() {
         }));
         localStorage.setItem('data', JSON.stringify({
           name: cartItems[0]?.name || 'Kitchen Order',
-          image: cartItems[0]?.image || cartItems[0]?.product?.image || (Array.isArray(cartItems[0]?.images) ? cartItems[0]?.images[0] : '') || ''
+          image: cartItems[0]?.imageUrl || cartItems[0]?.image || cartItems[0]?.product?.image || (Array.isArray(cartItems[0]?.images) ? cartItems[0]?.images[0] : '') || '',
+          imageUrl: cartItems[0]?.imageUrl || cartItems[0]?.image || cartItems[0]?.product?.image || (Array.isArray(cartItems[0]?.images) ? cartItems[0]?.images[0] : '') || ''
         }));
       } catch (e) {
         console.error('Failed to persist payment details:', e);

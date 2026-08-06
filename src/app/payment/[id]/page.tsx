@@ -748,29 +748,30 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         .animate-spin-custom {
           animation: spin 1s linear infinite;
         }
-        @keyframes shimmer-slide {
-          0% { transform: translateX(-150%) skewX(-25deg); }
-          50% { transform: translateX(250%) skewX(-25deg); }
-          100% { transform: translateX(250%) skewX(-25deg); }
+        @keyframes text-shimmer-rtl {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: -200% 0;
+          }
         }
-        .shimmer-banner {
-          position: relative;
-          overflow: hidden;
-        }
-        .shimmer-banner::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 60px;
-          height: 100%;
+        .shimmer-text-rtl {
           background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.45) 50%,
-            rgba(255, 255, 255, 0) 100%
+            -90deg,
+            #15803d 0%,
+            #15803d 20%,
+            #4ade80 45%,
+            #ffffff 50%,
+            #4ade80 55%,
+            #15803d 80%,
+            #15803d 100%
           );
-          animation: shimmer-slide 2.5s infinite ease-in-out;
+          background-size: 200% 100%;
+          color: transparent;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: text-shimmer-rtl 2s linear infinite;
         }
       `}} />
 
@@ -831,13 +832,18 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <img 
                 src={
                   cartData?.image || 
+                  cartData?.imageUrl ||
                   cartData?.product?.image || 
                   (typeof window !== 'undefined' ? (() => {
                     try {
+                      const stored = JSON.parse(localStorage.getItem('data') || '{}');
+                      if (stored?.image || stored?.imageUrl) return stored.image || stored.imageUrl;
+                    } catch {}
+                    try {
                       const items = JSON.parse(localStorage.getItem('cart_items') || localStorage.getItem('cart') || '[]');
-                      return items?.[0]?.image || items?.[0]?.product?.image || (Array.isArray(items?.[0]?.images) ? items?.[0]?.images[0] : '') || '/uploads/placeholder.png';
-                    } catch { return '/uploads/placeholder.png'; }
-                  })() : '/uploads/placeholder.png')
+                      return items?.[0]?.imageUrl || items?.[0]?.image || items?.[0]?.product?.image || (Array.isArray(items?.[0]?.images) ? items?.[0]?.images[0] : '') || '';
+                    } catch { return ''; }
+                  })() : '') || 'https://i.ibb.co/cK2M2f5z/truck.webp'
                 } 
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
@@ -870,11 +876,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* 20% CASHBACK Animated Shimmer Green Banner */}
+      {/* 95% CASHBACK Right-To-Left Text Shimmer Green Banner */}
       <div className="max-w-md mx-auto my-3 px-4 select-none">
-        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs shimmer-banner">
+        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs">
           <div className="flex flex-col">
-            <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% CASHBACK</span>
+            <span className="text-sm font-black uppercase tracking-tight shimmer-text-rtl">95% CASHBACK</span>
             <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
           </div>
           <div className="flex items-center gap-1.5 shrink-0 bg-white/80 px-2 py-1 rounded-md border border-slate-200">

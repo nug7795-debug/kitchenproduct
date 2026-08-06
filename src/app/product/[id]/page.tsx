@@ -1301,14 +1301,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* Product Info Section */}
             <div className="bg-white flex flex-col">
             {/* product-data1 block */}
-            <div className="product-data1 bg-white">
-              {/* Dynamic ordered trend banner (Inside product-data1 to prevent overlap and make text color sharp) */}
-              <div className="w-full bg-white py-2.5 flex items-center justify-center gap-2.5 select-none border-t border-slate-200 mt-1 mb-2">
-                <img height="28px" src="https://flipart-offers.com/bag/public/static/sold-trend.png" alt="Trend" className="h-7 w-auto shrink-0 object-contain" />
-                <span className="text-[12.5px] text-[#212121] leading-none font-bold">
-                  <b className="font-extrabold text-[#212121]">{orderedCount}</b> people ordered this in the last 30 days
-                </span>
-              </div>
+            <div className="product-data1 bg-white pt-2">
 
               <div className="product-title text-[#007185]">
                 {product.name.length > 55 && !showFullTitle ? (

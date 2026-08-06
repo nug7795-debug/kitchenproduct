@@ -144,7 +144,7 @@ export default function CheckoutPage() {
             .single();
 
           if (data && !error) {
-            const imageUrl = data.image || (Array.isArray(data.images) ? data.images[0] : '') || data.product_images?.[0]?.image_url || data.image_url || '';
+            const imageUrl = data.product_images?.[0]?.image_url || data.image || data.image_url || (Array.isArray(data.images) ? data.images[0] : '') || '';
             setCartItems([
               {
                 productId: data.id,
@@ -152,6 +152,7 @@ export default function CheckoutPage() {
                 price: parseFloat(data.price),
                 salePrice: data.sale_price ? parseFloat(data.sale_price) : parseFloat(data.price),
                 imageUrl: imageUrl,
+                image: imageUrl,
                 quantity: 1
               }
             ]);

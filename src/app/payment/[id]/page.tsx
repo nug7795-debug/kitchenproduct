@@ -413,11 +413,60 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const pollingRef = useRef(false);
   const initiatingRef = useRef(false);
 
-  // Sync state with dynamic local storage on mount
+  // Sync state with dynamic local storage on mount and fetch exact product image from Supabase if missing
   useEffect(() => {
     try {
       setUser(JSON.parse(localStorage.getItem("user") || "{}"));
-      setCartData(JSON.parse(localStorage.getItem("data") || "{}"));
+      const parsedData = JSON.parse(localStorage.getItem("data") || "{}");
+      setCartData(parsedData);
+
+      const fetchExactImageFromDb = async () => {
+        let nameToSearch = parsedData?.name;
+        let idToSearch = parsedData?.productId || parsedData?.id;
+
+        if (!nameToSearch) {
+          try {
+            const items = JSON.parse(localStorage.getItem("cart_items") || localStorage.getItem("cart") || "[]");
+            if (Array.isArray(items) && items.length > 0) {
+              nameToSearch = items[0].name;
+              idToSearch = items[0].productId || items[0].id;
+              if (items[0].imageUrl || items[0].image) {
+                const imgUrl = items[0].imageUrl || items[0].image;
+                setCartData((prev: any) => ({ ...prev, image: imgUrl, imageUrl: imgUrl }));
+                return;
+              }
+            }
+          } catch {}
+        }
+
+        if (idToSearch || nameToSearch) {
+          try {
+            const supabase = (await import('@/lib/supabase')).supabase;
+            let query = supabase.from('products').select('*, product_images(image_url)');
+            if (idToSearch) {
+              query = query.eq('id', idToSearch);
+            } else if (nameToSearch) {
+              query = query.ilike('name', `%${nameToSearch}%`);
+            }
+            const { data: prod } = await query.limit(1).maybeSingle();
+            if (prod) {
+              const exactImg = prod.product_images?.[0]?.image_url || prod.image || prod.image_url || (Array.isArray(prod.images) ? prod.images[0] : '') || '';
+              if (exactImg) {
+                setCartData((prev: any) => ({
+                  ...prev,
+                  name: prod.name || prev.name,
+                  image: exactImg,
+                  imageUrl: exactImg
+                }));
+              }
+            }
+          } catch (err) {
+            console.error('Failed to fetch exact product image from Supabase:', err);
+          }
+        }
+      };
+
+      fetchExactImageFromDb();
     } catch (e) {
       console.error("Local storage error:", e);
     }

@@ -1349,6 +1349,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 {discount > 0 && <span className="mrp">₹{Math.round(displayPrice).toLocaleString('en-IN')}</span>}
                 <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
               </div>
+
+              {/* Packaging & Free Delivery subtext (Exact copy from goats-sale.com, with by 2 Days removed) */}
+              <div className="mt-2 text-[13.5px] text-slate-800 leading-normal font-medium select-none">
+                <div>+ <del className="text-slate-400">₹99</del> Secured Packaging Free</div>
+                <div>Free delivery</div>
+              </div>
             </div>
 
             {/* 1. Delivery & Offer Countdown Box (Exact copy from goats-sale.com) */}

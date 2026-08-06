@@ -737,10 +737,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
-  // Comprehensive Product Image Resolution Cascade with 404 Prevention
+  // Exact Product Image Resolution matching Order Summary / Home Page item
   const getProductImage = () => {
-    let img = cartData?.image || cartData?.imageUrl || cartData?.product?.image;
-
     const isValidImg = (url?: string) => {
       if (!url || typeof url !== 'string') return false;
       const clean = url.trim();
@@ -749,65 +747,51 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       return true;
     };
 
+    // 1. Direct check from cartData state (set from localStorage 'data')
+    let img = cartData?.image || cartData?.imageUrl || cartData?.product?.image;
     if (isValidImg(img)) return img!;
 
     if (typeof window !== 'undefined') {
+      // 2. Check localStorage 'data' directly
       try {
         const stored = JSON.parse(localStorage.getItem('data') || '{}');
         const sImg = stored?.image || stored?.imageUrl;
-        if (isValidImg(sImg)) return sImg;
+        if (isValidImg(sImg)) return sImg!;
       } catch {}
 
+      // 3. Check localStorage 'cart_items' or 'cart'
       try {
         const items = JSON.parse(localStorage.getItem('cart_items') || localStorage.getItem('cart') || '[]');
         if (Array.isArray(items) && items.length > 0) {
           const item = items[0];
-          const itemImg = item?.imageUrl || item?.image || item?.product?.image || (Array.isArray(item?.images) ? item?.images[0] : '');
-          if (isValidImg(itemImg)) return itemImg;
+          const itemImg = item?.imageUrl || item?.image || item?.image_url || item?.product?.image || (Array.isArray(item?.images) ? item?.images[0] : '') || (Array.isArray(item?.product_images) ? item?.product_images[0]?.image_url : '');
+          if (isValidImg(itemImg)) return itemImg!;
         }
       } catch {}
 
+      // 4. Search exact match by Name or ID in cached_homepage_products
       try {
         const cached = JSON.parse(localStorage.getItem('cached_homepage_products') || '[]');
         if (Array.isArray(cached) && cached.length > 0) {
-          const prodName = (cartData?.name || '').toLowerCase();
-          const matched = cached.find((p: any) => 
-            p.name?.toLowerCase().includes(prodName) || (prodName && prodName.includes(p.name?.toLowerCase()))
-          );
+          const currentName = (cartData?.name || '').toLowerCase().trim();
+          const currentId = cartData?.productId || cartData?.id;
+
+          const matched = cached.find((p: any) => {
+            if (currentId && String(p.id) === String(currentId)) return true;
+            if (currentName && p.name && p.name.toLowerCase().trim() === currentName) return true;
+            if (currentName && p.name && (p.name.toLowerCase().includes(currentName) || currentName.includes(p.name.toLowerCase()))) return true;
+            return false;
+          });
+
           if (matched) {
-            const mImg = matched.image || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
-            if (isValidImg(mImg)) return mImg;
+            const mImg = matched.image || matched.imageUrl || matched.image_url || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
+            if (isValidImg(mImg)) return mImg!;
           }
         }
       } catch {}
     }
 
-    // Default category-based high quality fallback images if image URL is 404 or missing
-    const prodNameLower = (cartData?.name || '').toLowerCase();
-    const isMobile = (
-      prodNameLower.includes('iqoo') ||
-      prodNameLower.includes('poco') ||
-      prodNameLower.includes('realme') ||
-      prodNameLower.includes('samsung') ||
-      prodNameLower.includes('oneplus') ||
-      prodNameLower.includes('iphone') ||
-      prodNameLower.includes('apple') ||
-      prodNameLower.includes('vivo') ||
-      prodNameLower.includes('oppo') ||
-      prodNameLower.includes('xiaomi') ||
-      prodNameLower.includes('redmi') ||
-      prodNameLower.includes('phone') ||
-      prodNameLower.includes('mobile') ||
-      prodNameLower.includes('5g') ||
-      prodNameLower.includes('gb') ||
-      prodNameLower.includes('legend')
-    );
-
-    if (isMobile) {
-      return "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80";
-    }
-    
-    return "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300&auto=format&fit=crop&q=80";
+    return img || '';
   };
 
   return (
@@ -910,7 +894,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80";
+                  try {
+                    const cached = JSON.parse(localStorage.getItem('cached_homepage_products') || '[]');
+                    const currentName = (cartData?.name || '').toLowerCase().trim();
+                    const matched = cached.find((p: any) => p.name && (p.name.toLowerCase().includes(currentName) || currentName.includes(p.name.toLowerCase())));
+                    if (matched) {
+                      const mImg = matched.image || matched.imageUrl || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
+                      if (mImg && (e.target as HTMLImageElement).src !== mImg) {
+                        (e.target as HTMLImageElement).src = mImg;
+                      }
+                    }
+                  } catch {}
                 }}
               />
             </div>

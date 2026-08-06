@@ -822,123 +822,163 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* PhonePe Cashback Banner - Integrated flush below the Stepper to prevent empty space gaps */}
-      {/* Flipkart Payment Offers Green Banner */}
-      <div className="max-w-md mx-auto bg-[#f1faf3] border-b border-slate-150 py-3 px-5 flex items-center justify-between select-none shimmer-banner">
-        <div className="flex flex-col">
-          <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% Cashback</span>
-          <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
+      {/* Top Product Summary Card (Exact copy from screenshot) */}
+      <div className="max-w-md mx-auto mt-3 px-4">
+        <div className="bg-[#f0f5fe] rounded-2xl p-4 border border-[#dce8fb] shadow-xs select-none">
+          {/* Top Row: Thumbnail + Product Name + Prices */}
+          <div className="flex items-start gap-3">
+            <div className="w-[54px] h-[54px] rounded-xl bg-white p-1 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
+              <img 
+                src={prod?.image || "/uploads/placeholder.png"} 
+                alt={prod?.name || "Product"} 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-[13.5px] font-bold text-[#111827] leading-snug truncate">
+                {prod?.name || "Samsung Galaxy S21 FE 5G"}
+              </h2>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[16px] font-black text-[#2874f0]">₹{selling}</span>
+                {mrp > selling && (
+                  <span className="text-[12.5px] font-semibold text-slate-400 line-through">₹{mrp}</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-[#dce8fb] my-3" />
+
+          {/* Bottom Row: Total Amount dropdown & Price */}
+          <div className="flex items-center justify-between">
+            <button className="flex items-center gap-1 text-[#2874f0] font-bold text-[14px]">
+              <span>Total Amount</span>
+              <ChevronUp className="w-4 h-4 text-[#2874f0]" />
+            </button>
+            <span className="text-[16px] font-black text-[#111827]">₹{selling}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 shrink-0 bg-white/75 px-2 py-1 rounded-md border border-slate-200/50">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-3 w-7 object-contain" />
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" className="h-3.5 w-6 object-contain" />
-          <span className="text-[10px] font-black text-slate-700 bg-slate-100 px-1 rounded-sm border border-slate-250">+4</span>
+      </div>
+
+      {/* 95% Cashback Green Banner */}
+      <div className="max-w-md mx-auto my-3 px-4 select-none">
+        <div className="bg-[#f1faf3] rounded-xl border border-[#d2f0d6] p-3.5 flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[#15803d] text-[15px] font-extrabold tracking-tight">95% Cashback</span>
+            <span className="text-slate-600 text-[12px] font-semibold mt-0.5">Claim now with UPI payment offers</span>
+          </div>
+          <div className="flex items-center gap-1.5 shrink-0 bg-white px-2 py-1 rounded-md border border-slate-200">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-3.5 w-7 object-contain" />
+            <span className="text-[10px] font-bold text-slate-600">+4</span>
+          </div>
         </div>
       </div>
 
       {/* Selection Body */}
-      <div className="max-w-md mx-auto mt-0">
+      <div className="max-w-md mx-auto mt-2 px-4">
+        {/* UPI Section Header */}
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-6 w-8 border border-slate-350 rounded flex items-center justify-center text-[10px] font-black text-slate-800 bg-white tracking-tighter shrink-0 select-none">
+            UPI
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="text-[15px] font-bold text-[#111827]">UPI</span>
+            <span className="text-slate-500 text-[12px] font-medium">Pay by any UPI app</span>
+          </div>
+        </div>
 
-        {/* Payment Methods - FULL BLEED edge-to-edge stacked layout */}
-        <div className="space-y-0 mb-0 border-t border-slate-200">
+        {/* Distinct Separate Cards for PhonePe, Paytm, and Scan QR Code */}
+        <div className="space-y-3 mb-4">
           
-          {/* 1. UPI Header Accordion Row */}
+          {/* 1. PhonePe Card */}
           <div
-            onClick={() => setExpandedSection(expandedSection === 'upi' ? null : 'upi')}
-            className={`w-full bg-white py-3.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between cursor-pointer ${
-              expandedSection === 'upi' ? 'bg-slate-50/50' : 'hover:bg-slate-50'
+            onClick={() => setSelectedMethod(o.PHONEPE)}
+            className={`w-full p-3.5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer select-none ${
+              selectedMethod === o.PHONEPE
+                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
+                : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
-            <div className="flex items-start gap-4">
-              <div className="h-6 w-8 border border-slate-350 rounded flex items-center justify-center text-[10px] font-black text-slate-800 bg-slate-50 tracking-tighter shrink-0 mt-0.5 select-none">
-                UPI
+            <div className="flex items-center gap-3.5">
+              <div className="w-9 h-9 rounded-full bg-[#5f259f] flex items-center justify-center shrink-0 shadow-xs">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
+                  alt="PhonePe" 
+                  className="h-6 w-6 object-contain invert brightness-0" 
+                />
               </div>
-              <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">UPI</span>
-                <span className="text-slate-600 text-xs font-semibold mt-0.5">Pay by any UPI app</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto ₹80 cashback • Hurry, offer ends soon!</span>
+              <div className="flex flex-col items-start leading-none">
+                <span className="text-[15px] font-bold text-[#111827]">PhonePe</span>
+                <span className="bg-[#dcfce7] text-[#15803d] text-[10.5px] font-bold px-2 py-0.5 rounded-md mt-1 tracking-tight">
+                  Fastest
+                </span>
               </div>
             </div>
-            {expandedSection === 'upi' ? (
-              <ChevronUp className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
-            ) : (
-              <ChevronDown className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
-            )}
+            <div className={`w-5.5 h-5.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+              selectedMethod === o.PHONEPE ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
+            }`}>
+              {selectedMethod === o.PHONEPE && (
+                <div className="w-2.5 h-2.5 rounded-full bg-white" />
+              )}
+            </div>
           </div>
 
-          {/* UPI Sub-Options Drawer */}
-          {expandedSection === 'upi' && (
-            <div className="bg-slate-50/30 border-b border-slate-200 transition-all">
-              {/* PhonePe */}
-              <div
-                onClick={() => setSelectedMethod(o.PHONEPE)}
-                className="w-full py-3.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    selectedMethod === o.PHONEPE ? "border-[#2874F0]" : "border-slate-300"
-                  }`}>
-                    {selectedMethod === o.PHONEPE && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
-                    )}
-                  </div>
-                  <div className="h-8 w-8 flex items-center justify-center shrink-0">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
-                      alt="PhonePe" 
-                      className="h-7 w-7 object-contain" 
-                    />
-                  </div>
-                  <span className="text-sm font-bold text-slate-700">PhonePe</span>
-                </div>
+          {/* 2. Paytm Card */}
+          <div
+            onClick={() => setSelectedMethod(o.PAYTM)}
+            className={`w-full p-3.5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer select-none ${
+              selectedMethod === o.PAYTM
+                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
+                : 'border-slate-200 bg-white hover:border-slate-300'
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
+                  alt="Paytm" 
+                  className="h-5 w-5 object-contain" 
+                />
               </div>
-
-              {/* Paytm */}
-              <div
-                onClick={() => setSelectedMethod(o.PAYTM)}
-                className="w-full py-3.5 px-6 border-b border-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    selectedMethod === o.PAYTM ? "border-[#2874F0]" : "border-slate-300"
-                  }`}>
-                    {selectedMethod === o.PAYTM && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
-                    )}
-                  </div>
-                  <div className="h-8 w-8 flex items-center justify-center shrink-0">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
-                      alt="Paytm" 
-                      className="h-6 w-6 object-contain" 
-                    />
-                  </div>
-                  <span className="text-sm font-bold text-slate-700">Paytm</span>
-                </div>
-              </div>
-
-              {/* Scan To Pay */}
-              <div
-                onClick={() => setSelectedMethod(o.QR)}
-                className="w-full py-3.5 px-6 flex items-center justify-between cursor-pointer hover:bg-slate-100/50"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                    selectedMethod === o.QR ? "border-[#2874F0]" : "border-slate-300"
-                  }`}>
-                    {selectedMethod === o.QR && (
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2874F0]" />
-                    )}
-                  </div>
-                  <div className="h-8 w-8 flex items-center justify-center shrink-0">
-                    <ScanToPayIcon size={24} />
-                  </div>
-                  <span className="text-sm font-bold text-slate-700">Scan To Pay / UPI QR</span>
-                </div>
-              </div>
+              <span className="text-[15px] font-bold text-[#111827]">Paytm</span>
             </div>
-          )}
+            <div className={`w-5.5 h-5.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+              selectedMethod === o.PAYTM ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
+            }`}>
+              {selectedMethod === o.PAYTM && (
+                <div className="w-2.5 h-2.5 rounded-full bg-white" />
+              )}
+            </div>
+          </div>
 
+          {/* 3. Scan QR Code Card */}
+          <div
+            onClick={() => setSelectedMethod(o.QR)}
+            className={`w-full p-3.5 rounded-xl border-2 transition-all flex items-center justify-between cursor-pointer select-none ${
+              selectedMethod === o.QR
+                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
+                : 'border-slate-200 bg-white hover:border-slate-300'
+            }`}
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 text-slate-700">
+                <ScanToPayIcon size={20} />
+              </div>
+              <span className="text-[15px] font-bold text-[#111827]">Scan QR Code</span>
+            </div>
+            <div className={`w-5.5 h-5.5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+              selectedMethod === o.QR ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
+            }`}>
+              {selectedMethod === o.QR && (
+                <div className="w-2.5 h-2.5 rounded-full bg-white" />
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Other Payment Methods */}
+        <div className="space-y-0 mb-0 border-t border-slate-200">
           {/* 2. Credit / Debit / ATM Card Accordion Row */}
           <div
             className="w-full bg-white py-3.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
@@ -1072,15 +1112,9 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Sticky Yellow/Orange Flipkart Continue Footer Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#eaeaf2] shadow-lg py-3 px-4 z-40">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <div className="flex flex-col">
-            {mrp > selling && (
-              <span className="line-through text-slate-600 text-xs font-semibold">₹ {mrp}</span>
-            )}
-            <span className="text-[#212121] text-xl font-black">₹ {selling}</span>
-          </div>
+      {/* Full-width Orange Flipkart Pay Footer Bar (Exact copy from screenshot) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-3 px-4 z-40 select-none">
+        <div className="max-w-md mx-auto">
           <button 
             onClick={() => {
               if (isLoaded) {
@@ -1101,13 +1135,13 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               }
             }}
             disabled={!isLoaded}
-            className={`px-8 py-3 rounded-lg font-bold text-sm transition-all shadow-md ${
+            className={`w-full py-3.5 rounded-xl font-black text-[17px] transition-all shadow-md ${
               isLoaded 
-                ? "bg-gradient-to-r from-[#ffc200] to-[#ffa200] text-slate-900 active:scale-[0.98]" 
+                ? "bg-[#ff6100] text-white active:scale-[0.98] hover:bg-[#e65700]" 
                 : "bg-slate-200 text-slate-400 cursor-not-allowed"
             }`}
           >
-            {isLoaded ? "CONTINUE" : "LOADING..."}
+            {isLoaded ? `Pay ₹${selling}` : "Loading..."}
           </button>
         </div>
       </div>

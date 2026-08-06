@@ -829,7 +829,16 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex items-start gap-3">
             <div className="w-[54px] h-[54px] rounded-xl bg-white p-1 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
               <img 
-                src={cartData?.image || "/uploads/placeholder.png"} 
+                src={
+                  cartData?.image || 
+                  cartData?.product?.image || 
+                  (typeof window !== 'undefined' ? (() => {
+                    try {
+                      const items = JSON.parse(localStorage.getItem('cart_items') || localStorage.getItem('cart') || '[]');
+                      return items?.[0]?.image || items?.[0]?.product?.image || (Array.isArray(items?.[0]?.images) ? items?.[0]?.images[0] : '') || '/uploads/placeholder.png';
+                    } catch { return '/uploads/placeholder.png'; }
+                  })() : '/uploads/placeholder.png')
+                } 
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
               />
@@ -861,16 +870,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* 95% Cashback Green Banner */}
+      {/* 20% CASHBACK Animated Shimmer Green Banner */}
       <div className="max-w-md mx-auto my-3 px-4 select-none">
-        <div className="bg-[#f1faf3] rounded-xl border border-[#d2f0d6] p-3.5 flex items-center justify-between">
+        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs shimmer-banner">
           <div className="flex flex-col">
-            <span className="text-[#15803d] text-[15px] font-extrabold tracking-tight">95% Cashback</span>
-            <span className="text-slate-600 text-[12px] font-semibold mt-0.5">Claim now with UPI payment offers</span>
+            <span className="text-[#388e3c] text-sm font-black uppercase tracking-tight">20% CASHBACK</span>
+            <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
           </div>
-          <div className="flex items-center gap-1.5 shrink-0 bg-white px-2 py-1 rounded-md border border-slate-200">
+          <div className="flex items-center gap-1.5 shrink-0 bg-white/80 px-2 py-1 rounded-md border border-slate-200">
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" alt="Paytm" className="h-3.5 w-7 object-contain" />
-            <span className="text-[10px] font-bold text-slate-600">+4</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" alt="Mastercard" className="h-3.5 w-6 object-contain" />
+            <span className="text-[10px] font-black text-slate-700 bg-slate-100 px-1 rounded-sm border border-slate-250">+4</span>
           </div>
         </div>
       </div>
@@ -901,12 +911,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             }`}
           >
             <div className="flex items-center gap-3.5">
-              <div className="w-9 h-9 rounded-full bg-[#5f259f] flex items-center justify-center shrink-0 shadow-xs">
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
-                  alt="PhonePe" 
-                  className="h-6 w-6 object-contain invert brightness-0" 
-                />
+              <div className="w-9 h-9 rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-xs">
+                <PhonePeIcon size={36} />
               </div>
               <div className="flex flex-col items-start leading-none">
                 <span className="text-[15px] font-bold text-[#111827]">PhonePe</span>

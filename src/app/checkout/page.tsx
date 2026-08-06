@@ -561,7 +561,8 @@ export default function CheckoutPage() {
           email: user?.email || ''
         }));
         localStorage.setItem('data', JSON.stringify({
-          name: cartItems[0]?.name || 'Kitchen Order'
+          name: cartItems[0]?.name || 'Kitchen Order',
+          image: cartItems[0]?.image || cartItems[0]?.product?.image || (Array.isArray(cartItems[0]?.images) ? cartItems[0]?.images[0] : '') || ''
         }));
       } catch (e) {
         console.error('Failed to persist payment details:', e);

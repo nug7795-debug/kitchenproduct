@@ -635,7 +635,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  const timeStr = `${minutes}min ${seconds.toString().padStart(2, '0')}sec`;
+  const timeStr = `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
 
   const getDeliveryDateStr = () => {
     if (!product) return '';
@@ -1358,16 +1358,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Offers Ends In Countdown Banner */}
-            <div className="w-full bg-[#fff9f5] border-y border-[#ffe3d1] py-2.5 px-4 flex items-center justify-center select-none mt-2">
-              <span className="text-[13.5px] font-black text-[#ff6f2e] tracking-tight flex items-center gap-1.5">
-                Offers Ends In <span className="font-black bg-[#ff6f2e] text-white px-2 py-0.5 rounded-md text-[13px] tracking-wide tabular-nums">{timeStr}</span>
-              </span>
-            </div>
-
-            {/* Replaced product-data2 countdown timer block with exact copies from goats-sale.com */}
-            
-            {/* 1. Delivery Banner */}
+            {/* 1. Delivery & Offer Countdown Box (Exact copy from goats-sale.com) */}
             <div className="bg-white border border-slate-200 rounded-[6px] mt-2 shadow-sm select-none">
               <div className="flex p-3 gap-3.5 items-center">
                 <div>
@@ -1379,6 +1370,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   </p>
                   <p className="text-[13px] m-0.5 text-slate-800">
                     Delivery by <span className="font-bold text-[#212121]">{getDeliveryDateStr()}</span>
+                  </p>
+                  <p className="text-[13px] m-0 text-slate-600 font-medium">
+                    Offer ends in <span className="font-bold text-[#c2185b] tabular-nums">{timeStr}</span>
                   </p>
                 </div>
               </div>

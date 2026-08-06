@@ -1139,7 +1139,7 @@ export default function CheckoutPage() {
                               <span className="text-slate-400 font-bold">(9,614)</span>
                               {/* Assured Emblem */}
                               <img 
-                                src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                                src="/uploads/fa_62673a.png" 
                                 alt="Assured" 
                                 className="h-3.5 w-auto object-contain ml-1 inline-block" 
                               />

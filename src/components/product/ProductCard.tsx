@@ -12,7 +12,7 @@ interface ProductCardProps {
 // Highly authentic inline AssuredBadge matching Flipkart
 const AssuredBadge = () => (
   <img 
-    src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+    src="/uploads/fa_62673a.png" 
     alt="fAssured" 
     className="h-[15px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
   />
@@ -193,7 +193,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {/* F-Assured Logo on its own line below stars */}
           <div className="mt-1 min-h-[16px]">
             <img 
-              src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+              src="/uploads/fa_62673a.png" 
               alt="fAssured" 
               className="h-[15px] w-auto select-none inline-block" 
             />

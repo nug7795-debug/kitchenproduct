@@ -180,7 +180,7 @@ export default function CartPage() {
                      </div>
                      <span className="text-[10px] text-slate-400 font-medium">(66)</span>
                      <img 
-                       src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" 
+                       src="/uploads/fa_62673a.png" 
                        alt="fAssured" 
                        className="h-[13px] w-auto inline shrink-0" 
                      />

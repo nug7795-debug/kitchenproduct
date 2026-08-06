@@ -535,7 +535,7 @@ export default function Home() {
 
         {/* Copyright Bar */}
         <div className="bg-[#2874f0] py-3 text-center">
-          <span className="text-white font-bold text-[13px]">© 2007-2025 </span><span className="text-white font-bold text-[13px] opacity-90">flipkart.com</span>
+          <span className="text-white font-bold text-[13px]">© 2007-2025 </span><span className="text-white font-bold text-[13px] opacity-90">flipkat.com</span>
         </div>
 
         {/* Payment Icons - Auto Marquee */}

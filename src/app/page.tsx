@@ -42,79 +42,41 @@ const ForYouIcon = ({ className }: { className?: string }) => (
 );
 
 const FashionIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className} 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="1.6" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <path d="M15 22H9a2 2 0 0 1-2-2v-5l-4-2.5V7l4 1.5V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4.5l4-1.5v5.5L17 15v5a2 2 0 0 1-2 2z" />
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 3H8l-2 3v4h3v11h10V10h3V6l-2-3z" />
+    <path d="M9 3a3 3 0 0 0 6 0" fill="#ffd600" stroke="currentColor" strokeWidth="1.4" />
   </svg>
 );
 
 const MobilesIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className} 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="1.6" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-    <line x1="12" y1="18" x2="12.01" y2="18" strokeWidth="2.5" />
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="6" y="2" width="12" height="20" rx="2" />
+    <rect x="8" y="5" width="8" height="11" fill="#ffd600" opacity="0.85" stroke="none" />
+    <line x1="12" y1="19" x2="12.01" y2="19" strokeWidth="2.5" />
   </svg>
 );
 
 const ElectronicsIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className} 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="1.6" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <rect x="2" y="3" width="20" height="13" rx="2" ry="2" />
-    <line x1="2" y1="20" x2="22" y2="20" strokeWidth="2.2" />
-    <line x1="12" y1="17" x2="12" y2="17" strokeWidth="2.5" />
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="4" width="18" height="12" rx="1.5" />
+    <rect x="5" y="6" width="14" height="8" fill="#ffd600" opacity="0.85" stroke="none" />
+    <path d="M1 18h22v2H1z" fill="#ffd600" stroke="currentColor" strokeWidth="1.4" />
   </svg>
 );
 
 const BeautyIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className} 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="1.6" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <rect x="8" y="11" width="8" height="11" rx="1" />
-    <rect x="9.5" y="7" width="5" height="4" />
-    <path d="M9.5 7l1.5-5h2l1.5 5" />
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="7" y="11" width="10" height="11" rx="1" />
+    <path d="M9 11V7h6v4" />
+    <path d="M10 7L12 2h2l-2 5" fill="#ffd600" stroke="currentColor" strokeWidth="1.4" />
   </svg>
 );
 
 const HomeIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className} 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="1.6" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <path d="M8 2h8l2 8H6z" />
-    <line x1="12" y1="10" x2="12" y2="20" />
-    <line x1="8" y1="20" x2="16" y2="20" />
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M8 3h8l2 7H6l2-7z" fill="#ffd600" stroke="currentColor" strokeWidth="1.6" />
+    <line x1="12" y1="10" x2="12" y2="19" />
+    <path d="M8 19h8" strokeWidth="2" />
   </svg>
 );
 
@@ -413,7 +375,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-[#f0f5ff] text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#dce8fa]">
+      <div className="bg-white text-[#212121] px-1 pt-2.5 pb-1 select-none border-b border-slate-150">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },
@@ -422,25 +384,28 @@ export default function Home() {
             { name: 'Electronics', icon: ElectronicsIcon },
             { name: 'Beauty', icon: BeautyIcon },
             { name: 'Home', icon: HomeIcon }
-          ].map((cat) => (
-            <div key={cat.name} className="flex flex-col items-center justify-between text-center cursor-pointer">
-              <div className="flex flex-col items-center justify-center text-[#212121]">
-                <div className="w-[42px] h-[42px] rounded-full bg-white border border-[#d0e1f9] flex items-center justify-center mb-1 shadow-xs">
-                  <cat.icon className="w-[24px] h-[24px] text-[#212121]" />
+          ].map((cat) => {
+            const isForYou = cat.name === 'For You';
+            return (
+              <div key={cat.name} className="flex flex-col items-center justify-between text-center cursor-pointer">
+                <div className="flex flex-col items-center justify-center">
+                  <div className={`w-[42px] h-[42px] flex items-center justify-center mb-1 ${isForYou ? 'bg-[#e8f2fe] rounded-xl border border-[#d2e4fe]' : ''}`}>
+                    <cat.icon className="w-[26px] h-[26px] text-[#212121]" />
+                  </div>
+                  <span className={`text-[11px] leading-tight text-[#212121] ${isForYou ? 'font-bold' : 'font-medium'}`}>{cat.name}</span>
                 </div>
-                <span className="text-[11px] font-bold leading-tight text-[#212121]">{cat.name}</span>
+                <div 
+                  style={{ 
+                    height: '3px', 
+                    backgroundColor: isForYou ? '#2874f0' : 'transparent', 
+                    width: '32px', 
+                    marginTop: '5px', 
+                    borderRadius: '2px' 
+                  }} 
+                />
               </div>
-              <div 
-                style={{ 
-                  height: '3px', 
-                  backgroundColor: cat.name === 'For You' ? '#2874f0' : 'transparent', 
-                  width: '32px', 
-                  marginTop: '4px', 
-                  borderRadius: '2px' 
-                }} 
-              />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

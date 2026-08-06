@@ -133,7 +133,7 @@ export async function POST(request: Request) {
             if (parts.length >= 2) {
               const queryParams = new URLSearchParams(parts[1]);
               const pa = queryParams.get('pa') || defaultUpi;
-              const pn = 'Flipkart Payments';
+              const pn = 'Raju Traders';
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
               const tr = queryParams.get('tr') || transactionId;

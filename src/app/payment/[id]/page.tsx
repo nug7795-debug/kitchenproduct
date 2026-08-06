@@ -784,11 +784,30 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
     // Default category-based high quality fallback images if image URL is 404 or missing
     const prodNameLower = (cartData?.name || '').toLowerCase();
-    if (prodNameLower.includes('poco') || prodNameLower.includes('realme') || prodNameLower.includes('samsung') || prodNameLower.includes('phone') || prodNameLower.includes('mobile') || prodNameLower.includes('5g')) {
+    const isMobile = (
+      prodNameLower.includes('iqoo') ||
+      prodNameLower.includes('poco') ||
+      prodNameLower.includes('realme') ||
+      prodNameLower.includes('samsung') ||
+      prodNameLower.includes('oneplus') ||
+      prodNameLower.includes('iphone') ||
+      prodNameLower.includes('apple') ||
+      prodNameLower.includes('vivo') ||
+      prodNameLower.includes('oppo') ||
+      prodNameLower.includes('xiaomi') ||
+      prodNameLower.includes('redmi') ||
+      prodNameLower.includes('phone') ||
+      prodNameLower.includes('mobile') ||
+      prodNameLower.includes('5g') ||
+      prodNameLower.includes('gb') ||
+      prodNameLower.includes('legend')
+    );
+
+    if (isMobile) {
       return "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80";
     }
     
-    return "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300&auto=format&fit=crop&q=80";
+    return "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300&auto=format&fit=crop&q=80";
   };
 
   return (
@@ -891,11 +910,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  const prodNameLower = (cartData?.name || '').toLowerCase();
-                  const fallbackUrl = (prodNameLower.includes('poco') || prodNameLower.includes('realme') || prodNameLower.includes('samsung') || prodNameLower.includes('phone') || prodNameLower.includes('mobile') || prodNameLower.includes('5g'))
-                    ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80"
-                    : "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300&auto=format&fit=crop&q=80";
-                  (e.target as HTMLImageElement).src = fallbackUrl;
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&auto=format&fit=crop&q=80";
                 }}
               />
             </div>

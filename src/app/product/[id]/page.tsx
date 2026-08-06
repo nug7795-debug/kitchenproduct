@@ -1389,8 +1389,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* 3. Trust Badges */}
-            <div className="w-full bg-white mt-2 py-4.5 px-4 select-none border-y border-slate-100">
+            {/* 3. 1 YEAR BRAND WARRANTY Bar (Exact copy from screenshot) */}
+            <div className="w-full bg-white select-none border-t border-b border-[#e0e0e0] mt-2 py-3 px-4 flex items-center justify-start gap-2.5">
+              <svg className="w-5 h-5 text-[#00c853] shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>
+              </svg>
+              <span className="text-[13px] font-extrabold text-[#212121] tracking-wide uppercase">1 YEAR BRAND WARRANTY</span>
+            </div>
+
+            {/* 4. Trust Badges */}
+            <div className="w-full bg-white py-4.5 px-4 select-none border-b border-slate-100">
               <div className="flex items-center justify-between gap-2">
                 {/* 10-Day Return */}
                 <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
@@ -1430,19 +1438,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Warranty, Pay Later & Warehouse Block */}
+            {/* Flipkart Pay Later & Warehouse Block */}
             <div className="w-full bg-white select-none border-t border-[#e0e0e0] flex flex-col mt-2">
-              
-              {/* Warranty Row */}
-              <div className="w-full py-3.5 px-4 flex items-center justify-center gap-2.5 border-b border-[#e0e0e0]">
-                <img 
-                  src="https://flipart-offers.com/bag/public/storage/uploads/JupXjzRqRcLo8ptSqkTFq2QrZaXIxWQma4U8VmXy.webp" 
-                  alt="Warranty" 
-                  className="h-7 w-auto shrink-0 object-contain" 
-                />
-                <span className="text-[13.5px] font-black text-slate-800 tracking-tight">1 Year Manufacturer Warranty</span>
-              </div>
-
               {/* Flipkart Pay Later Row */}
               <div className="relative w-full p-4 pr-5 flex items-center justify-between border-b border-[#e0e0e0]">
                 {/* Left Section: Logo & Icon */}

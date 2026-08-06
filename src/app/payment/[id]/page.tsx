@@ -829,14 +829,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex items-start gap-3">
             <div className="w-[54px] h-[54px] rounded-xl bg-white p-1 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
               <img 
-                src={prod?.image || "/uploads/placeholder.png"} 
-                alt={prod?.name || "Product"} 
+                src={cartData?.image || "/uploads/placeholder.png"} 
+                alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
               />
             </div>
             <div className="flex-1 min-w-0">
               <h2 className="text-[13.5px] font-bold text-[#111827] leading-snug truncate">
-                {prod?.name || "Samsung Galaxy S21 FE 5G"}
+                {cartData?.name || "Samsung Galaxy S21 FE 5G"}
               </h2>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-[16px] font-black text-[#2874f0]">₹{selling}</span>

@@ -55,13 +55,12 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
             <Header />
           </div>
         )}
-        <main className="flex-grow flex flex-col justify-between pb-[60px]">
+        <main className="flex-grow flex flex-col justify-between pb-0">
           <div>
             {children}
           </div>
           {pathname !== '/' && pathname !== '/cart' && pathname !== '/settings' && <Footer />}
         </main>
-        <BottomNav />
       </div>
     </div>
   );

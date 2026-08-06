@@ -413,7 +413,7 @@ export default function Home() {
       </div>
 
       {/* Categories Row */}
-      <div className="bg-gradient-to-b from-[#eef5fd] to-white text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#e2eeff]">
+      <div className="bg-[#f0f5ff] text-[#212121] px-2 pt-3 pb-1 select-none border-b border-[#dce8fa]">
         <div className="grid grid-cols-6 gap-1">
           {[
             { name: 'For You', icon: ForYouIcon },
@@ -423,17 +423,19 @@ export default function Home() {
             { name: 'Beauty', icon: BeautyIcon },
             { name: 'Home', icon: HomeIcon }
           ].map((cat) => (
-            <div key={cat.name} className="flex flex-col items-center justify-between text-center">
+            <div key={cat.name} className="flex flex-col items-center justify-between text-center cursor-pointer">
               <div className="flex flex-col items-center justify-center text-[#212121]">
-                <cat.icon className="w-[30px] h-[30px] mb-1.5" />
-                <span className="text-[11.5px] font-semibold leading-tight">{cat.name}</span>
+                <div className="w-[42px] h-[42px] rounded-full bg-white border border-[#d0e1f9] flex items-center justify-center mb-1 shadow-xs">
+                  <cat.icon className="w-[24px] h-[24px] text-[#212121]" />
+                </div>
+                <span className="text-[11px] font-bold leading-tight text-[#212121]">{cat.name}</span>
               </div>
               <div 
                 style={{ 
                   height: '3px', 
-                  backgroundColor: cat.name === 'For You' ? '#000000' : 'transparent', 
+                  backgroundColor: cat.name === 'For You' ? '#2874f0' : 'transparent', 
                   width: '32px', 
-                  marginTop: '6px', 
+                  marginTop: '4px', 
                   borderRadius: '2px' 
                 }} 
               />

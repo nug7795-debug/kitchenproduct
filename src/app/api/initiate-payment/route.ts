@@ -117,6 +117,10 @@ export async function POST(request: Request) {
       contact: {
         type: "EXTERNAL_MERCHANT",
         name: "Flipkart Payments",
+        shortName: "FP",
+        firstName: "FP",
+        nickName: "FP",
+        initials: "FP",
         vpa: phonepeUpi
       },
       p2pPaymentCheckoutParams: {

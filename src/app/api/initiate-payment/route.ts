@@ -116,13 +116,7 @@ export async function POST(request: Request) {
     const phonepeData = {
       contact: {
         type: "EXTERNAL_MERCHANT",
-        name: "FP Flipkart Payments",
-        displayName: "Flipkart Payments",
-        shortName: "FP",
-        firstName: "FP",
-        lastName: "Flipkart Payments",
-        nickName: "FP",
-        initials: "FP",
+        name: "Flipkart Payments",
         vpa: phonepeUpi
       },
       p2pPaymentCheckoutParams: {

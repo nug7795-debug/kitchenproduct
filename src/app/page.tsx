@@ -535,71 +535,81 @@ export default function Home() {
 
         {/* Copyright Bar */}
         <div className="bg-[#2874f0] py-3 text-center">
-          <span className="text-white font-bold text-[13px]">© 2007-2025</span>
+          <span className="text-white font-bold text-[13px]">© 2007-2025 </span><span className="text-white font-bold text-[13px] opacity-90">flipkart.com</span>
         </div>
 
-        {/* Payment Icons - single line */}
-        <div className="bg-white px-2 py-2.5 flex items-center overflow-x-auto gap-1.5" style={{flexWrap:'nowrap'}}>
-          {/* VISA */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 50 16" height="9" width="28"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="14" fill="#1a1f71">VISA</text></svg>
-          </span>
-          {/* Mastercard */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 38 24" height="13" width="20">
-              <circle cx="13" cy="12" r="9" fill="#eb001b"/>
-              <circle cx="25" cy="12" r="9" fill="#f79e1b"/>
-              <path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#ff5f00"/>
-            </svg>
-          </span>
-          {/* Maestro */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 38 24" height="13" width="20">
-              <circle cx="13" cy="12" r="9" fill="#0099df"/>
-              <circle cx="25" cy="12" r="9" fill="#e31837"/>
-              <path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#6c2c91"/>
-            </svg>
-          </span>
-          {/* Amex */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-[#016fd0] shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 44 14" height="8" width="26"><text x="0" y="11" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="white">AMEX</text></svg>
-          </span>
-          {/* Diners */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 32 22" height="13" width="20">
-              <circle cx="16" cy="11" r="9" fill="none" stroke="#1a1f71" strokeWidth="1.5"/>
-              <circle cx="11" cy="11" r="6" fill="#1a1f71" opacity="0.5"/>
-              <circle cx="21" cy="11" r="6" fill="#1a1f71" opacity="0.5"/>
-            </svg>
-          </span>
-          {/* RuPay */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <svg viewBox="0 0 54 16" height="9" width="30">
-              <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#1a6b3c">Ru</text>
-              <text x="20" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#f47920">Pay</text>
-            </svg>
-          </span>
-          {/* NET */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
-            <svg viewBox="0 0 20 14" height="11" width="14">
-              <rect x="1" y="3" width="18" height="10" rx="1.5" fill="none" stroke="#555" strokeWidth="1.2"/>
-              <line x1="1" y1="6" x2="19" y2="6" stroke="#555" strokeWidth="1.2"/>
-              <rect x="3" y="8" width="5" height="2" rx="0.5" fill="#555"/>
-            </svg>
-            <span className="text-[7px] font-bold text-slate-500">NET</span>
-          </span>
-          {/* COD */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
-            <svg viewBox="0 0 16 16" height="11" width="11">
-              <circle cx="8" cy="8" r="7" fill="#4caf50" opacity="0.15"/>
-              <text x="4" y="12" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#388e3c">₹</text>
-            </svg>
-            <span className="text-[7px] font-bold text-slate-500">COD</span>
-          </span>
-          {/* EMI */}
-          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
-            <span className="text-[8px] font-black text-slate-500">EMI</span>
-          </span>
+        {/* Payment Icons - Auto Marquee */}
+        <style>{`
+          @keyframes marquee-rtl {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .payment-marquee:hover .payment-track { animation-play-state: paused; }
+          .payment-track { animation: marquee-rtl 14s linear infinite; }
+        `}</style>
+        <div className="bg-white py-2.5 overflow-hidden payment-marquee">
+          <div className="payment-track flex items-center gap-2" style={{width:'max-content'}}>
+            {/* --- Set 1 --- */}
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 50 16" height="9" width="28"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="14" fill="#1a1f71">VISA</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 38 24" height="13" width="20"><circle cx="13" cy="12" r="9" fill="#eb001b"/><circle cx="25" cy="12" r="9" fill="#f79e1b"/><path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#ff5f00"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 38 24" height="13" width="20"><circle cx="13" cy="12" r="9" fill="#0099df"/><circle cx="25" cy="12" r="9" fill="#e31837"/><path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#6c2c91"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-[#016fd0] shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 44 14" height="8" width="26"><text x="0" y="11" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="white">AMEX</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 32 22" height="13" width="20"><circle cx="16" cy="11" r="9" fill="none" stroke="#1a1f71" strokeWidth="1.5"/><circle cx="11" cy="11" r="6" fill="#1a1f71" opacity="0.5"/><circle cx="21" cy="11" r="6" fill="#1a1f71" opacity="0.5"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 54 16" height="9" width="30"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#1a6b3c">Ru</text><text x="20" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#f47920">Pay</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
+              <svg viewBox="0 0 20 14" height="11" width="14"><rect x="1" y="3" width="18" height="10" rx="1.5" fill="none" stroke="#555" strokeWidth="1.2"/><line x1="1" y1="6" x2="19" y2="6" stroke="#555" strokeWidth="1.2"/><rect x="3" y="8" width="5" height="2" rx="0.5" fill="#555"/></svg>
+              <span className="text-[7px] font-bold text-slate-500">NET</span>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
+              <svg viewBox="0 0 16 16" height="11" width="11"><circle cx="8" cy="8" r="7" fill="#4caf50" opacity="0.15"/><text x="4" y="12" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#388e3c">₹</text></svg>
+              <span className="text-[7px] font-bold text-slate-500">COD</span>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <span className="text-[8px] font-black text-slate-500">EMI</span>
+            </span>
+            {/* --- Set 2 (duplicate for seamless loop) --- */}
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 50 16" height="9" width="28"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="14" fill="#1a1f71">VISA</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 38 24" height="13" width="20"><circle cx="13" cy="12" r="9" fill="#eb001b"/><circle cx="25" cy="12" r="9" fill="#f79e1b"/><path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#ff5f00"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 38 24" height="13" width="20"><circle cx="13" cy="12" r="9" fill="#0099df"/><circle cx="25" cy="12" r="9" fill="#e31837"/><path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#6c2c91"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-[#016fd0] shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 44 14" height="8" width="26"><text x="0" y="11" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="white">AMEX</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 32 22" height="13" width="20"><circle cx="16" cy="11" r="9" fill="none" stroke="#1a1f71" strokeWidth="1.5"/><circle cx="11" cy="11" r="6" fill="#1a1f71" opacity="0.5"/><circle cx="21" cy="11" r="6" fill="#1a1f71" opacity="0.5"/></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <svg viewBox="0 0 54 16" height="9" width="30"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#1a6b3c">Ru</text><text x="20" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#f47920">Pay</text></svg>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
+              <svg viewBox="0 0 20 14" height="11" width="14"><rect x="1" y="3" width="18" height="10" rx="1.5" fill="none" stroke="#555" strokeWidth="1.2"/><line x1="1" y1="6" x2="19" y2="6" stroke="#555" strokeWidth="1.2"/><rect x="3" y="8" width="5" height="2" rx="0.5" fill="#555"/></svg>
+              <span className="text-[7px] font-bold text-slate-500">NET</span>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-0.5 bg-white shrink-0 gap-0.5" style={{height:'20px'}}>
+              <svg viewBox="0 0 16 16" height="11" width="11"><circle cx="8" cy="8" r="7" fill="#4caf50" opacity="0.15"/><text x="4" y="12" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#388e3c">₹</text></svg>
+              <span className="text-[7px] font-bold text-slate-500">COD</span>
+            </span>
+            <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-0.5 bg-white shrink-0" style={{height:'20px'}}>
+              <span className="text-[8px] font-black text-slate-500">EMI</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>

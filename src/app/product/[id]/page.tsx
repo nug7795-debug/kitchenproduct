@@ -1874,19 +1874,42 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Links Grid */}
         <div className="grid grid-cols-2 gap-0 border-b border-slate-100">
           <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-r border-b border-slate-100 active:bg-slate-50">
-            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">🛍️</span>
+            <span className="w-9 h-9 rounded-full bg-[#fff8e1] flex items-center justify-center shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="7" width="18" height="13" rx="2" fill="#f4a43a"/>
+                <path d="M8 7V5a4 4 0 018 0v2" stroke="#e07b00" strokeWidth="1.5" strokeLinecap="round"/>
+                <rect x="7" y="11" width="4" height="3" rx="0.5" fill="#fff" opacity="0.8"/>
+              </svg>
+            </span>
             <span className="text-[13px] font-bold text-[#212121]">Become a Seller</span>
           </a>
           <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 active:bg-slate-50">
-            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">⭐</span>
+            <span className="w-9 h-9 rounded-full bg-[#fff8e1] flex items-center justify-center shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="#f4a43a" stroke="#e07b00" strokeWidth="1"/>
+              </svg>
+            </span>
             <span className="text-[13px] font-bold text-[#212121]">Advertise</span>
           </a>
           <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-r border-slate-100 active:bg-slate-50">
-            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">🎁</span>
+            <span className="w-9 h-9 rounded-full bg-[#fff8e1] flex items-center justify-center shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="10" width="20" height="11" rx="2" fill="#f4a43a"/>
+                <path d="M8 10V8a4 4 0 018 0v2" stroke="#e07b00" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M12 2v6" stroke="#e07b00" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="12" cy="16" r="2" fill="#fff" opacity="0.85"/>
+              </svg>
+            </span>
             <span className="text-[13px] font-bold text-[#212121]">Gift Cards</span>
           </a>
           <a href="#" className="flex items-center gap-3 px-4 py-3.5 active:bg-slate-50">
-            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">❓</span>
+            <span className="w-9 h-9 rounded-full bg-[#fff8e1] flex items-center justify-center shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#f4a43a"/>
+                <path d="M9.5 9a2.5 2.5 0 015 0c0 1.5-2.5 2.5-2.5 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/>
+                <circle cx="12" cy="17" r="0.8" fill="#fff"/>
+              </svg>
+            </span>
             <span className="text-[13px] font-bold text-[#212121]">Help Center</span>
           </a>
         </div>
@@ -1897,14 +1920,61 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
 
         {/* Payment Icons */}
-        <div className="bg-white px-4 py-3 flex items-center justify-center gap-2 flex-wrap">
-          <div className="flex items-center gap-2 flex-wrap justify-center">
-            {['VISA','MC','AMEX','RuPay','UPI','NetBanking','COD','EMI'].map(method => (
-              <span key={method} className="text-[9px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5">{method}</span>
-            ))}
-          </div>
+        <div className="bg-white px-3 py-3 flex items-center justify-center gap-1.5 flex-wrap">
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-2 py-1 bg-white" style={{minWidth:'36px',height:'22px'}}>
+            <svg viewBox="0 0 50 16" height="10" width="32"><text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="14" fill="#1a1f71">VISA</text></svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-1 bg-white" style={{minWidth:'36px',height:'22px'}}>
+            <svg viewBox="0 0 38 24" height="14" width="22">
+              <circle cx="13" cy="12" r="9" fill="#eb001b"/>
+              <circle cx="25" cy="12" r="9" fill="#f79e1b"/>
+              <path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#ff5f00"/>
+            </svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-1 bg-white" style={{minWidth:'36px',height:'22px'}}>
+            <svg viewBox="0 0 38 24" height="14" width="22">
+              <circle cx="13" cy="12" r="9" fill="#0099df"/>
+              <circle cx="25" cy="12" r="9" fill="#e31837"/>
+              <path d="M19 5.8a9 9 0 010 12.4A9 9 0 0119 5.8z" fill="#6c2c91"/>
+            </svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-1 bg-[#016fd0]" style={{minWidth:'36px',height:'22px'}}>
+            <svg viewBox="0 0 44 14" height="9" width="28"><text x="0" y="11" fontFamily="Arial" fontWeight="bold" fontSize="10" fill="white">AMEX</text></svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-1 bg-white" style={{minWidth:'36px',height:'22px'}}>
+            <svg viewBox="0 0 32 22" height="14" width="22">
+              <circle cx="16" cy="11" r="9" fill="none" stroke="#1a1f71" strokeWidth="1.5"/>
+              <circle cx="11" cy="11" r="6" fill="#1a1f71" opacity="0.5"/>
+              <circle cx="21" cy="11" r="6" fill="#1a1f71" opacity="0.5"/>
+            </svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-1 bg-white" style={{minWidth:'40px',height:'22px'}}>
+            <svg viewBox="0 0 54 16" height="10" width="34">
+              <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#1a6b3c">Ru</text>
+              <text x="20" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12" fill="#f47920">Pay</text>
+            </svg>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-1 bg-white" style={{height:'22px'}}>
+            <svg viewBox="0 0 20 14" height="12" width="16">
+              <rect x="1" y="3" width="18" height="10" rx="1.5" fill="none" stroke="#555" strokeWidth="1.2"/>
+              <line x1="1" y1="6" x2="19" y2="6" stroke="#555" strokeWidth="1.2"/>
+              <rect x="3" y="8" width="5" height="2" rx="0.5" fill="#555"/>
+            </svg>
+            <span className="text-[8px] font-bold text-slate-500 ml-0.5">NET</span>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1 py-1 bg-white gap-0.5" style={{height:'22px'}}>
+            <svg viewBox="0 0 16 16" height="12" width="12">
+              <circle cx="8" cy="8" r="7" fill="#4caf50" opacity="0.15"/>
+              <text x="4" y="12" fontFamily="Arial" fontWeight="bold" fontSize="9" fill="#388e3c">₹</text>
+            </svg>
+            <span className="text-[8px] font-bold text-slate-500">COD</span>
+          </span>
+          <span className="inline-flex items-center justify-center border border-slate-200 rounded px-1.5 py-1 bg-white" style={{height:'22px'}}>
+            <span className="text-[9px] font-black text-slate-500">EMI</span>
+          </span>
         </div>
       </div>
+
 
       {/* All Reviews Modal */}
       {showAllReviewsModal && (

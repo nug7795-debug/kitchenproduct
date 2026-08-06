@@ -1007,9 +1007,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           setProduct({
             ...currentProd,
             categoryName: currentProd.categories?.name || 'Kitchen',
+            image: currentProd.image || currentProd.product_images?.[0]?.image_url || '',
             images: currentProd.product_images?.length > 0 
               ? currentProd.product_images.map((img: any) => img.image_url)
-              : ['https://via.placeholder.com/600']
+              : (currentProd.image ? [currentProd.image] : ['https://via.placeholder.com/600'])
           });
           setLoading(false);
           return;
@@ -1034,9 +1035,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       setProduct({
         ...data,
         categoryName: data.categories?.name || 'Kitchen',
+        image: data.image || data.product_images?.[0]?.image_url || '',
         images: data.product_images?.length > 0 
           ? data.product_images.map((img: any) => img.image_url)
-          : ['https://via.placeholder.com/600']
+          : (data.image ? [data.image] : ['https://via.placeholder.com/600'])
       });
     }
     setLoading(false);

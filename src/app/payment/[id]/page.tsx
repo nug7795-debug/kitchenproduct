@@ -737,7 +737,53 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
+  // Comprehensive Product Image Resolution Cascade
+  const getProductImage = () => {
+    let img = cartData?.image || cartData?.imageUrl || cartData?.product?.image;
+    if (img && typeof img === 'string' && !img.includes('via.placeholder.com') && !img.includes('truck.webp')) {
+      return img;
+    }
 
+    if (typeof window !== 'undefined') {
+      try {
+        const stored = JSON.parse(localStorage.getItem('data') || '{}');
+        const sImg = stored?.image || stored?.imageUrl;
+        if (sImg && typeof sImg === 'string' && !sImg.includes('via.placeholder.com') && !sImg.includes('truck.webp')) {
+          return sImg;
+        }
+      } catch {}
+
+      try {
+        const items = JSON.parse(localStorage.getItem('cart_items') || localStorage.getItem('cart') || '[]');
+        if (Array.isArray(items) && items.length > 0) {
+          const item = items[0];
+          const itemImg = item?.imageUrl || item?.image || item?.product?.image || (Array.isArray(item?.images) ? item?.images[0] : '');
+          if (itemImg && typeof itemImg === 'string' && !itemImg.includes('via.placeholder.com') && !itemImg.includes('truck.webp')) {
+            return itemImg;
+          }
+        }
+      } catch {}
+
+      try {
+        const cached = JSON.parse(localStorage.getItem('cached_homepage_products') || '[]');
+        if (Array.isArray(cached) && cached.length > 0) {
+          const prodName = (cartData?.name || '').toLowerCase();
+          const matched = cached.find((p: any) => 
+            p.name?.toLowerCase().includes(prodName) || (prodName && prodName.includes(p.name?.toLowerCase()))
+          );
+          if (matched) {
+            const mImg = matched.image || matched.product_images?.[0]?.image_url || (Array.isArray(matched.images) ? matched.images[0] : '');
+            if (mImg) return mImg;
+          }
+          const first = cached[0];
+          const fImg = first?.image || first?.product_images?.[0]?.image_url || (Array.isArray(first?.images) ? first?.images[0] : '');
+          if (fImg) return fImg;
+        }
+      } catch {}
+    }
+
+    return img || '/uploads/placeholder.png';
+  };
 
   return (
     <div className="min-h-screen bg-[#f1f3f6] font-sans pb-20">
@@ -749,35 +795,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         .animate-spin-custom {
           animation: spin 1s linear infinite;
         }
-        @keyframes shine-right-to-left {
-          0% {
-            transform: translateX(180%);
-          }
-          100% {
-            transform: translateX(-180%);
-          }
-        }
-        .shimmer-banner-rtl {
-          position: relative;
-          overflow: hidden;
-        }
-        .shimmer-banner-rtl::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 80px;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.75) 50%,
-            rgba(255, 255, 255, 0) 100%
-          );
-          animation: shine-right-to-left 1.8s infinite ease-in-out;
-          pointer-events: none;
-        }
-        @keyframes text-shimmer-rtl {
+        @keyframes text-shimmer-right-to-left {
           0% {
             background-position: 200% 0;
           }
@@ -789,18 +807,19 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           background: linear-gradient(
             270deg,
             #15803d 0%,
-            #15803d 20%,
-            #4ade80 40%,
+            #15803d 25%,
+            #bbf7d0 40%,
             #ffffff 50%,
-            #4ade80 60%,
-            #15803d 80%,
+            #bbf7d0 60%,
+            #15803d 75%,
             #15803d 100%
           );
           background-size: 200% 100%;
           color: transparent;
           -webkit-background-clip: text;
           background-clip: text;
-          animation: text-shimmer-rtl 1.8s linear infinite;
+          display: inline-block;
+          animation: text-shimmer-right-to-left 1.6s linear infinite;
         }
       `}} />
 
@@ -808,21 +827,24 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       <div className="container-fluid py-2 bg-white border-b border-[#eaeaf2] sticky top-0 z-40 select-none">
         <div className="flex items-center justify-between px-4 py-2 max-w-lg mx-auto">
           <div className="flex items-center">
-            <button onClick={() => router.push("/")} className="mr-4 active:scale-95 transition-transform">
-              <ArrowLeft className="h-6 w-6 text-black" />
+            <button 
+              onClick={() => router.back()}
+              className="p-1 -ml-1 text-slate-700 hover:text-slate-900 transition-colors"
+            >
+              <ArrowLeft className="h-6 w-6 stroke-[2.2]" />
             </button>
-            <h1 className="text-lg font-black text-[#111111] tracking-tight">Payments</h1>
+            <h1 className="text-[17px] font-black text-slate-900 ml-2 font-sans tracking-tight">Payments</h1>
           </div>
-          <div className="flex items-center gap-1 border border-slate-200 bg-slate-50 rounded-md px-2.5 py-1 text-[11px] font-black text-slate-700 uppercase tracking-tight shadow-3xs">
-            <Lock className="h-3.5 w-3.5 text-slate-600" strokeWidth={2.5} />
-            <span>100% Secure</span>
+          <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg text-slate-700">
+            <Lock className="h-3.5 w-3.5 text-slate-600" />
+            <span className="text-[11px] font-bold tracking-tight text-slate-700 font-sans uppercase">100% SECURE</span>
           </div>
         </div>
       </div>
 
-      {/* Checkout Steps Stepper */}
-      <div className="bg-white py-4 px-4 border-b border-[#eaeaf2]">
-        <div className="flex items-start justify-between max-w-md mx-auto relative">
+      {/* Checkout Progress Stepper Bar (Exact Flipkart Copy) */}
+      <div className="bg-white border-b border-slate-200 py-3 px-4 select-none">
+        <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex flex-col items-center w-20">
             <div style={d("done")}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3">
@@ -852,28 +874,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Top Product Summary Card (Exact copy from screenshot) */}
+      {/* Top Product Summary Card */}
       <div className="max-w-md mx-auto mt-3 px-4">
         <div className="bg-[#f0f5fe] rounded-2xl p-4 border border-[#dce8fb] shadow-xs select-none">
           {/* Top Row: Thumbnail + Product Name + Prices */}
           <div className="flex items-start gap-3">
             <div className="w-[54px] h-[54px] rounded-xl bg-white p-1 border border-slate-200 shrink-0 flex items-center justify-center overflow-hidden">
               <img 
-                src={
-                  cartData?.image || 
-                  cartData?.imageUrl ||
-                  cartData?.product?.image || 
-                  (typeof window !== 'undefined' ? (() => {
-                    try {
-                      const stored = JSON.parse(localStorage.getItem('data') || '{}');
-                      if (stored?.image || stored?.imageUrl) return stored.image || stored.imageUrl;
-                    } catch {}
-                    try {
-                      const items = JSON.parse(localStorage.getItem('cart_items') || localStorage.getItem('cart') || '[]');
-                      return items?.[0]?.imageUrl || items?.[0]?.image || items?.[0]?.product?.image || (Array.isArray(items?.[0]?.images) ? items?.[0]?.images[0] : '') || '';
-                    } catch { return ''; }
-                  })() : '') || 'https://i.ibb.co/cK2M2f5z/truck.webp'
-                } 
+                src={getProductImage()} 
                 alt={cartData?.name || "Product"} 
                 className="w-full h-full object-contain"
               />
@@ -907,7 +915,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* 95% CASHBACK Right-To-Left Text Shimmer Green Banner */}
       <div className="max-w-md mx-auto my-3 px-4 select-none">
-        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs shimmer-banner-rtl">
+        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs">
           <div className="flex flex-col">
             <span className="text-sm font-black uppercase tracking-tight shimmer-text-rtl">95% CASHBACK</span>
             <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>

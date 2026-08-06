@@ -144,7 +144,7 @@ export default function CheckoutPage() {
             .single();
 
           if (data && !error) {
-            const imageUrl = data.product_images?.[0]?.image_url || 'https://via.placeholder.com/150';
+            const imageUrl = data.image || (Array.isArray(data.images) ? data.images[0] : '') || data.product_images?.[0]?.image_url || data.image_url || '';
             setCartItems([
               {
                 productId: data.id,

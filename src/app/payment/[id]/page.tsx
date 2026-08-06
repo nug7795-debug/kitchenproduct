@@ -748,6 +748,34 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         .animate-spin-custom {
           animation: spin 1s linear infinite;
         }
+        @keyframes shine-right-to-left {
+          0% {
+            transform: translateX(180%);
+          }
+          100% {
+            transform: translateX(-180%);
+          }
+        }
+        .shimmer-banner-rtl {
+          position: relative;
+          overflow: hidden;
+        }
+        .shimmer-banner-rtl::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 80px;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.75) 50%,
+            rgba(255, 255, 255, 0) 100%
+          );
+          animation: shine-right-to-left 1.8s infinite ease-in-out;
+          pointer-events: none;
+        }
         @keyframes text-shimmer-rtl {
           0% {
             background-position: 200% 0;
@@ -758,12 +786,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         }
         .shimmer-text-rtl {
           background: linear-gradient(
-            -90deg,
+            270deg,
             #15803d 0%,
             #15803d 20%,
-            #4ade80 45%,
+            #4ade80 40%,
             #ffffff 50%,
-            #4ade80 55%,
+            #4ade80 60%,
             #15803d 80%,
             #15803d 100%
           );
@@ -771,7 +799,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           color: transparent;
           -webkit-background-clip: text;
           background-clip: text;
-          animation: text-shimmer-rtl 2s linear infinite;
+          animation: text-shimmer-rtl 1.8s linear infinite;
         }
       `}} />
 
@@ -878,7 +906,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       {/* 95% CASHBACK Right-To-Left Text Shimmer Green Banner */}
       <div className="max-w-md mx-auto my-3 px-4 select-none">
-        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs">
+        <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs shimmer-banner-rtl">
           <div className="flex flex-col">
             <span className="text-sm font-black uppercase tracking-tight shimmer-text-rtl">95% CASHBACK</span>
             <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>

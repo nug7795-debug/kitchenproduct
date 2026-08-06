@@ -1714,9 +1714,28 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {isInCart ? 'Go to Cart' : 'Add to Cart'}
          </button>
          <Link 
-           href={`/checkout?productId=${product.id}`} 
-           className="b-btn text-black font-bold"
-           style={{ backgroundColor: '#ffc200', border: 'none' }}
+            href={`/checkout?productId=${product.id}`} 
+            onClick={() => {
+              try {
+                const img = product.image || (Array.isArray(product.images) ? product.images[0] : '') || '';
+                localStorage.setItem('data', JSON.stringify({
+                  name: product.name,
+                  image: img,
+                  imageUrl: img
+                }));
+                localStorage.setItem('cart_items', JSON.stringify([{
+                  productId: product.id,
+                  name: product.name,
+                  price: product.price,
+                  salePrice: product.salePrice || product.price,
+                  image: img,
+                  imageUrl: img,
+                  quantity: 1
+                }]));
+              } catch (e) {}
+            }}
+            className="b-btn text-black font-bold"
+            style={{ backgroundColor: '#ffc200', border: 'none' }}
          >
             Buy Now
          </Link>

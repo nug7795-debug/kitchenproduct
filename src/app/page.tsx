@@ -487,6 +487,44 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Flipkart-style Footer */}
+      <div className="w-full bg-white border-t border-slate-100 mt-1">
+        {/* Links Grid */}
+        <div className="grid grid-cols-2 gap-0 border-b border-slate-100">
+          <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-r border-b border-slate-100 active:bg-slate-50">
+            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">🛍️</span>
+            <span className="text-[13px] font-bold text-[#212121]">Become a Seller</span>
+          </a>
+          <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 active:bg-slate-50">
+            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">⭐</span>
+            <span className="text-[13px] font-bold text-[#212121]">Advertise</span>
+          </a>
+          <a href="#" className="flex items-center gap-3 px-4 py-3.5 border-r border-slate-100 active:bg-slate-50">
+            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">🎁</span>
+            <span className="text-[13px] font-bold text-[#212121]">Gift Cards</span>
+          </a>
+          <a href="#" className="flex items-center gap-3 px-4 py-3.5 active:bg-slate-50">
+            <span className="w-8 h-8 rounded-full bg-[#fffbea] flex items-center justify-center text-base">❓</span>
+            <span className="text-[13px] font-bold text-[#212121]">Help Center</span>
+          </a>
+        </div>
+
+        {/* Copyright Bar */}
+        <div className="bg-[#2874f0] py-3 text-center">
+          <span className="text-white font-bold text-[13px]">© 2007-2025</span>
+        </div>
+
+        {/* Payment Icons */}
+        <div className="bg-white px-4 py-3 flex items-center justify-center gap-2 flex-wrap">
+          <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-xneLwo.svg" alt="Payment Methods" className="h-5 object-contain" onError={(e) => { e.currentTarget.style.display='none'; }} />
+          <div className="flex items-center gap-2 flex-wrap justify-center">
+            {['VISA','MC','AMEX','RuPay','UPI','NetBanking','COD','EMI'].map(method => (
+              <span key={method} className="text-[9px] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5">{method}</span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

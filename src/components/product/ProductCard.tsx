@@ -36,7 +36,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link 
       href={`/product/${id}`} 
-      className="item block w-full h-full text-left bg-white p-[10px] rounded-[6px] border border-[#f1f3f6] shadow-xs transition-shadow active:shadow-md cursor-pointer overflow-hidden select-none"
+      className="item flex flex-col w-full h-full text-left bg-white p-[10px] rounded-[6px] shadow-[0_1px_3px_rgba(0,0,0,0.1)] active:shadow-[0_2px_8px_rgba(0,0,0,0.15)] cursor-pointer overflow-hidden select-none"
       style={{ textDecoration: 'none', color: 'inherit' }}
     >
       {/* Product Image Wrapper */}
@@ -55,14 +55,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {name}
         </div>
 
-        {/* Rating Row (Stars + Count + F-Assured Badge inline) */}
+        {/* Rating Row (4 filled stars + 1 hollow star + (500) + F-Assured Badge inline) */}
         <div className="rating-row flex items-center gap-[4px] mb-[6px] min-w-0 max-w-full flex-wrap">
           <div className="stars text-[#26a541] text-[11px] flex gap-[1px] shrink-0 font-bold">
-            ★★★★★
+            ★★★★☆
           </div>
           <span className="count text-[11px] text-[#878787]">({totalRatings})</span>
           <img 
-            src="/fa_62673a.png" 
+            src="https://rukminim2.flixcart.com/fk-p-flap/100/100/image/fa_62673a.png" 
             alt="Assured" 
             className="assured h-[14px] ml-[2px] max-w-[55px] object-contain inline-block shrink-0" 
           />
@@ -86,9 +86,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* WOW! Offer Row */}
         <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
           <img 
-            src="/wow_badge.png" 
+            src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/wow-e9e1c2.png" 
             alt="WOW" 
-            className="h-[15px] shrink-0" 
+            className="h-[15px] shrink-0 object-contain" 
           />
           <span className="wow-price text-[14px] font-bold text-[#1a4fb8]">
             ₹{offerPrice.toLocaleString('en-IN')}
@@ -111,4 +111,5 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     </Link>
   );
 };
+
 

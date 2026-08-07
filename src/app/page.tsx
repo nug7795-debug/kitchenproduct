@@ -345,16 +345,9 @@ export default function Home() {
     let active = true;
 
     try {
-      const cached = localStorage.getItem('cached_homepage_products');
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setProducts(parsed);
-          setLoading(false);
-        }
-      }
+      localStorage.removeItem('cached_homepage_products');
     } catch (e) {
-      console.error('Failed to load products from cache:', e);
+      // Ignore
     }
 
     const fetchData = async () => {
@@ -424,7 +417,6 @@ export default function Home() {
           const processed = applyDynamicBadges(data, badgesConfig);
           const shuffled = shuffleArray(processed);
           setProducts(shuffled);
-          localStorage.setItem('cached_homepage_products', JSON.stringify(shuffled));
         }
       } catch (err) {
         console.error('Error fetching products:', err);

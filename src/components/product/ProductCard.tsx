@@ -119,7 +119,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* WOW! Offer Row */}
         <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
-          <WowBadge />
+          <img 
+            src="/wow_badge.svg" 
+            alt="WOW" 
+            className="h-[15px] shrink-0 object-contain inline-block" 
+          />
           <span className="wow-price text-[14px] font-bold text-[#1a4fb8]">
             ₹{offerPrice.toLocaleString('en-IN')}
           </span>

@@ -410,25 +410,27 @@ export default function Home() {
       </div>
 
       {/* Deals of the Day Timer Row (Styled like goats-sale.com) */}
-      <div className="bg-white py-2.5 px-4 select-none border-b border-slate-100/50 flex items-center gap-1.5 w-full">
-        {/* Pulsing Green Dot */}
-        <span className="w-2.5 h-2.5 rounded-full bg-[#00c853] shrink-0 animate-pulse" />
-        <span className="text-[13.5px] font-black text-[#007aff] tracking-tight uppercase">SALE LIVE</span>
-        <span className="text-slate-350 text-[11px]">•</span>
-        <span className="text-[12.5px] font-extrabold text-[#717478]">Ends in</span>
-        <LiveSaleTimer />
+      <div className="bg-white py-2.5 px-4 select-none border-b border-slate-100/50 flex items-center justify-between w-full">
+        {/* Left Side: Green Dot, SALE LIVE, Ends in, Timer */}
+        <div className="flex items-center gap-1.5">
+          {/* Pulsing Green Dot */}
+          <span className="w-2.5 h-2.5 rounded-full bg-[#00c853] shrink-0 animate-pulse" />
+          <span className="text-[13.5px] font-black text-[#007aff] tracking-tight uppercase">SALE LIVE</span>
+          <span className="text-slate-350 text-[11px]">•</span>
+          <span className="text-[12.5px] font-extrabold text-[#717478]">Ends in</span>
+          <LiveSaleTimer />
+        </div>
+
+        {/* Right Side: Shop Now Button */}
+        <button className="bg-[#007aff] text-white px-3.5 py-1.5 rounded-full text-[11.5px] font-black flex items-center gap-1 hover:bg-[#0062cc] transition-colors shadow-xs tracking-tight shrink-0 select-none">
+          Shop Now
+          <svg className="w-2.5 h-2.5 text-white stroke-[3.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
       </div>
 
       <div className="bg-[#f1f3f6] pb-0">
-        <div className="bg-white w-full py-3.5 px-4 flex items-center justify-between select-none">
-          <h2 className="text-[17px] font-extrabold text-[#111111] tracking-tight">Don't Miss These!</h2>
-          <button className="bg-[#007aff] text-white px-3.5 py-1.5 rounded-full text-[11.5px] font-black flex items-center gap-1 hover:bg-[#0062cc] transition-colors shadow-xs tracking-tight shrink-0 select-none">
-            Shop Now
-            <svg className="w-2.5 h-2.5 text-white stroke-[3.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
-          </button>
-        </div>
 
         {loading ? (
           <div className="grid grid-cols-2 gap-[1px]">

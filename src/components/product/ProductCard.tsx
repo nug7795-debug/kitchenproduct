@@ -93,7 +93,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Rating Row (4 filled stars + 1 hollow star + (500) + F-Assured Badge inline) */}
         <div className="rating-row flex items-center gap-[4px] mb-[6px] min-w-0 max-w-full flex-wrap">
-          <StarRating />
+          <div className="stars text-[#26a541] text-[11px] flex gap-[1px] shrink-0 font-bold">
+            ★★★★☆
+          </div>
           <span className="count text-[11px] text-[#878787]">({totalRatings})</span>
           <img 
             src="/fa_62673a.png" 

@@ -1,91 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
 import { getDynamicDeliveryDate } from '../../lib/utils';
 
 interface ProductCardProps {
   product: any;
 }
-
-// Highly authentic inline AssuredBadge matching Flipkart
-const AssuredBadge = () => (
-  <img 
-    src="/uploads/fa_62673a.png" 
-    alt="fAssured" 
-    className="h-[15px] w-auto shrink-0 select-none align-middle inline-block ml-1.5" 
-  />
-);
-
-// High-fidelity speech bubble slanted WOW! SVG badge matching Flipkart
-const WowIcon = () => (
-  <svg 
-    viewBox="0 0 38 16" 
-    className="h-[19px] w-auto shrink-0 select-none align-middle inline-block mr-1.5" 
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Outline slanted Speech bubble bubble */}
-    <path 
-      d="M 3 1 L 35 1 C 36.5 1, 37 1.5, 37 3 L 37 11 C 37 12.5, 36.5 13, 35 13 L 9 13 L 5 15.5 L 6.5 13 L 3 13 C 1.5 13, 1 12.5, 1 11 L 1 3 C 1 1.5, 1.5 1, 3 1 Z" 
-      fill="#FFFFFF" 
-      stroke="#1c54d4" 
-      strokeWidth="1.1" 
-      strokeLinejoin="round"
-    />
-    <text 
-      x="19" 
-      y="10.2" 
-      fontFamily="system-ui, -apple-system, sans-serif" 
-      fontSize="8.5" 
-      fontWeight="900" 
-      fontStyle="italic" 
-      fill="#1c54d4" 
-      textAnchor="middle"
-      letterSpacing="-0.1"
-    >
-      WOW!
-    </text>
-  </svg>
-);
-
-// Extremely clean motion delivery truck icon SVG matching Flipkart
-const DeliveryTruckIcon = () => (
-  <svg 
-    viewBox="0 0 16 12" 
-    className="h-[12px] w-auto shrink-0 text-slate-800 align-middle inline-block mr-1" 
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* Motion speed lines */}
-    <line x1="1" y1="3" x2="4" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-    <line x1="0" y1="5.5" x2="3" y2="5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-    <line x1="1" y1="8" x2="4" y2="8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-    
-    {/* Truck cargo body */}
-    <rect x="4.5" y="2" width="7" height="6" rx="0.5" fill="currentColor" />
-    
-    {/* Driver's cab */}
-    <path d="M 11.5 4 L 14 4 L 15 6 L 15 8 L 11.5 8 Z" fill="currentColor" />
-    {/* Cab window */}
-    <path d="M 12 4.6 L 13.6 4.6 L 14.2 5.8 L 12 5.8 Z" fill="#FFFFFF" />
- 
-    {/* Wheels */}
-    <circle cx="6.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
-    <circle cx="12.5" cy="8.8" r="1.3" fill="currentColor" stroke="#FFFFFF" strokeWidth="0.5" />
-  </svg>
-);
-
-// ISI Certified badge overlay for bottom-left of image
-const ISICertifiedBadge = () => (
-  <div className="absolute bottom-2 left-2 bg-white/95 border border-[#1C54D4]/30 px-1 py-0.5 rounded-[4px] shadow-xs flex items-center gap-1 select-none pointer-events-none">
-    <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-[#1C54D4] shrink-0" fill="none" stroke="currentColor" strokeWidth="1.2">
-      <circle cx="8" cy="8" r="7" stroke="currentColor" strokeDasharray="1.5 1" />
-      <circle cx="8" cy="8" r="5" stroke="currentColor" />
-      <path d="M5 8h6M8 5v6" stroke="currentColor" strokeWidth="0.8" />
-    </svg>
-    <span className="text-[7.5px] font-black text-[#1C54D4] tracking-tighter uppercase leading-none">ISI Certified</span>
-  </div>
-);
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   if (!product) return null;
@@ -97,145 +18,97 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     sale_price,
     categories,
     product_images,
-    is_limited_time_deal,
-    is_trending,
-    is_new_arrival,
-    is_best_seller
   } = product;
 
-  // Handle both database object and flat props
   const displayPrice = price || product.price || 0;
   const displaySalePrice = sale_price || product.salePrice || displayPrice;
-  const categoryName = categories?.name || product.category || 'Kitchen';
   const imageUrl = product_images?.[0]?.image_url || product.imageUrl || 'https://via.placeholder.com/300';
   
-  const discount = (displaySalePrice && displayPrice && displayPrice > displaySalePrice) ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
-  const bankOfferPrice = Math.round((displaySalePrice || displayPrice || 0) * 0.95);
+  const discount = (displaySalePrice && displayPrice && displayPrice > displaySalePrice) ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 99;
 
-  // Generate deterministic dynamic ratings and counts based on product ID to match the real Flipkart look
   const numericId = typeof id === 'number' ? id : (id?.charCodeAt(0) || 0);
-  const ratingOffsets = [5.0, 4.9, 4.8, 4.7, 4.5, 4.1, 4.0];
-  const ratingVal = parseFloat(product.average_rating || String(ratingOffsets[Math.abs(numericId % ratingOffsets.length)]));
-  const totalRatings = product.total_ratings || ((numericId * 73) % 400 + 80);
-  const totalRatingsStr = totalRatings >= 1000 ? `${(totalRatings / 1000).toFixed(1)}k` : `${totalRatings}`;
+  const totalRatings = product.total_ratings || 500;
 
-  // Split title into Brand and Description
-  const words = (name || '').split(' ');
-  const description = words.slice(1).join(' ') || name || 'Kitchen Product';
-
-  const [isWishlisted, setIsWishlisted] = useState(false);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(`wishlist_${id}`);
-      if (saved === 'true') {
-        setIsWishlisted(true);
-      }
-    } catch (e) {
-      // Ignore SSR / localStorage errors
-    }
-  }, [id]);
-
-  const toggleWishlist = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const newState = !isWishlisted;
-    setIsWishlisted(newState);
-    try {
-      localStorage.setItem(`wishlist_${id}`, newState ? 'true' : 'false');
-    } catch (err) {
-      // Ignore
-    }
-  };
-
-  // Determine offer price and low stock warning
-  const offerPrice = Math.round((displayPrice || 132470) * 0.6923);
-  const isUnder1000 = displaySalePrice < 1000;
-  const isLowStock = isUnder1000 || (numericId % 2 === 0);
-  const stockLeft = isUnder1000 ? 1 : (numericId % 10) + 5;
+  const offerPrice = displaySalePrice;
+  const isLowStock = numericId % 4 === 0;
+  const isSpecialOffer = numericId % 3 === 0;
 
   return (
     <Link 
       href={`/product/${id}`} 
-      className="Cs7ycL TcKeCe block w-full h-full" 
-      style={{ textDecoration: 'none' }}
+      className="item block w-full h-full text-left bg-white p-[10px] rounded-[6px] border border-[#f1f3f6] shadow-xs transition-shadow active:shadow-md cursor-pointer overflow-hidden select-none"
+      style={{ textDecoration: 'none', color: 'inherit' }}
     >
-      <div className="_2enssu relative bg-white h-full flex flex-col justify-between border-b border-r border-slate-100 select-none" style={{ padding: '12px 10px' }}>
-        
-        {/* Product Image */}
-        <div className="flex items-center justify-center bg-white w-full" style={{ height: '150px' }}>
+      {/* Product Image Wrapper */}
+      <div className="img-wrap w-full h-[160px] flex items-center justify-center mb-[10px] overflow-hidden">
+        <img 
+          src={imageUrl} 
+          alt={name}
+          className="max-w-full max-h-full w-auto h-auto object-contain"
+        />
+      </div>
+
+      {/* Product Details */}
+      <div className="details flex flex-col flex-1 w-full min-w-0">
+        {/* Title */}
+        <div className="title text-[13px] font-medium text-[#212121] leading-[1.4] line-clamp-2 mb-[6px] break-words">
+          {name}
+        </div>
+
+        {/* Rating Row (Stars + Count + F-Assured Badge inline) */}
+        <div className="rating-row flex items-center gap-[4px] mb-[6px] min-w-0 max-w-full flex-wrap">
+          <div className="stars text-[#26a541] text-[11px] flex gap-[1px] shrink-0 font-bold">
+            ★★★★★
+          </div>
+          <span className="count text-[11px] text-[#878787]">({totalRatings})</span>
           <img 
-            className="img-fluid" 
-            src={imageUrl} 
-            alt={name}
-            style={{ maxHeight: '100%', maxWidth: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }}
+            src="/fa_62673a.png" 
+            alt="Assured" 
+            className="assured h-[14px] ml-[2px] max-w-[55px] object-contain inline-block shrink-0" 
           />
         </div>
 
-        {/* Product Details Section */}
-        <div className="flex flex-col flex-grow justify-end mt-3 text-left">
-          {/* Product Title */}
-          <div 
-            className="text-[13px] text-[#212121] font-medium leading-tight line-clamp-2 min-h-[34px] overflow-hidden"
-            title={name}
-          >
-            {name}
-          </div>
-
-          {/* Rating & Review Stars */}
-          <div className="flex items-center gap-1 mt-1 text-[11px]">
-            <div className="flex text-[#26a541] gap-[0.5px] font-bold">
-              ★ ★ ★ ★ ★
-            </div>
-            <span className="text-[#878787] font-medium">({totalRatingsStr})</span>
-          </div>
-
-          {/* F-Assured Logo on its own line below stars */}
-          <div className="mt-1 min-h-[16px]">
-            <img 
-              src="/uploads/fa_62673a.png" 
-              alt="fAssured" 
-              className="h-[15px] w-auto select-none inline-block" 
-            />
-          </div>
-
-          {/* Discount Line */}
-          <div className="flex items-center gap-1 mt-1 text-[12.5px]">
-            <span className="font-extrabold text-[#388e3c] flex items-center gap-[1px]">
-              <span className="text-[13px]">↓</span>{discount > 0 ? discount : 99}%
+        {/* Price Row (Discount % + Strikethrough Price + Sale Price) */}
+        <div className="price-row flex items-center gap-[6px] mb-[4px] min-w-0 flex-wrap">
+          <span className="disc text-[14px] font-bold text-[#388e3c] shrink-0">
+            ↓{discount}%
+          </span>
+          {displayPrice > displaySalePrice && (
+            <span className="mrp text-[12px] font-medium text-[#878787] line-through shrink-0">
+              ₹{displayPrice.toLocaleString('en-IN')}
             </span>
-            <span className="text-[#878787] line-through font-medium">
-              ₹{(displayPrice || 132470).toLocaleString('en-IN')}
-            </span>
-          </div>
-
-          {/* Selling Price */}
-          <div className="text-[18px] font-black text-[#212121] mt-0.5 leading-none">
+          )}
+          <span className="sell text-[16px] font-bold text-[#212121] shrink-0">
             ₹{displaySalePrice.toLocaleString('en-IN')}
-          </div>
-
-          {/* Offer Banner (WOW! badge + offer price) */}
-          <div className="flex items-center gap-1 mt-1.5 select-none">
-            <div className="px-1.5 py-[1px] rounded-[3px] border border-[#1c54d4] text-[8px] font-black text-[#1c54d4] bg-white italic uppercase tracking-tighter shrink-0 leading-none flex items-center justify-center">
-              WOW!
-            </div>
-            <span className="text-[11.5px] font-extrabold text-[#1c54d4] tracking-tight">
-              ₹{offerPrice.toLocaleString('en-IN')} with offer
-            </span>
-          </div>
-
-          {/* Stock quantity warning */}
-          <div className="mt-1 text-[11.5px] font-bold" style={{ color: isLowStock ? '#d32f2f' : '#388e3c' }}>
-            {isLowStock ? `Only ${stockLeft} left` : 'Best deals'}
-          </div>
-
-          {/* Delivery text */}
-          <div className="mt-1.5 text-[11.5px] text-[#717478] font-medium tracking-tight">
-            Delivery by <span className="text-[#212121] font-bold">{getDynamicDeliveryDate(id)}</span>
-          </div>
+          </span>
         </div>
 
+        {/* WOW! Offer Row */}
+        <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
+          <img 
+            src="/wow_badge.png" 
+            alt="WOW" 
+            className="h-[15px] shrink-0" 
+          />
+          <span className="wow-price text-[14px] font-bold text-[#1a4fb8]">
+            ₹{offerPrice.toLocaleString('en-IN')}
+          </span>
+          <span className="wow-text text-[12px] text-[#1a4fb8]">
+            with offer
+          </span>
+        </div>
+
+        {/* Tag (Special offer / Best deals / Only 2 left) */}
+        <div className="stock-text text-[12px] font-semibold mb-[4px]" style={{ color: isLowStock ? '#d32f2f' : '#388e3c' }}>
+          {isLowStock ? 'Only 2 left' : (isSpecialOffer ? 'Special offer' : 'Best deals')}
+        </div>
+
+        {/* Delivery Row */}
+        <div className="delivery text-[12px] text-[#212121] mt-auto break-words">
+          Delivery by <b className="font-semibold">{getDynamicDeliveryDate(id)}</b>
+        </div>
       </div>
     </Link>
   );
 };
+

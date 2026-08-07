@@ -366,119 +366,77 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     'Great product', 'Pretty good', 'Decent purchase', 'Satisfied customer', 'Worth the money'
   ];
 
+  const shortName = (productName || 'Product').split(' ').slice(0, 4).join(' ').trim();
+
   const CATEGORY_COMMENTS = {
     mobile: [
-      "Mindblowing smartphone! The 120Hz display is super smooth and the 50MP camera takes flagship level photos. Flipkart delivery was super fast!",
-      "Best phone in this price segment! Battery easily lasts more than 1.5 days with heavy 5G usage. 100% original product.",
-      "Unbelievable performance! Gaming is extremely smooth without any heating issues. Charging is super fast, 0 to 100 in just 25 mins!",
-      "Camera quality is next level, portrait mode photos look professional. Very sleek design and feels very premium in hand.",
-      "Got it delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving this purchase!",
-      "Superb display and dual stereo speakers are very loud and punchy. Value for money phone, highly recommended!",
-      "Upgraded to 5G with this device and speed is ultra fast. RAM management and UI performance are butter smooth.",
-      "Fingerprint sensor and Face unlock are instant. Glass back finish gives it a super luxury flagship look.",
-      "Extremely satisfied! Camera night mode performance blew my mind. Worth every single rupee spent.",
-      "Packaging was super secure with Flipkart Assured tag. Phone condition is 10/10. Must buy during sale!",
-      "The processor handles heavy multi-tasking effortlessly. No lag whatsoever. Very lightweight and comfortable grip.",
-      "Incredible value for money! Crisp AMOLED screen with bright outdoors visibility. Delivered in pristine condition.",
-      "Haptic feedback is crisp and battery optimization is top class. Very happy with this order!",
-      "Smooth 120Hz scrolling, crystal clear call speaker quality and fast charging adapter included in box. Top rated!",
-      "Everything matches the specs perfectly! Authentic original unit received. Ordered second one for my brother!"
+      `Mindblowing smartphone! The camera quality on ${shortName} and its 120Hz display are unbelievable. Flipkart delivered in 1 day!`,
+      `Best phone in this price segment! Battery of ${shortName} easily lasts 1.5+ days with heavy 5G usage. 100% genuine product.`,
+      `Unbelievable performance from ${shortName}! Extremely smooth gaming without heating. 0 to 100% charging in just 25 mins!`,
+      `Camera quality on ${shortName} is next level, portrait mode photos look professional. Very sleek flagship feel in hand.`,
+      `Got my ${shortName} delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving it!`,
+      `Superb display and dual stereo speakers on ${shortName} are loud and punchy. Value for money phone, highly recommended!`,
+      `Upgraded to 5G with ${shortName} and speed is ultra fast. RAM management and UI scrolling are butter smooth.`,
+      `Fingerprint sensor on ${shortName} is instant. Premium finish gives it a luxury flagship smartphone look!`,
+      `Extremely satisfied with ${shortName}! Camera night mode performance blew my mind. Worth every single rupee spent.`,
+      `Packaging was super secure with Flipkart Assured tag. ${shortName} arrived in pristine 10/10 condition.`,
+      `The processor in ${shortName} handles heavy multi-tasking effortlessly. No lag whatsoever. Very comfortable grip.`,
+      `Incredible value for money! Crisp AMOLED screen on ${shortName} with bright outdoor visibility. Delivered quickly.`,
+      `Haptic feedback on ${shortName} is crisp and battery optimization is top class. Very happy with this order!`,
+      `Smooth 120Hz refresh rate, crystal clear call speaker quality and fast charging adapter included with ${shortName}!`,
+      `Everything matches specs perfectly! Authentic original ${shortName} unit received. Ordered a second one for my brother!`
     ],
     electronics: [
-      "Crystal clear audio performance and superb bass response. Battery backup easily lasts 30+ hours.",
-      "Build quality is solid and premium. Connects instantly via Bluetooth with zero latency.",
-      "Flipkart delivery was super fast. Brand new sealed pack delivered safely.",
-      "Very comfortable ergonomics. Noise cancellation feature works like magic!",
-      "Must buy product in this price bracket. Extremely satisfied with the performance.",
-      "Value for money purchase. Long battery life and premium tactile buttons.",
-      "Superb clarity and robust connectivity. 100% original product received.",
-      "Design looks ultra futuristic and stylish. Strongly recommended!",
-      "Excellent quality and fast charging capability. Worth every rupee."
+      `Crystal clear audio performance and superb bass response on ${shortName}. Battery backup easily lasts 30+ hours.`,
+      `Build quality of ${shortName} is solid and premium. Connects instantly via Bluetooth with zero latency.`,
+      `Flipkart delivery of ${shortName} was super fast. Brand new sealed pack delivered safely.`,
+      `Very comfortable ergonomics on ${shortName}. Noise cancellation feature works like magic!`,
+      `Must buy ${shortName} in this price bracket. Extremely satisfied with the performance.`,
+      `Value for money purchase. Long battery life and premium tactile buttons on ${shortName}.`,
+      `Superb clarity and robust connectivity. 100% original ${shortName} received.`,
+      `Design of ${shortName} looks ultra futuristic and stylish. Strongly recommended!`,
+      `Excellent quality and fast charging capability. Worth every rupee spent on ${shortName}.`
     ],
     luggage: [
-      "Excellent luggage bags. The build quality is very good and the wheels are very smooth.",
-      "Great luggage bags. Very lightweight but extremely strong. Used it for my travel and it was durable.",
-      "Loved the color and the dual spinner wheels are very silent and smooth.",
-      "Good trolley bags. The lock works fine. Size is perfect for family trips.",
-      "Flipkart assured delivery was very quick. Nice premium compartments.",
-      "Got it on sale. Absolute steal at this price. Durable material.",
-      "Decent quality trolley. The handles are sturdy and pull smoothly.",
-      "Super light weight and look very stylish. Got many compliments!",
-      "Excellent wheel alignment. Doesn't tip over even when heavily packed.",
-      "Beautiful finish and extremely premium look.",
-      "Stitching and material is super strong. Locks are highly secure.",
-      "Nice compact bags. Perfect for cabin and check-in luggage needs.",
-      "Very sturdy and lightweight bags. Traveled twice and no scratches.",
-      "Outstanding quality trolley set. The color matches the picture exactly. Highly satisfied.",
-      "Strong zippers and smooth pull rod. Very comfortable during heavy travel."
+      `Excellent ${shortName}. The build quality is very good and the wheels are very smooth.`,
+      `Great ${shortName}. Very lightweight but extremely strong. Used it for travel and it was very durable.`,
+      `Loved the color and the dual spinner wheels of ${shortName} are silent and smooth.`,
+      `Good trolley set. The lock works fine on ${shortName}. Size is perfect for family trips.`,
+      `Flipkart assured delivery was very quick. ${shortName} has nice premium compartments.`,
+      `Got ${shortName} on sale. Absolute steal at this price. Durable material.`,
+      `Decent quality trolley. The handles on ${shortName} are sturdy and pull smoothly.`,
+      `Super lightweight and ${shortName} looks very stylish. Got many compliments!`,
+      `Excellent wheel alignment on ${shortName}. Doesn't tip over even when heavily packed.`
     ],
     stove: [
-      "Excellent gas stove. The brass burners are of high quality and flame is very even.",
-      "The body is premium toughened glass finish. Very easy to clean and sturdy knobs.",
-      "Excellent value for money. Auto ignition works flawlessly. Flame intensity is excellent.",
-      "Stove is compact and fits perfectly in small kitchens. Burners are quite far apart.",
-      "Beautiful stove. Double packing and fast delivery by Flipkart.",
-      "Extremely elegant and looks very premium in our modular kitchen.",
-      "Excellent build quality, glass is thick and strong. Stand is highly stable.",
-      "Saves a lot of gas. High thermal efficiency and knobs operate very smoothly.",
-      "Outstanding performance. Multiple burners allow cooking multiple items simultaneously.",
-      "Spill-proof design is a lifesaver. Extremely easy to clean milk spills or oil stains.",
-      "Very sturdy stove. Brass burners don't rust or block. Highly durable.",
-      "Flipkart delivered this in less than 24 hours. Excellent stove.",
-      "The flames are clean and blue. No soot formation on pans. Excellent purchase.",
-      "Modern looks and very sturdy pan supports. Stays in place during cooking.",
-      "Highly efficient and elegant. Glass top makes cleanup effortless."
+      `Excellent gas stove ${shortName}. The brass burners are of high quality and flame is very even.`,
+      `The body of ${shortName} is premium toughened glass finish. Very easy to clean and sturdy knobs.`,
+      `Excellent value for money. Auto ignition on ${shortName} works flawlessly. Flame intensity is excellent.`,
+      `Fits perfectly in small kitchens. Burners on ${shortName} are well spaced apart.`,
+      `Extremely elegant and ${shortName} looks very premium in our modular kitchen.`,
+      `Excellent build quality, glass on ${shortName} is thick and strong. Stand is highly stable.`
     ],
     mixer: [
-      "Excellent mixer. The motor is very powerful and grinds dry spices in seconds.",
-      "Sturdy stainless steel jars and very low noise operation. High speed grinding.",
-      "Amazing performance. Jars are completely leak-proof and have secure locks.",
-      "Grinds spices really well. The suction feet keep the mixer stable during operation.",
-      "Grinds wet and dry items perfectly. The chutney jar is excellent.",
-      "Extremely durable. The motor does not heat up even during long usage.",
-      "Grinds hard items like turmeric easily. Elegant looking mixer.",
-      "Good value mixer. Stainless steel blades are of high quality and do not rust.",
-      "Very easy to wash and operate. Speed controls are clicky and robust.",
-      "Motor sound is smooth and powerful. Flipkart packing was strong.",
-      "Excellent chutney jar. High speed whipping and grinding is effortless.",
-      "Jars have ergonomic handles which makes pouring very easy. Premium design.",
-      "Very compact and powerful mixer grinder. Jars are highly durable.",
-      "Makes smooth purees and fine powders effortlessly. Best brand choice.",
-      "Beautiful metallic body and very secure jar locking mechanism."
+      `Excellent mixer ${shortName}. The motor is very powerful and grinds dry spices in seconds.`,
+      `Sturdy stainless steel jars on ${shortName} and very low noise operation. High speed grinding.`,
+      `Amazing performance. Jars of ${shortName} are completely leak-proof and have secure locks.`,
+      `Grinds spices really well. The suction feet keep ${shortName} stable during operation.`,
+      `Grinds wet and dry items perfectly. The chutney jar on ${shortName} is excellent.`
     ],
     cooker: [
-      "Excellent cooker combo. The aluminium is thick and safety valve is high quality.",
-      "Great addition to my kitchen. Very durable and efficient pressure cooker.",
-      "Gaskets are high quality. Fits perfectly on both gas and induction cooktops.",
-      "Very convenient sizes (2L, 3L, 5L) for daily household usage.",
-      "Superb quality pressure cooker. Cooks rice and dal in minutes.",
-      "Very sturdy metal and strong safety valves. Hard anodized finish.",
-      "Excellent brand value and sturdy build. Heavy base prevents food from burning.",
-      "Unbeatable price for a three-piece combo. Flipkart delivery was exceptionally fast.",
-      "Whistle mechanism works very smoothly. Saves a lot of cooking time.",
-      "Best cooker in this range. Handles are robust and firmly screwed.",
-      "Looks beautiful on our kitchen shelf. Very easy to clean.",
-      "Decent cookers. Double safety pressure lock works fine.",
-      "Extremely heavy base ensures food cooks without sticking. Perfect combo.",
-      "Fast cooking and very safe pressure valves. Clean design and easy handling.",
-      "Perfect sizes for a small to medium family. Ideal for induction as well."
+      `Excellent cooker ${shortName}. The metal is thick and safety valve is high quality.`,
+      `Great addition to my kitchen. Very durable and efficient pressure cooker ${shortName}.`,
+      `Gaskets on ${shortName} are high quality. Fits perfectly on both gas and induction cooktops.`,
+      `Superb quality pressure cooker ${shortName}. Cooks rice and dal in minutes.`,
+      `Whistle mechanism on ${shortName} works very smoothly. Saves a lot of cooking time.`
     ],
     general: [
-      "Excellent product. The build quality is very good and the delivery was fast. Highly recommended.",
-      "Great quality product. Very durable and highly efficient performance.",
-      "Loved the color and the finishing quality. Worth every rupee spent.",
-      "Good purchase. Highly recommended for daily regular use.",
-      "Flipkart assured delivery was very quick. The packaging was neat and safe.",
-      "Got it on sale. Absolute steal at this discounted price tag.",
-      "Decent quality product. Highly recommended for anyone looking for reliability.",
-      "Super lightweight and looks very stylish. Extremely happy with the purchase!",
-      "Sturdy material and premium finish. Very satisfied with Flipkart service.",
-      "Beautiful finish and extremely premium feel. High value for money.",
-      "Stitching and material is super strong. Very satisfied with order.",
-      "Nice compact product. Strongly built and highly functional.",
-      "Absolutely love this. Very premium feel and performs excellently.",
-      "One of the best products in this range. Safe to use and easy to handle.",
-      "My family loved it. Super fast delivery and great quality overall."
+      `Excellent product. The build quality of ${shortName} is very good and the delivery was fast.`,
+      `Great quality product ${shortName}. Very durable and highly efficient performance.`,
+      `Loved the color and finishing quality of ${shortName}. Worth every rupee spent.`,
+      `Good purchase. Highly recommended ${shortName} for daily regular use.`,
+      `Flipkart assured delivery of ${shortName} was quick. Packaging was neat and safe.`,
+      `Got ${shortName} on sale. Absolute steal at this discounted price tag.`
     ]
   };
 
@@ -534,43 +492,6 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
       image_url,
       created_at
     });
-  }
-
-  if (list.length > 0) {
-    list[0].reviewer_name = 'Ansarul';
-    list[0].location = 'Certified Buyer, Kolkata';
-    list[0].rating = 5;
-    list[0].title = 'Simply awesome';
-    list[0].comment = type === 'mobile'
-      ? 'Mindblowing phone! Camera quality and 120Hz display are unbelievable. Flipkart delivered in just 1 day. 100% original product!'
-      : type === 'electronics'
-      ? 'Excellent build quality and crystal clear audio performance. Highly recommended!'
-      : type === 'luggage' 
-      ? 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.'
-      : type === 'stove'
-      ? 'Excellent gas stove. The brass burners are of high quality and flame is very even. Highly recommended.'
-      : type === 'mixer'
-      ? 'Excellent mixer grinds dry spices in seconds. Jars are heavy duty. Highly recommended.'
-      : 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.';
-    list[0].image_url = defaultImageUrl;
-  }
-  if (list.length > 1) {
-    list[1].reviewer_name = 'Soriful';
-    list[1].location = 'Certified Buyer, Mumbai';
-    list[1].rating = 4;
-    list[1].title = 'Very Good';
-    list[1].comment = type === 'mobile'
-      ? 'Best smartphone in this budget segment. 5G speed is super fast and battery lasts over 1.5 days easily.'
-      : type === 'electronics'
-      ? 'Great sound clarity and robust battery backup. Very satisfied with this purchase.'
-      : type === 'luggage'
-      ? 'Great luggage bags. Very lightweight but extremely strong. Used it for my travel to Mumbai.'
-      : type === 'stove'
-      ? 'Great gas stove with sleek glass top. Heat distribution is uniform and knobs are sturdy.'
-      : type === 'mixer'
-      ? 'Great mixer grinder. Very durable and efficient speed controller.'
-      : 'Great product quality. Very durable and efficient performance.';
-    list[1].image_url = null;
   }
 
   return list;

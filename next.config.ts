@@ -42,6 +42,10 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [
           {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
             key: "X-Frame-Options",
             value: "SAMEORIGIN",
           },

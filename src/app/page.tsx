@@ -478,7 +478,7 @@ export default function Home() {
       {/* Real Cropped Body Section (Line Tabs, Promo Banners & 3D Categories from Reference Site) */}
       <div className="w-full bg-[#f1f3f6] select-none">
         <img 
-          src="/body_real.png" 
+          src="/body_real.jpg" 
           alt="Categories & Banners" 
           className="w-full h-auto object-contain block"
         />

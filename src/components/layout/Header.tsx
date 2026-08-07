@@ -19,7 +19,7 @@ export const Header = () => {
       <div className="relative w-full aspect-[446/168]">
         {/* Real cropped header image */}
         <img 
-          src="/header_real.png" 
+          src="/header_real.jpg" 
           alt="Flipkart Header" 
           className="w-full h-full object-cover block"
         />

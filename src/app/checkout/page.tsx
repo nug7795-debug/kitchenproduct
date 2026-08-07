@@ -42,6 +42,9 @@ interface CartItem {
   imageUrl: string;
   quantity: number;
   variantId?: string | null;
+  image?: string;
+  images?: string[];
+  product?: any;
 }
 
 export default function CheckoutPage() {
@@ -61,7 +64,7 @@ export default function CheckoutPage() {
   const [payeeName, setPayeeName] = React.useState(process.env.NEXT_PUBLIC_PAYEE_NAME || 'Jambucha Alpesh Kanjibhai');
   const [mccCode, setMccCode] = React.useState('5722');
   const [isMobile, setIsMobile] = React.useState(false);
-  const [selectedMethod, setSelectedMethod] = React.useState<'phonepe' | 'paytm'>('phonepe');
+  const [selectedMethod, setSelectedMethod] = React.useState<'phonepe' | 'paytm' | 'gpay' | 'bhim' | 'qr'>('phonepe');
   const [timeLeft, setTimeLeft] = React.useState(276); // 4min 36sec exactly like in the screenshot
   
   const [showAssistantModal, setShowAssistantModal] = React.useState(false);

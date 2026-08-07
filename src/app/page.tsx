@@ -257,13 +257,11 @@ const LiveSaleTimer = () => {
   const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
 
   return (
-    <span className="text-[#fb641b] text-[13.5px] font-black tracking-tight select-none">
-      {minutesStr}:{secondsStr}
+    <span className="text-[#5f6368] font-normal">
+      Ends in <b className="font-extrabold text-[#e65100]">{minutesStr}</b>:<b className="font-extrabold text-[#e65100]">{secondsStr}</b>
     </span>
   );
 };
-
-
 
 const shuffleArray = (array: any[]) => {
   const arr = [...array];
@@ -277,21 +275,6 @@ const shuffleArray = (array: any[]) => {
 export default function Home() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
-  const [activeSlide, setActiveSlide] = React.useState(0);
-
-  const banners = [
-    '/banners/new1.jpg',
-    '/banners/new2.webp',
-    '/banners/new3.webp',
-    '/banners/new4.webp'
-  ];
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % banners.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [banners.length]);
 
   React.useEffect(() => {
     const migrateMockDbToSupabase = async () => {
@@ -305,8 +288,6 @@ export default function Home() {
         if (!localProductsRaw && !localCategoriesRaw) {
           return;
         }
-
-        console.log('Found local mock database data! Migrating to Supabase cloud...');
 
         if (localCategoriesRaw) {
           const categories = JSON.parse(localCategoriesRaw);
@@ -345,8 +326,6 @@ export default function Home() {
           }
         }
 
-        console.log('Migration to Supabase cloud completed successfully!');
-
         localStorage.removeItem('mock_db_products');
         localStorage.removeItem('mock_db_categories');
         localStorage.removeItem('mock_db_product_images');
@@ -365,7 +344,6 @@ export default function Home() {
   React.useEffect(() => {
     let active = true;
 
-    // Load from cache first for instant rendering on slow networks
     try {
       const cached = localStorage.getItem('cached_homepage_products');
       if (cached) {
@@ -381,7 +359,6 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        // Fetch global settings for badges configuration
         const settingsRes = await supabase
           .from('settings')
           .select('value')
@@ -417,9 +394,7 @@ export default function Home() {
         let error = response.error;
 
         if (error) {
-          // Fallback if columns do not exist
           if (error.message?.includes('is_limited_time_deal') || error.message?.includes('is_trending') || error.message?.includes('column')) {
-            console.warn('Columns is_limited_time_deal/is_trending not found, retrying fallback select...');
             const fallbackResponse = await supabase
               .from('products')
               .select(`
@@ -435,7 +410,11 @@ export default function Home() {
               `)
               .eq('is_active', true)
               .order('created_at', { ascending: false });
-            data = fallbackResponse.data;
+            data = (fallbackResponse.data || []).map((item: any) => ({
+              ...item,
+              is_limited_time_deal: false,
+              is_trending: false
+            }));
             error = fallbackResponse.error;
           }
         }
@@ -445,7 +424,6 @@ export default function Home() {
           const processed = applyDynamicBadges(data, badgesConfig);
           const shuffled = shuffleArray(processed);
           setProducts(shuffled);
-          // Update cache
           localStorage.setItem('cached_homepage_products', JSON.stringify(shuffled));
         }
       } catch (err) {
@@ -459,7 +437,6 @@ export default function Home() {
 
     fetchData();
 
-    // Subscribe to realtime changes for all relevant tables
     const channel = supabase
       .channel('store-updates')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, () => fetchData())
@@ -475,33 +452,64 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      {/* Real Cropped Body Section (Line Tabs, Promo Banners & 3D Categories from Reference Site) */}
-      <div className="w-full bg-[#f1f3f6] select-none">
-        <img 
-          src="/body_real.jpg" 
-          alt="Categories & Banners" 
-          className="w-full h-auto object-contain block"
-        />
+      <div className="bg-white">
+        {/* Freedom Sale Banner matching banner-image-full class */}
+        <div className="w-full bg-white pt-[6px] px-[8px] pb-0 max-w-[520px] mx-auto select-none">
+          <img 
+            src="/banner_freedom_site.jpg" 
+            alt="Freedom Sale" 
+            className="w-full h-auto rounded-[16px] block shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
+          />
+        </div>
+
+        {/* 5 Categories Grid matching categories-container & categories-grid classes */}
+        <div className="w-full bg-white pt-[5px] px-[5px] pb-[2px] max-w-[520px] mx-auto select-none">
+          <div className="grid grid-cols-5 gap-[4px] mt-[6px]">
+            {[
+              { name: 'Mobiles', img: '/cat_mobiles_site.jpg' },
+              { name: 'Electronics', img: '/cat_electronics_site.jpg' },
+              { name: 'Appliances', img: '/cat_appliances_site.png' },
+              { name: 'Furniture', img: '/cat_furniture_site.jpg' },
+              { name: 'Grocery', img: '/cat_grocery_site.png' }
+            ].map((cat) => (
+              <div 
+                key={cat.name} 
+                onClick={() => {
+                  const el = document.getElementById('products-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center justify-center text-center cursor-pointer select-none"
+              >
+                <img 
+                  src={cat.img} 
+                  alt={cat.name} 
+                  className="w-[42px] h-[42px] object-contain mb-[6px]"
+                />
+                <p className="text-[12px] font-normal text-[#333333] text-center leading-[1.2]">{cat.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Deals of the Day Timer Row (Styled like goats-sale.com) */}
-      <div className="bg-white py-2.5 px-4 select-none border-b border-slate-100/50 flex items-center justify-between w-full">
-        {/* Left Side: Green Dot, SALE LIVE, Ends in, Timer */}
-        <div className="flex items-center gap-1.5">
-          {/* Pulsing Green Dot */}
-          <span className="w-2.5 h-2.5 rounded-full bg-[#00c853] shrink-0 animate-pulse" />
-          <span className="text-[13.5px] font-black text-[#007aff] tracking-tight uppercase">SALE LIVE</span>
-          <span className="text-slate-350 text-[11px]">•</span>
-          <span className="text-[12.5px] font-extrabold text-[#717478]">Ends in</span>
+      {/* Deal Bar matching deal-bar class */}
+      <div className="w-full max-w-[520px] mx-auto mt-[4px] py-[9px] px-[14px] bg-white border-b border-[#f1f3f6] flex items-center justify-between gap-[12px] text-[13px] select-none" id="dealBar">
+        <div className="flex items-center gap-[8px] whitespace-nowrap">
+          <span className="w-[7px] h-[7px] rounded-full bg-[#00c853] shrink-0 animate-pulse shadow-[0_0_0_rgba(0,200,83,0.6)]" />
+          <span className="font-bold text-[#1f3fb8]">SALE LIVE</span>
+          <span className="text-[#9aa3b2]">•</span>
           <LiveSaleTimer />
         </div>
 
-        {/* Right Side: Shop Now Button */}
-        <button className="bg-[#007aff] text-white px-3.5 py-1.5 rounded-full text-[11.5px] font-black flex items-center gap-1 hover:bg-[#0062cc] transition-colors shadow-xs tracking-tight shrink-0 select-none">
+        <button 
+          onClick={() => {
+            const el = document.getElementById('products-section');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="shrink-0 text-white font-bold text-[12px] py-[6px] px-[12px] rounded-[10px] bg-gradient-to-br from-[#2874f0] to-[#1f4bd8] shadow-[0_6px_14px_rgba(40,116,240,0.35)] active:scale-97 flex items-center gap-1 cursor-pointer"
+        >
           Shop Now
-          <svg className="w-2.5 h-2.5 text-white stroke-[3.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-          </svg>
+          <ChevronRight className="w-3 h-3 text-white stroke-[3]" />
         </button>
       </div>
 

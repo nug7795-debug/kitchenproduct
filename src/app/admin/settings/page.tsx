@@ -83,10 +83,6 @@ export default function SettingsPage() {
             ...prev.payment,
             ...(data.value.payment || {})
           },
-          store: {
-            ...prev.store,
-            ...(data.value.store || {})
-          },
           shipping: {
             ...prev.shipping,
             ...(data.value.shipping || {})

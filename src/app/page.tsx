@@ -25,6 +25,127 @@ const GiftIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const MobilePedestalIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+    {/* Pedestal Base */}
+    <rect x="6" y="44" width="52" height="14" rx="7" fill="url(#pedestal_grad)" />
+    <path d="M10 44L14 38H50L54 44H10Z" fill="#e67e22" opacity="0.6" />
+    {/* Phones */}
+    <rect x="22" y="10" width="20" height="34" rx="3" fill="#1e1e24" stroke="#4a4e69" strokeWidth="1.5" />
+    <rect x="24" y="13" width="16" height="27" rx="1.5" fill="url(#screen_purple)" />
+    <circle cx="32" cy="11.5" r="1" fill="#6c5ce7" />
+    <rect x="14" y="15" width="16" height="30" rx="3" fill="#2d3436" stroke="#636e72" strokeWidth="1.5" />
+    <rect x="16" y="18" width="12" height="23" rx="1.5" fill="url(#screen_blue)" />
+    <circle cx="22" cy="16.5" r="1" fill="#0984e3" />
+    <defs>
+      <linearGradient id="pedestal_grad" x1="6" y1="44" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f39c12" />
+        <stop offset="1" stopColor="#d35400" />
+      </linearGradient>
+      <linearGradient id="screen_purple" x1="24" y1="13" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#a29bfe" />
+        <stop offset="1" stopColor="#6c5ce7" />
+      </linearGradient>
+      <linearGradient id="screen_blue" x1="16" y1="18" x2="28" y2="41" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#74b9ff" />
+        <stop offset="1" stopColor="#0984e3" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const ElectronicsPedestalIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+    {/* Pedestal Base */}
+    <rect x="6" y="44" width="52" height="14" rx="7" fill="url(#pedestal_grad_el)" />
+    <path d="M10 44L14 38H50L54 44H10Z" fill="#e67e22" opacity="0.6" />
+    {/* Laptop */}
+    <rect x="22" y="20" width="24" height="17" rx="2" fill="#2d3436" stroke="#636e72" />
+    <rect x="24" y="22" width="20" height="13" fill="#74b9ff" />
+    <path d="M18 37H50L48 40H20L18 37Z" fill="#b2bec3" />
+    {/* Red Headphones */}
+    <path d="M16 28C16 18 22 12 32 12C42 12 48 18 48 28" stroke="#d63031" strokeWidth="4" strokeLinecap="round" />
+    <rect x="12" y="26" width="6" height="10" rx="3" fill="#d63031" />
+    <rect x="46" y="26" width="6" height="10" rx="3" fill="#d63031" />
+    <defs>
+      <linearGradient id="pedestal_grad_el" x1="6" y1="44" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f39c12" />
+        <stop offset="1" stopColor="#d35400" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const AppliancesPedestalIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+    {/* Pedestal Base */}
+    <rect x="6" y="44" width="52" height="14" rx="7" fill="url(#pedestal_grad_ap)" />
+    <path d="M10 44L14 38H50L54 44H10Z" fill="#e67e22" opacity="0.6" />
+    {/* Tower AC / Appliance */}
+    <rect x="18" y="8" width="15" height="36" rx="3" fill="#dfe6e9" stroke="#b2bec3" strokeWidth="1.5" />
+    <line x1="21" y1="14" x2="30" y2="14" stroke="#636e72" strokeWidth="1.5" strokeLinecap="round" />
+    <line x1="21" y1="18" x2="30" y2="18" stroke="#636e72" strokeWidth="1.5" strokeLinecap="round" />
+    <line x1="21" y1="22" x2="30" y2="22" stroke="#636e72" strokeWidth="1.5" strokeLinecap="round" />
+    <circle cx="25.5" cy="38" r="2" fill="#0984e3" />
+    {/* Gift Box / Card */}
+    <rect x="35" y="22" width="17" height="22" rx="2" fill="url(#card_grad_ap)" />
+    <path d="M35 29H52" stroke="#fdcb6e" strokeWidth="2" />
+    <path d="M43.5 22V44" stroke="#fdcb6e" strokeWidth="2" />
+    <defs>
+      <linearGradient id="pedestal_grad_ap" x1="6" y1="44" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f39c12" />
+        <stop offset="1" stopColor="#d35400" />
+      </linearGradient>
+      <linearGradient id="card_grad_ap" x1="35" y1="22" x2="52" y2="44" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#6c5ce7" />
+        <stop offset="1" stopColor="#a29bfe" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const FurniturePedestalIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+    {/* Pedestal Base */}
+    <rect x="6" y="44" width="52" height="14" rx="7" fill="url(#pedestal_grad_fn)" />
+    <path d="M10 44L14 38H50L54 44H10Z" fill="#e67e22" opacity="0.6" />
+    {/* Yellow Armchair */}
+    <rect x="19" y="14" width="26" height="20" rx="4" fill="#fdcb6e" stroke="#e67e22" strokeWidth="1.5" />
+    <rect x="14" y="22" width="9" height="15" rx="3" fill="#ffeaa7" stroke="#e67e22" strokeWidth="1.5" />
+    <rect x="41" y="22" width="9" height="15" rx="3" fill="#ffeaa7" stroke="#e67e22" strokeWidth="1.5" />
+    <rect x="19" y="29" width="26" height="10" rx="3" fill="#f39c12" />
+    {/* Chair Legs */}
+    <line x1="21" y1="39" x2="19" y2="45" stroke="#d35400" strokeWidth="2.5" strokeLinecap="round" />
+    <line x1="43" y1="39" x2="45" y2="45" stroke="#d35400" strokeWidth="2.5" strokeLinecap="round" />
+    <defs>
+      <linearGradient id="pedestal_grad_fn" x1="6" y1="44" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f39c12" />
+        <stop offset="1" stopColor="#d35400" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+const GroceryPedestalIcon = () => (
+  <svg width="48" height="48" viewBox="0 0 64 64" fill="none">
+    {/* Pedestal Base */}
+    <rect x="6" y="44" width="52" height="14" rx="7" fill="url(#pedestal_grad_gr)" />
+    <path d="M10 44L14 38H50L54 44H10Z" fill="#e67e22" opacity="0.6" />
+    {/* Green Grocery Pouch */}
+    <rect x="16" y="14" width="15" height="28" rx="2" fill="#2ecc71" stroke="#27ae60" strokeWidth="1.5" />
+    <circle cx="23.5" cy="22" r="3.5" fill="#fff" opacity="0.85" />
+    {/* Blue Grocery Box */}
+    <rect x="31" y="10" width="17" height="32" rx="2" fill="#0984e3" stroke="#74b9ff" strokeWidth="1.5" />
+    <rect x="34" y="16" width="11" height="14" fill="#ffeaa7" rx="1" />
+    <defs>
+      <linearGradient id="pedestal_grad_gr" x1="6" y1="44" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f39c12" />
+        <stop offset="1" stopColor="#d35400" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
 const ForYouIcon = ({ className }: { className?: string }) => (
   <svg 
     viewBox="0 0 24 24" 
@@ -374,38 +495,30 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Categories Row */}
-      <div className="bg-white text-[#212121] px-1 pt-2.5 pb-1 select-none border-b border-slate-150">
-        <div className="grid grid-cols-6 gap-1">
+      {/* Categories Row (5 Categories matching goats-sale.com) */}
+      <div className="bg-white text-[#212121] px-1 py-2 select-none border-b border-slate-150">
+        <div className="grid grid-cols-5 gap-1">
           {[
-            { name: 'For You', icon: ForYouIcon },
-            { name: 'Fashion', icon: FashionIcon },
-            { name: 'Mobiles', icon: MobilesIcon },
-            { name: 'Electronics', icon: ElectronicsIcon },
-            { name: 'Beauty', icon: BeautyIcon },
-            { name: 'Home', icon: HomeIcon }
-          ].map((cat) => {
-            const isForYou = cat.name === 'For You';
-            return (
-              <div key={cat.name} className="flex flex-col items-center justify-between text-center cursor-pointer">
-                <div className="flex flex-col items-center justify-center">
-                  <div className={`w-[42px] h-[42px] flex items-center justify-center mb-1 ${isForYou ? 'bg-[#e8f2fe] rounded-xl border border-[#d2e4fe]' : ''}`}>
-                    <cat.icon className="w-[26px] h-[26px] text-[#212121]" />
-                  </div>
-                  <span className={`text-[11px] leading-tight text-[#212121] ${isForYou ? 'font-bold' : 'font-medium'}`}>{cat.name}</span>
-                </div>
-                <div 
-                  style={{ 
-                    height: '3px', 
-                    backgroundColor: isForYou ? '#2874f0' : 'transparent', 
-                    width: '32px', 
-                    marginTop: '5px', 
-                    borderRadius: '2px' 
-                  }} 
-                />
+            { name: 'Mobiles', icon: MobilePedestalIcon },
+            { name: 'Electronics', icon: ElectronicsPedestalIcon },
+            { name: 'Appliances', icon: AppliancesPedestalIcon },
+            { name: 'Furniture', icon: FurniturePedestalIcon },
+            { name: 'Grocery', icon: GroceryPedestalIcon }
+          ].map((cat) => (
+            <div 
+              key={cat.name} 
+              onClick={() => {
+                const el = document.getElementById('products-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 transition-transform py-1"
+            >
+              <div className="w-[50px] h-[50px] flex items-center justify-center mb-1">
+                <cat.icon />
               </div>
-            );
-          })}
+              <span className="text-[12px] font-medium leading-tight text-[#212121]">{cat.name}</span>
+            </div>
+          ))}
         </div>
       </div>
 

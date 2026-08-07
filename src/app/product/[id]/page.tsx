@@ -270,21 +270,57 @@ interface MockReview {
 const getMockReviews = (productName: string, totalReviews: number, productImageUrl?: string): MockReview[] => {
   const lower = (productName || '').toLowerCase();
   
-  let type: 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
-  let defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=300';
+  let type: 'mobile' | 'electronics' | 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
+  let defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=300';
   
-  if (lower.includes('luggage') || lower.includes('trolley') || lower.includes('bag')) {
+  if (
+    lower.includes('phone') || 
+    lower.includes('mobile') || 
+    lower.includes('5g') || 
+    lower.includes('realme') || 
+    lower.includes('poco') || 
+    lower.includes('iqoo') || 
+    lower.includes('samsung') || 
+    lower.includes('iphone') || 
+    lower.includes('apple') || 
+    lower.includes('vivo') || 
+    lower.includes('oppo') || 
+    lower.includes('oneplus') || 
+    lower.includes('redmi') || 
+    lower.includes('xiaomi') || 
+    lower.includes('android') || 
+    lower.includes('smartphone') || 
+    lower.includes('pro') || 
+    lower.includes('ultra') || 
+    lower.includes('legend')
+  ) {
+    type = 'mobile';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=300';
+  } else if (
+    lower.includes('watch') || 
+    lower.includes('headphone') || 
+    lower.includes('earbud') || 
+    lower.includes('speaker') || 
+    lower.includes('tv') || 
+    lower.includes('laptop') || 
+    lower.includes('tablet') || 
+    lower.includes('pad') || 
+    lower.includes('charger')
+  ) {
+    type = 'electronics';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=300';
+  } else if (lower.includes('luggage') || lower.includes('trolley') || lower.includes('bag')) {
     type = 'luggage';
-    defaultImageUrl = 'https://images.unsplash.com/photo-1565026057447-bc90a3dca487?auto=format&fit=crop&q=80&w=300';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1565026057447-bc90a3dca487?auto=format&fit=crop&q=80&w=300';
   } else if (lower.includes('stove') || lower.includes('burner') || lower.includes('hob')) {
     type = 'stove';
-    defaultImageUrl = 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&q=80&w=300';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&q=80&w=300';
   } else if (lower.includes('mixer') || lower.includes('grinder') || lower.includes('blade')) {
     type = 'mixer';
-    defaultImageUrl = 'https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&q=80&w=300';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1578643463396-0997cb5328c1?auto=format&fit=crop&q=80&w=300';
   } else if (lower.includes('cooker') || lower.includes('aluminium')) {
     type = 'cooker';
-    defaultImageUrl = 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&q=80&w=300';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&q=80&w=300';
   }
 
   // Simple LCG pseudo-random generator seeded by a string
@@ -331,6 +367,34 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
   ];
 
   const CATEGORY_COMMENTS = {
+    mobile: [
+      "Mindblowing smartphone! The 120Hz display is super smooth and the 50MP camera takes flagship level photos. Flipkart delivery was super fast!",
+      "Best phone in this price segment! Battery easily lasts more than 1.5 days with heavy 5G usage. 100% original product.",
+      "Unbelievable performance! Gaming is extremely smooth without any heating issues. Charging is super fast, 0 to 100 in just 25 mins!",
+      "Camera quality is next level, portrait mode photos look professional. Very sleek design and feels very premium in hand.",
+      "Got it delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving this purchase!",
+      "Superb display and dual stereo speakers are very loud and punchy. Value for money phone, highly recommended!",
+      "Upgraded to 5G with this device and speed is ultra fast. RAM management and UI performance are butter smooth.",
+      "Fingerprint sensor and Face unlock are instant. Glass back finish gives it a super luxury flagship look.",
+      "Extremely satisfied! Camera night mode performance blew my mind. Worth every single rupee spent.",
+      "Packaging was super secure with Flipkart Assured tag. Phone condition is 10/10. Must buy during sale!",
+      "The processor handles heavy multi-tasking effortlessly. No lag whatsoever. Very lightweight and comfortable grip.",
+      "Incredible value for money! Crisp AMOLED screen with bright outdoors visibility. Delivered in pristine condition.",
+      "Haptic feedback is crisp and battery optimization is top class. Very happy with this order!",
+      "Smooth 120Hz scrolling, crystal clear call speaker quality and fast charging adapter included in box. Top rated!",
+      "Everything matches the specs perfectly! Authentic original unit received. Ordered second one for my brother!"
+    ],
+    electronics: [
+      "Crystal clear audio performance and superb bass response. Battery backup easily lasts 30+ hours.",
+      "Build quality is solid and premium. Connects instantly via Bluetooth with zero latency.",
+      "Flipkart delivery was super fast. Brand new sealed pack delivered safely.",
+      "Very comfortable ergonomics. Noise cancellation feature works like magic!",
+      "Must buy product in this price bracket. Extremely satisfied with the performance.",
+      "Value for money purchase. Long battery life and premium tactile buttons.",
+      "Superb clarity and robust connectivity. 100% original product received.",
+      "Design looks ultra futuristic and stylish. Strongly recommended!",
+      "Excellent quality and fast charging capability. Worth every rupee."
+    ],
     luggage: [
       "Excellent luggage bags. The build quality is very good and the wheels are very smooth.",
       "Great luggage bags. Very lightweight but extremely strong. Used it for my travel and it was durable.",
@@ -401,21 +465,20 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     ],
     general: [
       "Excellent product. The build quality is very good and the delivery was fast. Highly recommended.",
-      "Great addition to my kitchen. Very durable and efficient.",
-      "Loved the color and the quality. Worth every rupee.",
-      "Good purchase. Highly recommended for daily use.",
-      "Flipkart assured delivery was very quick. The packaging was neat.",
-      "Got it on sale. Absolute steal at this price.",
-      "Decent quality product. Highly recommended for any household.",
-      "Super light weight and look very stylish. Extremely happy!",
-      "Doesn't tip over even when heavily packed. Very stable.",
-      "Beautiful finish and extremely premium look.",
-      "Stitching and material is super strong. Very satisfied.",
-      "Nice compact product. Strongly built.",
+      "Great quality product. Very durable and highly efficient performance.",
+      "Loved the color and the finishing quality. Worth every rupee spent.",
+      "Good purchase. Highly recommended for daily regular use.",
+      "Flipkart assured delivery was very quick. The packaging was neat and safe.",
+      "Got it on sale. Absolute steal at this discounted price tag.",
+      "Decent quality product. Highly recommended for anyone looking for reliability.",
+      "Super lightweight and looks very stylish. Extremely happy with the purchase!",
+      "Sturdy material and premium finish. Very satisfied with Flipkart service.",
+      "Beautiful finish and extremely premium feel. High value for money.",
+      "Stitching and material is super strong. Very satisfied with order.",
+      "Nice compact product. Strongly built and highly functional.",
       "Absolutely love this. Very premium feel and performs excellently.",
-      "One of the best products in this range. Safe to use and easy to clean.",
-      "High thermal efficiency and handles operate smoothly.",
-      "My family loved it. Super fast delivery and great value."
+      "One of the best products in this range. Safe to use and easy to handle.",
+      "My family loved it. Super fast delivery and great quality overall."
     ]
   };
 
@@ -478,7 +541,11 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     list[0].location = 'Certified Buyer, Kolkata';
     list[0].rating = 5;
     list[0].title = 'Simply awesome';
-    list[0].comment = type === 'luggage' 
+    list[0].comment = type === 'mobile'
+      ? 'Mindblowing phone! Camera quality and 120Hz display are unbelievable. Flipkart delivered in just 1 day. 100% original product!'
+      : type === 'electronics'
+      ? 'Excellent build quality and crystal clear audio performance. Highly recommended!'
+      : type === 'luggage' 
       ? 'Excellent product. The build quality is very good and the delivery was fast. Highly recommended.'
       : type === 'stove'
       ? 'Excellent gas stove. The brass burners are of high quality and flame is very even. Highly recommended.'
@@ -492,13 +559,17 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     list[1].location = 'Certified Buyer, Mumbai';
     list[1].rating = 4;
     list[1].title = 'Very Good';
-    list[1].comment = type === 'luggage'
+    list[1].comment = type === 'mobile'
+      ? 'Best smartphone in this budget segment. 5G speed is super fast and battery lasts over 1.5 days easily.'
+      : type === 'electronics'
+      ? 'Great sound clarity and robust battery backup. Very satisfied with this purchase.'
+      : type === 'luggage'
       ? 'Great luggage bags. Very lightweight but extremely strong. Used it for my travel to Mumbai.'
       : type === 'stove'
       ? 'Great gas stove with sleek glass top. Heat distribution is uniform and knobs are sturdy.'
       : type === 'mixer'
-      ? 'Great addition to my kitchen. Very durable and efficient speed controller.'
-      : 'Great addition to my kitchen. Very durable and efficient.';
+      ? 'Great mixer grinder. Very durable and efficient speed controller.'
+      : 'Great product quality. Very durable and efficient performance.';
     list[1].image_url = null;
   }
 

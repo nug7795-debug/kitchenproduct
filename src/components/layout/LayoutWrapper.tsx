@@ -49,9 +49,9 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex flex-col min-h-screen items-center overflow-x-clip bg-slate-100">
-      <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[500px]">
+      <div className="w-full bg-white shadow-2xl relative flex flex-col min-h-screen max-w-[520px]">
         {hasHeader && (
-          <div className="w-full max-w-[500px] shrink-0 sticky top-0 z-50">
+          <div className="w-full max-w-[520px] shrink-0">
             <Header />
           </div>
         )}

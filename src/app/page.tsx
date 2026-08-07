@@ -475,28 +475,113 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      {/* Banner Area (Sliding Banners with rounded corners) */}
-      <div className="w-full bg-[#e8f4fd] pt-2.5 pb-1.5 px-3">
-        <div className="relative w-full overflow-hidden rounded-xl aspect-[1200/533] select-none">
-          <div 
-            className="flex w-full h-full transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
-          >
-            {banners.map((src, index) => (
-              <div key={src} className="w-full h-full flex-shrink-0 relative">
-                <img 
-                  src={src} 
-                  alt={`Banner ${index + 1}`} 
-                  className="w-full h-full object-cover"
+      {/* 1. Line Categories Row (6 Tabs) */}
+      <div className="bg-gradient-to-b from-[#ffd7b0] to-[#fff3e8] text-[#212121] px-1 pt-2 pb-1.5 select-none border-b border-orange-100">
+        <div className="grid grid-cols-6 gap-1">
+          {[
+            { name: 'For You', icon: ForYouIcon },
+            { name: 'Fashion', icon: FashionIcon },
+            { name: 'Mobiles', icon: MobilesIcon },
+            { name: 'Electronics', icon: ElectronicsIcon },
+            { name: 'Beauty', icon: BeautyIcon },
+            { name: 'Home', icon: HomeIcon }
+          ].map((cat) => {
+            const isForYou = cat.name === 'For You';
+            return (
+              <div key={cat.name} className="flex flex-col items-center justify-between text-center cursor-pointer">
+                <div className="flex flex-col items-center justify-center">
+                  <div className={`w-[40px] h-[40px] flex items-center justify-center mb-1 ${isForYou ? 'bg-black/5 rounded-xl border border-black/10' : ''}`}>
+                    <cat.icon className="w-[24px] h-[24px] text-[#212121]" />
+                  </div>
+                  <span className={`text-[11px] leading-tight text-[#212121] ${isForYou ? 'font-bold' : 'font-medium'}`}>{cat.name}</span>
+                </div>
+                <div 
+                  style={{ 
+                    height: '3px', 
+                    backgroundColor: isForYou ? '#111111' : 'transparent', 
+                    width: '32px', 
+                    marginTop: '4px', 
+                    borderRadius: '2px' 
+                  }} 
                 />
               </div>
-            ))}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 2. Middle Promo Banner 1 (Freedom Sale Starts 8th Aug) */}
+      <div className="w-full bg-[#fff3e8] px-3 py-2">
+        <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-r from-[#fff5eb] via-[#ffe8d6] to-[#ffd4b2] border border-orange-200/60 p-3.5 flex items-center justify-between shadow-xs">
+          <div className="flex flex-col gap-1 z-10 max-w-[68%]">
+            <div className="inline-flex items-center gap-1 bg-[#1e40af] text-white font-black text-[10px] px-2 py-0.5 rounded-r-full -ml-3.5 uppercase tracking-wider shadow-2xs">
+              <span>FREEDOM</span> <span className="text-amber-300">SALE</span>
+            </div>
+            <h3 className="text-[16px] font-black text-[#c0392b] tracking-tight leading-tight mt-0.5">
+              STARTS ON <span className="text-[#111]">8th AUG</span>
+            </h3>
+            <p className="text-[10px] font-bold text-slate-700 leading-tight">
+              24 Hrs Early Access for Plus, BLACK & Flipkart Credit Card members
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2 z-10">
+            <div className="w-11 h-11 rounded-full bg-amber-400/20 flex items-center justify-center">
+              <span className="text-xl">🎡</span>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-slate-800 shadow-sm font-black text-xs">
+              →
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Categories Row (5 Categories matching goats-sale.com) */}
-      <div className="bg-white text-[#212121] px-1 py-2 select-none border-b border-slate-150">
+      {/* 3. Middle Promo Banner 2 (Salute Worthy Deals) */}
+      <div className="w-full bg-[#fff3e8] px-3 pb-2">
+        <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#70b0e0] via-[#5b9bd5] to-[#4682b4] border border-sky-300/60 p-3.5 flex flex-col justify-between shadow-sm min-h-[160px]">
+          {/* Top Row */}
+          <div className="flex items-start justify-between w-full z-10">
+            <div className="bg-[#1e40af] text-white p-1.5 rounded-lg text-center leading-none shadow-sm">
+              <div className="text-[9px] font-black tracking-wider uppercase text-amber-300">FREEDOM SALE</div>
+              <div className="text-[8px] font-bold text-slate-100 mt-0.5">STARTS 8th AUG</div>
+              <div className="text-[7px] font-semibold text-amber-200 mt-0.5">Early Access: 7th AUG</div>
+            </div>
+            <div className="bg-black/40 backdrop-blur-xs text-white text-[8px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
+              <span>Powered by</span>
+              <span className="font-black text-white">intel CORE</span>
+              <span>|</span>
+              <span className="font-black text-amber-300">boltt</span>
+            </div>
+          </div>
+
+          {/* Center 3D Text */}
+          <div className="text-center my-1.5 z-10">
+            <h2 className="text-[24px] font-black text-white tracking-tight uppercase italic leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" style={{ textShadow: '2px 2px 0px #1e3a8a, -2px -2px 0px #1e3a8a' }}>
+              SALUTE<br />WORTHY DEALS
+            </h2>
+            <div className="inline-block bg-white text-[#2874f0] font-extrabold text-[10.5px] px-3 py-0.5 rounded-full shadow-md mt-1">
+              Wishlist now
+            </div>
+          </div>
+
+          {/* Bottom Row */}
+          <div className="bg-white rounded-lg p-1.5 flex items-center justify-between z-10 shadow-sm mt-1">
+            <div className="flex items-center gap-1.5">
+              <div className="bg-[#00a8cc] text-white text-[8.5px] font-black px-1.5 py-0.5 rounded">
+                SBI card
+              </div>
+              <div className="text-[9.5px] font-extrabold text-slate-900 leading-tight">
+                10% Instant Discount*
+              </div>
+            </div>
+            <div className="text-[7.5px] font-semibold text-slate-500">
+              with SBI Credit Card (also valid on EMI Trxns.)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. 3D Pedestal Category Icons Row (5 Items: Mobiles, Electronics, Appliances, Furniture, Grocery) */}
+      <div className="bg-white text-[#212121] px-1 py-2.5 select-none border-b border-slate-150">
         <div className="grid grid-cols-5 gap-1">
           {[
             { name: 'Mobiles', icon: MobilePedestalIcon },
@@ -513,7 +598,7 @@ export default function Home() {
               }}
               className="flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 transition-transform py-1"
             >
-              <div className="w-[50px] h-[50px] flex items-center justify-center mb-1">
+              <div className="w-[48px] h-[48px] flex items-center justify-center mb-1">
                 <cat.icon />
               </div>
               <span className="text-[12px] font-medium leading-tight text-[#212121]">{cat.name}</span>

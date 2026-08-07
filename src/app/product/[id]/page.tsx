@@ -1697,8 +1697,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
       </div>
 
-      {/* More products for you - below All Reviews */}
-      <MoreProductsForYou currentProductId={id} />
 
       {/* Sticky Bottom Bar (Flipkart style matching user screenshots) */}
       <div className="footer-btn z-[100]">

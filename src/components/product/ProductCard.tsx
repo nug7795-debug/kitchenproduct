@@ -91,16 +91,16 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           {name}
         </div>
 
-        {/* Rating Row (4 filled stars + 1 hollow star + (500) + F-Assured Badge inline) */}
+        {/* Rating Row (5 green filled stars + (1,000) + F-Assured Badge inline matching goats-sale.com) */}
         <div className="rating-row flex items-center gap-[4px] mb-[6px] min-w-0 max-w-full flex-wrap">
           <div className="stars text-[#26a541] text-[11px] flex gap-[1px] shrink-0 font-bold">
-            ★★★★☆
+            ★★★★★
           </div>
-          <span className="count text-[11px] text-[#878787]">({totalRatings})</span>
+          <span className="count text-[11px] text-[#878787]">(1,000)</span>
           <img 
-            src="/fa_user_badge.png" 
+            src="/fa_62673a.png" 
             alt="Assured" 
-            className="assured h-[15px] ml-[2px] max-w-[58px] object-contain inline-block shrink-0" 
+            className="assured h-[14px] ml-[2px] max-w-[58px] object-contain inline-block shrink-0" 
           />
         </div>
 
@@ -119,11 +119,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </span>
         </div>
 
-        {/* WOW! Offer Row */}
+        {/* WOW! Offer Row matching goats-sale.com */}
         <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
           <img 
-            src="/wow_badge.svg" 
-            alt="WOW" 
+            src="/wow_user_badge.png" 
+            alt="WOW!" 
             className="h-[15px] shrink-0 object-contain inline-block" 
           />
           <span className="wow-price text-[14px] font-bold text-[#1a4fb8]">

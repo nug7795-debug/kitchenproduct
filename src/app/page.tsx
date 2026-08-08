@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { BannerSlider } from '../components/home/BannerSlider';
+import { HeroHeader } from '../components/home/HeroHeader';
 import { ProductCard } from '../components/product/ProductCard';
 import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight, Smartphone, Monitor } from 'lucide-react';
@@ -444,45 +445,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen">
-      <div className="bg-white">
-        {/* Freedom Sale Banner matching banner-image-full class */}
-        <div className="w-full bg-white pt-[6px] px-[8px] pb-0 max-w-[520px] mx-auto select-none">
-          <img 
-            src="/banner_freedom_site.jpg" 
-            alt="Freedom Sale" 
-            className="w-full h-auto rounded-[16px] block shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
-          />
-        </div>
-
-        {/* 5 Categories Grid matching categories-container & categories-grid classes */}
-        <div className="w-full bg-white pt-[5px] px-[5px] pb-[2px] max-w-[520px] mx-auto select-none">
-          <div className="grid grid-cols-5 gap-[4px] mt-[6px]">
-            {[
-              { name: 'Mobiles', img: '/cat_mobiles_site.jpg' },
-              { name: 'Electronics', img: '/cat_electronics_site.jpg' },
-              { name: 'Appliances', img: '/cat_appliances_site.png' },
-              { name: 'Furniture', img: '/cat_furniture_site.jpg' },
-              { name: 'Grocery', img: '/cat_grocery_site.png' }
-            ].map((cat) => (
-              <div 
-                key={cat.name} 
-                onClick={() => {
-                  const el = document.getElementById('products-section');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="flex flex-col items-center justify-center text-center cursor-pointer select-none"
-              >
-                <img 
-                  src={cat.img} 
-                  alt={cat.name} 
-                  className="w-[42px] h-[42px] object-contain mb-[6px]"
-                />
-                <p className="text-[12px] font-normal text-[#333333] text-center leading-[1.2]">{cat.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <HeroHeader />
 
       {/* Deal Bar matching deal-bar class */}
       <div className="w-full max-w-[520px] mx-auto mt-[4px] py-[9px] px-[14px] bg-white border-b border-[#f1f3f6] flex items-center justify-between gap-[12px] text-[13px] select-none" id="dealBar">

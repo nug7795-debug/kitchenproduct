@@ -424,20 +424,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         let nameToSearch = parsedData?.name;
         let idToSearch = parsedData?.productId || parsedData?.id;
 
-        if (!nameToSearch) {
-          try {
-            const items = JSON.parse(localStorage.getItem("cart_items") || localStorage.getItem("cart") || "[]");
-            if (Array.isArray(items) && items.length > 0) {
-              nameToSearch = items[0].name;
-              idToSearch = items[0].productId || items[0].id;
-              if (items[0].imageUrl || items[0].image) {
-                const imgUrl = items[0].imageUrl || items[0].image;
-                setCartData((prev: any) => ({ ...prev, image: imgUrl, imageUrl: imgUrl }));
-                return;
-              }
+        try {
+          const items = JSON.parse(localStorage.getItem("cart_items") || localStorage.getItem("cart") || "[]");
+          if (Array.isArray(items) && items.length > 0) {
+            if (!nameToSearch) nameToSearch = items[0].name;
+            if (!idToSearch) idToSearch = items[0].productId || items[0].id;
+            const itemImg = items[0].imageUrl || items[0].image || items[0].image_url;
+            if (itemImg) {
+              setCartData((prev: any) => ({ ...prev, image: itemImg, imageUrl: itemImg }));
             }
-          } catch {}
-        }
+          }
+        } catch {}
 
         if (idToSearch || nameToSearch) {
           try {
@@ -446,11 +443,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             if (idToSearch) {
               query = query.eq('id', idToSearch);
             } else if (nameToSearch) {
-              query = query.ilike('name', `%${nameToSearch}%`);
+              const cleanKeyword = nameToSearch.split(' ')[0] || nameToSearch;
+              query = query.ilike('name', `%${cleanKeyword}%`);
             }
             const { data: prod } = await query.limit(1).maybeSingle();
             if (prod) {
-              const exactImg = prod.product_images?.[0]?.image_url || prod.image || prod.image_url || (Array.isArray(prod.images) ? prod.images[0] : '') || '';
+              const exactImg = prod.image || prod.image_url || prod.product_images?.[0]?.image_url || (Array.isArray(prod.images) ? prod.images[0] : '') || '';
               if (exactImg) {
                 setCartData((prev: any) => ({
                   ...prev,
@@ -793,8 +791,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       const clean = url.trim();
       if (!clean) return false;
       if (clean.includes('via.placeholder.com') || clean.includes('placeholder.png') || clean.includes('truck.webp')) return false;
-      // Filter out invalid relative paths like /uploads/ that 404 on Vercel
-      if (clean.startsWith('/uploads/') || clean.startsWith('uploads/')) return false;
       return true;
     };
 

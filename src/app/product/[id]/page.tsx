@@ -33,7 +33,7 @@ const formatReviewDate = (dateStr: string) => {
 
 const AssuredBadgeBig = () => (
   <img 
-    src="/fa_62673a.png" 
+    src="/fa_user_badge.png" 
     alt="fAssured" 
     className="h-[21px] w-auto shrink-0 select-none align-middle inline-block ml-3" 
   />
@@ -1332,7 +1332,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   {(product.total_ratings || 1428).toLocaleString()} Ratings & {(product.total_reviews || 234).toLocaleString()} Reviews
                 </span>
                 <img 
-                  src="/fa_62673a.png" 
+                  src="/fa_user_badge.png" 
                   alt="Assured" 
                   className="h-[16px] w-auto ml-1.5 shrink-0 select-none align-middle inline-block"
                 />

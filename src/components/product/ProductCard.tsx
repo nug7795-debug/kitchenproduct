@@ -98,9 +98,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </div>
           <span className="count text-[11px] text-[#878787]">({totalRatings})</span>
           <img 
-            src="/fa_62673a.png" 
+            src="/fa_user_badge.png" 
             alt="Assured" 
-            className="assured h-[14px] ml-[2px] max-w-[55px] object-contain inline-block shrink-0" 
+            className="assured h-[15px] ml-[2px] max-w-[58px] object-contain inline-block shrink-0" 
           />
         </div>
 
@@ -122,7 +122,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* WOW! Offer Row */}
         <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
           <img 
-            src="/wow_badge.svg" 
+            src="/wow_user_badge.png" 
             alt="WOW" 
             className="h-[15px] shrink-0 object-contain inline-block" 
           />

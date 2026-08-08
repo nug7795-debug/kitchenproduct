@@ -1,8 +1,8 @@
 'use client';
 
 // Force Cache Bust: 2026-08-07T02:14:30.000Z
-import { use, useEffect, useState, useRef, useCallback, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState, useRef, useCallback, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, Download, Share2, Loader2, Lock, Gift, Banknote, HelpCircle, Smile, CreditCard, Calendar, ChevronDown, ChevronUp } from 'lucide-react';
 
 const o = {
@@ -319,25 +319,48 @@ function QrIcon({ size = 40 }: { size?: number }) {
   );
 }
 
-function PaytmIcon() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 42, height: 42, background: '#002970', borderRadius: 10 }}>
-      <span style={{ color: '#00baf2', fontWeight: 900, fontSize: 13, fontFamily: 'sans-serif', letterSpacing: -0.5 }}>pay</span>
-      <span style={{ color: '#fff', fontWeight: 900, fontSize: 13, fontFamily: 'sans-serif', letterSpacing: -0.5 }}>tm</span>
-    </div>
-  );
+
+
+
+function getUrlParam(key: string): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const sp = new URLSearchParams(window.location.search);
+    return sp.get(key);
+  } catch {
+    return null;
+  }
+}
+
+function getRouteIdFromUrl(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    const path = window.location.pathname;
+    const parts = path.split('/payment/');
+    if (parts.length > 1) {
+      return decodeURIComponent(parts[1].split('?')[0]);
+    }
+  } catch {}
+  return '';
 }
 
 function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
-  const resolvedParams = use(params);
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [paramsId, setParamsId] = useState<string>(() => getRouteIdFromUrl());
+
+  useEffect(() => {
+    if (params) {
+      Promise.resolve(params).then((p) => {
+        if (p?.id) setParamsId(p.id);
+      }).catch(() => {});
+    }
+  }, [params]);
 
   // Parsing route params safely
   const { selling, mrp } = (() => {
     try {
-      if (!resolvedParams?.id) return { selling: 0, mrp: 0 };
-      const rawId = decodeURIComponent(String(resolvedParams.id || ''));
+      const rawId = paramsId || getRouteIdFromUrl();
+      if (!rawId) return { selling: 0, mrp: 0 };
       const t = rawId.split(".");
       const s = parseInt((t[0] || '0').replace(/[^0-9]/g, ''), 10) || 0;
       const m = parseInt((t[1] || '0').replace(/[^0-9]/g, ''), 10) || s;
@@ -556,7 +579,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     if (isLoaded || errorMessage || !selling || selling <= 0 || initiatingRef.current) return;
 
     // Check if query parameters already carry txnid to avoid creating multiple draft orders
-    const queryTxnId = searchParams.get('txnid');
+    const queryTxnId = getUrlParam('txnid');
     if (queryTxnId) {
       initiatingRef.current = true;
       setTxnid(queryTxnId);
@@ -568,12 +591,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               amount: selling,
-              productinfo: cartData.name || "Order",
-              firstname: user.firstname || "",
-              email: user.email || "",
-              phone: user.phone || "",
+              productinfo: cartData?.name || "Order",
+              firstname: user?.firstname || "",
+              email: user?.email || "",
+              phone: user?.phone || "",
               txnid: queryTxnId,
-              orderId: searchParams.get('orderId')
+              orderId: getUrlParam('orderId')
             })
           });
           const t = await res.json();
@@ -606,10 +629,10 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: selling,
-            productinfo: cartData.name || "Order",
-            firstname: user.firstname || user.username || user.name || "",
-            email: user.email || "",
-            phone: user.phone || user.mobile || ""
+            productinfo: cartData?.name || "Order",
+            firstname: user?.firstname || user?.username || user?.name || "",
+            email: user?.email || "",
+            phone: user?.phone || user?.mobile || ""
           })
         });
         const t = await res.json();
@@ -632,7 +655,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       }
     };
     initiateTransaction();
-  }, [selling, user, cartData, isLoaded, errorMessage, searchParams]);
+  }, [selling, user, cartData, isLoaded, errorMessage]);
 
   // Real-time Automated Verification Polling loop (every 1 second)
   useEffect(() => {

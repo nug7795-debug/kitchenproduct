@@ -1297,7 +1297,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* product-data1 block */}
             <div className="product-data1 bg-white pt-2">
 
-              <div className="product-title text-[#007185]">
+              <div className="product-title text-[#212121]">
                 {product.name.length > 55 && !showFullTitle ? (
                   <>
                     {product.name.substring(0, 52)}...
@@ -1344,10 +1344,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <span className="price">₹{Math.round(displaySalePrice).toLocaleString('en-IN')}</span>
               </div>
 
-              {/* Packaging & Free Delivery subtext (Exact copy from goats-sale.com, with by 2 Days removed) */}
+              {/* Packaging subtext */}
               <div className="mt-2 text-[13.5px] text-slate-800 leading-normal font-medium select-none">
                 <div>+ <del className="text-slate-400">₹99</del> Secured Packaging Free</div>
-                <div>Free delivery</div>
               </div>
             </div>
 

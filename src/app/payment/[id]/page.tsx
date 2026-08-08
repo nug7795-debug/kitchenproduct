@@ -370,6 +370,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     }
   })();
 
+  const [user, setUser] = useState<any>({});
   const [cartData, setCartData] = useState<any>(() => {
     if (typeof window !== 'undefined') {
       try {

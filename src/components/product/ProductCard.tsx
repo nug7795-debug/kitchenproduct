@@ -122,7 +122,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* WOW! Offer Row matching goats-sale.com */}
         <div className="wow flex items-center gap-[5px] mb-[6px] min-w-0 flex-wrap">
           <img 
-            src="/wow_user_badge.png" 
+            src="/wow_clean.svg" 
             alt="WOW!" 
             className="h-[15px] shrink-0 object-contain inline-block" 
           />

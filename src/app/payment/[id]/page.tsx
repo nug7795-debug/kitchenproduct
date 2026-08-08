@@ -333,14 +333,18 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Parsing route params
+  // Parsing route params safely
   const { selling, mrp } = (() => {
-    if (!resolvedParams.id) return { selling: 0, mrp: 0 };
-    const t = String(resolvedParams.id).split(".");
-    return {
-      selling: Number(t[0]) || 0,
-      mrp: Number(t[1]) || 0
-    };
+    try {
+      if (!resolvedParams?.id) return { selling: 0, mrp: 0 };
+      const rawId = decodeURIComponent(String(resolvedParams.id || ''));
+      const t = rawId.split(".");
+      const s = parseInt((t[0] || '0').replace(/[^0-9]/g, ''), 10) || 0;
+      const m = parseInt((t[1] || '0').replace(/[^0-9]/g, ''), 10) || s;
+      return { selling: s, mrp: m };
+    } catch {
+      return { selling: 0, mrp: 0 };
+    }
   })();
 
   const [cartData, setCartData] = useState<any>(() => {

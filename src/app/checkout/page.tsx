@@ -573,7 +573,9 @@ export default function CheckoutPage() {
         console.error('Failed to persist payment details:', e);
       }
 
-      window.location.href = `/payment/${totalSale}.${totalOriginal || totalSale}?txnid=${data.transactionId}&orderId=${newOrder.id}`;
+      const cleanSale = Math.round(Number(totalSale) || 0);
+      const cleanOriginal = Math.round(Number(totalOriginal) || cleanSale);
+      window.location.href = `/payment/${cleanSale}.${cleanOriginal}?txnid=${data.transactionId}&orderId=${newOrder.id}`;
       return;
     } catch (err: any) {
       console.error(err);

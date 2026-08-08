@@ -343,8 +343,32 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     };
   })();
 
-  const [user, setUser] = useState<any>({});
-  const [cartData, setCartData] = useState<any>({});
+  const [cartData, setCartData] = useState<any>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const storedData = JSON.parse(localStorage.getItem("data") || "{}");
+        const items = JSON.parse(localStorage.getItem("cart_items") || localStorage.getItem("cart") || "[]");
+        let name = storedData?.name;
+        let image = storedData?.image || storedData?.imageUrl;
+        let id = storedData?.productId || storedData?.id;
+
+        if (Array.isArray(items) && items.length > 0) {
+          if (!name) name = items[0].name;
+          if (!image) image = items[0].imageUrl || items[0].image || items[0].image_url;
+          if (!id) id = items[0].productId || items[0].id;
+        }
+
+        return {
+          ...storedData,
+          name: name || storedData?.name || '',
+          image: image || storedData?.image || '',
+          imageUrl: image || storedData?.imageUrl || '',
+          id: id || storedData?.id || ''
+        };
+      } catch (e) {}
+    }
+    return {};
+  });
   const [selectedMethod, setSelectedMethod] = useState(o.PHONEPE);
   const [expandedSection, setExpandedSection] = useState<'upi' | 'card' | 'emi' | null>('upi');
   
@@ -440,12 +464,18 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           try {
             const supabase = (await import('@/lib/supabase')).supabase;
             let query = supabase.from('products').select('*, product_images(image_url)');
-            if (idToSearch) {
+            
+            const isUuid = typeof idToSearch === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idToSearch);
+            
+            if (isUuid) {
               query = query.eq('id', idToSearch);
             } else if (nameToSearch) {
-              const cleanKeyword = nameToSearch.split(' ')[0] || nameToSearch;
-              query = query.ilike('name', `%${cleanKeyword}%`);
+              const keywords = nameToSearch.split(' ').filter((w: string) => w.length > 1).slice(0, 2).join(' ');
+              query = query.ilike('name', `%${keywords || nameToSearch}%`);
+            } else {
+              query = query.limit(1);
             }
+
             const { data: prod } = await query.limit(1).maybeSingle();
             if (prod) {
               const exactImg = prod.image || prod.image_url || prod.product_images?.[0]?.image_url || (Array.isArray(prod.images) ? prod.images[0] : '') || '';

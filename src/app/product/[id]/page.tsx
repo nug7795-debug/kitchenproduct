@@ -1610,30 +1610,31 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <path d="M9 28C10.3807 28 11.5 26.8807 11.5 25.5C11.5 24.1193 10.3807 23 9 23C7.61929 23 6.5 24.1193 6.5 25.5C6.5 26.8807 7.61929 28 9 28Z" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M24 28C25.3807 28 26.5 26.8807 26.5 25.5C26.5 24.1193 25.3807 23 24 23C22.6193 23 21.5 24.1193 21.5 25.5C21.5 26.8807 22.6193 28 24 28Z" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.7678C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
+              <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.9178C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
             </svg>
             {isInCart ? 'Go to Cart' : 'Add to Cart'}
          </button>
          <Link 
             href={`/checkout?productId=${product.id}`} 
             onClick={() => {
-              try {
-                const img = product.image || (Array.isArray(product.images) ? product.images[0] : '') || '';
-                localStorage.setItem('data', JSON.stringify({
-                  name: product.name,
-                  image: img,
-                  imageUrl: img
-                }));
-                localStorage.setItem('cart_items', JSON.stringify([{
-                  productId: product.id,
-                  name: product.name,
-                  price: product.price,
-                  salePrice: product.salePrice || product.price,
-                  image: img,
-                  imageUrl: img,
-                  quantity: 1
-                }]));
-              } catch (e) {}
-            }}
+               try {
+                 const img = product.image || product.image_url || (Array.isArray(product.images) ? (product.images[selectedImage] || product.images[0]) : '') || product.product_images?.[0]?.image_url || '';
+                 localStorage.setItem('data', JSON.stringify({
+                   name: product.name,
+                   image: img,
+                   imageUrl: img
+                 }));
+                 localStorage.setItem('cart_items', JSON.stringify([{
+                   productId: product.id,
+                   name: product.name,
+                   price: product.price,
+                   salePrice: product.salePrice || product.price,
+                   image: img,
+                   imageUrl: img,
+                   quantity: 1
+                 }]));
+               } catch (e) {}
+             }}
             className="b-btn text-black font-bold"
             style={{ backgroundColor: '#ffc200', border: 'none' }}
          >

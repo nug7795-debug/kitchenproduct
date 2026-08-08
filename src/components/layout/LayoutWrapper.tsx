@@ -45,7 +45,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  const hasHeader = pathname !== '/cart' && pathname !== '/settings' && !isFooterPage;
+  const hasHeader = pathname !== '/' && pathname !== '/cart' && pathname !== '/settings' && !isFooterPage;
 
   return (
     <div className="flex flex-col min-h-screen items-center overflow-x-clip bg-slate-100">

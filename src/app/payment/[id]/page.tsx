@@ -923,7 +923,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] font-sans pb-20">
+    <div className="min-h-screen bg-[#f1f3f6] font-sans pb-8">
       {/* Dynamic keyframe styles */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes spin {
@@ -1374,39 +1374,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Full-width Orange Flipkart Pay Footer Bar (Exact copy from screenshot) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 py-3 px-4 z-40 select-none">
-        <div className="max-w-md mx-auto">
-          <button 
-            onClick={() => {
-              if (isLoaded) {
-                if (selectedMethod === o.QR) {
-                  setShowQrModal(true);
-                  if (txnid) {
-                    fetch('/api/payments/open-upi', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ txnid, app: 'qr' })
-                    }).catch(err => console.error('Failed to register upi QR open:', err));
-                  }
-                } else if (selectedMethod === o.PHONEPE) {
-                  handleAppPay('phonepe');
-                } else if (selectedMethod === o.PAYTM) {
-                  handleAppPay('paytm');
-                }
-              }
-            }}
-            disabled={!isLoaded}
-            className={`w-full py-3.5 rounded-xl font-black text-[17px] transition-all shadow-md ${
-              isLoaded 
-                ? "bg-[#ff6100] text-white active:scale-[0.98] hover:bg-[#e65700]" 
-                : "bg-slate-200 text-slate-400 cursor-not-allowed"
-            }`}
-          >
-            {isLoaded ? `Pay ₹${selling}` : "Loading..."}
-          </button>
-        </div>
-      </div>
+
 
       {/* Polling / App Intent Verification Modal Overlay (Hidden) */}
       {false && activePayScreen === 'select' && activeVerificationApp && (

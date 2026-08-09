@@ -32,9 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta httpEquiv="Pragma" content="no-cache" />
-        <meta httpEquiv="Expires" content="0" />
+        {/* Preload critical above-the-fold header & hero banner images for instant rendering */}
+        <link rel="preload" href="/upor5.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/banner_freedom_site.jpg" as="image" />
+        <link rel="preload" href="/cat_mobiles.jpg" as="image" />
+        <link rel="preload" href="/cat_electronics.jpg" as="image" />
+        <link rel="preload" href="/cat_appliances.png" as="image" />
+        <link rel="preload" href="/cat_furniture.jpg" as="image" />
+        <link rel="preload" href="/cat_grocery.png" as="image" />
       </head>
       <body className={cn("min-h-screen flex flex-col antialiased")}>
         <LayoutWrapper>

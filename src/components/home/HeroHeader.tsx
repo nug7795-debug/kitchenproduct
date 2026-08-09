@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const BANNERS = [
-  '/banner1.png',
+  '/banner_freedom_site.jpg',
   '/banner2.jpg',
   '/banner3.jpg',
   '/banner4.jpg',

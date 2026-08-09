@@ -405,16 +405,29 @@ export default function CheckoutPage() {
     }
   };
 
-  // 1. Submit Shipping Address
+  // 1. Submit Shipping Address (Optional)
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!address.fullName || !address.phone || !houseNumber || !roadName || !address.city || !address.state || !address.postalCode) {
-      setError('Please fill in all address details');
-      return;
-    }
 
-    // Combine split fields into a single streetAddress string
-    address.streetAddress = `${houseNumber.trim()}, ${roadName.trim()}`;
+    // Auto-fill fallback default values if any address fields are left blank by the user
+    const finalFullName = address.fullName.trim() || 'Customer';
+    const finalPhone = address.phone.trim() || '9876543210';
+    const finalHouseNumber = houseNumber.trim() || 'House No. 1';
+    const finalRoadName = roadName.trim() || 'Main Road';
+    const finalCity = address.city.trim() || 'New Delhi';
+    const finalState = address.state || 'Delhi';
+    const finalPostalCode = address.postalCode.trim() || '110001';
+
+    setAddress({
+      fullName: finalFullName,
+      phone: finalPhone,
+      city: finalCity,
+      state: finalState,
+      postalCode: finalPostalCode,
+      streetAddress: `${finalHouseNumber}, ${finalRoadName}`
+    });
+    setHouseNumber(finalHouseNumber);
+    setRoadName(finalRoadName);
 
     setError(null);
     setStep('summary');
@@ -734,7 +747,11 @@ export default function CheckoutPage() {
               <button 
                 onClick={() => {
                   if (step === 'address') {
-                    window.location.href = '/cart';
+                    if (window.history.length > 1) {
+                      router.back();
+                    } else {
+                      window.location.href = '/';
+                    }
                   } else if (step === 'summary') {
                     setStep('address');
                   } else if (step === 'payment') {
@@ -898,8 +915,7 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      required
-                      placeholder="Full Name (Required)*"
+                      placeholder="Full Name (Optional)"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={address.fullName}
                       onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
@@ -910,9 +926,8 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="tel" 
-                      required
                       maxLength={10}
-                      placeholder="Mobile number (Required)*"
+                      placeholder="Mobile number (Optional)"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={address.phone}
                       onChange={(e) => setAddress({ ...address, phone: e.target.value.replace(/\D/g, '') })}
@@ -923,9 +938,8 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      required
                       maxLength={6}
-                      placeholder="Pincode (Required)*"
+                      placeholder="Pincode (Optional)"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium font-mono"
                       value={address.postalCode}
                       onChange={(e) => setAddress({ ...address, postalCode: e.target.value.replace(/\D/g, '') })}
@@ -937,8 +951,7 @@ export default function CheckoutPage() {
                     <div className="relative">
                       <input 
                         type="text" 
-                        required
-                        placeholder="City (Required)*"
+                        placeholder="City (Optional)"
                         className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                         value={address.city}
                         onChange={(e) => setAddress({ ...address, city: e.target.value })}
@@ -947,12 +960,11 @@ export default function CheckoutPage() {
                     
                     <div className="relative border border-slate-300 rounded-md focus-within:border-[#2874f0] focus-within:ring-1 focus-within:ring-[#2874f0] flex items-center bg-white">
                       <select 
-                        required
                         className="w-full text-sm bg-transparent rounded-md pl-4 pr-8 py-3 outline-none text-slate-800 font-medium appearance-none cursor-pointer"
                         value={address.state}
                         onChange={(e) => setAddress({ ...address, state: e.target.value })}
                       >
-                        <option value="" disabled className="text-slate-400">State (Required)*</option>
+                        <option value="" className="text-slate-400">State (Optional)</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Assam">Assam</option>
@@ -1000,8 +1012,7 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      required
-                      placeholder="House No., Building Name (Required)*"
+                      placeholder="House No., Building Name (Optional)"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={houseNumber}
                       onChange={(e) => setHouseNumber(e.target.value)}
@@ -1012,8 +1023,7 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      required
-                      placeholder="Road name, Area, Colony (Required)*"
+                      placeholder="Road name, Area, Colony (Optional)"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={roadName}
                       onChange={(e) => setRoadName(e.target.value)}

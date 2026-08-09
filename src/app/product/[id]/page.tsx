@@ -155,20 +155,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   if (loading) {
     return (
-      <div className="w-full bg-[#f1f3f6] py-3.5">
-        <div className="flex items-center justify-between px-4 mb-2 select-none">
-          <h3 className="text-[15px] font-extrabold text-slate-900">Similar Products</h3>
-          <div className="w-9 h-6.5 bg-slate-200 rounded-full animate-pulse shrink-0" />
+      <div className="w-full bg-[#f1f3f6] pb-0">
+        <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
+          <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
         </div>
-        <div className="flex flex-row overflow-x-auto gap-2 px-4 select-none no-scrollbar">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-[155px] shrink-0 p-2.5 bg-white rounded-lg border border-slate-100/60 flex flex-col animate-pulse" style={{ height: '270px' }}>
-              <div className="w-full h-[130px] bg-slate-100 rounded-md mb-2" />
-              <div className="h-3 bg-slate-100 rounded w-5/6 mb-1.5" />
-              <div className="h-3 bg-slate-100 rounded w-2/3 mb-2" />
-              <div className="h-2.5 bg-slate-100 rounded w-1/3 mb-2" />
-              <div className="h-3.5 bg-slate-100 rounded w-1/2" />
-            </div>
+        <div className="grid grid-cols-2 gap-[1px]">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-none" />
           ))}
         </div>
       </div>
@@ -178,20 +171,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-[#f1f3f6] py-3.5">
-      <div className="flex items-center justify-between px-4 mb-2 select-none">
-        <h3 className="text-[15px] font-extrabold text-slate-900">Similar Products</h3>
-        <button className="w-9 h-6.5 bg-[#212121] rounded-full flex items-center justify-center hover:bg-slate-800 transition-colors text-white text-xs font-bold shrink-0">
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
-        </button>
+    <div className="w-full bg-[#f1f3f6] pb-0">
+      <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
+        <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
       </div>
-      <div className="flex flex-row overflow-x-auto gap-2.5 px-4 pb-1.5 select-none no-scrollbar snap-x snap-mandatory scroll-smooth">
+      <div className="grid grid-cols-2 gap-[1px]">
         {products.map((item) => (
-          <div key={item.id} className="w-[155px] shrink-0 snap-start bg-white rounded-lg overflow-hidden border border-slate-100 shadow-[0_1px_4px_rgba(0,0,0,0.03)] flex flex-col">
-            <ProductCard product={item} />
-          </div>
+          <ProductCard key={item.id} product={item} />
         ))}
       </div>
     </div>

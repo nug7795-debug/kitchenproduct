@@ -277,6 +277,22 @@ export default function Home() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 
+  // Load cached products immediately on mount for 0-second fast render on slow networks
+  React.useEffect(() => {
+    try {
+      const cached = localStorage.getItem('fast_cached_homepage_products');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProducts(parsed);
+          setLoading(false);
+        }
+      }
+    } catch (e) {
+      // Ignore cache errors
+    }
+  }, []);
+
   React.useEffect(() => {
     const migrateMockDbToSupabase = async () => {
       try {
@@ -345,12 +361,6 @@ export default function Home() {
   React.useEffect(() => {
     let active = true;
 
-    try {
-      localStorage.removeItem('cached_homepage_products');
-    } catch (e) {
-      // Ignore
-    }
-
     const fetchData = async () => {
       try {
         const settingsRes = await supabase
@@ -418,6 +428,11 @@ export default function Home() {
           const processed = applyDynamicBadges(data, badgesConfig);
           const shuffled = shuffleArray(processed);
           setProducts(shuffled);
+          try {
+            localStorage.setItem('fast_cached_homepage_products', JSON.stringify(shuffled));
+          } catch (e) {
+            // Ignore storage quota
+          }
         }
       } catch (err) {
         console.error('Error fetching products:', err);

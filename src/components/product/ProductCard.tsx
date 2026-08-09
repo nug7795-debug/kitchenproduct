@@ -80,6 +80,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <img 
           src={imageUrl} 
           alt={name}
+          loading="lazy"
+          decoding="async"
           className="max-w-full max-h-full w-auto h-auto object-contain"
         />
       </div>

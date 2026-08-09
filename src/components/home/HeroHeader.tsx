@@ -50,6 +50,10 @@ export const HeroHeader = () => {
         <img 
           src="/upor5.webp" 
           alt="Flipkart Header" 
+          loading="eager"
+          decoding="async"
+          // @ts-ignore
+          fetchpriority="high"
           className="w-full h-auto block select-none pointer-events-none"
         />
       </div>
@@ -68,6 +72,10 @@ export const HeroHeader = () => {
               <img
                 src={bannerUrl}
                 alt={`Banner ${index + 1}`}
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                // @ts-ignore
+                fetchpriority={index === 0 ? "high" : "low"}
                 className="w-full h-full object-cover select-none pointer-events-none"
               />
             </div>
@@ -118,6 +126,8 @@ export const HeroHeader = () => {
               <img
                 src={cat.img}
                 alt={cat.name}
+                loading="eager"
+                decoding="async"
                 className="w-[42px] h-[42px] mb-1.5 object-contain"
               />
               <span className="category-label text-[12px] font-medium text-[#333333] text-center leading-[1.2]">

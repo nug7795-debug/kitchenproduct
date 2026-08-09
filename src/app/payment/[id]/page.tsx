@@ -1103,38 +1103,42 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {/* Distinct Separate Cards for PhonePe, Paytm, and Scan QR Code */}
-        <div className="space-y-1.5 mb-2.5">
+        <div className="space-y-2 mb-3">
           
           {/* 1. PhonePe Card */}
           <div
             onClick={() => setSelectedMethod(o.PHONEPE)}
-            className={`w-full p-3 rounded-lg border-2 transition-all flex flex-col cursor-pointer select-none ${
+            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
               selectedMethod === o.PHONEPE
                 ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
                 : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-center justify-between w-full">
+              {/* Left Side: Radio Circle + Name */}
               <div className="flex items-center gap-3">
-                <div className="w-8.5 h-8.5 rounded-full overflow-hidden flex items-center justify-center shrink-0 shadow-xs">
-                  <PhonePeIcon size={34} />
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                  selectedMethod === o.PHONEPE ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-400 bg-white"
+                }`}>
+                  {selectedMethod === o.PHONEPE && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
                 </div>
-                <div className="flex flex-col items-start leading-none">
-                  <span className="text-[14.5px] font-bold text-[#111827]">PhonePe</span>
-                  <span className="bg-[#dcfce7] text-[#15803d] text-[10px] font-bold px-2 py-0.5 rounded-md mt-1 tracking-tight">
+                <div className="flex items-center gap-2">
+                  <span className="text-[15px] font-bold text-[#111827]">PhonePe</span>
+                  <span className="bg-[#dcfce7] text-[#15803d] text-[10px] font-bold px-1.5 py-0.5 rounded tracking-tight">
                     Fastest
                   </span>
                 </div>
               </div>
-              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                selectedMethod === o.PHONEPE ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
-              }`}>
-                {selectedMethod === o.PHONEPE && (
-                  <div className="w-2 h-2 rounded-full bg-white" />
-                )}
+
+              {/* Right Side: App Logo Icon */}
+              <div className="w-7 h-7 rounded-md overflow-hidden flex items-center justify-center shrink-0 shadow-2xs">
+                <PhonePeIcon size={28} />
               </div>
             </div>
 
+            {/* Yellow Pay Button Underneath */}
             {selectedMethod === o.PHONEPE && (
               <button
                 type="button"
@@ -1142,7 +1146,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   e.stopPropagation();
                   handleAppPay('phonepe');
                 }}
-                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
@@ -1152,32 +1156,36 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 2. Paytm Card */}
           <div
             onClick={() => setSelectedMethod(o.PAYTM)}
-            className={`w-full p-3 rounded-lg border-2 transition-all flex flex-col cursor-pointer select-none ${
+            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
               selectedMethod === o.PAYTM
                 ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
                 : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-center justify-between w-full">
+              {/* Left Side: Radio Circle + Name */}
               <div className="flex items-center gap-3">
-                <div className="w-8.5 h-8.5 rounded-full bg-white border border-slate-200 flex items-center justify-center shrink-0 p-1">
-                  <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
-                    alt="Paytm" 
-                    className="h-5 w-5 object-contain" 
-                  />
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                  selectedMethod === o.PAYTM ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-400 bg-white"
+                }`}>
+                  {selectedMethod === o.PAYTM && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
                 </div>
-                <span className="text-[14.5px] font-bold text-[#111827]">Paytm</span>
+                <span className="text-[15px] font-bold text-[#111827]">Paytm</span>
               </div>
-              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                selectedMethod === o.PAYTM ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
-              }`}>
-                {selectedMethod === o.PAYTM && (
-                  <div className="w-2 h-2 rounded-full bg-white" />
-                )}
+
+              {/* Right Side: App Logo Icon */}
+              <div className="w-7 h-7 rounded-md bg-white border border-slate-200 flex items-center justify-center shrink-0 p-0.5">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo_%28standalone%29.svg" 
+                  alt="Paytm" 
+                  className="h-full w-full object-contain" 
+                />
               </div>
             </div>
 
+            {/* Yellow Pay Button Underneath */}
             {selectedMethod === o.PAYTM && (
               <button
                 type="button"
@@ -1185,7 +1193,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   e.stopPropagation();
                   handleAppPay('paytm');
                 }}
-                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
@@ -1195,28 +1203,32 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           {/* 3. Scan QR Code Card */}
           <div
             onClick={() => setSelectedMethod(o.QR)}
-            className={`w-full p-3 rounded-lg border-2 transition-all flex flex-col cursor-pointer select-none ${
+            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
               selectedMethod === o.QR
                 ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
                 : 'border-slate-200 bg-white hover:border-slate-300'
             }`}
           >
             <div className="flex items-center justify-between w-full">
+              {/* Left Side: Radio Circle + Name */}
               <div className="flex items-center gap-3">
-                <div className="w-8.5 h-8.5 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 text-slate-700">
-                  <ScanToPayIcon size={19} />
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                  selectedMethod === o.QR ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-400 bg-white"
+                }`}>
+                  {selectedMethod === o.QR && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
                 </div>
-                <span className="text-[14.5px] font-bold text-[#111827]">Scan QR Code</span>
+                <span className="text-[15px] font-bold text-[#111827]">Scan QR Code</span>
               </div>
-              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                selectedMethod === o.QR ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-300 bg-white"
-              }`}>
-                {selectedMethod === o.QR && (
-                  <div className="w-2 h-2 rounded-full bg-white" />
-                )}
+
+              {/* Right Side: App Logo Icon */}
+              <div className="w-7 h-7 rounded-md bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 text-slate-700">
+                <ScanToPayIcon size={18} />
               </div>
             </div>
 
+            {/* Yellow Pay Button Underneath */}
             {selectedMethod === o.QR && (
               <button
                 type="button"
@@ -1231,7 +1243,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                     }).catch(err => console.error('Failed to register upi QR open:', err));
                   }
                 }}
-                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>

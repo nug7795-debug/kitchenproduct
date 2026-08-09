@@ -160,7 +160,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
           <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
         </div>
         <div className="grid grid-cols-2 gap-[1px]">
-          {Array.from({ length: 4 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-none" />
           ))}
         </div>
@@ -176,7 +176,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
         <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
       </div>
       <div className="grid grid-cols-2 gap-[1px]">
-        {products.map((item) => (
+        {products.slice(0, 6).map((item) => (
           <ProductCard key={item.id} product={item} />
         ))}
       </div>
@@ -1415,14 +1415,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* Similar Products (Moved above Product details) */}
-            <SimilarProducts 
-              currentProductId={product.id} 
-              categoryId={product.category_id} 
-              categoryName={product.categoryName} 
-              currentProductName={product.name}
-            />
-
             {/* Gray divider section block (gap) */}
             <div className="w-full h-2 bg-[#f1f3f6] mt-2" />
 
@@ -1575,6 +1567,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <ChevronRight className="h-4 w-4" />
                  </button>
             </div>
+
+            {/* Similar Products Section (Placed below All Reviews, max 6 products) */}
+            <SimilarProducts 
+              currentProductId={product.id} 
+              categoryId={product.category_id} 
+              categoryName={product.categoryName} 
+              currentProductName={product.name}
+            />
 
 
           </div>

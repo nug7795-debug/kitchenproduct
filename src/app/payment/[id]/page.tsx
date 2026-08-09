@@ -1142,7 +1142,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   e.stopPropagation();
                   handleAppPay('phonepe');
                 }}
-                className="w-full max-w-[180px] mx-auto mt-2.5 py-2 px-4 rounded-lg font-bold text-[14px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
@@ -1185,7 +1185,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                   e.stopPropagation();
                   handleAppPay('paytm');
                 }}
-                className="w-full max-w-[180px] mx-auto mt-2.5 py-2 px-4 rounded-lg font-bold text-[14px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
@@ -1231,7 +1231,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
                     }).catch(err => console.error('Failed to register upi QR open:', err));
                   }
                 }}
-                className="w-full max-w-[180px] mx-auto mt-2.5 py-2 px-4 rounded-lg font-bold text-[14px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+                className="w-full max-w-[270px] mx-auto mt-2.5 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>

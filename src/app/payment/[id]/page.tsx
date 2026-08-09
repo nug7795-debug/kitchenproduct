@@ -1078,7 +1078,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
       <div className="max-w-md mx-auto my-3 px-4 select-none">
         <div className="bg-[#f1faf3] border border-[#d2f0d6] py-3 px-5 flex items-center justify-between rounded-xl shadow-xs">
           <div className="flex flex-col">
-            <span className="text-sm font-black uppercase tracking-tight shimmer-text-rtl">95% CASHBACK</span>
+            <span className="text-sm font-black uppercase tracking-tight shimmer-text-rtl">UPTO 95% CASHBACK</span>
             <span className="text-slate-700 text-[11px] font-bold mt-0.5">Claim now with payment offers</span>
           </div>
           <div className="flex items-center gap-1.5 shrink-0 bg-white/80 px-2 py-1 rounded-md border border-slate-200">
@@ -1241,68 +1241,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
         {/* Other Payment Methods */}
         <div className="space-y-0 mb-0 border-t border-slate-200">
-          {/* 2. Credit / Debit / ATM Card Accordion Row */}
-          <div
-            className="w-full bg-white py-3.5 px-5 border-b border-slate-200 transition-all flex items-center justify-between select-none"
-          >
-            <div className="flex items-start gap-4">
-              <CreditCard className="h-5 w-8 text-slate-700 shrink-0 mt-0.5" strokeWidth={1.8} />
-              <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-[#111111] font-sans leading-tight">Credit / Debit / ATM Card</span>
-                <span className="text-slate-600 text-xs font-semibold mt-0.5">Add and secure cards as per RBI guidelines</span>
-                <span className="text-[#388e3c] text-[11px] font-bold mt-1">Get upto 20% cashback</span>
-              </div>
-            </div>
-            <ChevronDown className="h-5 w-5 text-slate-600 shrink-0 mt-0.5" />
-          </div>
 
-          {/* Card Details Entry Drawer */}
-          {expandedSection === 'card' && (
-            <div className="bg-slate-50/30 border-b border-slate-200 p-5 space-y-4">
-              <div className="space-y-3">
-                <input
-                  type="tel"
-                  maxLength={19}
-                  placeholder="Enter Card Number"
-                  className="w-full bg-white border border-slate-250 rounded-xl py-3.5 px-4 text-xs font-bold text-slate-800 outline-none focus:border-[#2874f0] transition-all"
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="tel"
-                    maxLength={5}
-                    placeholder="MM/YY"
-                    className="w-full bg-white border border-slate-250 rounded-xl py-3.5 px-4 text-xs font-bold text-slate-800 outline-none focus:border-[#2874f0] transition-all text-center"
-                  />
-                  <input
-                    type="password"
-                    maxLength={3}
-                    placeholder="CVV"
-                    className="w-full bg-white border border-slate-250 rounded-xl py-3.5 px-4 text-xs font-bold text-slate-800 outline-none focus:border-[#2874f0] transition-all text-center"
-                  />
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-2.5">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  id="secure-card-chk"
-                  className="mt-1 cursor-pointer accent-[#2874F0]"
-                />
-                <label htmlFor="secure-card-chk" className="text-[11px] text-slate-700 font-bold leading-normal cursor-pointer select-none">
-                  Secure this card as per RBI guidelines for faster future checkout.
-                </label>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => alert("Card payments are not enabled for this test order. Please select UPI or Scan To Pay.")}
-                className="w-full bg-[#ff9f00] hover:bg-[#ff9f00]/90 text-white font-black text-xs uppercase py-3.5 rounded-xl shadow-2xs active:scale-[0.98] transition-all"
-              >
-                Pay ₹ {selling}
-              </button>
-            </div>
-          )}
 
           {/* 3. Have a Flpkart Gift Card? Row */}
           {/* 3. Have a Flpkart Gift Card? Row */}

@@ -470,13 +470,13 @@ export default function Home() {
 
       <div className="bg-[#f1f3f6] pb-0" id="products-section">
         {loading ? (
-          <div className="list grid grid-cols-2 gap-[8px] p-[8px] max-w-[520px] mx-auto w-full">
+          <div className="list grid grid-cols-2 gap-[1px] max-w-[520px] mx-auto w-full">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-[6px]" />
+              <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-none" />
             ))}
           </div>
         ) : (
-          <div className="list grid grid-cols-2 gap-[8px] p-[8px] max-w-[520px] mx-auto w-full" id="homeList">
+          <div className="list grid grid-cols-2 gap-[1px] max-w-[520px] mx-auto w-full" id="homeList">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

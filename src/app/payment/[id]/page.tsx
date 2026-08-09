@@ -1102,16 +1102,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
 
-        {/* Distinct Separate Cards for PhonePe, Paytm, and Scan QR Code */}
-        <div className="space-y-2 mb-3">
+        {/* Unified Payment Options List Container (Zero Empty Gaps) */}
+        <div className="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 overflow-hidden mb-4">
           
-          {/* 1. PhonePe Card */}
+          {/* 1. PhonePe Row */}
           <div
             onClick={() => setSelectedMethod(o.PHONEPE)}
-            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
-              selectedMethod === o.PHONEPE
-                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
-                : 'border-slate-200 bg-white hover:border-slate-300'
+            className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
+              selectedMethod === o.PHONEPE ? 'bg-[#f4f8ff]' : 'bg-white hover:bg-slate-50'
             }`}
           >
             <div className="flex items-center justify-between w-full">
@@ -1153,13 +1151,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          {/* 2. Paytm Card */}
+          {/* 2. Paytm Row */}
           <div
             onClick={() => setSelectedMethod(o.PAYTM)}
-            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
-              selectedMethod === o.PAYTM
-                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
-                : 'border-slate-200 bg-white hover:border-slate-300'
+            className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
+              selectedMethod === o.PAYTM ? 'bg-[#f4f8ff]' : 'bg-white hover:bg-slate-50'
             }`}
           >
             <div className="flex items-center justify-between w-full">
@@ -1200,13 +1196,11 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          {/* 3. Scan QR Code Card */}
+          {/* 3. Scan QR Code Row */}
           <div
             onClick={() => setSelectedMethod(o.QR)}
-            className={`w-full p-3.5 rounded-xl border transition-all flex flex-col cursor-pointer select-none ${
-              selectedMethod === o.QR
-                ? 'border-[#2874f0] bg-[#f4f8ff] shadow-xs'
-                : 'border-slate-200 bg-white hover:border-slate-300'
+            className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
+              selectedMethod === o.QR ? 'bg-[#f4f8ff]' : 'bg-white hover:bg-slate-50'
             }`}
           >
             <div className="flex items-center justify-between w-full">
@@ -1249,14 +1243,9 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               </button>
             )}
           </div>
-        </div>
 
-        {/* Other Payment Methods */}
-        <div className="space-y-0 mb-0 border-t border-slate-200">
-
-
-          {/* 3. Have a Flpkart Gift Card? Row */}
-          <div className="w-full bg-white py-3 px-4 border-b border-slate-200 flex items-center justify-between select-none cursor-pointer">
+          {/* 4. Have a Flipkart Gift Card? Row */}
+          <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none cursor-pointer hover:bg-slate-50">
             <div className="flex items-center gap-3.5">
               <GiftCardIcon className="h-5 w-7 text-[#111111] shrink-0" />
               <span className="text-[14.5px] font-bold text-[#111111] font-sans">Have a Flpkart Gift Card?</span>
@@ -1264,8 +1253,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <span className="text-[13.5px] font-extrabold text-[#2874f0] select-none hover:text-[#2874f0]/80">Add</span>
           </div>
 
-          {/* 4. EMI (Unavailable) Row */}
-          <div className="w-full bg-white py-3 px-4 border-b border-slate-200 flex items-center justify-between select-none">
+          {/* 5. EMI (Unavailable) Row */}
+          <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none">
             <div className="flex items-center gap-3.5">
               <EmiIcon className="h-5 w-7 text-slate-400 shrink-0" />
               <span className="text-[14.5px] font-bold text-slate-400 font-sans">EMI</span>
@@ -1276,8 +1265,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
 
-          {/* 5. Cash on Delivery (Unavailable) Row */}
-          <div className="w-full bg-white py-3 px-4 border-b border-slate-200 flex items-center justify-between select-none">
+          {/* 6. Cash on Delivery (Unavailable) Row */}
+          <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none">
             <div className="flex items-center gap-3.5">
               <Banknote className="h-5 w-7 text-slate-400 shrink-0" strokeWidth={1.8} />
               <span className="text-[14.5px] font-bold text-slate-400 font-sans">Cash on Delivery</span>
@@ -1287,6 +1276,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
             </div>
           </div>
+
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}

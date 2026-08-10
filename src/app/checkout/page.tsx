@@ -1062,13 +1062,15 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={() => {
-                        if (window.history.length > 1) {
-                          router.back();
-                        } else {
-                          window.location.href = '/';
+                        if (typeof window !== 'undefined') {
+                          if (window.history.length > 1) {
+                            window.history.back();
+                          } else {
+                            window.location.href = '/';
+                          }
                         }
                       }}
-                      className="border border-slate-300 bg-white hover:bg-slate-50 text-[#2874f0] text-xs font-bold px-3 py-1 rounded transition-all shadow-2xs"
+                      className="border border-slate-300 bg-white hover:bg-slate-50 text-[#2874f0] text-xs font-bold px-3 py-1 rounded transition-all shadow-2xs cursor-pointer"
                     >
                       Change
                     </button>
@@ -1090,11 +1092,7 @@ export default function CheckoutPage() {
                       ? Math.round(((item.price - item.salePrice) / item.price) * 100)
                       : 99;
 
-                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                    const delDate = new Date();
-                    delDate.setDate(delDate.getDate() + 2);
-                    const delFormatted = `${delDate.getDate()} ${months[delDate.getMonth()]}, ${days[delDate.getDay()]}`;
+                    const delFormatted = getDynamicDeliveryDate(item.productId);
 
                     return (
                       <div key={idx} className="space-y-3">
@@ -1171,7 +1169,7 @@ export default function CheckoutPage() {
                   })}
                 </div>
 
-                {/* 3. Flipkart Black Privileges Card */}
+                {/* 3. Flipkart Black Privileges Card (Non-clickable Add button) */}
                 <div className="bg-white p-3.5 border-y border-slate-200 mb-2 flex items-center justify-between gap-3">
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 bg-[#0f172a] rounded-lg flex flex-col items-center justify-center shrink-0 text-white p-1 text-center leading-tight">
@@ -1191,14 +1189,10 @@ export default function CheckoutPage() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => setIsBlackMembershipAdded(!isBlackMembershipAdded)}
-                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
-                      isBlackMembershipAdded
-                        ? 'bg-slate-200 text-slate-700'
-                        : 'bg-[#2874f0] hover:bg-[#2065db] text-white shadow-xs'
-                    }`}
+                    disabled
+                    className="px-4 py-1.5 rounded-lg text-xs font-bold shrink-0 bg-[#2874f0] text-white cursor-default pointer-events-none select-none opacity-90"
                   >
-                    {isBlackMembershipAdded ? 'Added' : 'Add'}
+                    Add
                   </button>
                 </div>
 

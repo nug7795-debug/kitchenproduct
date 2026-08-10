@@ -1312,6 +1312,7 @@ export default function CheckoutPage() {
                   className="bg-[#ff6100] hover:bg-[#e65700] text-white px-8 py-3 rounded-lg text-sm font-black shadow-sm transition-transform active:scale-97 cursor-pointer"
                 >
                   {loading ? 'Processing...' : 'Continue'}
+                </Button>
               </div>
             </div>
           )}

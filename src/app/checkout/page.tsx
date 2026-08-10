@@ -49,7 +49,7 @@ interface CartItem {
 
 export default function CheckoutPage() {
   // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
-  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
+  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('summary');
   const [user, setUser] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(false);
   const [upiUrl, setUpiUrl] = React.useState<string | null>(null);
@@ -1047,223 +1047,250 @@ export default function CheckoutPage() {
             </form>
           )}
 
-          {/* STEP 2: ORDER SUMMARY */}
+          {/* STEP 2: ORDER SUMMARY (100% Exact Copy from goats-sale.com reference screenshot) */}
           {step === 'summary' && (
-            <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between">
+            <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between select-none">
               <div>
-                {/* 1. Deliver To Address Card - FULL BLEED */}
-                <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5 mb-2">
+                {/* 1. Deliver To Address Card (Exact text & Change button behavior) */}
+                <div className="bg-white p-3.5 border-b border-slate-200 relative flex flex-col gap-0.5 mb-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-800 font-extrabold text-xs uppercase tracking-wider">
-                      Deliver to:
-                    </span>
+                    <div className="flex items-center gap-1.5 text-xs">
+                      <span className="text-slate-600 font-normal">Deliver to:</span>
+                      <span className="font-bold text-slate-900">{address.fullName || 'Customer Name'}</span>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => setStep('address')}
-                      className="border border-[#2874f0] bg-white hover:bg-slate-50 text-[#2874f0] text-[10px] font-bold px-3 py-1 rounded transition-all tracking-wide uppercase"
+                      onClick={() => {
+                        if (window.history.length > 1) {
+                          router.back();
+                        } else {
+                          window.location.href = '/';
+                        }
+                      }}
+                      className="border border-slate-300 bg-white hover:bg-slate-50 text-[#2874f0] text-xs font-bold px-3 py-1 rounded transition-all shadow-2xs"
                     >
                       Change
                     </button>
                   </div>
-                  
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="font-extrabold text-slate-900 text-sm">{address.fullName}</span>
-                    <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-black tracking-wide uppercase">
-                      HOME
-                    </span>
-                  </div>
-                  
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                    {address.streetAddress}, {address.city}, {address.state} - <span className="font-mono font-bold text-slate-800">{address.postalCode}</span>
-                  </p>
-                  
-                  <p className="text-xs font-semibold text-slate-700 mt-0.5">
-                    {address.phone}
-                  </p>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">Fetching address details...</p>
+                  <p className="text-xs text-slate-600 font-medium">Loading number...</p>
                 </div>
 
-                {/* 2. Dynamic Products / Cart Items list - FULL BLEED */}
-                <div className="bg-white border-y border-slate-200 divide-y divide-slate-150">
+                {/* 2. Product Card */}
+                <div className="bg-white border-y border-slate-200 p-3.5 mb-2">
+                  {/* Badges */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-[#00b59c] text-white text-[9.5px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">BESTSELLER</span>
+                    <span className="bg-[#dcfce7] text-[#15803d] text-[9.5px] font-black px-1.5 py-0.5 rounded tracking-wider">Hot Deal</span>
+                  </div>
+
                   {cartItems.map((item, idx) => {
                     const discountPercent = item.price > item.salePrice 
                       ? Math.round(((item.price - item.salePrice) / item.price) * 100)
-                      : 0;
+                      : 99;
 
-                    // Setup dynamic delivery expectation date
                     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                    const deliveryDate = new Date();
-                    deliveryDate.setDate(deliveryDate.getDate() + 3);
-                    const deliveryString = `Delivery by ${months[deliveryDate.getMonth()]} ${deliveryDate.getDate()}, ${days[deliveryDate.getDay()]}`;
+                    const delDate = new Date();
+                    delDate.setDate(delDate.getDate() + 2);
+                    const delFormatted = `${delDate.getDate()} ${months[delDate.getMonth()]}, ${days[delDate.getDay()]}`;
 
                     return (
-                      <div key={idx} className="bg-white flex flex-col border-b border-slate-100 last:border-b-0">
-                        {/* Upper row: Product Image + Info */}
-                        <div className="pt-3 px-4 pb-2 flex gap-4 relative">
-                          {/* Product Image and Qty drop down */}
-                          <div className="flex flex-col items-center gap-2 shrink-0">
-                            <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
-                              <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
-                            </div>
-                            
-                            {/* Qty Selector Capsule - Interactive Dropdown */}
-                            <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
-                              <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
-                              <ChevronDown className="h-3 w-3 text-slate-500" />
-                              <select 
-                                value={item.quantity} 
-                                onChange={(e) => {
-                                  const q = parseInt(e.target.value);
-                                  const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
-                                  setCartItems(updated);
-                                  
-                                  // Sync to localStorage so cart and checkout remain perfectly in sync
-                                  const cached = localStorage.getItem('cart_items');
-                                  if (cached) {
-                                    try {
-                                      const cartList = JSON.parse(cached);
-                                      const updatedCart = cartList.map((it: any) => it.id === item.productId ? { ...it, quantity: q } : it);
-                                      localStorage.setItem('cart_items', JSON.stringify(updatedCart));
-                                      window.dispatchEvent(new Event('storage'));
-                                    } catch (err) {
-                                      console.error(err);
-                                    }
-                                  }
-                                }}
-                                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                              >
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(q => (
-                                  <option key={q} value={q}>{q}</option>
-                                ))}
-                              </select>
-                            </div>
+                      <div key={idx} className="space-y-3">
+                        <div className="flex gap-3">
+                          {/* Image */}
+                          <div className="w-20 h-20 bg-white rounded-lg border border-slate-200 shrink-0 p-1 flex items-center justify-center overflow-hidden">
+                            <img src={item.imageUrl} alt={item.name} className="w-full h-full object-contain" />
                           </div>
 
-                          {/* Product Info */}
-                          <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                            <h4 className="text-xs font-bold text-[#007185] line-clamp-2 leading-snug">
+                          {/* Details */}
+                          <div className="flex-1 min-w-0 flex flex-col">
+                            <h4 className="text-[13px] font-bold text-[#111827] line-clamp-2 leading-snug">
                               {item.name}
                             </h4>
-                            
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                              Silver Premium Edition
-                            </p>
+                            <span className="text-xs text-slate-400 font-medium mt-0.5">Default</span>
 
-                            {/* Ratings and Assured Icon */}
-                            <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                              <span className="bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8.5px] font-black flex items-center gap-0.5 shadow-2xs">
-                                4.4 ★
+                            {/* Ratings & Assured */}
+                            <div className="flex items-center gap-1.5 mt-1">
+                              <span className="bg-[#15803d] text-white text-[9.5px] font-bold px-1 py-0.5 rounded flex items-center gap-0.5">
+                                4.2 ★
                               </span>
-                              <span className="text-slate-400 font-bold">(9,614)</span>
-                              {/* Assured Emblem */}
-                              <img 
-                                src="/uploads/fa_62673a.png" 
-                                alt="Assured" 
-                                className="h-3.5 w-auto object-contain ml-1 inline-block" 
-                              />
+                              <img src="/uploads/fa_62673a.png" alt="Assured" className="h-3.5 w-auto object-contain" />
                             </div>
 
-                            {/* Flipkart Prices Row */}
-                            <div className="flex items-center gap-2.5 mt-1">
-                              {discountPercent > 0 && (
-                                <span className="text-xs font-black text-emerald-600">
-                                  ↓ {discountPercent}%
-                                </span>
-                              )}
-                              <span className="text-xs text-slate-400 line-through">
-                                ₹{item.price.toLocaleString()}
-                              </span>
-                              <span className="text-sm font-black text-slate-900">
-                                ₹{item.salePrice.toLocaleString()}
-                              </span>
+                            {/* Price */}
+                            <div className="flex items-center gap-2 mt-1.5">
+                              <span className="text-[#15803d] text-xs font-bold">↓ {discountPercent}%</span>
+                              <span className="text-xs text-slate-400 line-through">₹{item.price.toLocaleString()}</span>
+                              <span className="text-[15px] font-extrabold text-[#111827]">₹{item.salePrice.toLocaleString()}</span>
                             </div>
+
+                            <span className="text-[11px] text-[#15803d] font-bold mt-1">1 coupon applied • 1 offer available</span>
                           </div>
                         </div>
 
-                        {/* Lower row: Express Delivery Row with Dynamic Date */}
-                        <div className="w-full bg-white border-t border-slate-100 py-3.5 px-4 flex items-center gap-2.5">
-                          {/* Blue Delivery Truck SVG */}
-                          <svg className="w-4.5 h-4.5 text-[#2874f0] shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm2-5.5h-3V9h3v4z"/>
-                          </svg>
-                          <span className="text-[12px] text-slate-700 font-semibold tracking-tight">
-                            <span className="font-extrabold text-slate-900 mr-1">EXPRESS</span> Delivery by <span className="font-extrabold text-slate-900">{getDynamicDeliveryDate(item.productId)}</span>
+                        {/* Quantity Stepper */}
+                        <div className="flex items-center border border-slate-300 rounded-md w-fit select-none">
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              if (item.quantity > 1) {
+                                const q = item.quantity - 1;
+                                const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
+                                setCartItems(updated);
+                              }
+                            }}
+                            className="px-3 py-0.5 text-slate-600 font-bold hover:bg-slate-100 text-sm"
+                          >
+                            -
+                          </button>
+                          <span className="px-3.5 py-0.5 text-xs font-bold text-slate-900 border-x border-slate-300">
+                            {item.quantity}
                           </span>
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              const q = item.quantity + 1;
+                              const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
+                              setCartItems(updated);
+                            }}
+                            className="px-3 py-0.5 text-slate-600 font-bold hover:bg-slate-100 text-sm"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        {/* Express Delivery Row */}
+                        <div className="flex items-center gap-2 pt-2.5 border-t border-slate-100 text-xs">
+                          <span className="text-slate-700 font-medium">🚚 Delivery by <span className="font-bold text-slate-900">{delFormatted}</span></span>
+                          <span className="text-[#15803d] font-extrabold ml-auto uppercase">FREE</span>
                         </div>
                       </div>
                     );
                   })}
                 </div>
 
-                {/* 4. Rest assured with Open Box Delivery */}
-                <div className="bg-white p-4.5 border-y border-slate-200 mb-2 space-y-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">📦</span>
-                    <h4 className="text-[11px] font-extrabold text-[#873e23] uppercase tracking-wide">
-                      Take a look at it with open box delivery
-                    </h4>
+                {/* 3. Flipkart Black Privileges Card */}
+                <div className="bg-white p-3.5 border-y border-slate-200 mb-2 flex items-center justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-[#0f172a] rounded-lg flex flex-col items-center justify-center shrink-0 text-white p-1 text-center leading-tight">
+                      <span className="text-[7.5px] font-bold text-slate-400 uppercase tracking-tighter">Flipkart</span>
+                      <span className="text-[9px] font-black text-amber-400 uppercase tracking-tighter">BLACK</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <h5 className="text-[12.5px] font-bold text-slate-900 leading-tight">Get privileges worth ₹2,290</h5>
+                      <p className="text-[10.5px] text-slate-500 font-medium leading-snug mt-0.5">
+                        FREE YouTube Premium, 5% SuperCoin cashback only with Black membership →
+                      </p>
+                      <div className="flex items-center gap-2 mt-1.5 text-xs">
+                        <span className="text-slate-400 line-through">₹1,499</span>
+                        <span className="font-bold text-slate-900">₹990 for 1 year</span>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-[9.5px] text-slate-500 font-bold leading-normal pl-6">
+                  <button
+                    type="button"
+                    onClick={() => setIsBlackMembershipAdded(!isBlackMembershipAdded)}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 ${
+                      isBlackMembershipAdded
+                        ? 'bg-slate-200 text-slate-700'
+                        : 'bg-[#2874f0] hover:bg-[#2065db] text-white shadow-xs'
+                    }`}
+                  >
+                    {isBlackMembershipAdded ? 'Added' : 'Add'}
+                  </button>
+                </div>
+
+                {/* 4. Rest assured with Open Box Delivery Card */}
+                <div className="bg-white p-3.5 border-y border-slate-200 mb-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm">📦</span>
+                    <h5 className="text-xs font-bold text-[#854d0e]">Rest assured with Open Box Delivery</h5>
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium leading-relaxed pl-6">
                     Delivery agent will open the package so you can check for correct product, damage or missing items. Share OTP to accept the delivery.
                   </p>
                 </div>
 
-                {/* 5. Price Details Breakdown & 6. Green Savings Banner - FULL BLEED UNIFIED CONTAINER */}
-                <div className="bg-white border-y border-slate-200 overflow-hidden">
-                  <div className="py-4 px-5 space-y-3">
-                    <h3 className="text-[15px] font-bold text-slate-800 pb-2 border-b border-slate-150 mb-1">Price Details</h3>
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-slate-500 font-medium">Price ({cartItems.length} items)</span>
-                      <span className="font-bold text-slate-700">₹{totalOriginal.toLocaleString()}</span>
+                {/* 5. Support Transformative Social Work Card */}
+                <div className="bg-white p-3.5 border-y border-slate-200 mb-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <h5 className="text-xs font-bold text-slate-900">Support Transformative Social Work</h5>
+                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=100&auto=format&fit=crop&q=80" alt="Social" className="h-6 w-10 object-cover rounded" />
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium mb-2.5">Add a donation to your order</p>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[10, 20, 50, 100].map((amt) => (
+                      <button
+                        key={amt}
+                        type="button"
+                        onClick={() => setDonationAmount(donationAmount === amt ? 0 : amt)}
+                        className={`py-1.5 rounded-lg border text-xs font-bold transition-all ${
+                          donationAmount === amt
+                            ? 'border-[#2874f0] bg-blue-50/50 text-[#2874f0]'
+                            : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+                        }`}
+                      >
+                        ₹{amt}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-slate-400 font-medium mt-2">
+                    Note: GST and No cost EMI will not be applicable on donation.
+                  </p>
+                </div>
+
+                {/* 6. Price Details Breakdown */}
+                <div className="bg-white border-y border-slate-200 p-3.5 mb-2 select-none">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
+                    <h4 className="text-xs font-bold text-slate-900">Price Details</h4>
+                    <ChevronUp className="h-4 w-4 text-slate-400" />
+                  </div>
+
+                  <div className="space-y-2.5 text-xs">
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span>Price ({cartItems.length} item{cartItems.length > 1 ? 's' : ''})</span>
+                      <span className="font-semibold text-slate-900">₹{totalOriginal.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-slate-500 font-medium">Discount Savings</span>
-                      <span className="font-bold text-green-600">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
+                    <div className="flex justify-between items-center text-[#15803d]">
+                      <span>Discount</span>
+                      <span className="font-bold">-₹{(totalOriginal - baseSaleTotal).toLocaleString()}</span>
                     </div>
                     {isBlackMembershipAdded && (
-                      <div className="flex justify-between items-center text-xs animate-in fade-in">
-                        <span className="text-slate-500 font-medium">Black Membership (1 Year)</span>
-                        <span className="font-bold text-slate-705 text-slate-800">₹990</span>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>Black Membership (1 Year)</span>
+                        <span className="font-semibold text-slate-900">₹990</span>
                       </div>
                     )}
                     {donationAmount > 0 && (
-                      <div className="flex justify-between items-center text-xs animate-in fade-in">
-                        <span className="text-slate-500 font-medium">UPI Donation Support</span>
-                        <span className="font-bold text-slate-705 text-slate-800">₹{donationAmount}</span>
+                      <div className="flex justify-between items-center text-slate-600">
+                        <span>UPI Donation Support</span>
+                        <span className="font-semibold text-slate-900">₹{donationAmount}</span>
                       </div>
                     )}
-                    {couponDiscount > 0 && (
-                      <div className="flex justify-between items-center text-xs bg-emerald-50/50 p-2 rounded-lg border border-emerald-100/50 animate-in fade-in">
-                        <span className="text-emerald-700 font-bold flex items-center gap-1">
-                          <Ticket className="h-3.5 w-3.5 text-emerald-600 shrink-0" /> Coupon Discount ({appliedCoupon?.code})
-                        </span>
-                        <span className="font-black text-emerald-600">-₹{couponDiscount.toLocaleString()}</span>
-                      </div>
-                    )}
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-slate-500 font-medium">Delivery Charges</span>
-                      <span className="font-bold text-green-600">FREE</span>
+                    <div className="flex justify-between items-center text-[#15803d]">
+                      <span>Delivery Charges</span>
+                      <span className="font-bold">Free Delivery</span>
                     </div>
-                    <div className="pt-2.5 border-t border-dashed border-slate-200 flex justify-between items-center">
-                      <span className="text-sm font-black text-slate-900 uppercase">Total Payable</span>
-                      <span className="text-base font-black text-[#2874f0]">₹{totalSale.toLocaleString()}</span>
+                    <div className="pt-2 border-t border-slate-100 flex justify-between items-center text-sm font-black text-slate-900">
+                      <span>Total Amount</span>
+                      <span>₹{totalSale.toLocaleString()}</span>
                     </div>
                   </div>
 
-                  {/* Green Savings Banner */}
-                  <div className="bg-[#e8f5e9]/70 border-t border-dashed border-[#c8e6c9] py-3.5 px-5 flex items-center gap-2 text-xs font-bold text-[#388e3c]">
-                    <span className="bg-[#388e3c] text-white p-0.5 rounded-full shrink-0 flex items-center justify-center h-4 w-4 text-[9px] font-black">
-                      %
-                    </span>
-                    <span>You'll save ₹{(totalOriginal - totalSale).toLocaleString()} on this order!</span>
+                  <div className="mt-3 pt-2 border-t border-slate-100 text-xs font-bold text-[#15803d]">
+                    You will save -₹{(totalOriginal - totalSale).toLocaleString()} on this order
                   </div>
-                </div>
 
-                {/* Age Consent and Terms Notice */}
-                <div className="bg-[#f8fafc] border border-slate-200/60 rounded-xl p-4 mx-4 my-4 text-[10.5px] font-bold text-slate-500 leading-relaxed shadow-3xs">
-                  By continuing with the order, you confirm that you are above 18 years of age, and you agree to the kitchenproduct's{' '}
-                  <a href="/terms" className="text-[#2874f0] hover:underline font-extrabold">Terms of Use</a> and{' '}
-                  <a href="/privacy" className="text-[#2874f0] hover:underline font-extrabold">Privacy Policy</a>.
+                  <p className="text-[10.5px] text-slate-400 font-medium leading-relaxed mt-4">
+                    By continuing, you confirm that you are above 18 years of age, and you agree to Flipkart's{' '}
+                    <a href="/terms" className="text-[#2874f0] hover:underline">Terms of Use</a> and{' '}
+                    <a href="/privacy" className="text-[#2874f0] hover:underline">Privacy Policy</a>
+                  </p>
+
+                  <p className="text-[10px] text-slate-400 text-center font-medium mt-4">
+                    © 2007–2026 Flipkart.com — All Rights Reserved
+                  </p>
                 </div>
               </div>
 
@@ -1273,24 +1300,21 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* 7. Bottom Sticky Payment Bar */}
-              <div className="bg-white border-t border-slate-200 p-4 flex items-center justify-between sticky bottom-0 z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+              {/* 7. Bottom Sticky Payment Bar (Exact Orange Continue Button) */}
+              <div className="bg-white border-t border-slate-200 p-3.5 flex items-center justify-between sticky bottom-0 z-30 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
                 <div className="flex flex-col">
                   <span className="text-[11px] text-slate-400 line-through">
                     ₹{totalOriginal.toLocaleString()}
                   </span>
-                  <div className="flex items-center gap-1 leading-none mt-0.5">
-                    <span className="text-lg font-black text-slate-900">
-                      ₹{totalSale.toLocaleString()}
-                    </span>
-                    <span className="text-slate-400 text-[10px] cursor-pointer">ⓘ</span>
-                  </div>
+                  <span className="text-base font-black text-slate-900">
+                    ₹{totalSale.toLocaleString()}
+                  </span>
                 </div>
                 
                 <Button 
                   onClick={handleProceedToPayment}
                   disabled={loading}
-                  className="bg-[#ffd814] hover:bg-[#f7ca00] text-slate-950 px-10 py-5 rounded-md text-xs font-black shadow-sm transition-transform active:scale-97 uppercase tracking-wider shrink-0"
+                  className="bg-[#ff6100] hover:bg-[#e65700] text-white px-8 py-3 rounded-lg text-sm font-black shadow-sm transition-transform active:scale-97 cursor-pointer"
                 >
                   {loading ? 'Processing...' : 'Continue'}
                 </Button>

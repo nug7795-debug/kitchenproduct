@@ -11,7 +11,7 @@ export function getDynamicDeliveryDate(productId?: string | number) {
   for (let i = 0; i < idStr.length; i++) {
     hash = idStr.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const offset = 2; // deterministic 2 days offset for exact consistency
+  const offset = (Math.abs(hash) % 5) + 2; // Returns 2, 3, 4, 5, or 6 days offset per product
   
   const d = new Date();
   d.setDate(d.getDate() + offset);

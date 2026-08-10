@@ -14,6 +14,7 @@ import {
   Clock,
   ChevronRight,
   ChevronDown,
+  ChevronUp,
   CreditCard,
   Lock,
   ArrowLeft,

@@ -1136,18 +1136,31 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               </div>
             </div>
 
-            {/* Yellow Pay Button Underneath */}
+            {/* Yellow Pay Button & PhonePe Message Box */}
             {selectedMethod === o.PHONEPE && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAppPay('phonepe');
-                }}
-                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
-              >
-                Pay ₹{selling.toLocaleString('en-IN')}
-              </button>
+              <div className="mt-3 space-y-2.5">
+                {/* PhonePe Message Box matching reference screenshot */}
+                <div className="bg-[#f2f3f7] rounded-xl p-3 border border-slate-200/80 text-left">
+                  <span className="text-xs text-[#6b7280] font-medium block">Message</span>
+                  <span className="text-[13.5px] font-semibold text-[#374151] block mt-0.5">Paying_to_Flipkart</span>
+                </div>
+                
+                {/* PhonePe Disclaimer Text matching reference screenshot */}
+                <p className="text-[12px] text-[#4b5563] font-normal leading-relaxed text-left px-0.5">
+                  On tapping Pay, money will be deducted from the selected payment mode.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAppPay('phonepe');
+                  }}
+                  className="w-full py-3 px-4 rounded-lg font-bold text-[14.5px] text-[#ffffff] bg-[#5f259f] hover:bg-[#521e8a] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#521e8a]"
+                >
+                  Proceed To Pay ₹{selling.toLocaleString('en-IN')}
+                </button>
+              </div>
             )}
           </div>
 

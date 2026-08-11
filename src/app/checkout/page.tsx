@@ -1424,54 +1424,39 @@ export default function CheckoutPage() {
                 {/* MODE 2: PHONEPE & PAYTM CHECKOUT */}
                 {paymentMode === 'upi_intent' && (
                   <div className="space-y-3">
-                    {/* 1. PhonePe Container with exact Message box & Disclaimer matching reference screenshot */}
-                    <div className="space-y-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedMethod('phonepe');
-                          handleUpiAppPay('phonepe');
-                          setStep('verifying');
-                          startRealtimePolling();
-                        }}
-                        className={cn(
-                          "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
-                          selectedMethod === 'phonepe'
-                            ? "border-purple-600 bg-purple-50/5 ring-1 ring-purple-600"
-                            : "border-slate-200 hover:border-slate-350"
-                        )}
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 flex items-center justify-center shrink-0">
-                            <img 
-                              src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
-                              alt="PhonePe" 
-                              className="h-8 w-8 object-contain" 
-                            />
-                          </div>
-                          <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with PhonePe</span>
-                        </div>
-                        <div className={cn(
-                          "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
-                          selectedMethod === 'phonepe' ? "border-purple-600 bg-purple-600 text-white" : "border-slate-300"
-                        )}>
-                          {selectedMethod === 'phonepe' && <div className="h-2 w-2 rounded-full bg-white" />}
-                        </div>
-                      </button>
-
-                      {/* PhonePe Message Box & Disclaimer text matching reference screenshot */}
-                      {selectedMethod === 'phonepe' && (
-                        <div className="p-3 bg-white border border-slate-200 rounded-xl space-y-2 text-left animate-in fade-in duration-200">
-                          <div className="bg-[#f2f3f7] rounded-xl p-3 border border-slate-200/80">
-                            <span className="text-xs text-[#6b7280] font-medium block">Message</span>
-                            <span className="text-[13.5px] font-semibold text-[#374151] block mt-0.5">Paying_to_Flipkart</span>
-                          </div>
-                          <p className="text-[11.5px] text-[#4b5563] font-normal leading-relaxed px-0.5">
-                            On tapping Pay, money will be deducted from the selected payment mode.
-                          </p>
-                        </div>
+                    {/* 1. PhonePe */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedMethod('phonepe');
+                        handleUpiAppPay('phonepe');
+                        setStep('verifying');
+                        startRealtimePolling();
+                      }}
+                      className={cn(
+                        "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
+                        selectedMethod === 'phonepe'
+                          ? "border-purple-600 bg-purple-50/5 ring-1 ring-purple-600"
+                          : "border-slate-200 hover:border-slate-350"
                       )}
-                    </div>
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                          <img 
+                            src="https://upload.wikimedia.org/wikipedia/commons/7/71/PhonePe_Logo.svg" 
+                            alt="PhonePe" 
+                            className="h-8 w-8 object-contain" 
+                          />
+                        </div>
+                        <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with PhonePe</span>
+                      </div>
+                      <div className={cn(
+                        "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                        selectedMethod === 'phonepe' ? "border-purple-600 bg-purple-600 text-white" : "border-slate-300"
+                      )}>
+                        {selectedMethod === 'phonepe' && <div className="h-2 w-2 rounded-full bg-white" />}
+                      </div>
+                    </button>
 
                     {/* 2. Paytm */}
                     <button

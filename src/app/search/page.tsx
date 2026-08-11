@@ -115,7 +115,7 @@ function SearchContent() {
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Searching Flipkart...</p>
           </div>
         ) : results.length > 0 ? (
-          <div className="grid grid-cols-2 gap-[1px]">
+          <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
             {results.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

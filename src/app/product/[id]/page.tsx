@@ -155,13 +155,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   if (loading) {
     return (
-      <div className="w-full bg-[#f1f3f6] pb-0">
+      <div className="w-full bg-[#f1f3f6] pb-2">
         <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
           <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
         </div>
-        <div className="grid grid-cols-2 gap-[1px]">
+        <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-none" />
+            <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-lg" />
           ))}
         </div>
       </div>
@@ -171,11 +171,11 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-[#f1f3f6] pb-0">
+    <div className="w-full bg-[#f1f3f6] pb-2">
       <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
         <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
       </div>
-      <div className="grid grid-cols-2 gap-[1px]">
+      <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
         {products.slice(0, 6).map((item) => (
           <ProductCard key={item.id} product={item} />
         ))}
@@ -226,11 +226,11 @@ const MoreProductsForYou = ({ currentProductId }: { currentProductId: string }) 
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-[#f1f3f6] pb-0">
+    <div className="w-full bg-[#f1f3f6] pb-2">
       <div className="bg-white w-full py-3.5 px-4 select-none">
         <h2 className="text-[16px] font-extrabold text-[#111111] tracking-tight">More products for you</h2>
       </div>
-      <div className="grid grid-cols-2 gap-[1px]">
+      <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
         {products.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}

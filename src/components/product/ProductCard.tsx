@@ -72,7 +72,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Link 
       href={`/product/${id}`} 
-      className="item flex flex-col w-full h-full text-left bg-white p-[10px] rounded-none shadow-[0_0.5px_1px_rgba(0,0,0,0.05)] active:shadow-[0_2px_8px_rgba(0,0,0,0.15)] cursor-pointer overflow-hidden select-none"
+      className="item flex flex-col w-full h-full text-left bg-white p-[10px] rounded-lg border border-slate-100/80 shadow-2xs active:shadow-md cursor-pointer overflow-hidden select-none transition-all"
       style={{ textDecoration: 'none', color: 'inherit' }}
     >
       {/* Product Image Wrapper */}

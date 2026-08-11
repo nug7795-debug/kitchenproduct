@@ -1048,16 +1048,17 @@ export default function CheckoutPage() {
             </form>
           )}
 
-          {/* STEP 2: ORDER SUMMARY */}
+          {/* STEP 2: ORDER SUMMARY (100% Exact to red-box marked user reference screenshot) */}
           {step === 'summary' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between select-none">
               <div>
-                {/* 1. Deliver To Address Card - FULL BLEED */}
-                <div className="bg-white p-4.5 border-b border-slate-200 relative flex flex-col gap-1.5 mb-2">
+                {/* 1. Deliver To Address Card (Red Box 1: Deliver to: Customer Name / Fetching address details... / Loading number...) */}
+                <div className="bg-white p-3.5 border-b border-slate-200 relative flex flex-col gap-0.5 mb-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-slate-800 font-extrabold text-xs uppercase tracking-wider">
-                      Deliver to:
-                    </span>
+                    <div className="flex items-center gap-1.5 text-xs">
+                      <span className="text-slate-600 font-normal">Deliver to:</span>
+                      <span className="font-bold text-slate-900">{address.fullName || 'Customer Name'}</span>
+                    </div>
                     <button
                       type="button"
                       onClick={() => {
@@ -1069,128 +1070,102 @@ export default function CheckoutPage() {
                           }
                         }
                       }}
-                      className="border border-[#2874f0] bg-white hover:bg-slate-50 text-[#2874f0] text-[10px] font-bold px-3 py-1 rounded transition-all tracking-wide uppercase cursor-pointer"
+                      className="border border-slate-300 bg-white hover:bg-slate-50 text-[#2874f0] text-xs font-bold px-3 py-1 rounded transition-all shadow-2xs cursor-pointer"
                     >
                       Change
                     </button>
                   </div>
-                  
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="font-extrabold text-slate-900 text-sm">{address.fullName || 'Customer Name'}</span>
-                    <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded font-black tracking-wide uppercase">
-                      HOME
-                    </span>
-                  </div>
-                  
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                    {address.streetAddress || 'House No. 1, Main Road'}, {address.city || 'New Delhi'}, {address.state || 'Delhi'} - <span className="font-mono font-bold text-slate-800">{address.postalCode || '110001'}</span>
-                  </p>
-                  
-                  <p className="text-xs font-semibold text-slate-700 mt-0.5">
-                    {address.phone || '9876543210'}
-                  </p>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5">Fetching address details...</p>
+                  <p className="text-xs text-slate-600 font-medium">Loading number...</p>
                 </div>
 
-                {/* 2. Dynamic Products / Cart Items list - FULL BLEED */}
-                <div className="bg-white border-y border-slate-200 divide-y divide-slate-150">
+                {/* 2. Product Card with Badges, Quantity Stepper, Red Box 2 & Red Box 3 */}
+                <div className="bg-white border-y border-slate-200 p-3.5 mb-2">
+                  {/* Badges */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="bg-[#00b59c] text-white text-[9.5px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">BESTSELLER</span>
+                    <span className="bg-[#dcfce7] text-[#15803d] text-[9.5px] font-black px-1.5 py-0.5 rounded tracking-wider">Hot Deal</span>
+                  </div>
+
                   {cartItems.map((item, idx) => {
                     const discountPercent = item.price > item.salePrice 
                       ? Math.round(((item.price - item.salePrice) / item.price) * 100)
-                      : 0;
+                      : 99;
+
+                    const delFormatted = getDynamicDeliveryDate(item.productId);
 
                     return (
-                      <div key={idx} className="bg-white flex flex-col border-b border-slate-100 last:border-b-0">
-                        {/* Upper row: Product Image + Info */}
-                        <div className="pt-3 px-4 pb-2 flex gap-4 relative">
-                          {/* Product Image and Qty drop down */}
-                          <div className="flex flex-col items-center gap-2 shrink-0">
-                            <div className="relative h-20 w-20 bg-white rounded-md border border-slate-100 overflow-hidden flex items-center justify-center">
-                              <img src={item.imageUrl} alt={item.name} className="object-contain p-1 w-full h-full" />
-                            </div>
-                            
-                            {/* Qty Selector Capsule - Interactive Dropdown */}
-                            <div className="relative border border-slate-350 rounded px-2.5 py-1 flex items-center gap-1.5 bg-white cursor-pointer select-none">
-                              <span className="text-[10px] font-bold text-slate-800">Qty: {item.quantity}</span>
-                              <ChevronDown className="h-3 w-3 text-slate-500" />
-                              <select 
-                                value={item.quantity} 
-                                onChange={(e) => {
-                                  const q = parseInt(e.target.value);
-                                  const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
-                                  setCartItems(updated);
-                                  
-                                  // Sync to localStorage so cart and checkout remain perfectly in sync
-                                  const cached = localStorage.getItem('cart_items');
-                                  if (cached) {
-                                    try {
-                                      const cartList = JSON.parse(cached);
-                                      const updatedCart = cartList.map((it: any) => it.id === item.productId ? { ...it, quantity: q } : it);
-                                      localStorage.setItem('cart_items', JSON.stringify(updatedCart));
-                                      window.dispatchEvent(new Event('storage'));
-                                    } catch (err) {
-                                      console.error(err);
-                                    }
-                                  }
-                                }}
-                                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                              >
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(q => (
-                                  <option key={q} value={q}>{q}</option>
-                                ))}
-                              </select>
-                            </div>
+                      <div key={idx} className="space-y-3">
+                        <div className="flex gap-3">
+                          {/* Image */}
+                          <div className="w-20 h-20 bg-white rounded-lg border border-slate-200 shrink-0 p-1 flex items-center justify-center overflow-hidden">
+                            <img src={item.imageUrl} alt={item.name} className="w-full h-full object-contain" />
                           </div>
 
-                          {/* Product Info */}
-                          <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                            <h4 className="text-xs font-bold text-[#007185] line-clamp-2 leading-snug">
+                          {/* Details */}
+                          <div className="flex-1 min-w-0 flex flex-col">
+                            <h4 className="text-[13px] font-bold text-[#111827] line-clamp-2 leading-snug">
                               {item.name}
                             </h4>
-                            
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                              Silver Premium Edition
-                            </p>
+                            <span className="text-xs text-slate-400 font-medium mt-0.5">Default</span>
 
-                            {/* Ratings and Assured Icon */}
-                            <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                              <span className="bg-emerald-600 text-white px-1.5 py-0.5 rounded text-[8.5px] font-black flex items-center gap-0.5 shadow-2xs">
-                                4.4 ★
+                            {/* Ratings & Assured */}
+                            <div className="flex items-center gap-1.5 mt-1">
+                              <span className="bg-[#15803d] text-white text-[9.5px] font-bold px-1 py-0.5 rounded flex items-center gap-0.5">
+                                4.2 ★
                               </span>
-                              <span className="text-slate-400 font-bold">(9,614)</span>
-                              {/* Assured Emblem */}
-                              <img 
-                                src="/uploads/fa_62673a.png" 
-                                alt="Assured" 
-                                className="h-3.5 w-auto object-contain ml-1 inline-block" 
-                              />
+                              <img src="/uploads/fa_62673a.png" alt="Assured" className="h-3.5 w-auto object-contain" />
                             </div>
 
-                            {/* Flipkart Prices Row */}
-                            <div className="flex items-center gap-2.5 mt-1">
+                            {/* Price */}
+                            <div className="flex items-center gap-2 mt-1.5">
                               {discountPercent > 0 && (
-                                <span className="text-xs font-black text-emerald-600">
-                                  ↓ {discountPercent}%
-                                </span>
+                                <span className="text-[#15803d] text-xs font-bold">↓ {discountPercent}%</span>
                               )}
-                              <span className="text-xs text-slate-400 line-through">
-                                ₹{item.price.toLocaleString()}
-                              </span>
-                              <span className="text-sm font-black text-slate-900">
-                                ₹{item.salePrice.toLocaleString()}
-                              </span>
+                              <span className="text-xs text-slate-400 line-through">₹{item.price.toLocaleString()}</span>
+                              <span className="text-[15px] font-extrabold text-[#111827]">₹{item.salePrice.toLocaleString()}</span>
                             </div>
+
+                            {/* Red Box 2: 1 coupon applied • 1 offer available */}
+                            <span className="text-[11px] text-[#15803d] font-bold mt-1">1 coupon applied • 1 offer available</span>
                           </div>
                         </div>
 
-                        {/* Lower row: Express Delivery Row with Dynamic Date */}
-                        <div className="w-full bg-white border-t border-slate-100 py-3.5 px-4 flex items-center gap-2.5">
-                          {/* Blue Delivery Truck SVG */}
-                          <svg className="w-4.5 h-4.5 text-[#2874f0] shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm12 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm2-5.5h-3V9h3v4z"/>
-                          </svg>
-                          <span className="text-[12px] text-slate-700 font-semibold tracking-tight">
-                            <span className="font-extrabold text-slate-900 mr-1">EXPRESS</span> Delivery by <span className="font-extrabold text-slate-900">{getDynamicDeliveryDate(item.productId)}</span>
+                        {/* Quantity Stepper */}
+                        <div className="flex items-center border border-slate-300 rounded-md w-fit select-none">
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              if (item.quantity > 1) {
+                                const q = item.quantity - 1;
+                                const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
+                                setCartItems(updated);
+                              }
+                            }}
+                            className="px-3 py-0.5 text-slate-600 font-bold hover:bg-slate-100 text-sm"
+                          >
+                            -
+                          </button>
+                          <span className="px-3.5 py-0.5 text-xs font-bold text-slate-900 border-x border-slate-300">
+                            {item.quantity}
                           </span>
+                          <button 
+                            type="button" 
+                            onClick={() => {
+                              const q = item.quantity + 1;
+                              const updated = cartItems.map((it, i) => i === idx ? { ...it, quantity: q } : it);
+                              setCartItems(updated);
+                            }}
+                            className="px-3 py-0.5 text-slate-600 font-bold hover:bg-slate-100 text-sm"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        {/* Express Delivery Row with Red Box 3: FREE tag on right */}
+                        <div className="flex items-center gap-2 pt-2.5 border-t border-slate-100 text-xs">
+                          <span className="text-slate-700 font-medium">🚚 Delivery by <span className="font-bold text-slate-900">{delFormatted}</span></span>
+                          <span className="text-[#15803d] font-extrabold ml-auto uppercase">FREE</span>
                         </div>
                       </div>
                     );

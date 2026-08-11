@@ -1343,19 +1343,14 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <div className="max-w-md mx-auto p-4 space-y-4">
               <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs space-y-4">
                 
-                {/* Payee Avatar & Info */}
+                {/* Payee Avatar & Info matching reference screenshot */}
                 <div className="flex items-center gap-3.5">
-                  <div className="h-12 w-12 rounded-full bg-[#ea8c1e] text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">
-                    {getInitials(merchantName || 'Ankur Janmeda')}
+                  <div className="h-12 w-12 rounded-full bg-[#795548] text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-2xs">
+                    F
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-[15.5px] font-bold text-slate-900 leading-tight">
-                      {merchantName || 'Ankur Janmeda'}
-                    </span>
-                    <span className="text-[12.5px] text-slate-500 font-medium leading-tight mt-0.5">
-                      {upiId || 'guruchaudhary@ptyes'}
-                    </span>
-                  </div>
+                  <span className="text-[17px] font-bold text-slate-900 leading-tight">
+                    Flipkart Payments
+                  </span>
                 </div>
 
                 {/* Amount Container */}

@@ -1306,6 +1306,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
+            )}
           </div>
         </div>
 

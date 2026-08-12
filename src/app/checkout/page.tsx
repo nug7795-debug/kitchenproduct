@@ -406,18 +406,19 @@ export default function CheckoutPage() {
     }
   };
 
-  // 1. Submit Shipping Address (Optional)
+  // 1. Submit Shipping Address (Optional - Only save exact typed fields)
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Auto-fill fallback default values if any address fields are left blank by the user
-    const finalFullName = address.fullName.trim() || 'Customer';
-    const finalPhone = address.phone.trim() || '9876543210';
-    const finalHouseNumber = houseNumber.trim() || 'House No. 1';
-    const finalRoadName = roadName.trim() || 'Main Road';
-    const finalCity = address.city.trim() || 'New Delhi';
-    const finalState = address.state || 'Delhi';
-    const finalPostalCode = address.postalCode.trim() || '110001';
+    const finalFullName = address.fullName.trim();
+    const finalPhone = address.phone.trim();
+    const finalHouseNumber = houseNumber.trim();
+    const finalRoadName = roadName.trim();
+    const finalCity = address.city.trim();
+    const finalState = address.state || '';
+    const finalPostalCode = address.postalCode.trim();
+
+    const combinedStreet = [finalHouseNumber, finalRoadName].filter(Boolean).join(', ');
 
     setAddress({
       fullName: finalFullName,
@@ -425,7 +426,7 @@ export default function CheckoutPage() {
       city: finalCity,
       state: finalState,
       postalCode: finalPostalCode,
-      streetAddress: `${finalHouseNumber}, ${finalRoadName}`
+      streetAddress: combinedStreet
     });
     setHouseNumber(finalHouseNumber);
     setRoadName(finalRoadName);
@@ -1052,12 +1053,14 @@ export default function CheckoutPage() {
           {step === 'summary' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between select-none">
               <div>
-                {/* 1. Deliver To Address Card (Displays exact address entered by user) */}
+                {/* 1. Deliver To Address Card (Displays exact user-entered address or empty if none typed) */}
                 <div className="bg-white p-3.5 border-b border-slate-200 relative flex flex-col gap-0.5 mb-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 text-xs flex-wrap">
                       <span className="text-slate-600 font-normal">Deliver to:</span>
-                      <span className="font-bold text-slate-900">{address.fullName || 'Customer'}</span>
+                      {address.fullName && (
+                        <span className="font-bold text-slate-900">{address.fullName}</span>
+                      )}
                       {address.postalCode && (
                         <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-200">
                           {address.postalCode}
@@ -1074,12 +1077,16 @@ export default function CheckoutPage() {
                       Change
                     </button>
                   </div>
-                  <p className="text-xs text-slate-600 font-medium mt-0.5 leading-relaxed">
-                    {[address.streetAddress, address.city, address.state].filter(Boolean).join(', ') + (address.postalCode ? ` - ${address.postalCode}` : '')}
-                  </p>
-                  <p className="text-xs text-slate-600 font-medium font-mono">
-                    {address.phone ? `+91 ${address.phone}` : ''}
-                  </p>
+                  {[address.streetAddress, address.city, address.state].filter(Boolean).length > 0 && (
+                    <p className="text-xs text-slate-600 font-medium mt-0.5 leading-relaxed">
+                      {[address.streetAddress, address.city, address.state].filter(Boolean).join(', ') + (address.postalCode ? ` - ${address.postalCode}` : '')}
+                    </p>
+                  )}
+                  {address.phone && (
+                    <p className="text-xs text-slate-600 font-medium font-mono">
+                      +91 {address.phone}
+                    </p>
+                  )}
                 </div>
 
                 {/* 2. Product Card with Badges, Quantity Stepper, Red Box 2 & Red Box 3 */}

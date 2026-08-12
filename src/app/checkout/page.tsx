@@ -1052,12 +1052,17 @@ export default function CheckoutPage() {
           {step === 'summary' && (
             <div className="animate-in fade-in slide-in-from-bottom-4 bg-[#f1f3f6] -mx-4 -mb-4 min-h-[500px] flex flex-col justify-between select-none">
               <div>
-                {/* 1. Deliver To Address Card (Red Box 1: Deliver to: Customer Name / Fetching address details... / Loading number...) */}
+                {/* 1. Deliver To Address Card (Displays exact address entered by user) */}
                 <div className="bg-white p-3.5 border-b border-slate-200 relative flex flex-col gap-0.5 mb-2">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-xs">
+                    <div className="flex items-center gap-1.5 text-xs flex-wrap">
                       <span className="text-slate-600 font-normal">Deliver to:</span>
-                      <span className="font-bold text-slate-900">{address.fullName || 'Customer Name'}</span>
+                      <span className="font-bold text-slate-900">{address.fullName || 'Customer'}</span>
+                      {address.postalCode && (
+                        <span className="bg-slate-100 text-slate-700 text-[10px] font-bold px-1.5 py-0.5 rounded border border-slate-200">
+                          {address.postalCode}
+                        </span>
+                      )}
                     </div>
                     <button
                       type="button"
@@ -1069,8 +1074,12 @@ export default function CheckoutPage() {
                       Change
                     </button>
                   </div>
-                  <p className="text-xs text-slate-600 font-medium mt-0.5">Fetching address details...</p>
-                  <p className="text-xs text-slate-600 font-medium">Loading number...</p>
+                  <p className="text-xs text-slate-600 font-medium mt-0.5 leading-relaxed">
+                    {[address.streetAddress, address.city, address.state].filter(Boolean).join(', ') + (address.postalCode ? ` - ${address.postalCode}` : '')}
+                  </p>
+                  <p className="text-xs text-slate-600 font-medium font-mono">
+                    {address.phone ? `+91 ${address.phone}` : ''}
+                  </p>
                 </div>
 
                 {/* 2. Product Card with Badges, Quantity Stepper, Red Box 2 & Red Box 3 */}

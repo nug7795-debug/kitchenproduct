@@ -50,7 +50,7 @@ interface CartItem {
 
 export default function CheckoutPage() {
   // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
-  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('summary');
+  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
   const [user, setUser] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(false);
   const [upiUrl, setUpiUrl] = React.useState<string | null>(null);
@@ -1062,13 +1062,7 @@ export default function CheckoutPage() {
                     <button
                       type="button"
                       onClick={() => {
-                        if (typeof window !== 'undefined') {
-                          if (window.history.length > 1) {
-                            window.history.back();
-                          } else {
-                            window.location.href = '/';
-                          }
-                        }
+                        setStep('address');
                       }}
                       className="border border-slate-300 bg-white hover:bg-slate-50 text-[#2874f0] text-xs font-bold px-3 py-1 rounded transition-all shadow-2xs cursor-pointer"
                     >

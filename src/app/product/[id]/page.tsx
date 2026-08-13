@@ -1363,14 +1363,32 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
-            {/* 3. Instant EMI for you ! Card (Cropped directly from user screenshot) */}
+            {/* 3. Instant EMI for you ! Card */}
             <div className="w-full bg-white select-none py-3 px-3.5 border-t border-b border-slate-200 mt-2">
-              <div className="w-full bg-white rounded-2xl border border-slate-200 p-2 flex items-center justify-center shadow-2xs overflow-hidden">
+              <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 flex items-start gap-3.5 shadow-2xs">
+                {/* Flipkart EMI HD Logo */}
                 <img 
-                  src="/uploads/instant_emi_card_clean.png" 
-                  alt="Instant EMI for you !" 
-                  className="w-full h-auto object-contain max-h-[90px] select-none" 
+                  src="/uploads/flipkart_emi_logo_hd.png" 
+                  alt="Flipkart EMI" 
+                  className="w-9 h-9 object-contain rounded-md shrink-0 mt-0.5" 
                 />
+                <div className="flex-1 space-y-0.5">
+                  <h4 className="text-[14px] font-bold text-[#212121] leading-snug">
+                    Instant EMI for you !
+                  </h4>
+                  <p className="text-[11.5px] font-medium text-[#878787] flex items-center gap-1.5 flex-wrap">
+                    <span>No Cost EMI*</span>
+                    <span className="text-slate-300">|</span>
+                    <span>Unlock ₹1 lakh</span>
+                  </p>
+                  <a 
+                    href="#emi-options" 
+                    onClick={(e) => { e.preventDefault(); }}
+                    className="text-[12.5px] font-bold text-[#2874f0] hover:underline inline-block pt-0.5"
+                  >
+                    Click here for Flipkart EMI
+                  </a>
+                </div>
               </div>
             </div>
 

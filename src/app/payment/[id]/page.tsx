@@ -767,7 +767,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
     if (app === "phonepe") {
       intent = phonepeIntent || `phonepe://pay?ver=01&mode=19&pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${selling}`;
     } else if (app === "paytm") {
-      intent = paytmIntent || `paytmmp://cash_wallet?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${selling}&cu=INR&tn=Recharge&url=&mode=02&purpose=00&orgid=37567`;
+      intent = paytmIntent || `paytmmp://cash_wallet/?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=${encodeURIComponent(merchantName || 'Flipkart')}&am=${selling}&cu=INR&tn=${encodeURIComponent('Paying To Flipkart ORDER' + txnid)}&featuretype=money_transfer`;
     } else if (app === "gpay") {
       intent = gpayIntent || `tez://upi/pay?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${selling}&cu=INR&tn=Recharge`;
     } else {

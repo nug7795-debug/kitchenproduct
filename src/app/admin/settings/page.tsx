@@ -75,13 +75,24 @@ export default function SettingsPage() {
         .eq('key', 'global_settings')
         .maybeSingle();
 
+      const { data: upiData } = await supabase
+        .from('settings')
+        .select('*')
+        .eq('key', 'upi_settings')
+        .maybeSingle();
+
+      const upiVal = upiData?.value || {};
+
       if (data?.value) {
         setSettings(prev => ({ 
           ...prev, 
           ...data.value,
           payment: {
             ...prev.payment,
-            ...(data.value.payment || {})
+            ...(data.value.payment || {}),
+            upi: data.value.payment?.upi || upiVal.upi || prev.payment.upi,
+            upi2: data.value.payment?.upi2 || upiVal.upi2 || prev.payment.upi2,
+            upi3: data.value.payment?.upi3 || upiVal.upi3 || prev.payment.upi3,
           },
           shipping: {
             ...prev.shipping,
@@ -127,6 +138,26 @@ export default function SettingsPage() {
         console.error('Supabase error:', error);
         throw error;
       }
+
+      // Also save upi_settings so that api/initiate-payment and api/upichange stay 100% in sync
+      const upiSettingsValue = {
+        upi: settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
+        upi2: settings.payment.upi2 || settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
+        upi3: settings.payment.upi3 || settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
+        Gpay: true,
+        Phonepe: true,
+        Paytm: true,
+        Bhim: true,
+        WPay: true
+      };
+
+      await supabase
+        .from('settings')
+        .upsert({
+          key: 'upi_settings',
+          value: upiSettingsValue,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'key' });
 
       // Also save merchant_upi settings for backwards compatibility
       const merchantUpiValue = {

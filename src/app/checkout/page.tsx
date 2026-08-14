@@ -917,7 +917,7 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      placeholder="Full Name (Optional)"
+                      placeholder="Full Name"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={address.fullName}
                       onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
@@ -929,7 +929,7 @@ export default function CheckoutPage() {
                     <input 
                       type="tel" 
                       maxLength={10}
-                      placeholder="Mobile number (Optional)"
+                      placeholder="Mobile number"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={address.phone}
                       onChange={(e) => setAddress({ ...address, phone: e.target.value.replace(/\D/g, '') })}
@@ -941,7 +941,7 @@ export default function CheckoutPage() {
                     <input 
                       type="text" 
                       maxLength={6}
-                      placeholder="Pincode (Optional)"
+                      placeholder="Pincode"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium font-mono"
                       value={address.postalCode}
                       onChange={(e) => setAddress({ ...address, postalCode: e.target.value.replace(/\D/g, '') })}
@@ -953,7 +953,7 @@ export default function CheckoutPage() {
                     <div className="relative">
                       <input 
                         type="text" 
-                        placeholder="City (Optional)"
+                        placeholder="City"
                         className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                         value={address.city}
                         onChange={(e) => setAddress({ ...address, city: e.target.value })}
@@ -966,7 +966,7 @@ export default function CheckoutPage() {
                         value={address.state}
                         onChange={(e) => setAddress({ ...address, state: e.target.value })}
                       >
-                        <option value="" className="text-slate-400">State (Optional)</option>
+                        <option value="" className="text-slate-400">Select State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Assam">Assam</option>
@@ -1014,7 +1014,7 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      placeholder="House No., Building Name (Optional)"
+                      placeholder="House No., Building Name"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={houseNumber}
                       onChange={(e) => setHouseNumber(e.target.value)}
@@ -1025,10 +1025,19 @@ export default function CheckoutPage() {
                   <div className="relative">
                     <input 
                       type="text" 
-                      placeholder="Road name, Area, Colony (Optional)"
+                      placeholder="Road name, Area, Colony"
                       className="w-full text-sm bg-white border border-slate-300 rounded-md px-4 py-3 focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none text-slate-800 placeholder-slate-400 transition-all font-medium"
                       value={roadName}
                       onChange={(e) => setRoadName(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Free Shipping Animated Banner GIF (Copied from reference site xxx/free_shippingbanner.gif) */}
+                  <div className="w-full pt-1 pb-1">
+                    <img 
+                      src="/uploads/free_shippingbanner.gif" 
+                      alt="Free Shipping On Your 1st Order" 
+                      className="w-full h-auto rounded-xl object-contain select-none shadow-2xs border border-slate-100" 
                     />
                   </div>
                 </div>

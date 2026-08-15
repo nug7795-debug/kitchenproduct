@@ -16,8 +16,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Home', icon: Home, href: '/', activePath: '/' },
-  { name: 'Play', icon: SquarePlay, href: '/offers', activePath: '/offers' },
-  { name: 'Categories', icon: LayoutGrid, href: '/categories', activePath: '/categories' },
+  { name: 'Play', icon: SquarePlay, href: '/', activePath: '/offers' },
+  { name: 'Categories', icon: LayoutGrid, href: '/', activePath: '/categories' },
   { name: 'Account', icon: User, href: '/settings', activePath: '/settings' },
   { name: 'Cart', icon: ShoppingCart, href: '/cart', activePath: '/cart' },
 ];

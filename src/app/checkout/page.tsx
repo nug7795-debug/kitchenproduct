@@ -58,17 +58,29 @@ export default function CheckoutPage() {
   const [generatedOtp, setGeneratedOtp] = React.useState('');
   const [otpDigits, setOtpDigits] = React.useState<string[]>(['', '', '', '', '', '']);
   const [otpError, setOtpError] = React.useState<string | null>(null);
+  const [activeOtpIndex, setActiveOtpIndex] = React.useState<number>(0);
 
-  const handleLoginContinue = () => {
+  const handleLoginContinue = async () => {
     if (!loginPhone || loginPhone.length !== 10) {
       setLoginError('Please enter a valid 10-digit mobile number');
       return;
     }
     setLoginError(null);
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedOtp(code);
-    setOtpDigits(code.split(''));
     setStep('otp');
+
+    try {
+      const res = await fetch('/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: loginPhone })
+      });
+      const data = await res.json();
+      if (data.otp) {
+        setGeneratedOtp(data.otp);
+      }
+    } catch (e) {
+      console.error('Error sending SMS OTP:', e);
+    }
   };
 
   const handleOtpDigitChange = (index: number, value: string) => {
@@ -985,43 +997,44 @@ export default function CheckoutPage() {
             </div>
           )}
 
-          {/* STEP 0.5: OTP VERIFICATION BOTTOM SHEET MODAL */}
+          {/* STEP 0.5: OTP VERIFICATION BOTTOM SHEET MODAL (100% Exact match to user screenshot) */}
           {step === 'otp' && (
             <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
-              <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
+              <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-6 pb-7 shadow-2xl flex flex-col gap-6 animate-in slide-in-from-bottom duration-300">
                 
-                {/* Header Title & Subtitle */}
-                <div className="flex flex-col gap-1 mt-1">
-                  <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">
-                    Verify with OTP
-                  </h2>
-                  <p className="text-[12px] font-medium text-slate-600 leading-snug">
-                    LOGIN to your Flipkart account using OTP ..... DO NOT SHARE this code with anyone
-                  </p>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-700 font-bold mt-1">
-                    <span>Sent to +91 {loginPhone}</span>
+                {/* Header Title & Phone Number with Edit */}
+                <div className="flex flex-col gap-2">
+                  <p className="text-[15px] font-normal text-slate-800 leading-snug">
+                    Please enter the verification code we've sent you on <span className="font-bold text-slate-900">+91-{loginPhone}</span>{' '}
                     <button 
                       type="button" 
                       onClick={() => setStep('login')}
-                      className="text-[#2874f0] font-bold underline ml-1 cursor-pointer"
+                      className="text-[#2874f0] font-medium text-[14px] ml-0.5 cursor-pointer hover:underline outline-none"
                     >
-                      Change
+                      Edit
                     </button>
-                  </div>
+                  </p>
                 </div>
 
-                {/* 6 Digit OTP Input */}
-                <div className="flex items-center justify-between gap-2 my-2">
+                {/* 6 Underline Slot Digit Inputs (Matching exact screenshot underline design) */}
+                <div className="flex items-center justify-between gap-2.5 px-1 my-1">
                   {[0, 1, 2, 3, 4, 5].map((index) => (
                     <input
                       key={index}
                       id={`otp-input-${index}`}
                       type="text"
                       maxLength={1}
+                      autoFocus={index === 0}
                       value={otpDigits[index] || ''}
                       onChange={(e) => handleOtpDigitChange(index, e.target.value)}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                      className="w-11 h-12 text-center text-lg font-black text-slate-900 border-1.5 border-slate-300 rounded-md focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none transition-all bg-slate-50 focus:bg-white"
+                      className={cn(
+                        "w-10 h-12 text-center text-xl font-bold text-slate-900 border-b-2 rounded-none bg-transparent outline-none transition-all",
+                        otpDigits[index] || activeOtpIndex === index
+                          ? "border-b-[#2874f0]" 
+                          : "border-b-slate-300"
+                      )}
+                      onFocus={() => setActiveOtpIndex(index)}
                     />
                   ))}
                 </div>
@@ -1032,17 +1045,26 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* Resend Link */}
+                {/* Resend code Link */}
                 <div className="flex justify-end items-center text-xs font-bold">
                   <button 
                     type="button" 
-                    onClick={() => {
+                    onClick={async () => {
                       setOtpDigits(['', '', '', '', '', '']);
                       setOtpError(null);
+                      try {
+                        const res = await fetch('/api/send-otp', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ phone: loginPhone })
+                        });
+                        const data = await res.json();
+                        if (data.otp) setGeneratedOtp(data.otp);
+                      } catch (e) {}
                     }}
-                    className="text-[#2874f0] hover:underline cursor-pointer"
+                    className="text-[#2874f0] font-medium text-[13px] hover:underline cursor-pointer outline-none"
                   >
-                    Resend OTP
+                    Resend code
                   </button>
                 </div>
 

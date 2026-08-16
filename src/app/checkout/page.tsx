@@ -84,6 +84,8 @@ export default function CheckoutPage() {
     setTimerSeconds(15);
     const initialOtp = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(initialOtp);
+    setOtpDigits(['', '', '', '', '', '']);
+    setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
     setStep('otp');
 
     try {
@@ -95,6 +97,11 @@ export default function CheckoutPage() {
       const data = await res.json();
       if (data.otp) {
         setGeneratedOtp(data.otp);
+        if (data.sentViaSms) {
+          setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
+        } else {
+          setResendSuccessMsg(`Verification code sent to +91-${loginPhone} (OTP: ${data.otp})`);
+        }
       }
     } catch (e) {
       console.error('Error sending SMS OTP:', e);
@@ -1116,11 +1123,13 @@ export default function CheckoutPage() {
                             });
                             const data = await res.json();
                             if (data.otp) setGeneratedOtp(data.otp);
-                            setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
-                            setTimeout(() => setResendSuccessMsg(null), 4000);
+                            if (data.sentViaSms) {
+                              setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
+                            } else {
+                              setResendSuccessMsg(`Verification code sent to +91-${loginPhone} (OTP: ${data.otp})`);
+                            }
                           } catch (e) {
                             setResendSuccessMsg('Verification code resent');
-                            setTimeout(() => setResendSuccessMsg(null), 4000);
                           } finally {
                             setIsResendingOtp(false);
                           }

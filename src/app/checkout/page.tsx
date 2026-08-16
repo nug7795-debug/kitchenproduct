@@ -990,17 +990,6 @@ export default function CheckoutPage() {
             <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
               <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
                 
-                {/* Simulated SMS Toast at Top */}
-                <div className="bg-slate-900 text-white p-3 rounded-lg text-xs font-mono border border-slate-700 shadow-lg flex flex-col gap-1 animate-in slide-in-from-top duration-300">
-                  <div className="flex justify-between items-center text-[10px] text-slate-400 font-sans font-bold">
-                    <span>💬 Messages • FLPKRT</span>
-                    <span>Just Now</span>
-                  </div>
-                  <p className="text-[11px] font-medium text-slate-200">
-                    LOGIN to your Flipkart account using OTP <span className="text-yellow-400 font-bold underline">{generatedOtp}</span>. DO NOT SHARE this code with anyone.
-                  </p>
-                </div>
-
                 {/* Header Title & Subtitle */}
                 <div className="flex flex-col gap-1 mt-1">
                   <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">
@@ -1043,20 +1032,18 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* Resend Timer & Link */}
-                <div className="flex justify-between items-center text-xs font-bold">
-                  <button
-                    type="button"
+                {/* Resend Link */}
+                <div className="flex justify-end items-center text-xs font-bold">
+                  <button 
+                    type="button" 
                     onClick={() => {
-                      const code = Math.floor(100000 + Math.random() * 900000).toString();
-                      setGeneratedOtp(code);
-                      setOtpDigits(code.split(''));
+                      setOtpDigits(['', '', '', '', '', '']);
+                      setOtpError(null);
                     }}
                     className="text-[#2874f0] hover:underline cursor-pointer"
                   >
-                    Auto-fill OTP ({generatedOtp})
+                    Resend OTP
                   </button>
-                  <span className="text-slate-400">Resend OTP</span>
                 </div>
 
                 {/* Submit OTP Button */}

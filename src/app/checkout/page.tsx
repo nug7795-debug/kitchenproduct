@@ -82,6 +82,8 @@ export default function CheckoutPage() {
     }
     setLoginError(null);
     setTimerSeconds(15);
+    const initialOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(initialOtp);
     setStep('otp');
 
     try {
@@ -122,14 +124,26 @@ export default function CheckoutPage() {
   const handleOtpSubmit = () => {
     const entered = otpDigits.join('');
     if (entered.length < 6) {
-      setOtpError('Please enter full 6-digit OTP code');
+      setOtpError('Please enter full 6-digit verification code');
       return;
     }
+
+    // STRICT OTP VERIFICATION
+    if (generatedOtp && entered !== generatedOtp) {
+      setOtpError(`Invalid OTP code. Please enter the correct 6-digit verification code sent to your mobile number +91-${loginPhone}.`);
+      return;
+    }
+
     setOtpError(null);
     try {
       localStorage.setItem('user_logged_in_phone', loginPhone);
     } catch (e) {}
-    setAddress(prev => ({ ...prev, phone: loginPhone }));
+
+    setAddress(prev => ({
+      ...prev,
+      phone: loginPhone || (prev && prev.phone) || ''
+    }));
+
     setStep('address');
   };
   const [razorpayKeyId, setRazorpayKeyId] = React.useState('');

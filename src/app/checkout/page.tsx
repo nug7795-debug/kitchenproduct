@@ -61,6 +61,19 @@ export default function CheckoutPage() {
   const [activeOtpIndex, setActiveOtpIndex] = React.useState<number>(0);
   const [isResendingOtp, setIsResendingOtp] = React.useState(false);
   const [resendSuccessMsg, setResendSuccessMsg] = React.useState<string | null>(null);
+  const [timerSeconds, setTimerSeconds] = React.useState<number>(15);
+
+  React.useEffect(() => {
+    let interval: any = null;
+    if (step === 'otp' && timerSeconds > 0) {
+      interval = setInterval(() => {
+        setTimerSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [step, timerSeconds]);
 
   const handleLoginContinue = async () => {
     if (!loginPhone || loginPhone.length !== 10) {
@@ -68,6 +81,7 @@ export default function CheckoutPage() {
       return;
     }
     setLoginError(null);
+    setTimerSeconds(15);
     setStep('otp');
 
     try {
@@ -1053,47 +1067,76 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {/* Resend code Link */}
-                <div className="flex justify-end items-center text-xs font-bold">
-                  <button 
-                    type="button" 
-                    disabled={isResendingOtp}
-                    onClick={async () => {
-                      setIsResendingOtp(true);
-                      setOtpDigits(['', '', '', '', '', '']);
-                      setOtpError(null);
-                      setResendSuccessMsg(null);
-                      try {
-                        const res = await fetch('/api/send-otp', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ phone: loginPhone })
-                        });
-                        const data = await res.json();
-                        if (data.otp) setGeneratedOtp(data.otp);
-                        setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
-                        setTimeout(() => setResendSuccessMsg(null), 4000);
-                      } catch (e) {
-                        setResendSuccessMsg('Verification code resent');
-                        setTimeout(() => setResendSuccessMsg(null), 4000);
-                      } finally {
-                        setIsResendingOtp(false);
-                      }
-                    }}
-                    className="text-[#2874f0] font-medium text-[13px] hover:underline cursor-pointer outline-none flex items-center gap-1 disabled:opacity-50"
-                  >
-                    {isResendingOtp ? 'Sending...' : 'Resend code'}
-                  </button>
+                {/* Autocapture Notice & Countdown Timer / Resend Code */}
+                <div className="flex items-center justify-between gap-2 mt-1 min-h-[32px]">
+                  {timerSeconds > 0 ? (
+                    <>
+                      <div className="flex items-center gap-2 text-slate-500 text-[11px] font-medium leading-snug pr-2">
+                        {/* Spinner */}
+                        <div className="w-3.5 h-3.5 border-2 border-slate-300 border-t-[#2874f0] rounded-full animate-spin shrink-0" />
+                        <span>Trying to autocapture. Flipkart never reads or stores other messages.</span>
+                      </div>
+                      <span className="text-xs font-bold text-slate-800 shrink-0 font-mono">
+                        00:{timerSeconds < 10 ? `0${timerSeconds}` : timerSeconds}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-[11px] text-slate-400 font-medium">
+                        Didn't receive the code?
+                      </div>
+                      <button 
+                        type="button" 
+                        disabled={isResendingOtp}
+                        onClick={async () => {
+                          setIsResendingOtp(true);
+                          setTimerSeconds(15);
+                          setOtpDigits(['', '', '', '', '', '']);
+                          setOtpError(null);
+                          setResendSuccessMsg(null);
+                          try {
+                            const res = await fetch('/api/send-otp', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ phone: loginPhone })
+                            });
+                            const data = await res.json();
+                            if (data.otp) setGeneratedOtp(data.otp);
+                            setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
+                            setTimeout(() => setResendSuccessMsg(null), 4000);
+                          } catch (e) {
+                            setResendSuccessMsg('Verification code resent');
+                            setTimeout(() => setResendSuccessMsg(null), 4000);
+                          } finally {
+                            setIsResendingOtp(false);
+                          }
+                        }}
+                        className="text-[#2874f0] font-medium text-[13px] hover:underline cursor-pointer outline-none flex items-center gap-1 disabled:opacity-50"
+                      >
+                        {isResendingOtp ? 'Sending...' : 'Resend code'}
+                      </button>
+                    </>
+                  )}
                 </div>
 
-                {/* Submit OTP Button */}
-                <button
-                  type="button"
-                  onClick={handleOtpSubmit}
-                  className="w-full bg-[#ff5722] hover:bg-[#e64a19] active:scale-98 text-white py-3.5 rounded-md text-sm font-bold shadow-md transition-all uppercase tracking-wide cursor-pointer mt-1"
-                >
-                  VERIFY & CONTINUE
-                </button>
+                {/* Submit OTP / Verify Button */}
+                {otpDigits.join('').length < 6 ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full bg-[#c2c2c2] text-white py-3.5 rounded-md text-sm font-bold uppercase tracking-wide cursor-not-allowed mt-2"
+                  >
+                    Verify
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleOtpSubmit}
+                    className="w-full bg-[#ff5722] hover:bg-[#e64a19] active:scale-98 text-white py-3.5 rounded-md text-sm font-bold shadow-md transition-all uppercase tracking-wide cursor-pointer mt-2"
+                  >
+                    VERIFY & CONTINUE
+                  </button>
+                )}
 
               </div>
             </div>

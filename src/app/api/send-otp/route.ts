@@ -10,52 +10,71 @@ export async function POST(req: Request) {
 
     // Generate 6 digit random OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const smsMessage = `LOGIN to your Flipkart account using OTP ${otp}. DO NOT SHARE this code with anyone, including delivery agents. #${otp}`;
     let sentViaSms = false;
+    let gatewayResponse: any = null;
 
-    // 1. Fetch SMS API keys from global_settings in Supabase
+    // 1. Fetch SMS API keys from global_settings or settings in Supabase
     try {
       const { data: settingsData } = await supabase
-        .from('global_settings')
+        .from('settings')
         .select('value')
         .eq('key', 'global_settings')
-        .single();
+        .maybeSingle();
 
       const settings = settingsData?.value || {};
       const fast2smsKey = settings.sms?.fast2sms_key || process.env.FAST2SMS_API_KEY;
       const twoFactorKey = settings.sms?.two_factor_key || process.env.TWO_FACTOR_API_KEY;
 
-      // Try Fast2SMS Route
-      if (fast2smsKey) {
-        const smsRes = await fetch('https://www.fast2sms.com/dev/bulkV2', {
-          method: 'POST',
-          headers: {
-            'authorization': fast2smsKey,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            variables_values: otp,
-            route: 'otp',
-            numbers: phone
-          })
-        });
-        if (smsRes.ok) sentViaSms = true;
+      // Try Fast2SMS GET & POST Routes
+      if (fast2smsKey && !sentViaSms) {
+        try {
+          // Method A: Fast2SMS GET Bulk V2 OTP Route
+          const getUrl = `https://www.fast2sms.com/dev/bulkV2?authorization=${fast2smsKey}&route=otp&variables_values=${otp}&numbers=${phone}`;
+          const resA = await fetch(getUrl);
+          const dataA = await resA.json();
+          if (dataA.return === true || dataA.status_code === 200) {
+            sentViaSms = true;
+            gatewayResponse = dataA;
+          } else {
+            // Method B: Fast2SMS Quick SMS Route
+            const resB = await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${fast2smsKey}&message=${encodeURIComponent(smsMessage)}&language=english&route=q&numbers=${phone}`);
+            const dataB = await resB.json();
+            if (dataB.return === true || dataB.status_code === 200) {
+              sentViaSms = true;
+              gatewayResponse = dataB;
+            }
+          }
+        } catch (fErr) {
+          console.error('Fast2SMS fetch error:', fErr);
+        }
       }
 
-      // Try 2Factor Route if Fast2SMS not set/failed
-      if (!sentViaSms && twoFactorKey) {
-        const tfRes = await fetch(`https://2factor.in/API/V1/${twoFactorKey}/SMS/${phone}/${otp}/OTP1`);
-        if (tfRes.ok) sentViaSms = true;
+      // Try 2Factor Route if Fast2SMS not set or failed
+      if (twoFactorKey && !sentViaSms) {
+        try {
+          const tfRes = await fetch(`https://2factor.in/API/V1/${twoFactorKey}/SMS/${phone}/${otp}/OTP1`);
+          const tfData = await tfRes.json();
+          if (tfData.Status === 'Success') {
+            sentViaSms = true;
+            gatewayResponse = tfData;
+          }
+        } catch (tfErr) {
+          console.error('2Factor fetch error:', tfErr);
+        }
       }
     } catch (err) {
-      console.error('SMS Gateway Error:', err);
+      console.error('SMS Gateway Config Error:', err);
     }
 
-    // Log OTP in Supabase otp_logs table for admin tracking
+    // Save sent OTP record in Supabase database for admin tracking
     try {
       await supabase.from('otp_logs').insert([{
         phone,
         otp,
+        message: smsMessage,
         sent_via_sms: sentViaSms,
+        gateway_response: gatewayResponse,
         created_at: new Date().toISOString()
       }]);
     } catch (e) {
@@ -67,7 +86,8 @@ export async function POST(req: Request) {
       otp, 
       phone, 
       sentViaSms,
-      message: sentViaSms ? 'OTP sent via SMS' : 'OTP generated successfully' 
+      smsMessage,
+      message: sentViaSms ? 'OTP SMS sent successfully to mobile number' : 'OTP generated. Please configure Fast2SMS/2Factor API key in Admin Settings for SMS delivery.' 
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed to send OTP' }, { status: 500 });

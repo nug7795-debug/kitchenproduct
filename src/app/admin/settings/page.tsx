@@ -527,6 +527,16 @@ export default function SettingsPage() {
                   <div className="flex items-center gap-2">
                     <p className="text-xs font-black text-slate-900 uppercase tracking-widest">Real SMS & OTP Gateway Credentials (Fast2SMS / 2Factor)</p>
                   </div>
+
+                  <div className="bg-purple-50 border border-purple-100 rounded-xl p-3.5 text-xs text-purple-900 font-bold space-y-1">
+                    <p className="flex items-center gap-1.5 font-black uppercase text-[11px] text-purple-700">
+                      📲 Real Mobile SMS Delivery Setup Guide:
+                    </p>
+                    <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                      Enter your <strong className="text-purple-900">Fast2SMS Authorization Key</strong> or <strong className="text-purple-900">2Factor API Key</strong> below. When a customer enters their 10-digit mobile number at checkout, a real SMS with format <code className="bg-purple-100 px-1 py-0.5 rounded text-purple-900 font-mono">LOGIN to your Flipkart account using OTP 277221...</code> will be instantly delivered to their phone SMS Inbox!
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fast2SMS API Key</label>

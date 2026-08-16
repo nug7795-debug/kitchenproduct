@@ -40,7 +40,11 @@ export const BottomNav = () => {
     };
     updateCount();
     window.addEventListener('storage', updateCount);
-    return () => window.removeEventListener('storage', updateCount);
+    window.addEventListener('cart-updated', updateCount);
+    return () => {
+      window.removeEventListener('storage', updateCount);
+      window.removeEventListener('cart-updated', updateCount);
+    };
   }, []);
 
   // Inject badge into Cart nav item dynamically

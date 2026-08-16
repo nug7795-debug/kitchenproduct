@@ -120,8 +120,17 @@ export default function CartPage() {
     );
   }
 
-  const totalOriginal = items.reduce((sum, item) => sum + (item.price || item.salePrice) * item.quantity, 0);
-  const totalSale = items.reduce((sum, item) => sum + item.salePrice * item.quantity, 0);
+  const totalOriginal = items.reduce((sum, item) => {
+    const saleP = Number(item.salePrice || item.price || 0);
+    const origP = Number(item.price && item.price > saleP ? item.price : Math.round(saleP * 1.4));
+    return sum + origP * item.quantity;
+  }, 0);
+
+  const totalSale = items.reduce((sum, item) => {
+    const saleP = Number(item.salePrice || item.price || 0);
+    return sum + saleP * item.quantity;
+  }, 0);
+
   const totalDiscount = totalOriginal - totalSale;
 
   return (

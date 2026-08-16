@@ -1096,12 +1096,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         }
       }
 
+      const img = (Array.isArray(product.images) && product.images[0]) || product.image || product.imageUrl || '/uploads/lapalop1.webp';
+      const saleP = Number(product.sale_price || product.salePrice || product.price || 499);
+      const origP = Number(product.original_price || product.mrp || (product.price && product.price > saleP ? product.price : Math.round(saleP * 1.4)));
+
       const newItem = {
         id: product.id,
         name: product.name,
-        price: product.price || product.sale_price || 9999,
-        salePrice: product.sale_price || 9999,
-        imageUrl: product.images[0] || 'https://via.placeholder.com/200',
+        price: origP > saleP ? origP : Math.round(saleP * 1.4),
+        salePrice: saleP,
+        imageUrl: img,
         quantity: 1,
         seller: 'KitchenPro Retail'
       };
@@ -1170,15 +1174,24 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </svg>
               </div>
               
-               {/* Shopping Cart Icon (Non-clickable static display, empty) */}
-               <div className="relative flex items-center justify-center h-8 w-8 cursor-default pointer-events-none select-none">
+               {/* Shopping Cart Icon (Clickable, redirects to /cart) */}
+               <Link 
+                 href="/cart"
+                 className="relative flex items-center justify-center h-8 w-8 cursor-pointer select-none"
+                 aria-label="View Cart"
+               >
                  <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                    <path d="M24 23H8.56185C8.32766 23 8.1009 22.9178 7.9211 22.7678C7.7413 22.6177 7.61987 22.4093 7.57797 22.1789L4.2402 3.82112C4.19831 3.5907 4.07688 3.3823 3.89708 3.23225C3.71728 3.08219 3.49052 3 3.25633 3H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                    <path d="M9 28C10.3807 28 11.5 26.8807 11.5 25.5C11.5 24.1193 10.3807 23 9 23C7.61929 23 6.5 24.1193 6.5 25.5C6.5 26.8807 7.61929 28 9 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                    <path d="M24 28C25.3807 28 26.5 26.8807 26.5 25.5C26.5 24.1193 25.3807 23 24 23C22.6193 23 21.5 24.1193 21.5 25.5C21.5 26.8807 22.6193 28 24 28Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                    <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.7678C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
                  </svg>
-               </div>
+                 {cartCount > 0 && (
+                   <span className="absolute -top-1 -right-1 bg-[#ff4343] text-white text-[9px] font-black h-4 min-w-[16px] px-1 rounded-full flex items-center justify-center border border-white shadow-xs">
+                     {cartCount}
+                   </span>
+                 )}
+               </Link>
               
               {/* Profile Icon */}
               <div className="flex items-center justify-center p-1">
@@ -1602,28 +1615,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Sticky Bottom Bar (Flipkart style matching user screenshots) */}
       <div className="footer-btn z-[100]">
-         <Link 
-            href={`/checkout?productId=${product.id}`}
-            onClick={() => {
-               try {
-                 const img = product.image || product.image_url || (Array.isArray(product.images) ? (product.images[selectedImage] || product.images[0]) : '') || product.product_images?.[0]?.image_url || '';
-                 localStorage.setItem('data', JSON.stringify({
-                   name: product.name,
-                   image: img,
-                   imageUrl: img
-                 }));
-                 localStorage.setItem('cart_items', JSON.stringify([{
-                   productId: product.id,
-                   name: product.name,
-                   price: product.price,
-                   salePrice: product.salePrice || product.price,
-                   image: img,
-                   imageUrl: img,
-                   quantity: 1
-                 }]));
-               } catch (e) {}
-             }}
-            className="b-btn bg-white font-bold flex items-center justify-center gap-2"
+         <button 
+            type="button"
+            onClick={handleAddToCart}
+            className="b-btn bg-white font-bold flex items-center justify-center gap-2 cursor-pointer active:scale-98 transition-transform"
             style={{ color: '#2874f0', borderColor: '#2874f0', borderWidth: '1.2px' }}
          >
             <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1632,8 +1627,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <path d="M24 28C25.3807 28 26.5 26.8807 26.5 25.5C26.5 24.1193 25.3807 23 24 23C22.6193 23 21.5 24.1193 21.5 25.5C21.5 26.8807 22.6193 28 24 28Z" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
               <path d="M5 8H26.8018C26.9483 8 27.0929 8.03218 27.2256 8.09425C27.3583 8.15633 27.4757 8.2468 27.5695 8.35925C27.6634 8.4717 27.7314 8.6034 27.7687 8.74504C27.8061 8.88667 27.8119 9.03478 27.7857 9.17889L26.1493 18.1789C26.1074 18.4093 25.986 18.6177 25.8062 18.7678C25.6264 18.9178 25.3996 19 25.1654 19H7" stroke="#2874f0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"></path>
             </svg>
-            Add to Cart
-         </Link>
+            {isInCart ? 'GO TO CART' : 'Add to Cart'}
+         </button>
          <Link 
             href={`/checkout?productId=${product.id}`} 
             onClick={() => {

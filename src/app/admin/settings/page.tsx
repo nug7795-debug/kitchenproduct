@@ -521,6 +521,35 @@ export default function SettingsPage() {
                      );
                    })}
                 </div>
+
+                {/* Real SMS & OTP Gateway Credentials */}
+                <div className="pt-6 border-t border-slate-100 space-y-4">
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs font-black text-slate-900 uppercase tracking-widest">Real SMS & OTP Gateway Credentials (Fast2SMS / 2Factor)</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fast2SMS API Key</label>
+                      <input 
+                        type="text"
+                        placeholder="Enter Fast2SMS Authorization Key"
+                        value={settings.sms?.fast2sms_key || ''}
+                        onChange={(e) => updateNestedSetting('sms', 'fast2sms_key', e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-800 focus:outline-none focus:border-purple-500 font-mono"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">2Factor.in API Key</label>
+                      <input 
+                        type="text"
+                        placeholder="Enter 2Factor API Key"
+                        value={settings.sms?.two_factor_key || ''}
+                        onChange={(e) => updateNestedSetting('sms', 'two_factor_key', e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-slate-800 focus:outline-none focus:border-purple-500 font-mono"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}

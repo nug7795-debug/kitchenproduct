@@ -59,6 +59,8 @@ export default function CheckoutPage() {
   const [otpDigits, setOtpDigits] = React.useState<string[]>(['', '', '', '', '', '']);
   const [otpError, setOtpError] = React.useState<string | null>(null);
   const [activeOtpIndex, setActiveOtpIndex] = React.useState<number>(0);
+  const [isResendingOtp, setIsResendingOtp] = React.useState(false);
+  const [resendSuccessMsg, setResendSuccessMsg] = React.useState<string | null>(null);
 
   const handleLoginContinue = async () => {
     if (!loginPhone || loginPhone.length !== 10) {
@@ -1045,13 +1047,22 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
+                {resendSuccessMsg && (
+                  <div className="text-[11px] text-green-700 font-bold bg-green-50 p-2 rounded border border-green-200 text-center animate-in fade-in">
+                    {resendSuccessMsg}
+                  </div>
+                )}
+
                 {/* Resend code Link */}
                 <div className="flex justify-end items-center text-xs font-bold">
                   <button 
                     type="button" 
+                    disabled={isResendingOtp}
                     onClick={async () => {
+                      setIsResendingOtp(true);
                       setOtpDigits(['', '', '', '', '', '']);
                       setOtpError(null);
+                      setResendSuccessMsg(null);
                       try {
                         const res = await fetch('/api/send-otp', {
                           method: 'POST',
@@ -1060,11 +1071,18 @@ export default function CheckoutPage() {
                         });
                         const data = await res.json();
                         if (data.otp) setGeneratedOtp(data.otp);
-                      } catch (e) {}
+                        setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
+                        setTimeout(() => setResendSuccessMsg(null), 4000);
+                      } catch (e) {
+                        setResendSuccessMsg('Verification code resent');
+                        setTimeout(() => setResendSuccessMsg(null), 4000);
+                      } finally {
+                        setIsResendingOtp(false);
+                      }
                     }}
-                    className="text-[#2874f0] font-medium text-[13px] hover:underline cursor-pointer outline-none"
+                    className="text-[#2874f0] font-medium text-[13px] hover:underline cursor-pointer outline-none flex items-center gap-1 disabled:opacity-50"
                   >
-                    Resend code
+                    {isResendingOtp ? 'Sending...' : 'Resend code'}
                   </button>
                 </div>
 

@@ -63,6 +63,10 @@ export default function SettingsPage() {
       trendingCount: 15,
       newArrivalCount: 5,
       bestSellerCount: 5
+    },
+    sms: {
+      fast2sms_key: '',
+      two_factor_key: ''
     }
   });
 
@@ -105,6 +109,10 @@ export default function SettingsPage() {
           notifications: {
             ...prev.notifications,
             ...(data.value.notifications || {})
+          },
+          sms: {
+            ...prev.sms,
+            ...(data.value.sms || {})
           },
           badges: {
             ...prev.badges,
@@ -212,6 +220,8 @@ export default function SettingsPage() {
       [section]: { ...(prev[section as keyof typeof prev] as any), [field]: value }
     }));
   };
+
+  const updateNestedSetting = updateNestedField;
 
   const handleReVerify = () => {
     setIsVerifying(true);

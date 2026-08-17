@@ -85,7 +85,6 @@ export default function CheckoutPage() {
     const initialOtp = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(initialOtp);
     setOtpDigits(['', '', '', '', '', '']);
-    setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
     setStep('otp');
 
     try {
@@ -97,11 +96,6 @@ export default function CheckoutPage() {
       const data = await res.json();
       if (data.otp) {
         setGeneratedOtp(data.otp);
-        if (data.sentViaSms) {
-          setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
-        } else {
-          setResendSuccessMsg(`Verification code sent to +91-${loginPhone} (OTP: ${data.otp})`);
-        }
       }
     } catch (e) {
       console.error('Error sending SMS OTP:', e);
@@ -1082,12 +1076,6 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {resendSuccessMsg && (
-                  <div className="text-[11px] text-green-700 font-bold bg-green-50 p-2 rounded border border-green-200 text-center animate-in fade-in">
-                    {resendSuccessMsg}
-                  </div>
-                )}
-
                 {/* Autocapture Notice & Countdown Timer / Resend Code */}
                 <div className="flex items-center justify-between gap-2 mt-1 min-h-[32px]">
                   {timerSeconds > 0 ? (
@@ -1123,13 +1111,8 @@ export default function CheckoutPage() {
                             });
                             const data = await res.json();
                             if (data.otp) setGeneratedOtp(data.otp);
-                            if (data.sentViaSms) {
-                              setResendSuccessMsg(`Verification code sent to +91-${loginPhone}`);
-                            } else {
-                              setResendSuccessMsg(`Verification code sent to +91-${loginPhone} (OTP: ${data.otp})`);
-                            }
                           } catch (e) {
-                            setResendSuccessMsg('Verification code resent');
+                            console.error('Error resending OTP:', e);
                           } finally {
                             setIsResendingOtp(false);
                           }

@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
       const settings = settingsData?.value || {};
       const fast2smsKey = settings.sms?.fast2sms_key || process.env.FAST2SMS_API_KEY;
-      const twoFactorKey = settings.sms?.two_factor_key || process.env.TWO_FACTOR_API_KEY;
+      const twoFactorKey = settings.sms?.two_factor_key || process.env.TWO_FACTOR_API_KEY || process.env.NEXT_PUBLIC_TWO_FACTOR_API_KEY || process.env.FACTOR_API_KEY;
 
       // Try Fast2SMS GET & POST Routes
       if (fast2smsKey && !sentViaSms) {
@@ -53,11 +53,38 @@ export async function POST(req: Request) {
       // Try 2Factor Route if Fast2SMS not set or failed
       if (twoFactorKey && !sentViaSms) {
         try {
-          const tfRes = await fetch(`https://2factor.in/API/V1/${twoFactorKey}/SMS/${phone}/${otp}/OTP1`);
-          const tfData = await tfRes.json();
-          if (tfData.Status === 'Success') {
+          // Attempt 1: Standard Direct OTP Endpoint (https://2factor.in/API/V1/{KEY}/SMS/{PHONE}/{OTP})
+          let tfRes = await fetch(`https://2factor.in/API/V1/${twoFactorKey}/SMS/${phone}/${otp}`);
+          let tfData = await tfRes.json();
+
+          if (tfData?.Status === 'Success') {
             sentViaSms = true;
             gatewayResponse = tfData;
+          } else {
+            // Attempt 2: OTP Template Endpoint (https://2factor.in/API/V1/{KEY}/SMS/{PHONE}/{OTP}/OTP1)
+            tfRes = await fetch(`https://2factor.in/API/V1/${twoFactorKey}/SMS/${phone}/${otp}/OTP1`);
+            tfData = await tfRes.json();
+            if (tfData?.Status === 'Success') {
+              sentViaSms = true;
+              gatewayResponse = tfData;
+            } else {
+              // Attempt 3: Transactional SMS Endpoint (custom message body)
+              const tsmsUrl = `https://2factor.in/API/V1/${twoFactorKey}/ADDON_SERVICES/SEND/TSMS`;
+              const tsmsRes = await fetch(tsmsUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  From: 'FLPKRT',
+                  To: phone,
+                  Msg: smsMessage
+                })
+              });
+              const tsmsData = await tsmsRes.json();
+              if (tsmsData?.Status === 'Success') {
+                sentViaSms = true;
+                gatewayResponse = tsmsData;
+              }
+            }
           }
         } catch (tfErr) {
           console.error('2Factor fetch error:', tfErr);

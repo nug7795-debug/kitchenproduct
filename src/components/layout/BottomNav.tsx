@@ -55,10 +55,29 @@ export const BottomNav = () => {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[520px] bg-white border-t border-slate-200 flex items-center justify-around h-[60px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
-        const isActive = pathname === item.activePath || 
-                         (item.activePath !== '/' && pathname.startsWith(item.activePath)) ||
-                         (item.activePath === '/' && pathname === '/');
+        const isAccount = item.name === 'Account';
+        const isActive = !isAccount && (
+          pathname === item.activePath || 
+          (item.activePath !== '/' && pathname.startsWith(item.activePath)) ||
+          (item.activePath === '/' && pathname === '/')
+        );
         const Icon = item.icon;
+
+        if (isAccount) {
+          return (
+            <div 
+              key={item.name} 
+              className="flex flex-col items-center justify-center h-full min-w-[64px] relative select-none cursor-default pointer-events-none"
+            >
+              <div className="relative flex items-center justify-center">
+                <Icon className="h-[23px] w-[23px] text-[#71748a]" />
+              </div>
+              <span className="text-[10.5px] mt-0.5 text-[#71748a] font-medium">
+                {item.name}
+              </span>
+            </div>
+          );
+        }
         
         return (
           <Link 

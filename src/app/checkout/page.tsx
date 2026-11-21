@@ -49,8 +49,9 @@ interface CartItem {
 }
 
 export default function CheckoutPage() {
-  // Steps: login -> otp -> address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
-  const [step, setStep] = React.useState<'login' | 'otp' | 'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('login');
+  // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
+  // Login/OTP bypassed so customer goes directly to address & payment on Buy Now
+  const [step, setStep] = React.useState<'login' | 'otp' | 'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
   
   // Login & OTP States
   const [loginPhone, setLoginPhone] = React.useState('');
@@ -172,6 +173,8 @@ export default function CheckoutPage() {
     postalCode: ''
   });
   
+  const [user, setUser] = React.useState<any>(null);
+  const [error, setError] = React.useState<string | null>(null);
   const [savedAddresses, setSavedAddresses] = React.useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = React.useState<string | null>(null);
 
@@ -951,8 +954,8 @@ export default function CheckoutPage() {
 
 
         <div className="p-4">
-          {/* STEP 0: LOGIN BOTTOM SHEET MODAL */}
-          {step === 'login' && (
+          {/* STEP 0: LOGIN BOTTOM SHEET MODAL (DISABLED - Direct guest checkout) */}
+          {false && step === 'login' && (
             <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
               <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-5 shadow-2xl flex flex-col gap-4 animate-in slide-in-from-bottom duration-300">
                 
@@ -1028,8 +1031,8 @@ export default function CheckoutPage() {
             </div>
           )}
 
-          {/* STEP 0.5: OTP VERIFICATION BOTTOM SHEET MODAL (100% Exact match to user screenshot) */}
-          {step === 'otp' && (
+          {/* STEP 0.5: OTP VERIFICATION BOTTOM SHEET MODAL (DISABLED - Direct guest checkout) */}
+          {false && step === 'otp' && (
             <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end justify-center select-none animate-in fade-in duration-200">
               <div className="w-full max-w-[460px] bg-white rounded-t-2xl p-6 pb-7 shadow-2xl flex flex-col gap-6 animate-in slide-in-from-bottom duration-300">
                 

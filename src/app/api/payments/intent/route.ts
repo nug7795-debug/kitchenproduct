@@ -79,8 +79,8 @@ export async function POST(request: Request) {
     const globalSettings = settingsRecord?.value?.payment || {};
 
     const activeMethod = globalSettings.activeMethod || 'upi_intent';
-    const defaultUpi = upiSettings.upi || globalSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
-    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Jambucha Alpesh Kanjibhai';
+    const defaultUpi = (globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || '03400C123L@mairtel').trim();
+    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart').trim();
     const razorpayKeyId = globalSettings.razorpayKeyId || '';
     const razorpayKeySecret = globalSettings.razorpayKeySecret || '';
 
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
             if (parts.length >= 2) {
               const queryParams = new URLSearchParams(parts[1]);
               const pa = queryParams.get('pa') || defaultUpi;
-              const pn = 'Raju Traders';
+              const pn = storeName;
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
               const tr = queryParams.get('tr') || transactionId;

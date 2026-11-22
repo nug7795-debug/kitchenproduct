@@ -73,6 +73,44 @@ export default function SettingsPage() {
   // Load settings on mount
   React.useEffect(() => {
     const fetchSettings = async () => {
+      try {
+        const apiRes = await fetch('/api/settings');
+        if (apiRes.ok) {
+          const apiData = await apiRes.json();
+          if (apiData.success && apiData.global_settings) {
+            const dataVal = apiData.global_settings;
+            const upiVal = apiData.upi_settings || {};
+            setSettings(prev => ({
+              ...prev,
+              ...dataVal,
+              payment: {
+                ...prev.payment,
+                ...(dataVal.payment || {}),
+                upi: dataVal.payment?.upi || upiVal.upi || prev.payment.upi,
+                upi2: dataVal.payment?.upi2 || upiVal.upi2 || prev.payment.upi2,
+                upi3: dataVal.payment?.upi3 || upiVal.upi3 || prev.payment.upi3,
+              },
+              shipping: { ...prev.shipping, ...(dataVal.shipping || {}) },
+              security: { ...prev.security, ...(dataVal.security || {}) },
+              notifications: { ...prev.notifications, ...(dataVal.notifications || {}) },
+              sms: { ...prev.sms, ...(dataVal.sms || {}) },
+              badges: {
+                ...prev.badges,
+                ...(dataVal.badges || {
+                  enableDynamicBadges: true,
+                  trendingCount: 15,
+                  newArrivalCount: 5,
+                  bestSellerCount: 5
+                })
+              }
+            }));
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('API settings fetch fallback to Supabase direct client:', err);
+      }
+
       const { data, error } = await supabase
         .from('settings')
         .select('*')
@@ -134,53 +172,29 @@ export default function SettingsPage() {
     setLoading(true);
     
     try {
-      const { error } = await supabase
-        .from('settings')
-        .upsert({ 
-          key: 'global_settings', 
-          value: settings,
-          updated_at: new Date().toISOString() 
-        }, { onConflict: 'key' });
-
-      if (error) {
-        console.error('Supabase error:', error);
-        throw error;
+      // 1. Save via robust Server-side API endpoint (bypasses browser adblockers and RLS restrictions)
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ settings })
+      });
+      const resJson = await res.json();
+      if (!res.ok || !resJson.success) {
+        throw new Error(resJson.error || 'Server rejected settings update');
       }
 
-      // Also save upi_settings so that api/initiate-payment and api/upichange stay 100% in sync
-      const upiSettingsValue = {
-        upi: settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
-        upi2: settings.payment.upi2 || settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
-        upi3: settings.payment.upi3 || settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
-        Gpay: true,
-        Phonepe: true,
-        Paytm: true,
-        Bhim: true,
-        WPay: true
-      };
-
-      await supabase
-        .from('settings')
-        .upsert({
-          key: 'upi_settings',
-          value: upiSettingsValue,
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'key' });
-
-      // Also save merchant_upi settings for backwards compatibility
-      const merchantUpiValue = {
-        mode: 'manual',
-        upi_id: settings.payment.upi || settings.payment.merchantUpiId || 'paytm.s27z8uz@pty',
-        merchant_code: settings.payment.mccCode || '4722',
-        merchant_name: settings.payment.payeeName || 'Jambucha Alpesh Kanjibhai'
-      };
-      await supabase
-        .from('settings')
-        .upsert({
-          key: 'merchant_upi',
-          value: merchantUpiValue,
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'key' });
+      // 2. Also upsert to Supabase direct client if available
+      try {
+        await supabase
+          .from('settings')
+          .upsert({ 
+            key: 'global_settings', 
+            value: settings,
+            updated_at: new Date().toISOString() 
+          }, { onConflict: 'key' });
+      } catch (clientErr) {
+        console.warn('Client-side Supabase write fallback error:', clientErr);
+      }
       
       alert('Global configuration saved to cloud successfully!');
     } catch (error: any) {
@@ -495,6 +509,18 @@ export default function SettingsPage() {
                      className={cn("h-6 w-11 rounded-full relative cursor-pointer transition-all", settings.payment.allowUpiCheckout ? "bg-orange-600" : "bg-slate-200")}>
                        <div className={cn("absolute top-1 h-4 w-4 bg-white rounded-full transition-all shadow-sm", settings.payment.allowUpiCheckout ? "right-1" : "left-1")} />
                    </div>
+                </div>
+
+                <div className="pt-2 flex justify-end">
+                  <Button 
+                    type="button" 
+                    onClick={() => handleSave()} 
+                    disabled={loading} 
+                    className="rounded-xl h-12 px-8 font-black bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-200 active:scale-95 transition-all"
+                  >
+                    {loading ? 'Saving...' : 'Save Payment Gateways'}
+                    <Save className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </div>

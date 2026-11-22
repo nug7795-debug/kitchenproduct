@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '../../components/ui/button';
 import { 
   Smartphone, 
@@ -49,6 +50,15 @@ interface CartItem {
 }
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
+  // Core checkout states
+  const [loading, setLoading] = React.useState(false);
+  const [paymentMode, setPaymentMode] = React.useState<'upi_intent' | 'razorpay' | 'manual_qr'>('upi_intent');
+  const [transactionId, setTransactionId] = React.useState('');
+  const [upiUrl, setUpiUrl] = React.useState('');
+  const [utr, setUtr] = React.useState('');
+
   // Steps: address -> summary -> method -> payment -> did_you_pay -> utr_entry -> verifying -> success -> pending_verification
   // Login/OTP bypassed so customer goes directly to address & payment on Buy Now
   const [step, setStep] = React.useState<'login' | 'otp' | 'address' | 'summary' | 'method' | 'payment' | 'did_you_pay' | 'utr_entry' | 'verifying' | 'success' | 'pending_verification'>('address');
@@ -502,13 +512,13 @@ export default function CheckoutPage() {
   const handleAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const finalFullName = address.fullName.trim();
-    const finalPhone = address.phone.trim();
-    const finalHouseNumber = houseNumber.trim();
-    const finalRoadName = roadName.trim();
-    const finalCity = address.city.trim();
+    const finalFullName = (address.fullName || '').trim();
+    const finalPhone = (address.phone || '').trim();
+    const finalHouseNumber = (houseNumber || '').trim();
+    const finalRoadName = (roadName || '').trim();
+    const finalCity = (address.city || '').trim();
     const finalState = address.state || '';
-    const finalPostalCode = address.postalCode.trim();
+    const finalPostalCode = (address.postalCode || '').trim();
 
     const combinedStreet = [finalHouseNumber, finalRoadName].filter(Boolean).join(', ');
 
@@ -1430,8 +1440,8 @@ export default function CheckoutPage() {
                               {discountPercent > 0 && (
                                 <span className="text-[#15803d] text-xs font-bold">↓ {discountPercent}%</span>
                               )}
-                              <span className="text-xs text-slate-400 line-through">₹{item.price.toLocaleString()}</span>
-                              <span className="text-[15px] font-extrabold text-[#111827]">₹{item.salePrice.toLocaleString()}</span>
+                              <span className="text-xs text-slate-400 line-through">₹{(item.price || 0).toLocaleString()}</span>
+                              <span className="text-[15px] font-extrabold text-[#111827]">₹{(item.salePrice || item.price || 0).toLocaleString()}</span>
                             </div>
 
                             {/* Red Box 2: 1 coupon applied • 1 offer available */}

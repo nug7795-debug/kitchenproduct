@@ -280,6 +280,29 @@ body {
   animation: shimmer-slide 2.2s infinite ease-in-out;
 }
 
+/* Permanently hide and suppress Netlify HUD and 'Powered by Netlify' badge */
+#nl-badge-frame,
+#nl-hud-frame,
+iframe[id*="nl-"],
+iframe[title*="Powered by Netlify"],
+iframe[title*="Netlify"],
+[id*="netlify-hud"],
+[class*="netlify-hud"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  z-index: -999999 !important;
+  clip-path: path("M0 0Z") !important;
+}
+
 
 
 

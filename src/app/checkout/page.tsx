@@ -1023,9 +1023,9 @@ export default function CheckoutPage() {
                 {/* Disclaimer Text */}
                 <p className="text-[11px] font-medium text-slate-500 leading-snug mt-1">
                   By continuing, you confirm that you are above 18 years of age, and you agree to the Flipkart's{' '}
-                  <a href="/terms" className="text-[#2874f0] font-bold hover:underline">Terms of Use</a>{' '}
+                  <span className="text-[#2874f0] font-bold select-none cursor-default pointer-events-none">Terms of Use</span>{' '}
                   and{' '}
-                  <a href="/privacy" className="text-[#2874f0] font-bold hover:underline">Privacy Policy</a>
+                  <span className="text-[#2874f0] font-bold select-none cursor-default pointer-events-none">Privacy Policy</span>
                 </p>
 
                 {/* Continue Button */}
@@ -1557,8 +1557,8 @@ export default function CheckoutPage() {
                 {/* Age Consent and Terms Notice */}
                 <div className="bg-[#f8fafc] border border-slate-200/60 rounded-xl p-4 mx-4 my-4 text-[10.5px] font-bold text-slate-500 leading-relaxed shadow-3xs">
                   By continuing with the order, you confirm that you are above 18 years of age, and you agree to the kitchenproduct's{' '}
-                  <a href="/terms" className="text-[#2874f0] hover:underline font-extrabold">Terms of Use</a> and{' '}
-                  <a href="/privacy" className="text-[#2874f0] hover:underline font-extrabold">Privacy Policy</a>.
+                  <span className="text-[#2874f0] font-extrabold select-none cursor-default pointer-events-none">Terms of Use</span> and{' '}
+                  <span className="text-[#2874f0] font-extrabold select-none cursor-default pointer-events-none">Privacy Policy</span>.
                 </div>
               </div>
 

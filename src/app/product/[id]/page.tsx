@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown, X, Upload, Share2, Wrench, CircleSlash, Truck } from 'lucide-react';
+import { ShoppingCart, Heart, Search, ArrowLeft, Star, ChevronRight, ChevronDown, ChevronUp, MapPin, Tag, ShieldCheck, ThumbsUp, ThumbsDown, X, Upload, Share2, Wrench, CircleSlash, Truck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../../../components/ui/button';
 import { cn, getDynamicDeliveryDate } from "../../../lib/utils";
@@ -613,7 +613,7 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
   };
 
   const commentsObj = CATEGORY_COMMENTS[type] || CATEGORY_COMMENTS.general;
-  const reviewsCount = Math.max(totalReviews || 30, 30);
+  const reviewsCount = 32;
   const list: MockReview[] = [];
   const langs: Array<'en' | 'hi' | 'bn' | 'as'> = ['en', 'hi', 'bn', 'as'];
 
@@ -980,6 +980,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   
   // Review modals & list state
   const [showRateModal, setShowRateModal] = React.useState(false);
+  const [visibleReviewsCount, setVisibleReviewsCount] = React.useState(4);
   const [showAllReviewsModal, setShowAllReviewsModal] = React.useState(false);
   const [reviewsList, setReviewsList] = React.useState<any[]>([]);
   const [visibleCount, setVisibleCount] = React.useState(15);
@@ -1698,74 +1699,92 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                    })}
                   </div>
                 </div>
-               {/* Sample/Dynamic Reviews List (Short version for details page) */}
-               <div className="space-y-4">
-                 {(() => {
-                   const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
-                   return combined.slice(0, 3).map((review) => (
-                      <div key={review.id} className="review-card">
-                        <div className="rating">
-                          <div className="star-box">
-                            {review.rating} <span className="star">★</span>
-                          </div>
-                          <span style={{ fontWeight: '700', fontSize: '14px', color: '#333' }}>{review.title}</span>
-                        </div>
-                        
-                        <p className="review-text">{review.comment}</p>
-                        
-                        {review.image_url && (
-                          <div className="image-row">
-                            <img src={review.image_url} alt="Review attachment" />
-                          </div>
-                        )}
+               {/* Sample/Dynamic Reviews List (Inline on details page) */}
+               {(() => {
+                 const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
+                 const displayedReviews = combined.slice(0, visibleReviewsCount);
+                 const isExpanded = visibleReviewsCount >= combined.length;
 
-                        <div className="buyer-info mt-2">
-                          <div className="flex flex-col text-left">
-                            <div className="flex items-center gap-1 flex-wrap">
-                              <span className="buyer-name">{review.reviewer_name}</span>
-                              <span className="verified">
-                                <span className="text-[#388e3c] font-black">✓</span> Certified Buyer
-                              </span>
+                 return (
+                   <>
+                     <div className="space-y-4">
+                       {displayedReviews.map((review) => (
+                         <div key={review.id} className="review-card">
+                           <div className="rating">
+                             <div className="star-box">
+                               {review.rating} <span className="star">★</span>
+                             </div>
+                             <span style={{ fontWeight: '700', fontSize: '14px', color: '#333' }}>{review.title}</span>
+                           </div>
+                           
+                           <p className="review-text">{review.comment}</p>
+                           
+                           {review.image_url && (
+                             <div className="image-row">
+                               <img src={review.image_url} alt="Review attachment" />
+                             </div>
+                           )}
 
-                              <span className="text-[10px] text-slate-400 mt-0.5">
-                                {formatReviewDate(review.created_at)}
-                              </span>
-                            </div>
-                          </div>
-                          
-                          {/* Helpful Likes/Dislikes Votes */}
-                          <div className="flex items-center gap-3 shrink-0">
-                            <button 
-                              onClick={() => handleLike(review.id, true)}
-                              className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
-                            >
-                              <ThumbsUp className="h-3.5 w-3.5" /> 
-                              <span className="text-[11px]">{review.likes || 0}</span>
-                            </button>
-                            <button 
-                              onClick={() => handleLike(review.id, false)}
-                              className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
-                            >
-                              <ThumbsDown className="h-3.5 w-3.5" /> 
-                              <span className="text-[11px]">{review.dislikes || 0}</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ));
-                 })()}
-               </div>
-               
-                            <button 
-                    onClick={() => {
-                      setVisibleCount(15);
-                      setShowAllReviewsModal(true);
-                    }}
-                    className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
-                  >
-                    All reviews
-                    <ChevronRight className="h-4 w-4" />
-                 </button>
+                           <div className="buyer-info mt-2">
+                             <div className="flex flex-col text-left">
+                               <div className="flex items-center gap-1 flex-wrap">
+                                 <span className="buyer-name">{review.reviewer_name}</span>
+                                 <span className="verified">
+                                   <span className="text-[#388e3c] font-black">✓</span> {review.location || 'Certified Buyer'}
+                                 </span>
+
+                                 <span className="text-[10px] text-slate-400 mt-0.5">
+                                   {formatReviewDate(review.created_at)}
+                                 </span>
+                               </div>
+                             </div>
+                             
+                             {/* Helpful Likes/Dislikes Votes */}
+                             <div className="flex items-center gap-3 shrink-0">
+                               <button 
+                                 onClick={() => handleLike(review.id, true)}
+                                 className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
+                               >
+                                 <ThumbsUp className="h-3.5 w-3.5" /> 
+                                 <span className="text-[11px]">{review.likes || 0}</span>
+                               </button>
+                               <button 
+                                 onClick={() => handleLike(review.id, false)}
+                                 className="flex items-center gap-1 text-slate-400 hover:text-slate-700 active:scale-90 transition-all font-bold"
+                               >
+                                 <ThumbsDown className="h-3.5 w-3.5" /> 
+                                 <span className="text-[11px]">{review.dislikes || 0}</span>
+                               </button>
+                             </div>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+
+                     {combined.length > 4 && (
+                       !isExpanded ? (
+                         <button 
+                           type="button"
+                           onClick={() => setVisibleReviewsCount(combined.length)}
+                           className="w-full text-left py-3 border-t border-slate-100 text-[#2874f0] font-bold text-[14px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
+                         >
+                           <span>All reviews</span>
+                           <ChevronDown className="h-4 w-4" />
+                         </button>
+                       ) : (
+                         <button 
+                           type="button"
+                           onClick={() => setVisibleReviewsCount(4)}
+                           className="w-full text-left py-3 border-t border-slate-100 text-slate-500 font-bold text-[13px] flex items-center justify-between hover:bg-slate-50 px-2 rounded-lg transition-colors mt-2"
+                         >
+                           <span>Show less reviews</span>
+                           <ChevronUp className="h-4 w-4" />
+                         </button>
+                       )
+                     )}
+                   </>
+                 );
+               })()}
             </div>
           </div>
         </div>
@@ -2013,112 +2032,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
 
 
-      {/* All Reviews Modal */}
-      {showAllReviewsModal && (
-        <div className="fixed inset-0 bg-black/55 backdrop-blur-sm z-[999] flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2rem] shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200">
-            {/* Header */}
-            <div className="p-6 border-b border-slate-100 flex items-center justify-between shrink-0">
-              <div>
-                <h3 className="text-xl font-black text-slate-900 tracking-tight">Verified Customer Reviews</h3>
-                <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Showing all approved user feedback ({(product.total_reviews || 2).toLocaleString()})</p>
-              </div>
-              <button 
-                onClick={() => setShowAllReviewsModal(false)}
-                className="h-8 w-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            {/* List Body */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {(() => {
-                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
-                return combined.slice(0, visibleCount).map((review) => (
-                  <div key={review.id} className="border-b border-slate-100 pb-6 last:border-none last:pb-0 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <div className={cn(
-                        "flex items-center gap-0.5 text-white px-1.5 py-0.5 rounded text-[10px] font-bold",
-                        review.rating >= 4 ? "bg-green-600" : review.rating === 3 ? "bg-green-500" : review.rating === 2 ? "bg-yellow-500" : "bg-red-500"
-                      )}>
-                        {review.rating} <Star className="h-2 w-2 fill-current" />
-                      </div>
-                      <span className="text-sm font-black text-slate-800">{review.title}</span>
-                    </div>
-
-                    <p className="text-sm text-slate-600 leading-relaxed font-medium">{review.comment}</p>
-
-                    {review.image_url && (
-                      <div className="flex items-center gap-2">
-                        <a href={review.image_url} target="_blank" rel="noreferrer" className="h-24 w-24 relative rounded-xl border border-slate-200 overflow-hidden shrink-0 block hover:opacity-90 transition-opacity">
-                          <img src={review.image_url} alt="Review Image" className="w-full h-full object-cover" />
-                        </a>
-                      </div>
-                    )}
-
-                    <div className="flex items-center justify-between text-xs pt-1">
-                      <div className="flex items-center gap-2 text-slate-400 font-semibold">
-                        <span className="font-black text-slate-700">{review.reviewer_name}</span>
-                        <span className="flex items-center gap-1 text-slate-400">
-                          <ShieldCheck className="h-3.5 w-3.5 text-green-600 fill-green-50" /> Certified Buyer
-                        </span>
-                        <span>•</span>
-                        <span>{formatReviewDate(review.created_at)}</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <button 
-                          onClick={() => handleLike(review.id, true)}
-                          className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
-                        >
-                          <ThumbsUp className="h-3.5 w-3.5" /> {review.likes || 0}
-                        </button>
-                        <button 
-                          onClick={() => handleLike(review.id, false)}
-                          className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700 transition-colors font-bold"
-                        >
-                          <ThumbsDown className="h-3.5 w-3.5" /> {review.dislikes || 0}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ));
-              })()}
-
-              {(() => {
-                const combined = [...reviewsList, ...getMockReviews(product.name, product.total_reviews, product.images[0])];
-                if (visibleCount < combined.length) {
-                  return (
-                    <div className="flex justify-center pt-2 pb-6">
-                      <button
-                        onClick={() => setVisibleCount(prev => prev + 15)}
-                        className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 font-black text-xs text-[#2874f0] uppercase tracking-wider shadow-sm transition-all duration-200 cursor-pointer active:scale-95"
-                      >
-                        Load More Reviews
-                      </button>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
-            </div>
-
-            {/* Footer */}
-            <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between shrink-0">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Flipkart Verified Feedback System</span>
-              <Button 
-                onClick={() => {
-                  setShowAllReviewsModal(false);
-                  setShowRateModal(true);
-                }}
-                className="h-9 px-5 rounded-full font-bold bg-[#2874f0] text-white hover:bg-blue-600 text-xs shadow-md shadow-blue-100"
-              >
-                Write a Review
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 }

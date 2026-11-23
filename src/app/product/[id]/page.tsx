@@ -141,7 +141,9 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
               ? item.product_images.map((img: any) => img.image_url)
               : ['https://via.placeholder.com/600']
           }));
-          setProducts(formatted);
+          const sameCategory = formatted.filter((p: any) => categoryId && p.category_id === categoryId);
+          const otherCategory = formatted.filter((p: any) => !categoryId || p.category_id !== categoryId);
+          setProducts([...sameCategory, ...otherCategory]);
         }
       } catch (err) {
         console.error('Error fetching similar products:', err);
@@ -155,13 +157,13 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
 
   if (loading) {
     return (
-      <div className="w-full bg-[#f1f3f6] pb-2">
-        <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
+      <div className="w-full bg-white pb-3 pt-1">
+        <div className="bg-white w-full py-2.5 px-3.5 select-none border-b border-[#f1f3f6]">
           <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
         </div>
-        <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="aspect-[3/4] bg-white animate-pulse rounded-lg" />
+        <div className="flex flex-row overflow-x-auto gap-2.5 px-3.5 pt-2.5 pb-2 no-scrollbar">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="w-[160px] min-w-[160px] h-[280px] bg-slate-100 animate-pulse rounded-lg shrink-0" />
           ))}
         </div>
       </div>
@@ -171,13 +173,18 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
   if (products.length === 0) return null;
 
   return (
-    <div className="w-full bg-[#f1f3f6] pb-2">
-      <div className="bg-white w-full py-3.5 px-4 select-none border-b border-[#f1f3f6]">
+    <div className="w-full bg-white pb-2 pt-1 select-none">
+      <div className="bg-white w-full py-2.5 px-3.5 select-none flex items-center justify-between border-b border-[#f1f3f6]">
         <h3 className="text-[16px] font-extrabold text-[#111111] tracking-tight">Similar Products</h3>
       </div>
-      <div className="grid grid-cols-2 gap-2 p-2 bg-[#f1f3f6]">
-        {products.slice(0, 6).map((item) => (
-          <ProductCard key={item.id} product={item} />
+      <div 
+        className="flex flex-row overflow-x-auto gap-2.5 px-3.5 pt-2.5 pb-2 no-scrollbar scroll-smooth snap-x snap-mandatory"
+        style={{ WebkitOverflowScrolling: 'touch' }}
+      >
+        {products.map((item) => (
+          <div key={item.id} className="w-[160px] min-w-[160px] max-w-[160px] shrink-0 snap-start flex flex-col">
+            <ProductCard product={item} />
+          </div>
         ))}
       </div>
     </div>
@@ -1433,6 +1440,16 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </>
             )}
 
+            {/* Similar Products Section (Moved above Product details in 1 horizontal sliding line) */}
+            <SimilarProducts 
+              currentProductId={product.id} 
+              categoryId={product.category_id} 
+              categoryName={product.categoryName} 
+              currentProductName={product.name}
+            />
+
+            <div className="w-full h-2 bg-[#f1f3f6]" />
+
             <div className="w-full bg-white px-4 pt-4 select-none">
               <h3 className="text-[17px] font-black text-slate-900">Product details</h3>
             </div>
@@ -1567,16 +1584,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <ChevronRight className="h-4 w-4" />
                  </button>
             </div>
-
-            {/* Similar Products Section (Placed below All Reviews, max 6 products) */}
-            <SimilarProducts 
-              currentProductId={product.id} 
-              categoryId={product.category_id} 
-              categoryName={product.categoryName} 
-              currentProductName={product.name}
-            />
-
-
           </div>
         </div>
       </div>

@@ -47,23 +47,21 @@ export const BottomNav = () => {
     };
   }, []);
 
-  // Inject badge into Cart nav item dynamically
-  const itemsWithBadge = navItems.map(item =>
-    item.name === 'Cart' && cartCount > 0 ? { ...item, badge: cartCount } : item
-  );
+  // Cart and Account are display-only/non-clickable per customer requirement
+  const itemsWithBadge = navItems;
 
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[520px] bg-white border-t border-slate-200 flex items-center justify-around h-[60px] z-[60] shadow-[0_-1px_4px_rgba(0,0,0,0.06)]">
       {itemsWithBadge.map((item) => {
-        const isAccount = item.name === 'Account';
-        const isActive = !isAccount && (
+        const isNonClickable = item.name === 'Account' || item.name === 'Cart';
+        const isActive = !isNonClickable && (
           pathname === item.activePath || 
           (item.activePath !== '/' && pathname.startsWith(item.activePath)) ||
           (item.activePath === '/' && pathname === '/')
         );
         const Icon = item.icon;
 
-        if (isAccount) {
+        if (isNonClickable) {
           return (
             <div 
               key={item.name} 

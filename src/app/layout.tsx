@@ -50,7 +50,7 @@ export default function RootLayout({
               } catch(e) {}
               if (typeof window !== 'undefined') {
                 var killBadge = function() {
-                  var frames = document.querySelectorAll('#nl-badge-frame, #nl-hud-frame, iframe[title*="Powered by Netlify"], iframe[title*="Netlify"]');
+                  var frames = document.querySelectorAll('#nl-badge-frame:not(.hud-blocker), #nl-hud-frame:not(.hud-blocker), iframe[title*="Powered by Netlify"], iframe[title*="Netlify"], iframe[src*="netlify"], script[src*="/.netlify/scripts/hud"]');
                   for (var i = 0; i < frames.length; i++) {
                     frames[i].remove();
                   }
@@ -66,6 +66,9 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("min-h-screen flex flex-col antialiased")}>
+        {/* Blocker elements: Netlify HUD script checks for these exact IDs and aborts immediately without rendering the badge */}
+        <div id="nl-badge-frame" className="hud-blocker" style={{ display: 'none', visibility: 'hidden', width: 0, height: 0, position: 'absolute', top: -9999, left: -9999, pointerEvents: 'none' }} />
+        <div id="nl-hud-frame" className="hud-blocker" style={{ display: 'none', visibility: 'hidden', width: 0, height: 0, position: 'absolute', top: -9999, left: -9999, pointerEvents: 'none' }} />
         <LayoutWrapper>
           {children}
         </LayoutWrapper>

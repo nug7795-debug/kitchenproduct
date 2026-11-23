@@ -263,7 +263,7 @@ interface MockReview {
 const getMockReviews = (productName: string, totalReviews: number, productImageUrl?: string): MockReview[] => {
   const lower = (productName || '').toLowerCase();
   
-  let type: 'mobile' | 'electronics' | 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
+  let type: 'mobile' | 'electronics' | 'beauty' | 'luggage' | 'stove' | 'mixer' | 'cooker' | 'general' = 'general';
   let defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=300';
   
   if (
@@ -282,13 +282,33 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     lower.includes('redmi') || 
     lower.includes('xiaomi') || 
     lower.includes('android') || 
-    lower.includes('smartphone') || 
-    lower.includes('pro') || 
-    lower.includes('ultra') || 
-    lower.includes('legend')
+    lower.includes('smartphone')
   ) {
     type = 'mobile';
     defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=300';
+  } else if (
+    lower.includes('lakme') || 
+    lower.includes('cream') || 
+    lower.includes('lotion') || 
+    lower.includes('serum') || 
+    lower.includes('face') || 
+    lower.includes('skin') || 
+    lower.includes('beauty') || 
+    lower.includes('oil') || 
+    lower.includes('shampoo') || 
+    lower.includes('gel') || 
+    lower.includes('glow') || 
+    lower.includes('whitening') || 
+    lower.includes('makeup') ||
+    lower.includes('lipstick') ||
+    lower.includes('kajal') ||
+    lower.includes('eyeliner') ||
+    lower.includes('mascara') ||
+    lower.includes('foundation') ||
+    lower.includes('luminance')
+  ) {
+    type = 'beauty';
+    defaultImageUrl = productImageUrl || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=300';
   } else if (
     lower.includes('watch') || 
     lower.includes('headphone') || 
@@ -329,137 +349,300 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     };
   };
 
-  const INDIAN_NAMES = [
-    'Ansarul', 'Soriful', 'Priya Sharma', 'Amit Verma', 'Sneha Reddy', 
-    'Vikram Singh', 'Rohan Sen', 'Meera Nair', 'Kunal Kapoor', 'Aditi Goel', 
-    'Divya Patel', 'Sanjay Dutt', 'Rajesh Kumar', 'Suresh Raina', 'Anita Desai', 
-    'Deepak Sharma', 'Pooja Hegde', 'Alok Pandey', 'Sunita Rao', 'Kavita Devi',
-    'Arvind Swamy', 'Rahul Dravid', 'Sachin T.', 'Neha Kakkar', 'Karan Johar',
-    'Rohit Sharma', 'Virat Kohli', 'MS Dhoni', 'Shikhar D.', 'Hardik P.',
-    'Jasprit B.', 'KL Rahul', 'Rishabh P.', 'Ravindra J.', 'Shreyas I.',
-    'Yuzvendra C.', 'Bhuvneshwar K.', 'Mohammed S.', 'Umesh Y.', 'Ishant S.'
-  ];
-
-  const CITIES = [
-    'Kolkata', 'Mumbai', 'Bangalore', 'New Delhi', 'Hyderabad', 
-    'Jaipur', 'Pune', 'Chennai', 'Chandigarh', 'Lucknow', 
-    'Ahmedabad', 'Patna', 'Bhopal', 'Indore', 'Kochi', 
-    'Coimbatore', 'Nagpur', 'Surat', 'Vadodara', 'Guwahati',
-    'Ranchi', 'Bhubaneswar', 'Dehradun', 'Shimla', 'Jammu',
-    'Srinagar', 'Amritsar', 'Jalandhar', 'Ludhiana', 'Kanpur'
-  ];
-
-  const TITLES_5 = [
-    'Simply awesome', 'Mind-blowing purchase', 'Terrific purchase', 'Highly recommended', 
-    'Delightful', 'Just wow', 'Fabulous!', 'Must buy!', 'Classy product', 'Excellent', 'Superb'
-  ];
-
-  const TITLES_4 = [
-    'Very Good', 'Good choice', 'Value-for-money', 'Perfect purchase!', 'Nice product', 
-    'Great product', 'Pretty good', 'Decent purchase', 'Satisfied customer', 'Worth the money'
-  ];
-
   const shortName = (productName || 'Product').split(' ').slice(0, 4).join(' ').trim();
 
-  const CATEGORY_COMMENTS = {
-    mobile: [
-      `Mindblowing smartphone! The camera quality on ${shortName} and its 120Hz display are unbelievable. Flipkart delivered in 1 day!`,
-      `Best phone in this price segment! Battery of ${shortName} easily lasts 1.5+ days with heavy 5G usage. 100% genuine product.`,
-      `Unbelievable performance from ${shortName}! Extremely smooth gaming without heating. 0 to 100% charging in just 25 mins!`,
-      `Camera quality on ${shortName} is next level, portrait mode photos look professional. Very sleek flagship feel in hand.`,
-      `Got my ${shortName} delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving it!`,
-      `Superb display and dual stereo speakers on ${shortName} are loud and punchy. Value for money phone, highly recommended!`,
-      `Upgraded to 5G with ${shortName} and speed is ultra fast. RAM management and UI scrolling are butter smooth.`,
-      `Fingerprint sensor on ${shortName} is instant. Premium finish gives it a luxury flagship smartphone look!`,
-      `Extremely satisfied with ${shortName}! Camera night mode performance blew my mind. Worth every single rupee spent.`,
-      `Packaging was super secure with Flipkart Assured tag. ${shortName} arrived in pristine 10/10 condition.`,
-      `The processor in ${shortName} handles heavy multi-tasking effortlessly. No lag whatsoever. Very comfortable grip.`,
-      `Incredible value for money! Crisp AMOLED screen on ${shortName} with bright outdoor visibility. Delivered quickly.`,
-      `Haptic feedback on ${shortName} is crisp and battery optimization is top class. Very happy with this order!`,
-      `Smooth 120Hz refresh rate, crystal clear call speaker quality and fast charging adapter included with ${shortName}!`,
-      `Everything matches specs perfectly! Authentic original ${shortName} unit received. Ordered a second one for my brother!`
+  const REVIEWERS = {
+    en: [
+      { name: 'Vikram Singh', city: 'Mumbai' },
+      { name: 'Priya Sharma', city: 'New Delhi' },
+      { name: 'Sneha Reddy', city: 'Hyderabad' },
+      { name: 'Amit Verma', city: 'Bangalore' },
+      { name: 'Kunal Kapoor', city: 'Pune' },
+      { name: 'Aditi Goel', city: 'Chandigarh' },
+      { name: 'Meera Nair', city: 'Kochi' },
+      { name: 'Sanjay Dutt', city: 'Jaipur' },
+      { name: 'Pooja Hegde', city: 'Indore' }
     ],
-    electronics: [
-      `Crystal clear audio performance and superb bass response on ${shortName}. Battery backup easily lasts 30+ hours.`,
-      `Build quality of ${shortName} is solid and premium. Connects instantly via Bluetooth with zero latency.`,
-      `Flipkart delivery of ${shortName} was super fast. Brand new sealed pack delivered safely.`,
-      `Very comfortable ergonomics on ${shortName}. Noise cancellation feature works like magic!`,
-      `Must buy ${shortName} in this price bracket. Extremely satisfied with the performance.`,
-      `Value for money purchase. Long battery life and premium tactile buttons on ${shortName}.`,
-      `Superb clarity and robust connectivity. 100% original ${shortName} received.`,
-      `Design of ${shortName} looks ultra futuristic and stylish. Strongly recommended!`,
-      `Excellent quality and fast charging capability. Worth every rupee spent on ${shortName}.`
+    hi: [
+      { name: 'राजेश कुमार', city: 'लखनऊ' },
+      { name: 'अमित सिंह', city: 'वाराणसी' },
+      { name: 'मनोज यादव', city: 'पटना' },
+      { name: 'विकास शर्मा', city: 'कानपुर' },
+      { name: 'दीपक वर्मा', city: 'भोपाल' },
+      { name: 'पूजा गुप्ता', city: 'आगरा' },
+      { name: 'रोहित मिश्रा', city: 'प्रयागराज' },
+      { name: 'सुरेश रैना', city: 'मेरठ' },
+      { name: 'सुनीता राव', city: 'नागपुर' }
     ],
-    luggage: [
-      `Excellent ${shortName}. The build quality is very good and the wheels are very smooth.`,
-      `Great ${shortName}. Very lightweight but extremely strong. Used it for travel and it was very durable.`,
-      `Loved the color and the dual spinner wheels of ${shortName} are silent and smooth.`,
-      `Good trolley set. The lock works fine on ${shortName}. Size is perfect for family trips.`,
-      `Flipkart assured delivery was very quick. ${shortName} has nice premium compartments.`,
-      `Got ${shortName} on sale. Absolute steal at this price. Durable material.`,
-      `Decent quality trolley. The handles on ${shortName} are sturdy and pull smoothly.`,
-      `Super lightweight and ${shortName} looks very stylish. Got many compliments!`,
-      `Excellent wheel alignment on ${shortName}. Doesn't tip over even when heavily packed.`
+    bn: [
+      { name: 'দেবাশীষ মুখার্জী', city: 'কলকাতা' },
+      { name: 'তন্ময় ঘোষ', city: 'হাওড়া' },
+      { name: 'শুভশ্রী দাস', city: 'শিলিগুড়ি' },
+      { name: 'অনন্যা সেন', city: 'দুর্গাপুর' },
+      { name: 'বরুণ চক্রবর্তী', city: 'আসানসোল' },
+      { name: 'সৌরভ গাঙ্গুলী', city: 'কলকাতা' },
+      { name: 'অর্পিতা রায়', city: 'বর্ধমান' },
+      { name: 'স্বপন বণিক', city: 'মালদা' },
+      { name: 'প্রিয়াঙ্কা দত্ত', city: 'কলকাতা' }
     ],
-    stove: [
-      `Excellent gas stove ${shortName}. The brass burners are of high quality and flame is very even.`,
-      `The body of ${shortName} is premium toughened glass finish. Very easy to clean and sturdy knobs.`,
-      `Excellent value for money. Auto ignition on ${shortName} works flawlessly. Flame intensity is excellent.`,
-      `Fits perfectly in small kitchens. Burners on ${shortName} are well spaced apart.`,
-      `Extremely elegant and ${shortName} looks very premium in our modular kitchen.`,
-      `Excellent build quality, glass on ${shortName} is thick and strong. Stand is highly stable.`
-    ],
-    mixer: [
-      `Excellent mixer ${shortName}. The motor is very powerful and grinds dry spices in seconds.`,
-      `Sturdy stainless steel jars on ${shortName} and very low noise operation. High speed grinding.`,
-      `Amazing performance. Jars of ${shortName} are completely leak-proof and have secure locks.`,
-      `Grinds spices really well. The suction feet keep ${shortName} stable during operation.`,
-      `Grinds wet and dry items perfectly. The chutney jar on ${shortName} is excellent.`
-    ],
-    cooker: [
-      `Excellent cooker ${shortName}. The metal is thick and safety valve is high quality.`,
-      `Great addition to my kitchen. Very durable and efficient pressure cooker ${shortName}.`,
-      `Gaskets on ${shortName} are high quality. Fits perfectly on both gas and induction cooktops.`,
-      `Superb quality pressure cooker ${shortName}. Cooks rice and dal in minutes.`,
-      `Whistle mechanism on ${shortName} works very smoothly. Saves a lot of cooking time.`
-    ],
-    general: [
-      `Excellent product. The build quality of ${shortName} is very good and the delivery was fast.`,
-      `Great quality product ${shortName}. Very durable and highly efficient performance.`,
-      `Loved the color and finishing quality of ${shortName}. Worth every rupee spent.`,
-      `Good purchase. Highly recommended ${shortName} for daily regular use.`,
-      `Flipkart assured delivery of ${shortName} was quick. Packaging was neat and safe.`,
-      `Got ${shortName} on sale. Absolute steal at this discounted price tag.`
+    as: [
+      { name: 'ঋতুৰাজ বৰঠাকুৰ', city: 'গুৱাহাটী' },
+      { name: 'মানস প্ৰতিম', city: 'ডিব্ৰুগড়' },
+      { name: 'দীপঙ্কৰ শইকীয়া', city: 'যোৰহাট' },
+      { name: 'বৰুণ কলিতা', city: 'শিলচৰ' },
+      { name: 'নবনীতা বৰুৱা', city: 'তেজপুৰ' },
+      { name: 'হিমন্ত শৰ্মা', city: 'গুৱাহাটী' },
+      { name: 'ভৱেন দাস', city: 'নগাঁও' },
+      { name: 'জোনালী গগৈ', city: 'তিনিচুকীয়া' },
+      { name: 'জ্যোতি প্ৰসাদ', city: 'বঙাইগাঁও' }
     ]
   };
 
-  const comments = CATEGORY_COMMENTS[type];
+  const TITLES = {
+    en: {
+      5: ['Simply awesome', 'Mind-blowing purchase', 'Terrific purchase', 'Highly recommended', 'Delightful', 'Just wow', 'Fabulous!', 'Must buy!'],
+      4: ['Very Good', 'Good choice', 'Value-for-money', 'Perfect purchase!', 'Nice product', 'Decent purchase', 'Satisfied customer']
+    },
+    hi: {
+      5: ['बहुत बढ़िया', 'शानदार प्रोडक्ट', 'पैसा वसूल', 'लाजवाब खरीदारी', 'एकदम मस्त', 'बहुत पसंद आया'],
+      4: ['अच्छा प्रोडक्ट है', 'बढ़िया खरीदारी', 'सही दाम में सही चीज', 'काफी अच्छा है']
+    },
+    bn: {
+      5: ['দারুণ প্রোডাক্ট', 'অসাধারণ জিনিস', 'খুব ভালো লেগেছে', 'পয়সা উশুল', 'একদম সেরা'],
+      4: ['ভালো প্রোডাক্ট', 'মোটামুটি ভালো', 'পছন্দ হয়েছে', 'ভালো জিনিস']
+    },
+    as: {
+      5: ['বহুত ভাল লাগিল', 'ধুনীয়া প্ৰডাক্ট', 'সঁচাকৈয়ে ভাল বস্তু', 'অসম্ভৱ ভাল', 'পইচা উচুল'],
+      4: ['ভাল প্ৰডাক্ট', 'ভাল লাগিল', 'সঠিক বস্তু', 'সন্তোষজনক']
+    }
+  };
+
+  const CATEGORY_COMMENTS: Record<string, Record<'en' | 'hi' | 'bn' | 'as', string[]>> = {
+    mobile: {
+      en: [
+        `Mindblowing smartphone! The camera quality on ${shortName} and its 120Hz display are unbelievable. Flipkart delivered in 1 day!`,
+        `Best phone in this price segment! Battery of ${shortName} easily lasts 1.5+ days with heavy 5G usage. 100% genuine product.`,
+        `Camera quality on ${shortName} is next level, portrait mode photos look professional. Very sleek flagship feel in hand.`,
+        `Got my ${shortName} delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving it!`
+      ],
+      hi: [
+        `बहुत ही शानदार फोन है! ${shortName} का कैमरा और बैटरी बैकअप बहुत ही जबरदस्त है। 1 दिन में डिलीवरी मिल गई।`,
+        `इस बजट में सबसे बेस्ट स्मार्टफोन है। ${shortName} की डिस्प्ले और स्पीड बहुत स्मूथ है, बिल्कुल हैंग नहीं होता।`,
+        `पैसा वसूल प्रोडक्ट! ${shortName} का लुक एकदम प्रीमियम है और चार्जिंग भी बहुत फास्ट होती है।`,
+        `फ्लিপकार्ट की सर्विस बहुत अच्छी रही। फोन एकदम ओरिजिनल और सील पैक मिला। बहुत खुश हूँ!`
+      ],
+      bn: [
+        `অসাধারণ ফোন! ${shortName}-এর ক্যামেরা কোয়ালিটি এবং ডিসপ্লে দারুণ। ব্যাটারি ব্যাকআপও খুব ভালো।`,
+        `এই বাজেটে এর চেয়ে ভালো ফোন আর হয় না। ${shortName} খুব ফাস্ট কাজ করে, কোনো ল্যাগ নেই।`,
+        `একদম আসল প্রোডাক্ট পেয়েছি। ফ্লিপকার্টের ডেলিভারি খুব দ্রুত ছিল। সবাইকে নেওয়ার পরামর্শ দেব।`,
+        `দারুণ পারফরম্যান্স! ${shortName}-এর লুক একদম প্রিমিয়াম এবং চার্জিংও খুব দ্রুত হয়।`
+      ],
+      as: [
+        `বহুত ভাল ফোন! ${shortName}-ৰ কেমেৰা আৰু বেটাৰী বেকআপ বহুত ধুনীয়া। সময়মতে ডেলিভাৰী পালোঁ।`,
+        `এই দামত বহুত উৎকৃষ্ট স্মাৰ্টফোন। ${shortName} চলাবলৈ বহুত সহজ আৰু কোনো সমস্যা নাই।`,
+        `সঁচাকৈয়ে পইচা উচুল বস্তু! ${shortName}-ৰ ডিচপ্লে আৰু স্পীড বহুত ফাষ্ট। মই বহুত সন্তুষ্ট।`,
+        `ফ্লিপকাৰ্টৰ পৰা একদম অৰিজিনেল ছীল পেক পালোঁ। অসমলৈ বহুত সোনকালে আহি পালে।`
+      ]
+    },
+    beauty: {
+      en: [
+        `Excellent product! The texture of ${shortName} is very light and absorbs quickly into the skin. Gives an instant natural glow!`,
+        `100% original product from Flipkart! ${shortName} makes skin feel so soft and hydrated without being greasy. Highly recommend!`,
+        `Using ${shortName} for the last two weeks, visible improvement in skin tone and radiance. Truly worth every rupee.`,
+        `Super fast delivery! Original sealed pack received. ${shortName} smells wonderful and suits sensitive skin perfectly.`
+      ],
+      hi: [
+        `बहुत ही असरदार प्रोडक्ट है! ${shortName} लगाने के बाद स्किन में बहुत अच्छा निखार और ग्लो आता है। बिल्कुल चिपचिपा नहीं है।`,
+        `मेरी स्किन काफी ड्राई थी, लेकिन ${shortName} के इस्तेमाल से चेहरा बहुत सॉफ्ट और चमकदार हो गया। पैसा वसूल!`,
+        `100% ओरिजिनल प्रोडक्ट मिला। खुशबू बहुत अच्छी है और पैकेजिंग भी बहुत सुरक्षित थी। जरूर खरीदें!`,
+        `फ्लিপकार्ट से बहुत जल्दी डिलीवरी हुई। ${shortName} मेरी डेली स्किनकेयर के लिए सबसे बेस्ट साबित हुआ।`
+      ],
+      bn: [
+        `দারুণ স্কিনকেয়ার প্রোডাক্ট! ${shortName} ব্যবহার করার পর ত্বক খুব নরম ও উজ্জ্বল লাগে। একদম তেলতেলে নয়।`,
+        `অরিজিনাল প্রোডাক্ট পেয়েছি। ${shortName}-এর সুবাস খুব সুন্দর এবং নিয়মিত ব্যবহারে দারুণ ফল পাওয়া যায়।`,
+        `খুবই ভালো ক্রিম। ত্বকে খুব দ্রুত মিশে যায় এবং সারাদিন মুখ ফ্রেশ রাখে। খুবই পছন্দ হয়েছে!`,
+        `ফ্লিপকার্ট থেকে মাত্র ২ দিনে ডেলিভারি পেলাম। প্যাকেজিং খুব সুরক্ষিত ছিল। ধন্যবাদ!`
+      ],
+      as: [
+        `বহুত ভাল প্ৰডাক্ট! ${shortName} ব্যৱহাৰ কৰি ছালখন বহুত নিমজ আৰু উজ্জ্বল হৈ পৰিছে। কোনো তেলতেলীয়া ভাব নাই।`,
+        `১০০% অৰিজিনেল বস্তু পালোঁ। ${shortName}-ৰ সুবাস বহুত ভাল আৰু ছালৰ বাবে বহুত উপকাৰী।`,
+        `মোৰ ছালখন বহুত শুকান আছিল, কিন্তু ${shortName} লগোৱাৰ পিছত বহুত ভাল অনুভৱ হৈছে। পইচা উচুল!`,
+        `ফ্লিপকাৰ্টৰ ডেলিভাৰী বহুত ফাষ্ট আছিল। একদম ভাল পেকিংত পালোঁ। সকলোৱে লব পাৰে!`
+      ]
+    },
+    electronics: {
+      en: [
+        `Crystal clear audio performance and superb bass response on ${shortName}. Battery backup easily lasts 30+ hours.`,
+        `Build quality of ${shortName} is solid and premium. Connects instantly via Bluetooth with zero latency.`,
+        `Flipkart delivery of ${shortName} was super fast. Brand new sealed pack delivered safely.`,
+        `Very comfortable ergonomics on ${shortName}. Noise cancellation feature works like magic!`
+      ],
+      hi: [
+        `बहुत ही बढ़िया साउंड क्वालिटी और जबरदस्त बेस है। ${shortName} की बैटरी लाइफ भी काफी लंबी चलती है।`,
+        `बिल्ड क्वालिटी बहुत मजबूत है। ${shortName} तुरंत कनेक्ट हो जाता है और दिखने में बहुत प्रीमियम है।`,
+        `पैसा वसूल गैजेट! इस कीमत में ${shortName} से बेहतर कोई दूसरा विकल्प नहीं है।`,
+        `फ्लিপकार्ट की डिलीवरी बहुत तेज थी। सील पैक और ओरिजिनल प्रोडक्ट मिला।`
+      ],
+      bn: [
+        `অসাধারণ সাউন্ড কোয়ালিটি এবং ব্যাটারি ব্যাকআপ! ${shortName} ব্যবহার করে দারুণ অভিজ্ঞতা হলো।`,
+        `বিল্ড কোয়ালিটি খুবই মজবুত এবং প্রিমিয়াম। ${shortName}-এর ব্লুটুথ কানেক্টিভিটি খুব ফাস্ট।`,
+        `কম দামে দারুণ জিনিস। একদম অরিজিনাল প্রোডাক্ট পেয়েছি, খুব ভালো লেগেছে।`,
+        `ফ্লিপকার্ট ডেলিভারি খুব দ্রুত ছিল। নিখুঁত প্যাকেজিং ছিল।`
+      ],
+      as: [
+        `বহুত ধুনীয়া চাউণ্ড আৰু বেটাৰী বেকআপ! ${shortName} ব্যৱহাৰ কৰি বহুত ভাল লাগিল।`,
+        `বিল্ড কোৱালিটি বহুত মজবুত। ${shortName} লগে লগে সংযোগ হয় আৰু দেখাত বহুত সুন্দৰ।`,
+        `এই দামত সঁচাকৈয়ে বহুত ভাল বস্তু। মই সকলোকে এইটো লবলৈ ক'ম।`,
+        `সময়মতে সঠিক বস্তু পালোঁ। ফ্লিপকাৰ্টৰ সেৱা বহুত ভাল।`
+      ]
+    },
+    stove: {
+      en: [
+        `Excellent gas stove ${shortName}. The brass burners are of high quality and flame is very even.`,
+        `The body of ${shortName} is premium toughened glass finish. Very easy to clean and sturdy knobs.`,
+        `Excellent value for money. Auto ignition on ${shortName} works flawlessly. Flame intensity is excellent.`
+      ],
+      hi: [
+        `बहुत ही बढ़िया गैस चूल्हा है! ${shortName} का ग्लास बहुत मजबूत है और बर्नर से आंच बिल्कुल बराबर आती है।`,
+        `सफाई करना बहुत आसान है और दिखने में किचन बहुत मॉडर्न लगता है। पैसा वसूल चूल्हा है।`,
+        `बिल्कुल सुरक्षित और मजबूत। ${shortName} के नॉब्स बहुत स्मूथ हैं। बहुत खुश हूँ इस खरीदारी से।`
+      ],
+      bn: [
+        `দারুণ গ্যাস স্টোভ! ${shortName}-এর গ্লাস খুব মজবুত এবং আগুন খুব সুন্দরভাবে জ্বলে।`,
+        `পরিষ্কার করা খুব সহজ এবং রান্নাঘরে দেখতে খুব সুন্দর লাগে। দারুণ প্রোডাক্ট!`,
+        `ফ্লিপকার্টের তরফ থেকে খুব দ্রুত ডেলিভারি পেয়েছি। একদম অক্ষত অবস্থায় পৌঁছেছে।`
+      ],
+      as: [
+        `বহুত ভাল গেছ ষ্টোভ! ${shortName}-ৰ ব্ৰাছ বাৰ্নাৰবোৰ বহুত ভাল আৰু জুই খুব ধুনীয়াকৈ ওলায়।`,
+        `চাফা কৰিবলৈ বহুত সহজ আৰু পাকঘৰত দেখাত বহুত ধুনীয়া লাগে। বহুত সন্তুষ্ট।`,
+        `অসমত খুব সোনকালে ডেলিভাৰী পালোঁ। পেকিং বহুত সুৰক্ষিত আছিল।`
+      ]
+    },
+    mixer: {
+      en: [
+        `Excellent mixer ${shortName}. The motor is very powerful and grinds dry spices in seconds.`,
+        `Sturdy stainless steel jars on ${shortName} and very low noise operation. High speed grinding.`,
+        `Amazing performance. Jars of ${shortName} are completely leak-proof and have secure locks.`
+      ],
+      hi: [
+        `बहुत ही ताकतवर मोटर है! ${shortName} मसाले बहुत बारीक पीसता है और जार बिल्कुल लीक नहीं करते।`,
+        `कम आवाज में बहुत तेज काम करता है। ${shortName} की क्वालिटी बहुत टिकाऊ और मजबूत है।`,
+        `किचन के लिए बहुत जरूरी और उपयोगी प्रोडक्ट। पैसा वसूल मिक्सी है!`
+      ],
+      bn: [
+        `খুব শক্তিশালী মোটর! ${shortName} খুব কম সময়ে মশলা মিহি করে পিষে দেয়।`,
+        `জারগুলো খুব মজবুত স্টিলের এবং কোনো লিক নেই। ব্যবহারে দারুণ আরাম।`,
+        `এই দামে সেরা মিক্সার গ্রাইন্ডার। ফ্লিপকার্টের সার্ভিস খুব ভালো ছিল।`
+      ],
+      as: [
+        `বহুত শক্তিশালী মটৰ! ${shortName}-এ অতি কম সময়তে মচলা মিহিকৈ গুড়ি কৰে।`,
+        `জাৰবোৰ বহুত মজবুত আৰু শব্দ বহুত কম কৰে। পাকঘৰৰ বাবে অতি প্ৰয়োজনীয়।`,
+        `সঁচাকৈয়ে বহুত ভাল প্ৰডাক্ট। সময়মতে পালোঁ, ধন্যবাদ ফ্লিপকাৰ্ট!`
+      ]
+    },
+    cooker: {
+      en: [
+        `Excellent cooker ${shortName}. The metal is thick and safety valve is high quality.`,
+        `Great addition to my kitchen. Very durable and efficient pressure cooker ${shortName}.`,
+        `Superb quality pressure cooker ${shortName}. Cooks rice and dal in minutes.`
+      ],
+      hi: [
+        `बहुत ही मजबूत कुकर है! ${shortName} की सीटी बहुत सही काम करती है और खाना बहुत जल्दी पकता है।`,
+        `मेटल काफी मोटा और टिकाऊ है। गैस और इंडक्शन दोनों पर आराम से चलता है।`,
+        `रसोई के लिए बहुत बढ़िया चीज है। पूरी तरह से सेफ और पैसा वसूल!`
+      ],
+      bn: [
+        `দারুণ প্রেসার কুকার! ${shortName}-এ রান্না খুব দ্রুত হয় এবং গ্যাস সাশ্রয় হয়।`,
+        `খুবই শক্তপোক্ত মেটাল এবং সেফটি ভালভ খুব ভালো মানের। দারুণ লাগলো।`,
+        `ফ্লিপকার্ট থেকে সঠিক সময়ে একদম অক্ষত অবস্থায় ডেলিভারি পেয়েছি।`
+      ],
+      as: [
+        `বহুত ভাল কুকাৰ! ${shortName}-ত ৰন্ধা-বঢ়া বহুত সোনকালে হয় আৰু তেল-গেছ ৰাহি হয়।`,
+        `মেটেলটো বহুত ডাঠ আৰু মজবুত। ৰন্ধাৰ বাবে অতি উপযোগী।`,
+        `সময়মতে পাই বহুত ভাল লাগিল। কোৱালিটি এশ শতাংশ ভাল।`
+      ]
+    },
+    luggage: {
+      en: [
+        `Excellent ${shortName}. The build quality is very good and the wheels are very smooth.`,
+        `Great ${shortName}. Very lightweight but extremely strong. Used it for travel and it was very durable.`,
+        `Loved the color and the dual spinner wheels of ${shortName} are silent and smooth.`
+      ],
+      hi: [
+        `बहुत ही हल्का और मजबूत ट्रॉली बैग है! ${shortName} के पहिये बहुत स्मूथ हैं और लुक काफी स्टाइलिश है।`,
+        `सफर के लिए एकदम परफेक्ट बैग है। लॉक सिस्टम बहुत अच्छे से काम करता है। पैसा वसूल!`,
+        `काफी सारा सामान आराम से आ जाता है। Flipkart की डिलीवरी बहुत तेज थी।`
+      ],
+      bn: [
+        `খুবই হালকা কিন্তু প্রচণ্ড মজবুত! ${shortName}-এর চাকাগুলো একদম স্মুথ ঘোরে।`,
+        `ভ্রমণের জন্য দারুণ ব্যাগ। দেখতেও খুব ক্লাসি এবং প্রিমিয়াম লাগে।`,
+        `প্যাকেজিং এবং ডেলিভারি দুটোই খুব চমৎকার ছিল। খুব খুশি হয়েছি।`
+      ],
+      as: [
+        `বহুত মজবুত আৰু পাতল বেগ! ${shortName}-ৰ চকাকেইটা বহুত স্মুথলি ঘূৰে।`,
+        `ভ্ৰমণৰ বাবে অতি উত্তম ট্ৰলী। লক চিষ্টেমটোও বহুত ভাল।`,
+        `অসমলৈ খুব সোনকালে আহি পালে। কোৱালিটিত কোনো খুঁত নাই।`
+      ]
+    },
+    general: {
+      en: [
+        `Excellent product! The build quality of ${shortName} is very good and the delivery was fast.`,
+        `Great quality product ${shortName}. Very durable and highly efficient performance.`,
+        `Loved the color and finishing quality of ${shortName}. Worth every rupee spent.`,
+        `Flipkart assured delivery of ${shortName} was quick. Packaging was neat and safe.`
+      ],
+      hi: [
+        `बहुत ही बढ़िया प्रोडक्ट है! ${shortName} की क्वालिटी A1 है और डिलीवरी भी समय पर हो गई।`,
+        `पैसा वसूल चीज है! जैसा फोटो में दिखाया था, बिल्कुल वैसा ही मिला। बहुत खुश हूँ।`,
+        `काफी मजबूत और टिकाऊ है। रोजमर्रा के इस्तेमाल के लिए सबसे बेस्ट ${shortName}!`,
+        `फ्लিপकार्ट की पैकिंग बहुत अच्छी थी। प्रोडक्ट एकदम नया और ओरिजिनल है।`
+      ],
+      bn: [
+        `দারুণ প্রোডাক্ট! ${shortName}-এর গুণমান খুবই ভালো আর প্যাকেজিংও দারুণ ছিল।`,
+        `অসাধারণ জিনিস, এই দামে সেরা প্রোডাক্ট! ছবিতে যেমন দেখেছিলাম হুবহু সেরকম পেয়েছি।`,
+        `খুবই কাজের জিনিস এবং খুব মজবুত। আমি সবাইকে কেনার পরামর্শ দেব।`,
+        `ফ্লিপকার্ট খুব তাড়াতাড়ি ডেলিভারি করেছে। আমি খুবই সন্তুষ্ট!`
+      ],
+      as: [
+        `বহুত ভাল প্ৰডাক্ট! ${shortName}-ৰ কোৱালিটি বহুত ধুনীয়া আৰু একদম সময়মতে পালোঁ।`,
+        `সঁচাকৈয়ে পইচা উচুল বস্তু! ছবিত যেনেকুৱা দেখিছিলোঁ, একেবাৰে তেনেকুৱাই পালোঁ।`,
+        `দৈনন্দিন ব্যৱহাৰৰ বাবে বহুত উপযোগী আৰু মজবুত বস্তু। বহুত সন্তুষ্ট হ'লোঁ।`,
+        `অসমলৈ অতি সোনকালে ডেলিভাৰী দিয়া বাবে ফ্লিপকাৰ্টক বহুত ধন্যবাদ!`
+      ]
+    }
+  };
+
+  const commentsObj = CATEGORY_COMMENTS[type] || CATEGORY_COMMENTS.general;
   const reviewsCount = Math.max(totalReviews || 30, 30);
   const list: MockReview[] = [];
+  const langs: Array<'en' | 'hi' | 'bn' | 'as'> = ['en', 'hi', 'bn', 'as'];
 
   for (let i = 0; i < reviewsCount; i++) {
+    const lang = langs[i % 4];
     const seedStr = `${productName}-${i}`;
     const rng = createRandom(seedStr);
     
-    // Vary names and cities using offset indices to ensure variety
-    const nameIdx = (i + Math.floor(rng() * 15)) % INDIAN_NAMES.length;
-    const reviewerName = INDIAN_NAMES[nameIdx];
-    
-    const cityIdx = (i + Math.floor(rng() * 15)) % CITIES.length;
-    const location = `Certified Buyer, ${CITIES[cityIdx]}`;
+    const reviewersPool = REVIEWERS[lang];
+    const reviewerObj = reviewersPool[i % reviewersPool.length];
+    const reviewerName = reviewerObj.name;
+    const location = lang === 'hi' 
+      ? `सत्यापित खरीदार, ${reviewerObj.city}`
+      : lang === 'bn'
+      ? `যাচাইকৃত ক্রেতা, ${reviewerObj.city}`
+      : lang === 'as'
+      ? `প্ৰমাণিত ক্ৰেতা, ${reviewerObj.city}`
+      : `Certified Buyer, ${reviewerObj.city}`;
     
     const rating = rng() > 0.35 ? 5 : 4;
-    const titleList = rating === 5 ? TITLES_5 : TITLES_4;
-    const titleIdx = Math.floor(rng() * titleList.length);
-    const title = titleList[titleIdx];
+    const titlePool = TITLES[lang][rating as 4 | 5];
+    const title = titlePool[i % titlePool.length];
     
-    const commentIdx = Math.floor(rng() * comments.length);
-    const comment = comments[commentIdx];
+    const commentsPool = commentsObj[lang];
+    const comment = commentsPool[i % commentsPool.length];
     
     const likes = Math.round(rng() * 40 + 2);
     const dislikes = Math.round(rng() * 4);
     
-    // Set first few to Today/Yesterday specifically, and mix others
     let daysAgo = 0;
     if (i === 0 || i === 2 || i === 5 || i === 8) {
       daysAgo = 0; // Today

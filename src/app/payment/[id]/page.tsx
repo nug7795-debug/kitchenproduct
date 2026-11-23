@@ -1266,46 +1266,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          {/* 3. Google Pay Row */}
-          <div
-            onClick={() => setSelectedMethod('gpay')}
-            className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${
-              selectedMethod === 'gpay' ? 'bg-[#f4f8ff]' : 'bg-white hover:bg-slate-50'
-            }`}
-          >
-            <div className="flex items-center justify-between w-full">
-              {/* Left Side: Radio Circle + Name */}
-              <div className="flex items-center gap-3">
-                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                  selectedMethod === 'gpay' ? "border-[#2874f0] bg-[#2874f0]" : "border-slate-400 bg-white"
-                }`}>
-                  {selectedMethod === 'gpay' && (
-                    <div className="w-2 h-2 rounded-full bg-white" />
-                  )}
-                </div>
-                <span className="text-[15px] font-bold text-[#111827]">Google Pay</span>
-              </div>
-
-              {/* Right Side: App Logo Icon */}
-              <GooglePayBrandLogo />
-            </div>
-
-            {/* Yellow Pay Button Underneath */}
-            {selectedMethod === 'gpay' && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAppPay('gpay');
-                }}
-                className="w-full mt-3 py-2.5 px-4 rounded-lg font-bold text-[14.5px] text-[#000000] bg-[#ffc200] hover:bg-[#ffb700] active:scale-[0.98] transition-all shadow-xs flex items-center justify-center cursor-pointer border border-[#e5ad00]"
-              >
-                Pay ₹{selling.toLocaleString('en-IN')}
-              </button>
-            )}
-          </div>
-
-          {/* 4. Scan QR Code Row */}
+          {/* 3. Scan QR Code Row */}
           <div
             onClick={() => setSelectedMethod(o.QR)}
             className={`w-full p-3.5 flex flex-col cursor-pointer select-none transition-all ${

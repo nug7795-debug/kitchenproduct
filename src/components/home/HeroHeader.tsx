@@ -46,8 +46,8 @@ export const HeroHeader = () => {
       {/* 100% Exact Downloaded Original Top Header Image from goats-sale.com */}
       <div className="w-full bg-white select-none cursor-pointer" onClick={scrollToProducts}>
         <img 
-          src="/upor5.webp?v=2" 
-          alt="Flipkart Header" 
+          src="/upor5.webp?v=3" 
+          alt="Flpkart Header" 
           loading="eager"
           decoding="async"
           // @ts-ignore

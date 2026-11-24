@@ -4,11 +4,9 @@ import * as React from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const BANNERS = [
-  '/banner_freedom_site.jpg',
-  '/banner2.jpg',
-  '/banner3.jpg',
-  '/banner4.jpg',
-  '/banner5.jpg'
+  '/dhamaka_banner_1.jpg',
+  '/dhamaka_banner_2.jpg',
+  '/dhamaka_banner_3.jpg'
 ];
 
 const CATEGORIES = [

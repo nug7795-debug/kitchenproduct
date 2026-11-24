@@ -54,7 +54,7 @@ export default function SettingsPage() {
       upi: '',
       upi2: '',
       upi3: '',
-      payeeName: 'Flipkart',
+      payeeName: 'Flpkart',
       mccCode: '',
       allowUpiCheckout: true
     },
@@ -569,7 +569,7 @@ export default function SettingsPage() {
                       📲 Real Mobile SMS Delivery Setup Guide:
                     </p>
                     <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
-                      Enter your <strong className="text-purple-900">Fast2SMS Authorization Key</strong> or <strong className="text-purple-900">2Factor API Key</strong> below. When a customer enters their 10-digit mobile number at checkout, a real SMS with format <code className="bg-purple-100 px-1 py-0.5 rounded text-purple-900 font-mono">LOGIN to your Flipkart account using OTP 277221...</code> will be instantly delivered to their phone SMS Inbox!
+                      Enter your <strong className="text-purple-900">Fast2SMS Authorization Key</strong> or <strong className="text-purple-900">2Factor API Key</strong> below. When a customer enters their 10-digit mobile number at checkout, a real SMS with format <code className="bg-purple-100 px-1 py-0.5 rounded text-purple-900 font-mono">LOGIN to your Flpkart account using OTP 277221...</code> will be instantly delivered to their phone SMS Inbox!
                     </p>
                   </div>
 

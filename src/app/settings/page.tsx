@@ -129,10 +129,10 @@ export default function AccountPage() {
           </div>
         </div>
 
-        {/* 4. Earn with Flipkart Section */}
+        {/* 4. Earn with Flpkart Section */}
         <div className="w-full mt-2 flex flex-col">
           <div className="px-4 py-2.5 bg-[#f1f3f6]">
-            <span className="text-[15px] font-bold text-[#111827] tracking-tight">Earn with Flipkart</span>
+            <span className="text-[15px] font-bold text-[#111827] tracking-tight">Earn with Flpkart</span>
           </div>
 
           <div className="bg-white border-b border-slate-200/80">
@@ -141,7 +141,7 @@ export default function AccountPage() {
                 <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
                   <Store className="w-4.5 h-4.5 text-[#2874f0] stroke-[2.2]" />
                 </div>
-                <span className="text-[14px] font-bold text-[#111827]">Sell on Flipkart</span>
+                <span className="text-[14px] font-bold text-[#111827]">Sell on Flpkart</span>
               </div>
               <ChevronRight className="h-4.5 w-4.5 text-slate-400 shrink-0" />
             </div>

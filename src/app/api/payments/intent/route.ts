@@ -80,7 +80,7 @@ export async function POST(request: Request) {
 
     const activeMethod = globalSettings.activeMethod || 'upi_intent';
     const defaultUpi = (globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || '03400C123L@mairtel').trim();
-    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart').trim();
+    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flpkart').trim();
     const razorpayKeyId = globalSettings.razorpayKeyId || '';
     const razorpayKeySecret = globalSettings.razorpayKeySecret || '';
 
@@ -137,7 +137,7 @@ export async function POST(request: Request) {
               const am = queryParams.get('am') || amount.toString();
               const cu = queryParams.get('cu') || 'INR';
               const tr = queryParams.get('tr') || transactionId;
-              const tn = `Paying To Flipkart ORDER${orderId}`;
+              const tn = `Paying To Flpkart ORDER${orderId}`;
               upiUrl = `upi://pay?pa=${pa}&pn=${encodeURIComponent(pn)}&am=${Number(am).toFixed(2)}&cu=${cu}&tr=${tr}&tn=${encodeURIComponent(tn)}`;
             } else {
               upiUrl = rawUpiUrl;

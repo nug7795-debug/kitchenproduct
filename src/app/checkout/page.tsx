@@ -1028,7 +1028,7 @@ export default function CheckoutPage() {
 
                 {/* Disclaimer Text */}
                 <p className="text-[11px] font-medium text-slate-500 leading-snug mt-1">
-                  By continuing, you confirm that you are above 18 years of age, and you agree to the Flipkart's{' '}
+                  By continuing, you confirm that you are above 18 years of age, and you agree to the Flpkart's{' '}
                   <span className="text-[#2874f0] font-bold select-none cursor-default pointer-events-none">Terms of Use</span>{' '}
                   and{' '}
                   <span className="text-[#2874f0] font-bold select-none cursor-default pointer-events-none">Privacy Policy</span>
@@ -1102,7 +1102,7 @@ export default function CheckoutPage() {
                       <div className="flex items-center gap-2 text-slate-500 text-[11px] font-medium leading-snug pr-2">
                         {/* Spinner */}
                         <div className="w-3.5 h-3.5 border-2 border-slate-300 border-t-[#2874f0] rounded-full animate-spin shrink-0" />
-                        <span>Trying to autocapture. Flipkart never reads or stores other messages.</span>
+                        <span>Trying to autocapture. Flpkart never reads or stores other messages.</span>
                       </div>
                       <span className="text-xs font-bold text-slate-800 shrink-0 font-mono">
                         00:{timerSeconds < 10 ? `0${timerSeconds}` : timerSeconds}
@@ -1888,7 +1888,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Sticky bottom bar overlay styled exactly like Flipkart checkout */}
+              {/* Sticky bottom bar overlay styled exactly like Flpkart checkout */}
               <div className="border-t border-slate-100 bg-white p-4 flex items-center justify-between mt-6 -mx-4 -mb-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] text-slate-400 font-bold line-through">₹{totalOriginal.toLocaleString()}</span>

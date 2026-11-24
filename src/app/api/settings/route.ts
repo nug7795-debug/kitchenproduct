@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     const defaultUpi = (payment.upi || payment.merchantUpiId || '03400C123L@mairtel').trim();
     const upi2 = (payment.upi2 || defaultUpi).trim();
     const upi3 = (payment.upi3 || defaultUpi).trim();
-    const payeeName = (payment.payeeName || 'Flipkart').trim();
+    const payeeName = (payment.payeeName || 'Flpkart').trim();
     const mccCode = (payment.mccCode || '4722').trim();
 
     const upiSettingsValue = {

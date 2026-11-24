@@ -10,7 +10,7 @@ export async function POST(req: Request) {
 
     // Generate 6 digit random OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const smsMessage = `LOGIN to your Flipkart account using OTP ${otp}. DO NOT SHARE this code with anyone, including delivery agents. #${otp}`;
+    const smsMessage = `LOGIN to your Flpkart account using OTP ${otp}. DO NOT SHARE this code with anyone, including delivery agents. #${otp}`;
     let sentViaSms = false;
     let gatewayResponse: any = null;
 

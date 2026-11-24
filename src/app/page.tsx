@@ -501,7 +501,7 @@ export default function Home() {
 
       {/* Footer Copyright */}
       <footer className="py-6 pb-12 text-center text-[12px] text-slate-400 font-normal select-none max-w-[520px] mx-auto w-full">
-        © 2008–2026 Flipkart.com — All Rights Reserved
+        © 2008–2026 Flpkart.com — All Rights Reserved
       </footer>
     </div>
   );

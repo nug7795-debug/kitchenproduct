@@ -69,7 +69,7 @@ const WowIcon = () => (
   </svg>
 );
 
-// Delivery truck icon SVG matching Flipkart
+// Delivery truck icon SVG matching Flpkart
 const DeliveryTruckIcon = () => (
   <svg 
     viewBox="0 0 16 12" 
@@ -420,10 +420,10 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
   const CATEGORY_COMMENTS: Record<string, Record<'en' | 'hi' | 'bn' | 'as', string[]>> = {
     mobile: {
       en: [
-        `Mindblowing smartphone! The camera quality on ${shortName} and its 120Hz display are unbelievable. Flipkart delivered in 1 day!`,
+        `Mindblowing smartphone! The camera quality on ${shortName} and its 120Hz display are unbelievable. Flpkart delivered in 1 day!`,
         `Best phone in this price segment! Battery of ${shortName} easily lasts 1.5+ days with heavy 5G usage. 100% genuine product.`,
         `Camera quality on ${shortName} is next level, portrait mode photos look professional. Very sleek flagship feel in hand.`,
-        `Got my ${shortName} delivered in less than 24 hours by Flipkart! Brand new sealed box pack. Absolutely loving it!`
+        `Got my ${shortName} delivered in less than 24 hours by Flpkart! Brand new sealed box pack. Absolutely loving it!`
       ],
       hi: [
         `बहुत ही शानदार फोन है! ${shortName} का कैमरा और बैटरी बैकअप बहुत ही जबरदस्त है। 1 दिन में डिलीवरी मिल गई।`,
@@ -447,7 +447,7 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
     beauty: {
       en: [
         `Excellent product! The texture of ${shortName} is very light and absorbs quickly into the skin. Gives an instant natural glow!`,
-        `100% original product from Flipkart! ${shortName} makes skin feel so soft and hydrated without being greasy. Highly recommend!`,
+        `100% original product from Flpkart! ${shortName} makes skin feel so soft and hydrated without being greasy. Highly recommend!`,
         `Using ${shortName} for the last two weeks, visible improvement in skin tone and radiance. Truly worth every rupee.`,
         `Super fast delivery! Original sealed pack received. ${shortName} smells wonderful and suits sensitive skin perfectly.`
       ],
@@ -474,7 +474,7 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
       en: [
         `Crystal clear audio performance and superb bass response on ${shortName}. Battery backup easily lasts 30+ hours.`,
         `Build quality of ${shortName} is solid and premium. Connects instantly via Bluetooth with zero latency.`,
-        `Flipkart delivery of ${shortName} was super fast. Brand new sealed pack delivered safely.`,
+        `Flpkart delivery of ${shortName} was super fast. Brand new sealed pack delivered safely.`,
         `Very comfortable ergonomics on ${shortName}. Noise cancellation feature works like magic!`
       ],
       hi: [
@@ -571,7 +571,7 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
       hi: [
         `बहुत ही हल्का और मजबूत ट्रॉली बैग है! ${shortName} के पहिये बहुत स्मूथ हैं और लुक काफी स्टाइलिश है।`,
         `सफर के लिए एकदम परफेक्ट बैग है। लॉक सिस्टम बहुत अच्छे से काम करता है। पैसा वसूल!`,
-        `काफी सारा सामान आराम से आ जाता है। Flipkart की डिलीवरी बहुत तेज थी।`
+        `काफी सारा सामान आराम से आ जाता है। Flpkart की डिलीवरी बहुत तेज थी।`
       ],
       bn: [
         `খুবই হালকা কিন্তু প্রচণ্ড মজবুত! ${shortName}-এর চাকাগুলো একদম স্মুথ ঘোরে।`,
@@ -589,7 +589,7 @@ const getMockReviews = (productName: string, totalReviews: number, productImageU
         `Excellent product! The build quality of ${shortName} is very good and the delivery was fast.`,
         `Great quality product ${shortName}. Very durable and highly efficient performance.`,
         `Loved the color and finishing quality of ${shortName}. Worth every rupee spent.`,
-        `Flipkart assured delivery of ${shortName} was quick. Packaging was neat and safe.`
+        `Flpkart assured delivery of ${shortName} was quick. Packaging was neat and safe.`
       ],
       hi: [
         `बहुत ही बढ़िया प्रोडक्ट है! ${shortName} की क्वालिटी A1 है और डिलीवरी भी समय पर हो गई।`,
@@ -1362,7 +1362,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   return (
     <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[72px] items-center">
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
-        {/* Top Header strictly matching Flipkart mobile web style (White Navbar with Black Icons) */}
+        {/* Top Header strictly matching Flpkart mobile web style (White Navbar with Black Icons) */}
         <div className={`sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
            <div className="flex items-center gap-3">
              <button 
@@ -1383,7 +1383,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
              <Link href="/" className="flex-shrink-0">
                <img 
                  src={logoSrc} 
-                 alt="Flipkart Logo" 
+                 alt="Flpkart Logo" 
                  className="h-[30px] w-auto object-contain cursor-pointer"
                />
              </Link>
@@ -1431,7 +1431,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <Heart className="h-5 w-5 text-slate-400" />
             </button>
 
-            {/* Share Button (Top-Right stacked vertically, just like the Flipkart app layout!) */}
+            {/* Share Button (Top-Right stacked vertically, just like the Flpkart app layout!) */}
             <button 
               onClick={handleShare}
               aria-label="Share product"
@@ -1642,10 +1642,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* 3. Instant EMI for you ! Card */}
             <div className="w-full bg-white select-none py-3 px-3.5 border-t border-b border-slate-200 mt-2">
               <div className="bg-white rounded-2xl border border-slate-200/90 p-3.5 flex items-start gap-3.5 shadow-2xs">
-                {/* Flipkart EMI HD Logo */}
+                {/* Flpkart EMI HD Logo */}
                 <img 
                   src="/uploads/flipkart_emi_logo_hd.png" 
-                  alt="Flipkart EMI" 
+                  alt="Flpkart EMI" 
                   className="w-9 h-9 object-contain rounded-md shrink-0 mt-0.5" 
                 />
                 <div className="flex-1 space-y-0.5">
@@ -1657,13 +1657,11 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <span className="text-slate-300">|</span>
                     <span>Unlock ₹1 lakh</span>
                   </p>
-                  <a 
-                    href="#emi-options" 
-                    onClick={(e) => { e.preventDefault(); }}
-                    className="text-[12.5px] font-bold text-[#2874f0] hover:underline inline-block pt-0.5"
+                  <span 
+                    className="text-[12.5px] font-bold text-[#2874f0] inline-block pt-0.5 pointer-events-none cursor-default select-none"
                   >
-                    Click here for Flipkart EMI
-                  </a>
+                    Click here for Flpkart EMI
+                  </span>
                 </div>
               </div>
             </div>
@@ -1695,15 +1693,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   </span>
                 </div>
 
-                {/* Flipkart Assured */}
+                {/* Flpkart Assured */}
                 <div className="flex-1 flex flex-col items-center text-center cursor-pointer">
                   <img 
                     src="/uploads/trust_badge_assured.png" 
-                    alt="Flipkart Assured" 
+                    alt="Flpkart Assured" 
                     className="w-[38px] h-[38px] object-contain mb-2" 
                   />
                   <span className="text-[11px] font-semibold text-slate-700 leading-tight">
-                    Flipkart <br/> Assured <span className="text-[8px] text-slate-400 font-black ml-0.5">❯</span>
+                    Flpkart <br/> Assured <span className="text-[8px] text-slate-400 font-black ml-0.5">❯</span>
                   </span>
                 </div>
               </div>
@@ -1894,7 +1892,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
       </div>
 
 
-      {/* Sticky Bottom Bar (Flipkart style matching user screenshots) */}
+      {/* Sticky Bottom Bar (Flpkart style matching user screenshots) */}
       <div className="footer-btn z-[100]">
          <button 
             type="button"
@@ -2066,7 +2064,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
-      {/* Flipkart-style Footer (Compact - No Empty White Spacing) */}
+      {/* Flpkart-style Footer (Compact - No Empty White Spacing) */}
       <div className="w-full bg-white border-t border-slate-100 mt-1">
         {/* Links Grid */}
         <div className="grid grid-cols-2 gap-0 border-b border-slate-100">
@@ -2113,7 +2111,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
         {/* Copyright Bar */}
         <div className="py-2.5 text-center text-[12px] text-slate-400 font-normal select-none">
-          © 2008–2026 Flipkart.com — All Rights Reserved
+          © 2008–2026 Flpkart.com — All Rights Reserved
         </div>
 
         {/* Payment Icons - Static and Compact (No auto slide) */}

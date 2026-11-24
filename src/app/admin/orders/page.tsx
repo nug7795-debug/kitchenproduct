@@ -14,6 +14,8 @@ interface OrderItem {
   id: string;
   quantity: number;
   price: number;
+  variant_id?: string | null;
+  product_variants?: { id: string; name: string; value: string; } | null;
   products: {
     name: string;
     price: number;
@@ -95,6 +97,8 @@ export default function OrdersPage() {
             id,
             quantity,
             price,
+            variant_id,
+            product_variants ( id, name, value ),
             products (
               name,
               price,
@@ -132,7 +136,8 @@ export default function OrdersPage() {
                 id: item.id,
                 quantity: item.quantity,
                 price: parseFloat(item.price || 0),
-                products: Array.isArray(item.products) ? item.products[0] : item.products
+                products: Array.isArray(item.products) ? item.products[0] : item.products,
+                product_variants: Array.isArray(item.product_variants) ? item.product_variants[0] : item.product_variants
               })),
               payment: paymentObj ? {
                 transaction_id: paymentObj.transaction_id,
@@ -592,7 +597,7 @@ export default function OrdersPage() {
                     {selectedOrder.order_items.map((item) => (
                       <tr key={item.id} className="font-bold text-slate-700">
                         <td className="px-5 py-3.5 max-w-[240px] truncate">
-                          {item.products?.name || 'Unknown Mixer Product'}
+                          {item.products?.name || 'Unknown Product'}{item.product_variants?.value ? ` (Size: ${item.product_variants.value})` : ''}
                         </td>
                         <td className="px-5 py-3.5 text-center text-slate-900 font-black">{item.quantity}</td>
                         <td className="px-5 py-3.5 text-right">₹{item.price.toLocaleString()}</td>

@@ -711,6 +711,42 @@ const parseDescription = (desc: string) => {
   };
 };
 
+
+const isApparelProduct = (prod: any): boolean => {
+  if (!prod) return false;
+  const name = (prod.name || '').toLowerCase();
+  const desc = (prod.description || '').toLowerCase();
+  const cat = (prod.categoryName || prod.categories?.name || '').toLowerCase();
+
+  // Exclude non-apparel items that might contain keywords (e.g. water bottle jacket)
+  if (
+    name.includes('bottle jacket') || 
+    name.includes('thermosteel') || 
+    name.includes('cooker') || 
+    name.includes('stove') || 
+    name.includes('mixer') || 
+    name.includes('speaker') || 
+    name.includes('fan') || 
+    name.includes('kettle') ||
+    name.includes('swing') ||
+    name.includes('watch') ||
+    name.includes('power bank') ||
+    name.includes('cream') ||
+    name.includes('luggage') ||
+    name.includes('trolley')
+  ) {
+    return false;
+  }
+
+  const apparelKeywords = [
+    'jacket', 'dress', 'shirt', 'tshirt', 't-shirt', 'kurti', 'kurtis',
+    'hoodie', 'sweater', 'coat', 'blazer', 'gown', 'jeans', 'top', 
+    'cloth', 'apparel', 'clothing', 'fashion', 'wear'
+  ];
+
+  return apparelKeywords.some(k => name.includes(k) || cat.includes(k) || desc.includes(k));
+};
+
 const getBaseOrderCount = (productId: string | number) => {
   const idStr = String(productId);
   let hash = 0;
@@ -732,6 +768,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [showFullTitle, setShowFullTitle] = React.useState(false);
   const [logoSrc, setLogoSrc] = React.useState('/uploads/fliplpogo.png');
   const [orderedCount, setOrderedCount] = React.useState(3300);
+  const [selectedSize, setSelectedSize] = React.useState<string>('M');
+  const [selectedVariantId, setSelectedVariantId] = React.useState<string | null>(null);
+  const [variants, setVariants] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     if (id) {
@@ -1003,7 +1042,26 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         .eq('is_approved', true)
         .order('created_at', { ascending: false });
 
-      if (data) {
+      
+    // Fetch product variants for clothing sizes
+    try {
+      const { data: variantsData } = await supabase
+        .from('product_variants')
+        .select('*')
+        .eq('product_id', id);
+      if (variantsData && variantsData.length > 0) {
+        setVariants(variantsData);
+        const defaultVar = variantsData.find((v: any) => v.value === 'M') || variantsData[0];
+        if (defaultVar) {
+          setSelectedSize(defaultVar.value);
+          setSelectedVariantId(defaultVar.id);
+        }
+      }
+    } catch (e) {
+      console.error('Error fetching variants:', e);
+    }
+
+    if (data) {
         setReviewsList(data);
       }
     } catch (err) {
@@ -1535,6 +1593,51 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <div style={{ color: '#878787', fontSize: '11px' }}>With UPI Payment & More</div>
               </div>
             </div>
+            {/* Size Selector (Only for Jackets / Dresses / Clothing) */}
+            {isApparelProduct(product) && (
+              <div className="w-full bg-white mt-2 p-3.5 border-t border-b border-slate-200 select-none">
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px] font-bold text-[#212121]">Select Size</span>
+                    {selectedSize && (
+                      <span className="text-[11.5px] font-bold text-[#2874f0] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">
+                        Size: {selectedSize}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[12px] font-bold text-[#2874f0] flex items-center gap-0.5 cursor-pointer">
+                    Size Chart
+                  </span>
+                </div>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {['S', 'M', 'L', 'XL', 'XXL'].map((sz) => {
+                    const isSelected = selectedSize === sz;
+                    return (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => {
+                          setSelectedSize(sz);
+                          const variant = variants.find(v => v.value === sz);
+                          if (variant) {
+                            setSelectedVariantId(variant.id);
+                          }
+                        }}
+                        className={cn(
+                          "min-w-[48px] h-10 px-3.5 rounded-[4px] font-bold text-[13px] flex items-center justify-center transition-all cursor-pointer active:scale-95",
+                          isSelected
+                            ? "bg-[#2874f0] text-white border-2 border-[#2874f0] shadow-sm font-black"
+                            : "bg-white text-slate-800 border border-slate-300 hover:border-slate-500"
+                        )}
+                      >
+                        {sz}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
 
             {/* 3. Instant EMI for you ! Card */}
             <div className="w-full bg-white select-none py-3 px-3.5 border-t border-b border-slate-200 mt-2">

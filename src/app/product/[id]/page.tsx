@@ -2112,8 +2112,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
 
         {/* Copyright Bar */}
-        <div className="bg-[#2874f0] py-1.5 text-center">
-          <span className="text-white font-bold text-[11px]">© 2008-2025 </span><span className="text-white font-bold text-[11px] opacity-90">flipkat.com</span>
+        <div className="py-2.5 text-center text-[12px] text-slate-400 font-normal select-none">
+          © 2008–2026 Flipkart.com — All Rights Reserved
         </div>
 
         {/* Payment Icons - Static and Compact (No auto slide) */}

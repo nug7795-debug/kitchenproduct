@@ -1535,18 +1535,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 )}
               </div>
               
-              {/* Star ratings & Assured Row */}
+              {/* Assured Row */}
               <div className="flex items-center gap-1.5 mt-2 select-none flex-wrap">
-                <span className="bg-green-600 text-white text-[11px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-0.5 leading-none">
-                  {product.average_rating || 4.2} <Star className="h-2.5 w-2.5 fill-current" />
-                </span>
-                <span className="text-[12px] text-slate-500 font-bold">
-                  {(product.total_ratings || 1428).toLocaleString()} Ratings & {(product.total_reviews || 234).toLocaleString()} Reviews
-                </span>
                 <img 
                   src="/fa_user_badge.png" 
                   alt="Assured" 
-                  className="h-[16px] w-auto ml-1.5 shrink-0 select-none align-middle inline-block"
+                  className="h-[18px] w-auto select-none align-middle inline-block" 
                 />
               </div>
 

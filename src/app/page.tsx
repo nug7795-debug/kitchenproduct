@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BannerSlider } from '../components/home/BannerSlider';
 import { HeroHeader } from '../components/home/HeroHeader';
 import { ProductCard } from '../components/product/ProductCard';
+import { Footer } from '../components/layout/Footer';
 import { Button } from '../components/ui/button';
 import { ArrowRight, ChevronRight, Smartphone, Monitor } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -499,10 +500,8 @@ export default function Home() {
         )}
       </div>
 
-      {/* Footer Copyright */}
-      <footer className="py-6 pb-12 text-center text-[12px] text-slate-400 font-normal select-none max-w-[520px] mx-auto w-full">
-        © 2008–2026 Flpkart.com — All Rights Reserved
-      </footer>
+      {/* Compliance & Genuine Flipkart Footer */}
+      <Footer />
     </div>
   );
 }

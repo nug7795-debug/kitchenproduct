@@ -38,6 +38,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
                        pathname === '/disclaimer' ||
                        pathname === '/dmca' ||
                        pathname === '/return-refund' ||
+                       pathname === '/shipping' ||
                        pathname === '/affiliate-disclosure' ||
                        pathname === '/contact';
 

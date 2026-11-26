@@ -187,6 +187,85 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
           </div>
         ))}
       </div>
+
+      {/* Size Chart Modal */}
+      {showSizeChart && (
+        <div className="fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-xl max-w-[420px] w-full p-5 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button 
+              type="button"
+              onClick={() => setShowSizeChart(false)}
+              className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 cursor-pointer bg-transparent border-none"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-8 h-8 rounded-full bg-blue-50 text-[#2874f0] flex items-center justify-center font-bold">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12h20M7 12v-3M12 12v-5M17 12v-3M2 7h20v10H2z"/></svg>
+              </span>
+              <div>
+                <h3 className="text-[16px] font-bold text-slate-900">Standard Size Guide</h3>
+                <p className="text-[11px] text-slate-500 font-medium">Garment measurements in inches & cm</p>
+              </div>
+            </div>
+
+            <div className="border border-slate-200 rounded-lg overflow-hidden mb-4">
+              <table className="w-full text-left text-[12px]">
+                <thead className="bg-[#f1f3f6] text-slate-700 font-bold border-b border-slate-200">
+                  <tr>
+                    <th className="py-2.5 px-3">Size</th>
+                    <th className="py-2.5 px-3">Chest (in)</th>
+                    <th className="py-2.5 px-3">Length (in)</th>
+                    <th className="py-2.5 px-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
+                  {[
+                    { sz: 'S', chest: '38 in / 96 cm', len: '26 in' },
+                    { sz: 'M', chest: '40 in / 102 cm', len: '27 in' },
+                    { sz: 'L', chest: '42 in / 107 cm', len: '28 in' },
+                    { sz: 'XL', chest: '44 in / 112 cm', len: '29 in' },
+                    { sz: 'XXL', chest: '46 in / 117 cm', len: '30 in' },
+                    { sz: 'XXXL', chest: '48 in / 122 cm', len: '31 in' },
+                  ].map(row => (
+                    <tr key={row.sz} className={selectedSize === row.sz ? 'bg-blue-50/60 font-bold' : ''}>
+                      <td className="py-2 px-3 text-[#2874f0] font-black">{row.sz}</td>
+                      <td className="py-2 px-3">{row.chest}</td>
+                      <td className="py-2 px-3">{row.len}</td>
+                      <td className="py-2 px-3">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedSize(row.sz);
+                            const variant = variants.find(v => v.value === row.sz);
+                            if (variant) setSelectedVariantId(variant.id);
+                            setShowSizeChart(false);
+                          }}
+                          className={`text-[11px] px-2.5 py-1 rounded font-bold cursor-pointer border-none ${
+                            selectedSize === row.sz 
+                              ? 'bg-[#2874f0] text-white' 
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          {selectedSize === row.sz ? 'Selected' : 'Select'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowSizeChart(false)}
+              className="w-full py-2.5 bg-[#2874f0] text-white rounded-lg font-bold text-sm hover:bg-blue-600 cursor-pointer border-none"
+            >
+              Done (Size {selectedSize})
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -718,11 +797,12 @@ const isApparelProduct = (prod: any): boolean => {
   const desc = (prod.description || '').toLowerCase();
   const cat = (prod.categoryName || prod.categories?.name || '').toLowerCase();
 
-  // Exclude non-apparel items that might contain keywords (e.g. water bottle jacket)
+  // Exclude non-apparel items
   if (
     name.includes('bottle jacket') || 
     name.includes('thermosteel') || 
     name.includes('cooker') || 
+    name.includes('cooktop') ||
     name.includes('stove') || 
     name.includes('mixer') || 
     name.includes('speaker') || 
@@ -733,18 +813,27 @@ const isApparelProduct = (prod: any): boolean => {
     name.includes('power bank') ||
     name.includes('cream') ||
     name.includes('luggage') ||
-    name.includes('trolley')
+    name.includes('trolley') ||
+    name.includes('chopper') ||
+    name.includes('dinner set') ||
+    name.includes('casserole') ||
+    name.includes('earbuds') ||
+    name.includes('trimmer') ||
+    name.includes('projector') ||
+    name.includes('headphone')
   ) {
     return false;
   }
 
   const apparelKeywords = [
     'jacket', 'dress', 'shirt', 'tshirt', 't-shirt', 'kurti', 'kurtis',
-    'hoodie', 'sweater', 'coat', 'blazer', 'gown', 'jeans', 'top', 
-    'cloth', 'apparel', 'clothing', 'fashion', 'wear'
+    'hoodie', 'sweater', 'coat', 'blazer', 'gown', 'jeans',
+    'cloth', 'apparel', 'clothing', 'fashion', 'wear', 'saree', 'suit',
+    'lehenga', 'pant', 'trouser', 'sherwani', 'dhoti', 'tracksuit'
   ];
 
-  return apparelKeywords.some(k => name.includes(k) || cat.includes(k) || desc.includes(k));
+  return apparelKeywords.some(k => name.includes(k) || cat.includes(k) || desc.includes(k)) ||
+    /\btop\b/i.test(name) || /\btops\b/i.test(name);
 };
 
 const getBaseOrderCount = (productId: string | number) => {
@@ -771,6 +860,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [selectedSize, setSelectedSize] = React.useState<string>('M');
   const [selectedVariantId, setSelectedVariantId] = React.useState<string | null>(null);
   const [variants, setVariants] = React.useState<any[]>([]);
+  const [showSizeChart, setShowSizeChart] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (id) {
@@ -1268,6 +1358,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           : (data.image ? [data.image] : ['https://via.placeholder.com/600'])
       });
     }
+
+    // Always fetch product variants for sizes
+    try {
+      const { data: vData } = await supabase
+        .from('product_variants')
+        .select('*')
+        .eq('product_id', id);
+      if (vData && vData.length > 0) {
+        setVariants(vData);
+        const defaultVar = vData.find((v: any) => v.value === 'M') || vData[0];
+        if (defaultVar) {
+          setSelectedSize(defaultVar.value);
+          setSelectedVariantId(defaultVar.id);
+        }
+      }
+    } catch (ve) {
+      console.error('Error fetching variants in fetchProduct:', ve);
+    }
+
     setLoading(false);
   };
 
@@ -1333,16 +1442,89 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     };
   }, [lastScrollY]);
 
-  const handleAddToCart = () => {
+  const isApparel = isApparelProduct(product) || (variants && variants.length > 0 && variants.some((v: any) => v.name?.toLowerCase() === 'size'));
+
+  const handleBuyNow = () => {
     try {
       const img = (Array.isArray(product?.images) && (product.images[selectedImage] || product.images[0])) || product?.image || product?.image_url || product?.imageUrl || product?.product_images?.[0]?.image_url || '';
+      const chosenSize = isApparel ? (selectedSize || 'M') : undefined;
+      const chosenVariantId = isApparel ? (selectedVariantId || variants.find((v: any) => v.value === chosenSize)?.id) : undefined;
+
       localStorage.setItem('data', JSON.stringify({
         name: product?.name,
         image: img,
-        imageUrl: img
+        imageUrl: img,
+        size: chosenSize
       }));
-    } catch (e) {}
-    router.push(`/checkout?productId=${product.id}`);
+      if (chosenSize) {
+        localStorage.setItem('selected_size', chosenSize);
+      }
+      if (chosenVariantId) {
+        localStorage.setItem('selected_variant_id', chosenVariantId);
+      }
+
+      const sizeParam = chosenSize ? `&size=${encodeURIComponent(chosenSize)}` : '';
+      const variantParam = chosenVariantId ? `&variantId=${encodeURIComponent(chosenVariantId)}` : '';
+      router.push(`/checkout?productId=${product.id}${sizeParam}${variantParam}`);
+    } catch (e) {
+      router.push(`/checkout?productId=${product?.id}`);
+    }
+  };
+
+  const handleAddToCart = () => {
+    try {
+      const img = (Array.isArray(product?.images) && (product.images[selectedImage] || product.images[0])) || product?.image || product?.image_url || product?.imageUrl || product?.product_images?.[0]?.image_url || '';
+      const chosenSize = isApparel ? (selectedSize || 'M') : undefined;
+      const chosenVariantId = isApparel ? (selectedVariantId || variants.find((v: any) => v.value === chosenSize)?.id) : undefined;
+
+      localStorage.setItem('data', JSON.stringify({
+        name: product?.name,
+        image: img,
+        imageUrl: img,
+        size: chosenSize
+      }));
+      if (chosenSize) {
+        localStorage.setItem('selected_size', chosenSize);
+      }
+      if (chosenVariantId) {
+        localStorage.setItem('selected_variant_id', chosenVariantId);
+      }
+
+      // Add to cart_items in localStorage
+      const existingCart = localStorage.getItem('cart_items');
+      let cart = existingCart ? JSON.parse(existingCart) : [];
+      if (!Array.isArray(cart)) cart = [];
+
+      const cartItem = {
+        id: product.id,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        salePrice: product.sale_price || product.price,
+        imageUrl: img,
+        image: img,
+        quantity: 1,
+        size: chosenSize,
+        variantId: chosenVariantId
+      };
+
+      const existingIndex = cart.findIndex((it: any) => it.id === product.id && it.size === chosenSize);
+      if (existingIndex > -1) {
+        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+      } else {
+        cart.push(cartItem);
+      }
+
+      localStorage.setItem('cart_items', JSON.stringify(cart));
+      setIsInCart(true);
+      setCartCount(cart.length);
+
+      const sizeParam = chosenSize ? `&size=${encodeURIComponent(chosenSize)}` : '';
+      const variantParam = chosenVariantId ? `&variantId=${encodeURIComponent(chosenVariantId)}` : '';
+      router.push(`/checkout?productId=${product.id}${sizeParam}${variantParam}`);
+    } catch (e) {
+      router.push(`/checkout?productId=${product?.id}`);
+    }
   };
 
   if (loading) {
@@ -1360,7 +1542,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
 
   return (
-    <div className="flex flex-col bg-[#f1f3f6] min-h-screen pb-[72px] items-center">
+    <div className={`flex flex-col bg-[#f1f3f6] min-h-screen ${isApparel ? 'pb-[105px]' : 'pb-[72px]'} items-center`}>
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         {/* Top Header strictly matching Flpkart mobile web style (White Navbar with Black Icons) */}
         <div className={`sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
@@ -1556,6 +1738,57 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               </div>
             </div>
 
+            {/* Size Selector for Clothing / Dress / Jackets */}
+            {isApparel && (
+              <div id="size-selector-section" className="w-full bg-white mt-2 p-3.5 border border-slate-200 rounded-[6px] shadow-xs select-none">
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[14px] font-bold text-[#212121]">Select Size</span>
+                    {selectedSize && (
+                      <span className="text-[11.5px] font-black text-[#2874f0] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">
+                        Size: {selectedSize}
+                      </span>
+                    )}
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={() => setShowSizeChart(true)}
+                    className="text-[12px] font-bold text-[#2874f0] flex items-center gap-1 cursor-pointer hover:underline bg-transparent border-none p-0"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12h20M7 12v-3M12 12v-5M17 12v-3M2 7h20v10H2z"/></svg>
+                    Size Chart
+                  </button>
+                </div>
+                
+                <div className="flex items-center gap-2 flex-wrap">
+                  {['S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map((sz) => {
+                    const isSelected = selectedSize === sz;
+                    return (
+                      <button
+                        key={sz}
+                        type="button"
+                        onClick={() => {
+                          setSelectedSize(sz);
+                          const variant = variants.find(v => v.value === sz);
+                          if (variant) {
+                            setSelectedVariantId(variant.id);
+                          }
+                        }}
+                        className={cn(
+                          "min-w-[48px] h-11 px-3.5 rounded-[4px] font-extrabold text-[13px] flex items-center justify-center transition-all cursor-pointer active:scale-95",
+                          isSelected
+                            ? "bg-[#2874f0] text-white border-2 border-[#2874f0] shadow-sm ring-2 ring-blue-200"
+                            : "bg-white text-slate-800 border border-slate-300 hover:border-slate-500 hover:bg-slate-50"
+                        )}
+                      >
+                        {sz}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {/* 1. Delivery & Offer Countdown Box (Exact copy from goats-sale.com) */}
             <div className="bg-white border border-slate-200 rounded-[6px] mt-2 shadow-sm select-none">
               <div className="flex p-3 gap-3.5 items-center">
@@ -1587,50 +1820,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <div style={{ color: '#878787', fontSize: '11px' }}>With UPI Payment & More</div>
               </div>
             </div>
-            {/* Size Selector (Only for Jackets / Dresses / Clothing) */}
-            {isApparelProduct(product) && (
-              <div className="w-full bg-white mt-2 p-3.5 border-t border-b border-slate-200 select-none">
-                <div className="flex items-center justify-between mb-2.5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[14px] font-bold text-[#212121]">Select Size</span>
-                    {selectedSize && (
-                      <span className="text-[11.5px] font-bold text-[#2874f0] bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">
-                        Size: {selectedSize}
-                      </span>
-                    )}
-                  </div>
-                  <span className="text-[12px] font-bold text-[#2874f0] flex items-center gap-0.5 cursor-pointer">
-                    Size Chart
-                  </span>
-                </div>
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  {['S', 'M', 'L', 'XL', 'XXL'].map((sz) => {
-                    const isSelected = selectedSize === sz;
-                    return (
-                      <button
-                        key={sz}
-                        type="button"
-                        onClick={() => {
-                          setSelectedSize(sz);
-                          const variant = variants.find(v => v.value === sz);
-                          if (variant) {
-                            setSelectedVariantId(variant.id);
-                          }
-                        }}
-                        className={cn(
-                          "min-w-[48px] h-10 px-3.5 rounded-[4px] font-bold text-[13px] flex items-center justify-center transition-all cursor-pointer active:scale-95",
-                          isSelected
-                            ? "bg-[#2874f0] text-white border-2 border-[#2874f0] shadow-sm font-black"
-                            : "bg-white text-slate-800 border border-slate-300 hover:border-slate-500"
-                        )}
-                      >
-                        {sz}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+            
 
 
             {/* 3. Instant EMI for you ! Card */}
@@ -1753,6 +1943,26 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
 
       {/* Sticky Bottom Bar (Flpkart style matching user screenshots) */}
+      {isApparel && (
+        <div className="fixed bottom-[52px] left-0 right-0 z-[99] bg-[#f0f5ff] border-t border-[#d0e0ff] py-1.5 px-3 flex items-center justify-between text-xs max-w-[460px] mx-auto select-none shadow-xs">
+          <span className="font-bold text-slate-700 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-[#388e3c]"></span>
+            Selected Size: <span className="text-[#2874f0] font-black text-sm">{selectedSize}</span>
+          </span>
+          <button 
+            type="button"
+            onClick={() => {
+              const el = document.getElementById('size-selector-section');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              else setShowSizeChart(true);
+            }}
+            className="text-[#2874f0] font-bold text-[11px] underline cursor-pointer bg-transparent border-none p-0"
+          >
+            Change Size
+          </button>
+        </div>
+      )}
+
       <div className="footer-btn z-[100]">
          <button 
             type="button"
@@ -1768,23 +1978,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </svg>
             Add to Cart
          </button>
-         <Link 
-            href={`/checkout?productId=${product.id}`} 
-            onClick={() => {
-               try {
-                 const img = product.image || product.image_url || (Array.isArray(product.images) ? (product.images[selectedImage] || product.images[0]) : '') || product.product_images?.[0]?.image_url || '';
-                 localStorage.setItem('data', JSON.stringify({
-                   name: product.name,
-                   image: img,
-                   imageUrl: img
-                 }));
-               } catch (e) {}
-             }}
-            className="b-btn text-black font-bold"
+         <button 
+            type="button"
+            onClick={handleBuyNow}
+            className="b-btn text-black font-bold cursor-pointer active:scale-98 transition-transform flex items-center justify-center"
             style={{ backgroundColor: '#ffc200', border: 'none' }}
          >
             Buy Now
-         </Link>
+         </button>
       </div>
 
       {/* Flpkart-style Footer (Compact - No Empty White Spacing) */}

@@ -179,6 +179,13 @@ export default function CartPage() {
                {/* Right Column: Detailed Product Info */}
                <div className="flex-1 space-y-1">
                   <h3 className="text-xs font-bold text-[#007185] line-clamp-2 leading-tight">{item.name}</h3>
+                  {item.size && (
+                    <div className="flex items-center gap-1 pt-0.5">
+                      <span className="text-[11px] font-bold text-slate-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                        Size: <span className="text-[#2874f0] font-black">{item.size}</span>
+                      </span>
+                    </div>
+                  )}
                   <p className="text-[10px] text-slate-400 font-medium">Premium Edition, {item.seller || 'KitchenPro Retail'}</p>
                   
                   {/* Rating & Assured Badge */}

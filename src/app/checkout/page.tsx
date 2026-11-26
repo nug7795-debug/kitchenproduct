@@ -255,6 +255,19 @@ export default function CheckoutPage() {
 
           if (data && !error) {
             const imageUrl = data.product_images?.[0]?.image_url || data.image || data.image_url || (Array.isArray(data.images) ? data.images[0] : '') || '';
+            let matchedVariantId = queryVariantId || undefined;
+            if (!matchedVariantId && querySize) {
+              try {
+                const { data: vData } = await supabase
+                  .from('product_variants')
+                  .select('id')
+                  .eq('product_id', data.id)
+                  .eq('value', querySize)
+                  .maybeSingle();
+                if (vData?.id) matchedVariantId = vData.id;
+              } catch (e) {}
+            }
+
             setCartItems([
               {
                 productId: data.id,
@@ -265,7 +278,7 @@ export default function CheckoutPage() {
                 image: imageUrl,
                 quantity: 1,
                 size: querySize || undefined,
-                variantId: queryVariantId || undefined
+                variantId: matchedVariantId || undefined
               }
             ]);
           }
@@ -288,6 +301,7 @@ export default function CheckoutPage() {
               salePrice: item.salePrice || item.price,
               imageUrl: item.imageUrl || item.image,
               quantity: item.quantity || 1,
+              size: item.size || undefined,
               variantId: item.variantId || null
             })));
           }
@@ -643,16 +657,32 @@ export default function CheckoutPage() {
 
       if (orderErr) throw orderErr;
 
-      // Create Order Items
-      const { error: itemsErr } = await supabase
-        .from('order_items')
-        .insert(cartItems.map(item => ({
+      // Create Order Items (with automatic variant resolution for dress/apparel sizes)
+      const orderItemsData = await Promise.all(cartItems.map(async item => {
+        let vId = item.variantId || null;
+        if (!vId && item.size) {
+          try {
+            const { data: vRecord } = await supabase
+              .from('product_variants')
+              .select('id')
+              .eq('product_id', item.productId)
+              .eq('value', item.size)
+              .maybeSingle();
+            if (vRecord?.id) vId = vRecord.id;
+          } catch (e) {}
+        }
+        return {
           order_id: newOrder.id,
           product_id: item.productId,
-          variant_id: item.variantId || null,
+          variant_id: vId,
           quantity: item.quantity,
           price: item.salePrice
-        })));
+        };
+      }));
+
+      const { error: itemsErr } = await supabase
+        .from('order_items')
+        .insert(orderItemsData);
 
       if (itemsErr) throw itemsErr;
 

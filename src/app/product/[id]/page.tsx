@@ -188,84 +188,7 @@ const SimilarProducts = ({ currentProductId, categoryId, categoryName, currentPr
         ))}
       </div>
 
-      {/* Size Chart Modal */}
-      {showSizeChart && (
-        <div className="fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-white rounded-xl max-w-[420px] w-full p-5 shadow-2xl relative animate-in fade-in zoom-in duration-200">
-            <button 
-              type="button"
-              onClick={() => setShowSizeChart(false)}
-              className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 cursor-pointer bg-transparent border-none"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-8 h-8 rounded-full bg-blue-50 text-[#2874f0] flex items-center justify-center font-bold">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12h20M7 12v-3M12 12v-5M17 12v-3M2 7h20v10H2z"/></svg>
-              </span>
-              <div>
-                <h3 className="text-[16px] font-bold text-slate-900">Standard Size Guide</h3>
-                <p className="text-[11px] text-slate-500 font-medium">Garment measurements in inches & cm</p>
-              </div>
-            </div>
-
-            <div className="border border-slate-200 rounded-lg overflow-hidden mb-4">
-              <table className="w-full text-left text-[12px]">
-                <thead className="bg-[#f1f3f6] text-slate-700 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="py-2.5 px-3">Size</th>
-                    <th className="py-2.5 px-3">Chest (in)</th>
-                    <th className="py-2.5 px-3">Length (in)</th>
-                    <th className="py-2.5 px-3">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
-                  {[
-                    { sz: 'S', chest: '38 in / 96 cm', len: '26 in' },
-                    { sz: 'M', chest: '40 in / 102 cm', len: '27 in' },
-                    { sz: 'L', chest: '42 in / 107 cm', len: '28 in' },
-                    { sz: 'XL', chest: '44 in / 112 cm', len: '29 in' },
-                    { sz: 'XXL', chest: '46 in / 117 cm', len: '30 in' },
-                    { sz: 'XXXL', chest: '48 in / 122 cm', len: '31 in' },
-                  ].map(row => (
-                    <tr key={row.sz} className={selectedSize === row.sz ? 'bg-blue-50/60 font-bold' : ''}>
-                      <td className="py-2 px-3 text-[#2874f0] font-black">{row.sz}</td>
-                      <td className="py-2 px-3">{row.chest}</td>
-                      <td className="py-2 px-3">{row.len}</td>
-                      <td className="py-2 px-3">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedSize(row.sz);
-                            const variant = variants.find(v => v.value === row.sz);
-                            if (variant) setSelectedVariantId(variant.id);
-                            setShowSizeChart(false);
-                          }}
-                          className={`text-[11px] px-2.5 py-1 rounded font-bold cursor-pointer border-none ${
-                            selectedSize === row.sz 
-                              ? 'bg-[#2874f0] text-white' 
-                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                          }`}
-                        >
-                          {selectedSize === row.sz ? 'Selected' : 'Select'}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setShowSizeChart(false)}
-              className="w-full py-2.5 bg-[#2874f0] text-white rounded-lg font-bold text-sm hover:bg-blue-600 cursor-pointer border-none"
-            >
-              Done (Size {selectedSize})
-            </button>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };
@@ -2058,6 +1981,85 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
 
       
+
+      {/* Size Chart Modal */}
+      {showSizeChart && (
+        <div className="fixed inset-0 z-[200] bg-black/60 flex items-center justify-center p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-xl max-w-[420px] w-full p-5 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button 
+              type="button"
+              onClick={() => setShowSizeChart(false)}
+              className="absolute top-3 right-3 text-slate-400 hover:text-slate-700 p-1.5 rounded-full hover:bg-slate-100 cursor-pointer bg-transparent border-none"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="w-8 h-8 rounded-full bg-blue-50 text-[#2874f0] flex items-center justify-center font-bold">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12h20M7 12v-3M12 12v-5M17 12v-3M2 7h20v10H2z"/></svg>
+              </span>
+              <div>
+                <h3 className="text-[16px] font-bold text-slate-900">Standard Size Guide</h3>
+                <p className="text-[11px] text-slate-500 font-medium">Garment measurements in inches & cm</p>
+              </div>
+            </div>
+
+            <div className="border border-slate-200 rounded-lg overflow-hidden mb-4">
+              <table className="w-full text-left text-[12px]">
+                <thead className="bg-[#f1f3f6] text-slate-700 font-bold border-b border-slate-200">
+                  <tr>
+                    <th className="py-2.5 px-3">Size</th>
+                    <th className="py-2.5 px-3">Chest (in)</th>
+                    <th className="py-2.5 px-3">Length (in)</th>
+                    <th className="py-2.5 px-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium text-slate-800">
+                  {[
+                    { sz: 'S', chest: '38 in / 96 cm', len: '26 in' },
+                    { sz: 'M', chest: '40 in / 102 cm', len: '27 in' },
+                    { sz: 'L', chest: '42 in / 107 cm', len: '28 in' },
+                    { sz: 'XL', chest: '44 in / 112 cm', len: '29 in' },
+                    { sz: 'XXL', chest: '46 in / 117 cm', len: '30 in' },
+                    { sz: 'XXXL', chest: '48 in / 122 cm', len: '31 in' },
+                  ].map(row => (
+                    <tr key={row.sz} className={selectedSize === row.sz ? 'bg-blue-50/60 font-bold' : ''}>
+                      <td className="py-2 px-3 text-[#2874f0] font-black">{row.sz}</td>
+                      <td className="py-2 px-3">{row.chest}</td>
+                      <td className="py-2 px-3">{row.len}</td>
+                      <td className="py-2 px-3">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedSize(row.sz);
+                            const variant = variants.find(v => v.value === row.sz);
+                            if (variant) setSelectedVariantId(variant.id);
+                            setShowSizeChart(false);
+                          }}
+                          className={`text-[11px] px-2.5 py-1 rounded font-bold cursor-pointer border-none ${
+                            selectedSize === row.sz 
+                              ? 'bg-[#2874f0] text-white' 
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                          }`}
+                        >
+                          {selectedSize === row.sz ? 'Selected' : 'Select'}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowSizeChart(false)}
+              className="w-full py-2.5 bg-[#2874f0] text-white rounded-lg font-bold text-sm hover:bg-blue-600 cursor-pointer border-none"
+            >
+              Done (Size {selectedSize})
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

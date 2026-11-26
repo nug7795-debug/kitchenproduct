@@ -1465,7 +1465,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const discount = displaySalePrice < displayPrice ? Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100) : 0;
 
   return (
-    <div className={`flex flex-col bg-[#f1f3f6] min-h-screen ${isApparel ? 'pb-[105px]' : 'pb-[72px]'} items-center`}>
+    <div className={`flex flex-col bg-[#f1f3f6] min-h-screen ${isApparel ? 'pb-[115px]' : 'pb-[72px]'} items-center`}>
       <div className="w-full max-w-[460px] bg-white min-h-screen flex flex-col shadow-md relative">
         {/* Top Header strictly matching Flpkart mobile web style (White Navbar with Black Icons) */}
         <div className={`sticky top-0 z-50 flex items-center justify-between px-3.5 py-2 bg-white shadow-sm border-b border-slate-100 select-none h-[52px] w-full transition-transform duration-300 ${showHeader ? 'translate-y-0' : '-translate-y-full'}`}>
@@ -1867,7 +1867,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Sticky Bottom Bar (Flpkart style matching user screenshots) */}
       {isApparel && (
-        <div className="fixed bottom-[52px] left-0 right-0 z-[99] bg-[#f0f5ff] border-t border-[#d0e0ff] py-1.5 px-3 flex items-center justify-between text-xs max-w-[460px] mx-auto select-none shadow-xs">
+        <div className="fixed bottom-[70px] left-0 right-0 z-[99] bg-[#f0f5ff] border-t border-[#d0e0ff] py-1.5 px-3 flex items-center justify-between text-xs max-w-[460px] mx-auto select-none shadow-xs">
           <span className="font-bold text-slate-700 flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-[#388e3c]"></span>
             Selected Size: <span className="text-[#2874f0] font-black text-sm">{selectedSize}</span>
